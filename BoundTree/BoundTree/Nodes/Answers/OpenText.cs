@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using BoundTree.Interfaces;
 
-namespace BoundTree.Nodes
+namespace BoundTree.Nodes.Answers
 {
-    public class OpenText : AbstractNode
+    public class OpenText : Node
     {
-        public OpenText(Tree tree, Identificator identificator) : base(tree, identificator)
+        public OpenText(IBindingHandler tree, Identificator identificator) : base(identificator, tree)
         {
         }
     }

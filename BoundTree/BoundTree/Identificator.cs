@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using BoundTree.Interfaces;
 
 namespace BoundTree
 {
@@ -18,7 +17,14 @@ namespace BoundTree
         {
             _orderIds = orderIds;
         }
-        
+
+        public Identificator GetRoot()
+        {
+            if (_orderIds.Count == 1) return null;
+
+            return new Identificator(_orderIds.Take(_orderIds.Count-1).ToList());
+        }
+
         public bool NeedToInsert(Identificator identificator)
         {
             var lengthIds = _orderIds.Count;

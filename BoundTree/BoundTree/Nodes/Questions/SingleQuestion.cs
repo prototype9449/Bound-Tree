@@ -1,8 +1,10 @@
-﻿namespace BoundTree.Nodes
+﻿using BoundTree.Interfaces;
+
+namespace BoundTree.Nodes.Questions
 {
-    public class SingleQuestion : AbstractNode
+    public class SingleQuestion : Node
     {
-        public SingleQuestion(Tree tree, Identificator identificator) : base(tree, identificator)
+        public SingleQuestion(IBindingHandler bindingHandler, Identificator identificator) : base(identificator, bindingHandler)
         {
 
         }

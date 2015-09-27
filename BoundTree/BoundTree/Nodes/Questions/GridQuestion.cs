@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using BoundTree.Interfaces;
 
-namespace BoundTree.Nodes
+namespace BoundTree.Nodes.Questions
 {
-    public class GridQuestion : AbstractNode
+    public class GridQuestion : Node
     {
-        public GridQuestion(Tree tree, Identificator identificator) : base(tree, identificator)
+        public GridQuestion(IBindingHandler bindingHandler, Identificator identificator) : base(identificator, bindingHandler)
         {
         }
     }

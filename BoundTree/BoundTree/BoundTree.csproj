@@ -39,6 +39,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Helpers\BindingHandler.cs" />
+    <Compile Include="Interfaces\IBindingHandler.cs" />
     <Compile Include="Nodes\Answers\Answer.cs" />
     <Compile Include="Nodes\Answers\PredefinedList.cs" />
     <Compile Include="Nodes\Questions\GridQuestion.cs" />
@@ -48,12 +50,12 @@
     <Compile Include="Nodes\Questions\SingleQuestion.cs" />
     <Compile Include="Helpers\BindingHelpers.cs" />
     <Compile Include="Identificator.cs" />
-    <Compile Include="Interfaces\INode.cs" />
-    <Compile Include="AbstractNode.cs" />
+    <Compile Include="Node.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="AbstractTree.cs" />
     <Compile Include="Tree.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

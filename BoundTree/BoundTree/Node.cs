@@ -4,31 +4,37 @@ using BoundTree.Interfaces;
 
 namespace BoundTree
 {
-    abstract public class AbstractNode : INode
+    abstract public class Node
     {
         private BindingHelper _bindingHelper = new BindingHelper();
-        private Tree _tree;
+        private IBindingHandler _bindingHandler;
         public Identificator Identificator { get; private set; }
-        public List<INode> Nodes { get; private set; }
-        protected AbstractNode(Tree tree, Identificator identificator)
+        public List<Node> Nodes { get; private set; }
+        protected Node(Identificator identificator, IBindingHandler bindingHandler)
         {
-            _tree = tree;
+            _bindingHandler = bindingHandler;
             Identificator = identificator;
-            Nodes = new List<INode>();
+            Nodes = new List<Node>();
         }
-        
-        public bool BindWith(INode otherNode)
+
+        protected Node(Node node, IBindingHandler bindingHandler)
+        {
+            Identificator = node.Identificator;
+            _bindingHandler = bindingHandler;
+        }
+
+        public bool BindWith(Node otherNode)
         {
             if (_bindingHelper.Bind(this, otherNode))
             {
-                _tree.HandleBinding(this, otherNode);
+                _bindingHandler.HandleBinding(this, otherNode);
                 return true;
             }
 
             return false;
         }
 
-        public bool Add(INode otherNode)
+        public bool Add(Node otherNode)
         {
             foreach (var node in Nodes)
             {
@@ -44,7 +50,7 @@ namespace BoundTree
             return true;
         }
 
-        public INode GetNodeByIdentificator(Identificator identificator)
+        public Node GetNodeByIdentificator(Identificator identificator)
         {
             if (identificator == this.Identificator)
                 return this;

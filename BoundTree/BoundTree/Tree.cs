@@ -1,11 +1,8 @@
-﻿using System;
-using BoundTree.Interfaces;
-
-namespace BoundTree
+﻿namespace BoundTree
 {
     public class Tree : AbstractTree
     {
-        public Tree(INode root) : base(root)
+        public Tree(Node root): base(root)
         {
         }
     }
