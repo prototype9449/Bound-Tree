@@ -8,5 +8,12 @@ namespace BoundTree.Nodes.Answers
         public Answer(IBindingHandler bindingHandler, Identificator identificator) : base(identificator, bindingHandler)
         {
         }
+
+        public Answer(Node node, IBindingHandler bindingHandler) : base(node, bindingHandler){ }
+
+        public override Node GetNewInstance(Node node, IBindingHandler bindingHandler)
+        {
+            return new Answer(node, bindingHandler);
+        }
     }
 }

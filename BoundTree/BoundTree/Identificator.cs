@@ -31,6 +31,12 @@ namespace BoundTree
             return _orderIds.Count < identificator.OrderIds.Count && _orderIds.SequenceEqual(identificator.OrderIds.Take(lengthIds));
         }
 
+        public bool NeedToPutInside(Identificator identificator)
+        {
+            var lengthIds = _orderIds.Count;
+            return _orderIds.Count == identificator.OrderIds.Count - 1 && _orderIds.SequenceEqual(identificator.OrderIds.Take(lengthIds));
+        }
+
         public bool Equals(Identificator other)
         {
             return this.OrderIds.SequenceEqual(other.OrderIds);
@@ -38,7 +44,11 @@ namespace BoundTree
 
         public static bool operator ==(Identificator first, Identificator second)
         {
+            if ((object) first == null && (object) second == null) return true;
+
             if ((object)first == null || (object)second == null) return false;
+            
+
             return first.Equals(second);
         }
 

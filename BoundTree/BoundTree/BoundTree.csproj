@@ -40,6 +40,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Helpers\BindingHandler.cs" />
+    <Compile Include="Helpers\TreeBuilder.cs" />
     <Compile Include="Interfaces\IBindingHandler.cs" />
     <Compile Include="Nodes\Answers\Answer.cs" />
     <Compile Include="Nodes\Answers\PredefinedList.cs" />

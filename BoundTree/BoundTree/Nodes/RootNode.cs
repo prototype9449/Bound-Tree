@@ -16,5 +16,10 @@ namespace BoundTree.Nodes
         public RootNode(Node node, IBindingHandler bindingHandler) : base(node, bindingHandler)
         {
         }
+
+        public override Node GetNewInstance(Node node, IBindingHandler bindingHandler)
+        {
+            return new RootNode(node, bindingHandler);
+        }
     }
 }
