@@ -41,9 +41,11 @@
   <ItemGroup>
     <Compile Include="Helpers\BindingHandler.cs" />
     <Compile Include="Helpers\TreeBuilder.cs" />
+    <Compile Include="Helpers\TreeStabilizer.cs" />
     <Compile Include="Interfaces\IBindingHandler.cs" />
     <Compile Include="Nodes\Answers\Answer.cs" />
     <Compile Include="Nodes\Answers\PredefinedList.cs" />
+    <Compile Include="Nodes\EmptyNode.cs" />
     <Compile Include="Nodes\Questions\GridQuestion.cs" />
     <Compile Include="Nodes\Questions\MultyQuestion.cs" />
     <Compile Include="Nodes\Answers\OpenText.cs" />

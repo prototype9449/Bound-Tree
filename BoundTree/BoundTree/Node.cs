@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using BoundTree.Helpers;
 using BoundTree.Interfaces;
 
@@ -10,6 +11,14 @@ namespace BoundTree
         private readonly IBindingHandler _bindingHandler;
         public Identificator Identificator { get; private set; }
         public List<Node> Nodes { get; internal set; }
+
+        public string TestProperty
+        {
+            get
+            {
+                return Identificator.OrderIds.Select(x => x.ToString()).Aggregate((x, y) => { return x + " " + y; });
+            }
+        }
 
         public IBindingHandler BindingHandler
         {
@@ -80,6 +89,7 @@ namespace BoundTree
         public Node GetNewInstanceById(Identificator identificator)
         {
             var node = GetNodeById(identificator);
+            if (node == null) return null;
             return node.GetNewInstance();
         }
 

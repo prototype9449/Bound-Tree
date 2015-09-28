@@ -12,28 +12,57 @@ namespace ConsoleAppForTesting
     {
         private static void Main(string[] args)
         {
-            var firstBindingHandler = new BindingHandler();
-            var firstTree = new Tree(new RootNode(new Identificator(new[] {1}), firstBindingHandler));
-            firstTree.Add(new GridQuestion(firstBindingHandler, new Identificator(new[] {1, 1})));
-            firstTree.Add(new GridQuestion(firstBindingHandler, new Identificator(new[] {1, 2})));
-            firstTree.Add(new GridQuestion(firstBindingHandler, new Identificator(new[] {1, 2, 3})));
-            firstTree.Add(new GridQuestion(firstBindingHandler, new Identificator(new[] { 1, 3 })));
-            Node mainNode1 = firstTree.GetById(new Identificator(new[] {1, 1}));
-            Node mainNode2 = firstTree.GetById(new Identificator(new[] {1, 2, 3}));
 
-            var secongBindingHandler = new BindingHandler();
-            var secondTree = new Tree(new RootNode(new Identificator(new[] {1}), secongBindingHandler));
-            secondTree.Add(new GridQuestion(secongBindingHandler, new Identificator(new[] {1, 1})));
-            secondTree.Add(new GridQuestion(secongBindingHandler, new Identificator(new[] {1, 2})));
-            secondTree.Add(new GridQuestion(secongBindingHandler, new Identificator(new[] {1, 3})));
-            secondTree.Add(new GridQuestion(secongBindingHandler, new Identificator(new[] {1, 3, 1})));
-            Node minorNode1 = secondTree.GetById(new Identificator(new[] {1, 1}));
-            Node minorNode2 = secondTree.GetById(new Identificator(new[] {1, 3, 1}));
+            var firstBindingHandler = new BindingHandler();
+
+            var firstTree = GetMainTree(firstBindingHandler);
+            Node mainNode1 = firstTree.GetById(new Identificator(new[] {1, 2, 2}));
+            Node mainNode2 = firstTree.GetById(new Identificator(new[] {1, 3, 1}));
+            Node mainNode3 = firstTree.GetById(new Identificator(new[] {1, 3, 1, 2}));
+
+            var minorTree = GetMinorTree(firstBindingHandler);
+            Node minorNode1 = minorTree.GetById(new Identificator(new[] { 1, 3, 2 }));
+            Node minorNode2 = minorTree.GetById(new Identificator(new[] { 1, 1 }));
+            Node minorNode3 = minorTree.GetById(new Identificator(new[] { 1, 3, 1 }));
+
             Console.WriteLine(mainNode1.BindWith(minorNode1));
             Console.WriteLine(mainNode2.BindWith(minorNode2));
-            var treeBuilder = new TreeBuilder(secondTree);
+            Console.WriteLine(mainNode3.BindWith(minorNode3));
+
+            var treeBuilder = new TreeBuilder(minorTree);
             var ids = firstBindingHandler.BoundNodes.Select(pair => pair.Value).ToList();
-            var newTree = treeBuilder.BuildTree(ids);
+            var newMinorTree = treeBuilder.BuildTreeByEnds(ids);
+            var pairTrees = new TreeStabilizer().GetBalancedTrees(firstTree, newMinorTree, firstBindingHandler);
+
+        }
+
+        public static Tree GetMainTree(BindingHandler bindingHandler)
+        {
+            var tree = new Tree(new RootNode(new Identificator(new[] { 1 }), bindingHandler));
+            tree.Add(new GridQuestion(bindingHandler, new Identificator(new[] { 1, 1 })));
+            tree.Add(new GridQuestion(bindingHandler, new Identificator(new[] { 1, 2 })));
+            tree.Add(new GridQuestion(bindingHandler, new Identificator(new[] { 1, 2, 1 })));
+            tree.Add(new GridQuestion(bindingHandler, new Identificator(new[] { 1, 2, 2 })));
+            tree.Add(new GridQuestion(bindingHandler, new Identificator(new[] { 1, 3 })));
+            tree.Add(new GridQuestion(bindingHandler, new Identificator(new[] { 1, 3, 1 })));
+            tree.Add(new GridQuestion(bindingHandler, new Identificator(new[] { 1, 3, 1, 1 })));
+            tree.Add(new GridQuestion(bindingHandler, new Identificator(new[] { 1, 3, 1, 2 })));
+            return tree;
+        }
+
+        public static Tree GetMinorTree(BindingHandler bindingHandler)
+        {
+            var tree = new Tree(new RootNode(new Identificator(new[] { 1 }), bindingHandler));
+            tree.Add(new GridQuestion(bindingHandler, new Identificator(new[] { 1, 1 })));
+            tree.Add(new GridQuestion(bindingHandler, new Identificator(new[] { 1, 2 })));
+            tree.Add(new GridQuestion(bindingHandler, new Identificator(new[] { 1, 3 })));
+            tree.Add(new GridQuestion(bindingHandler, new Identificator(new[] { 1, 3, 1 })));
+            tree.Add(new GridQuestion(bindingHandler, new Identificator(new[] { 1, 3, 1, 1 })));
+            tree.Add(new GridQuestion(bindingHandler, new Identificator(new[] { 1, 3, 1, 2 })));
+            tree.Add(new GridQuestion(bindingHandler, new Identificator(new[] { 1, 3, 1, 3 })));
+            tree.Add(new GridQuestion(bindingHandler, new Identificator(new[] { 1, 3, 2 })));
+            tree.Add(new GridQuestion(bindingHandler, new Identificator(new[] { 1, 3, 2, 1 })));
+            return tree;
         }
     }
 }

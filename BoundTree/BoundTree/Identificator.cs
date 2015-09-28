@@ -25,6 +25,27 @@ namespace BoundTree
             return new Identificator(_orderIds.Take(_orderIds.Count-1).ToList());
         }
 
+        public Identificator GetCommonRoot(Identificator otherId)
+        {
+            var firstList = new List<int>(this.OrderIds);
+            var secondList = new List<int>(otherId.OrderIds);
+
+            var result = new List<int>();
+            for (var i = 0; i < Math.Min(firstList.Count, secondList.Count); i++)
+            {
+                if (firstList[i] == secondList[i])
+                {
+                    result.Add(firstList[i]);
+                }
+                else
+                {
+                    break;
+                }
+            }
+
+            return new Identificator(result);
+        }
+
         public bool NeedToInsert(Identificator identificator)
         {
             var lengthIds = _orderIds.Count;

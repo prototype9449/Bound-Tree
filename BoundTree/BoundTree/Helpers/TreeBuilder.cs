@@ -14,9 +14,8 @@ namespace BoundTree.Helpers
         {
             _tree = tree;
         }
-        public Tree BuildTree(List<Identificator> identificators)
+        public Tree BuildTreeByEnds(List<Identificator> identificators)
         {
-
             var rootNode = _tree.Root.GetNewInstance();
             var nodes = new List<Node>();
             var firstNode = GetBuiltNode(identificators.First());
