@@ -1,52 +1,41 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using BoundTree.Nodes;
+
 
 namespace BoundTree.Helpers
 {
     public class TreeBuilder
     {
-        private Tree _tree;
-        public TreeBuilder(Tree tree)
+        public Tree BuildTreeByEnds(Tree tree, List<Identificator> identificators)
         {
-            _tree = tree;
-        }
-        public Tree BuildTreeByEnds(List<Identificator> identificators)
-        {
-            var rootNode = _tree.Root.GetNewInstance();
+            var rootNode = tree.Root.GetNewInstance();
             var nodes = new List<Node>();
-            var firstNode = GetBuiltNode(identificators.First());
+            var firstNode = GetBuiltNode(tree, identificators.First());
             nodes.Add(firstNode);
             
             foreach (var identificator in identificators.Skip(1))
             {
-                var currentNode = _tree.GetNewInstanceById(identificator);
+                var currentNode = tree.GetNewInstanceById(identificator);
                 if (nodes.Last().Add(currentNode)) continue;
 
-                nodes.Add(GetBuiltNode(identificator));
+                nodes.Add(GetBuiltNode(tree, identificator));
             }
             rootNode.Nodes = nodes;
-            var resultTree = new Tree(rootNode);
-            return resultTree;
+            return new Tree(rootNode);
         }
             
-        private Node GetBuiltNode(Identificator identificator)
+        private Node GetBuiltNode(Tree tree, Identificator identificator)
         {
             var stack = new Stack<Identificator>();
             stack.Push(identificator);
-            while (true)
+            while (stack.Peek().GetRootUpToNesting(2) != null)
             {
-                var topElement = stack.Peek().GetRootUpToNesting(2);
-                if (topElement == null) break;
                 stack.Push(stack.Peek().GetRootUpToNesting(2));
             }
-            var resultNode = _tree.GetNewInstanceById(stack.Peek());
+            var resultNode = tree.GetNewInstanceById(stack.Peek());
             while (stack.Count != 0)
             {
-                resultNode.Add(_tree.GetNewInstanceById(stack.Pop()));
+                resultNode.Add(tree.GetNewInstanceById(stack.Pop()));
             }
             return resultNode;
         }

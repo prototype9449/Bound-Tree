@@ -27,11 +27,11 @@ namespace BoundTree.Helpers
                 var difference = mainLastIndex - minorLastIndex;
                 if (difference > 0)
                 {
-                    AddVertexes(minorVertexes, difference, minorBoundVertex);
+                    AddUselessIds(minorVertexes, difference, minorBoundVertex);
                 }
                 if (difference < 0)
                 {
-                    AddVertexes(mainVertexes, difference, mainBoundVertex);
+                    AddUselessIds(mainVertexes, difference, mainBoundVertex);
                 }
             }
             var newMainTree = BuildTree(mainVertexes, mainTree); 
@@ -41,15 +41,15 @@ namespace BoundTree.Helpers
 
         }
 
-        private void AddVertexes(List<Identificator> vertexes, int difference, Identificator vertex)
+        private void AddUselessIds(List<Identificator> ids, int difference, Identificator vertex)
         {
-            var previousId = vertexes[(vertexes.IndexOf(vertex) - 1)];
-            var commonRoot = vertex.GetCommonRoot(previousId);
+            var previousIndex = ids.IndexOf(vertex) - 1;
+            var commonRoot = vertex.GetCommonRoot(ids[previousIndex]);
             commonRoot.OrderIds.Add(0);
-            var replacementId = new Identificator(commonRoot.OrderIds);
+            var uselessId = new Identificator(commonRoot.OrderIds);
             for (var i = 0; i < difference; i++)
             {
-                vertexes.Insert(vertexes.IndexOf(vertex), replacementId);
+                ids.Insert(ids.IndexOf(vertex), uselessId);
             }
         }
 

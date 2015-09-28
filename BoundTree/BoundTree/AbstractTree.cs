@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace BoundTree
 {
@@ -18,6 +16,7 @@ namespace BoundTree
         {
             Root.Add(node);
         }
+
         public Node GetById(Identificator identificator)
         {
             return Root.GetNodeById(identificator);
@@ -38,12 +37,12 @@ namespace BoundTree
         private void RecursiveFillNodes(Node root, List<Node> nodes)
         {
             nodes.Add(root);
-            if (root.Nodes.Count != 0)
+
+            if (root.Nodes.Count == 0) return;
+
+            foreach (var node in root.Nodes)
             {
-                foreach (var node in root.Nodes)
-                {
-                    RecursiveFillNodes(node, nodes);
-                }
+                RecursiveFillNodes(node, nodes);
             }
         }
 

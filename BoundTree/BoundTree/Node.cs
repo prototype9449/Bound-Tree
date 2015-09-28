@@ -7,7 +7,7 @@ namespace BoundTree
 {
     abstract public class Node
     {
-        private BindingHelper _bindingHelper = new BindingHelper();
+        private readonly BindingHelper _bindingHelper = new BindingHelper();
         private readonly IBindingHandler _bindingHandler;
         public Identificator Identificator { get; private set; }
         public List<Node> Nodes { get; internal set; }

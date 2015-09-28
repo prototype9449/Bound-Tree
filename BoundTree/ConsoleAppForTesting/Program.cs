@@ -29,10 +29,14 @@ namespace ConsoleAppForTesting
             Console.WriteLine(mainNode2.BindWith(minorNode2));
             Console.WriteLine(mainNode3.BindWith(minorNode3));
 
-            var treeBuilder = new TreeBuilder(minorTree);
+           
             var ids = firstBindingHandler.BoundNodes.Select(pair => pair.Value).ToList();
-            var newMinorTree = treeBuilder.BuildTreeByEnds(ids);
+            var newMinorTree = new TreeBuilder().BuildTreeByEnds(minorTree, ids);
             var pairTrees = new TreeStabilizer().GetBalancedTrees(firstTree, newMinorTree, firstBindingHandler);
+            var newFirstTree = pairTrees.Key;
+            var newSecondTree = pairTrees.Value;
+            Display(newFirstTree, newSecondTree);
+
 
         }
 
@@ -63,6 +67,17 @@ namespace ConsoleAppForTesting
             tree.Add(new GridQuestion(bindingHandler, new Identificator(new[] { 1, 3, 2 })));
             tree.Add(new GridQuestion(bindingHandler, new Identificator(new[] { 1, 3, 2, 1 })));
             return tree;
+        }
+
+        public static void Display(Tree firtsTree, Tree secondTree)
+        {
+            var firstTreeList = firtsTree.ToList();
+            var secondTreeList = secondTree.ToList();
+
+            for (var i = 0; i < firstTreeList.Count; i++)
+            {
+                Console.WriteLine("{0}  --  {1}", firstTreeList[i].TestProperty, secondTreeList[i].TestProperty);
+            }
         }
     }
 }

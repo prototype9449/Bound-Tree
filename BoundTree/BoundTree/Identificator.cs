@@ -8,6 +8,7 @@ namespace BoundTree
     public class Identificator : IEquatable<Identificator>
     {
         private readonly IList<int> _orderIds;
+
         public IList<int> OrderIds
         {
             get { return _orderIds; }
@@ -29,33 +30,32 @@ namespace BoundTree
         {
             var firstList = new List<int>(this.OrderIds);
             var secondList = new List<int>(otherId.OrderIds);
-
-            var result = new List<int>();
-            for (var i = 0; i < Math.Min(firstList.Count, secondList.Count); i++)
+            var minLength = Math.Min(firstList.Count, secondList.Count);
+            for (var i = 0; i < minLength; i++)
             {
-                if (firstList[i] == secondList[i])
+                if (firstList[i] != secondList[i])
                 {
-                    result.Add(firstList[i]);
-                }
-                else
-                {
-                    break;
+                    return new Identificator(firstList.Take(i).ToList());
                 }
             }
 
-            return new Identificator(result);
+            return new Identificator(firstList.Take(minLength).ToList());
         }
 
         public bool NeedToInsert(Identificator identificator)
         {
             var lengthIds = _orderIds.Count;
-            return _orderIds.Count < identificator.OrderIds.Count && _orderIds.SequenceEqual(identificator.OrderIds.Take(lengthIds));
+
+            return _orderIds.Count < identificator.OrderIds.Count 
+                && _orderIds.SequenceEqual(identificator.OrderIds.Take(lengthIds));
         }
 
         public bool NeedToPutInside(Identificator identificator)
         {
             var lengthIds = _orderIds.Count;
-            return _orderIds.Count == identificator.OrderIds.Count - 1 && _orderIds.SequenceEqual(identificator.OrderIds.Take(lengthIds));
+
+            return _orderIds.Count == identificator.OrderIds.Count - 1 
+                && _orderIds.SequenceEqual(identificator.OrderIds.Take(lengthIds));
         }
 
         public bool Equals(Identificator other)
@@ -68,7 +68,6 @@ namespace BoundTree
             if ((object) first == null && (object) second == null) return true;
 
             if ((object)first == null || (object)second == null) return false;
-            
 
             return first.Equals(second);
         }
