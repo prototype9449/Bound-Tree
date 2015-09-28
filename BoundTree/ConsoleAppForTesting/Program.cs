@@ -16,19 +16,19 @@ namespace ConsoleAppForTesting
             var firstTree = new Tree(new RootNode(new Identificator(new[] {1}), firstBindingHandler));
             firstTree.Add(new GridQuestion(firstBindingHandler, new Identificator(new[] {1, 1})));
             firstTree.Add(new GridQuestion(firstBindingHandler, new Identificator(new[] {1, 2})));
-            firstTree.Add(new GridQuestion(firstBindingHandler, new Identificator(new[] {1, 3})));
             firstTree.Add(new GridQuestion(firstBindingHandler, new Identificator(new[] {1, 2, 3})));
-            Node mainNode1 = firstTree.GetByIdentificator(new Identificator(new[] {1, 1}));
-            Node mainNode2 = firstTree.GetByIdentificator(new Identificator(new[] {1, 2}));
+            firstTree.Add(new GridQuestion(firstBindingHandler, new Identificator(new[] { 1, 3 })));
+            Node mainNode1 = firstTree.GetById(new Identificator(new[] {1, 1}));
+            Node mainNode2 = firstTree.GetById(new Identificator(new[] {1, 2, 3}));
 
             var secongBindingHandler = new BindingHandler();
             var secondTree = new Tree(new RootNode(new Identificator(new[] {1}), secongBindingHandler));
             secondTree.Add(new GridQuestion(secongBindingHandler, new Identificator(new[] {1, 1})));
             secondTree.Add(new GridQuestion(secongBindingHandler, new Identificator(new[] {1, 2})));
             secondTree.Add(new GridQuestion(secongBindingHandler, new Identificator(new[] {1, 3})));
-            secondTree.Add(new GridQuestion(secongBindingHandler, new Identificator(new[] {1, 1, 1})));
-            Node minorNode1 = secondTree.GetByIdentificator(new Identificator(new[] {1, 1}));
-            Node minorNode2 = secondTree.GetByIdentificator(new Identificator(new[] {1, 2}));
+            secondTree.Add(new GridQuestion(secongBindingHandler, new Identificator(new[] {1, 3, 1})));
+            Node minorNode1 = secondTree.GetById(new Identificator(new[] {1, 1}));
+            Node minorNode2 = secondTree.GetById(new Identificator(new[] {1, 3, 1}));
             Console.WriteLine(mainNode1.BindWith(minorNode1));
             Console.WriteLine(mainNode2.BindWith(minorNode2));
             var treeBuilder = new TreeBuilder(secondTree);

@@ -17,9 +17,9 @@ namespace BoundTree.Nodes
         {
         }
 
-        public override Node GetNewInstance(Node node, IBindingHandler bindingHandler)
+        public override Node GetNewInstance()
         {
-            return new RootNode(node, bindingHandler);
+            return new RootNode(this, this.BindingHandler);
         }
     }
 }

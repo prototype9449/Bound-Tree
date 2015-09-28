@@ -18,11 +18,15 @@ namespace BoundTree
         {
             Root.Add(node);
         }
-        public Node GetByIdentificator(Identificator identificator)
+        public Node GetById(Identificator identificator)
         {
-            return Root.GetNodeByIdentificator(identificator);
+            return Root.GetNodeById(identificator);
         }
-        
+
+        public Node GetNewInstanceById(Identificator identificator)
+        {
+            return Root.GetNewInstanceById(identificator);
+        }
 
         public List<Node> ToList()
         {

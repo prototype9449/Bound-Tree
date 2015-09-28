@@ -23,7 +23,7 @@ namespace BoundTree.Helpers
             
             foreach (var identificator in identificators.Skip(1))
             {
-                var currentNode = _tree.GetByIdentificator(identificator);
+                var currentNode = _tree.GetNewInstanceById(identificator);
                 if (nodes.Last().Add(currentNode)) continue;
 
                 nodes.Add(GetBuiltNode(identificator));
@@ -43,10 +43,10 @@ namespace BoundTree.Helpers
                 if (topElement == null) break;
                 stack.Push(stack.Peek().GetRoot());
             }
-            var resultNode = _tree.GetByIdentificator(stack.Peek());
+            var resultNode = _tree.GetNewInstanceById(stack.Peek());
             while (stack.Count != 0)
             {
-                resultNode.Add(_tree.GetByIdentificator(stack.Pop()));
+                resultNode.Add(_tree.GetNewInstanceById(stack.Pop()));
             }
             return resultNode;
         }

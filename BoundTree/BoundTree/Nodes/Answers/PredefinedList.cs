@@ -12,9 +12,9 @@ namespace BoundTree.Nodes.Answers
             : base(node, bindingHandler)
         {
         }
-        public override Node GetNewInstance(Node node, IBindingHandler bindingHandler)
+        public override Node GetNewInstance()
         {
-            return new PredefinedList(node, bindingHandler);
+            return new PredefinedList(this, this.BindingHandler);
         }
     }
 }

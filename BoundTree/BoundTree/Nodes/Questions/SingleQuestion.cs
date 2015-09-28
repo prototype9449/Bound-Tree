@@ -8,9 +8,9 @@ namespace BoundTree.Nodes.Questions
 
         public SingleQuestion(Node node, IBindingHandler bindingHandler) : base(node, bindingHandler) { }
 
-        public override Node GetNewInstance(Node node, IBindingHandler bindingHandler)
+        public override Node GetNewInstance()
         {
-            return new SingleQuestion(node, bindingHandler);
+            return new SingleQuestion(this, this.BindingHandler);
         }
     }
 }

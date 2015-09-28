@@ -11,9 +11,9 @@ namespace BoundTree.Nodes.Answers
         {
         }
 
-        public override Node GetNewInstance(Node node, IBindingHandler bindingHandler)
+        public override Node GetNewInstance()
         {
-            return new OpenText(node, bindingHandler);
+            return new OpenText(this, this.BindingHandler);
         }
     }
 }

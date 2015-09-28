@@ -59,24 +59,30 @@ namespace BoundTree
 
         }
 
-        public virtual Node GetNodeByIdentificator(Identificator identificator)
+        public Node GetNodeById(Identificator identificator)
         {
             if (identificator == this.Identificator)
-                return GetNewInstance(this, BindingHandler);
+                return this;
 
             foreach (var node in Nodes)
             {
                 if (node.Identificator.NeedToInsert(identificator))
                 {
-                    return node.GetNodeByIdentificator(identificator);
+                    return node.GetNodeById(identificator);
                 }
                 if (node.Identificator == identificator) 
-                    return node.GetNewInstance(node, BindingHandler);
+                    return node;
             }
 
             return null;
         }
 
-        public abstract Node GetNewInstance(Node node, IBindingHandler bindingHandler);
+        public Node GetNewInstanceById(Identificator identificator)
+        {
+            var node = GetNodeById(identificator);
+            return node.GetNewInstance();
+        }
+
+        public abstract Node GetNewInstance();
     }
 }

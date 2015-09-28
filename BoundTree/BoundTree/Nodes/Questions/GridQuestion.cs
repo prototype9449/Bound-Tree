@@ -7,16 +7,11 @@ namespace BoundTree.Nodes.Questions
         public GridQuestion(IBindingHandler bindingHandler, Identificator identificator) : base(identificator, bindingHandler) { }
 
         public GridQuestion(Node node, IBindingHandler bindingHandler) : base(node, bindingHandler) { }
+        
 
-        public override Node GetNodeByIdentificator(Identificator identificator)
+        public override Node GetNewInstance()
         {
-            var node = base.GetNodeByIdentificator(identificator);
-            return new GridQuestion(node, null);
-        }
-
-        public override Node GetNewInstance(Node node, IBindingHandler bindingHandler)
-        {
-            return new GridQuestion(node, bindingHandler);
+            return new GridQuestion(this, this.BindingHandler);
         }
     }
 }

@@ -8,9 +8,9 @@ namespace BoundTree.Nodes.Questions
 
         public MultyQuestion(Node node, IBindingHandler bindingHandler) : base(node, bindingHandler) { }
 
-        public override Node GetNewInstance(Node node, IBindingHandler bindingHandler)
+        public override Node GetNewInstance()
         {
-            return new MultyQuestion(node, bindingHandler);
+            return new MultyQuestion(this, this.BindingHandler);
         }
     }
 }
