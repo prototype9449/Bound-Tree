@@ -18,9 +18,9 @@ namespace BoundTree
             _orderIds = orderIds;
         }
 
-        public Identificator GetRoot()
+        public Identificator GetRootUpToNesting(int nesting)
         {
-            if (_orderIds.Count == 1) return null;
+            if (_orderIds.Count == nesting) return null;
 
             return new Identificator(_orderIds.Take(_orderIds.Count-1).ToList());
         }

@@ -16,7 +16,8 @@ namespace BoundTree.Helpers
         }
         public Tree BuildTree(List<Identificator> identificators)
         {
-            var rootNode = new RootNode(new Identificator(new[] {1}), null);
+
+            var rootNode = _tree.Root.GetNewInstance();
             var nodes = new List<Node>();
             var firstNode = GetBuiltNode(identificators.First());
             nodes.Add(firstNode);
@@ -39,9 +40,9 @@ namespace BoundTree.Helpers
             stack.Push(identificator);
             while (true)
             {
-                var topElement = stack.Peek().GetRoot();
+                var topElement = stack.Peek().GetRootUpToNesting(2);
                 if (topElement == null) break;
-                stack.Push(stack.Peek().GetRoot());
+                stack.Push(stack.Peek().GetRootUpToNesting(2));
             }
             var resultNode = _tree.GetNewInstanceById(stack.Peek());
             while (stack.Count != 0)
