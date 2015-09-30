@@ -34,26 +34,27 @@ namespace ConsoleAppForTesting
             var mainParent = mainTree.GetParent(0);
             var connections = bindingHandler.BoundNodes;
             var newTree = mainTree.Clone();
-
         }
 
         public static Tree GetMainTree(BindingHandler bindingHandler)
         {
-            var tree = new Tree(new RootNode(0, bindingHandler, new Node[]
+            var fabrica = new NodeInfoFabrica();
+
+            var tree = new Tree(new Node(0, fabrica.Root, bindingHandler, new Node[]
             {
-                new SingleQuestion(1, bindingHandler),
-                new GridQuestion(2, bindingHandler, new Node[]
+                new Node(1, fabrica.SingleQustion, bindingHandler),
+                new Node(2, fabrica.GridQuestion,bindingHandler, new Node[]
                 {
-                    new SingleQuestion(3, bindingHandler),
-                    new SingleQuestion(4, bindingHandler)
+                    new Node(3, fabrica.SingleQustion, bindingHandler),
+                    new Node(4, fabrica.SingleQustion, bindingHandler)
                 }),
-                new GridQuestion(5, bindingHandler, new Node[]
+                new Node(5, fabrica.GridQuestion,bindingHandler, new Node[]
                 {
-                    new SingleQuestion(6, bindingHandler),
-                    new GridQuestion(7, bindingHandler, new Node[]
+                    new Node(6,fabrica.SingleQustion, bindingHandler),
+                    new Node(7,fabrica.GridQuestion, bindingHandler, new Node[]
                     {
-                        new SingleQuestion(8, bindingHandler),
-                        new SingleQuestion(9, bindingHandler)
+                        new Node(8,fabrica.SingleQustion, bindingHandler),
+                        new Node(9, fabrica.SingleQustion,bindingHandler)
                     })
                 })
             }));
@@ -63,25 +64,26 @@ namespace ConsoleAppForTesting
 
         public static Tree GetMinorTree(BindingHandler bindingHandler)
         {
-            var tree = new Tree(
-                new RootNode(0, bindingHandler, new List<Node>
+            var fabrica = new NodeInfoFabrica();
+
+            var tree = new Tree(new Node(0, fabrica.Root, bindingHandler, new Node[]
+            {
+                new Node(1, fabrica.SingleQustion, bindingHandler),
+                new Node(2, fabrica.GridQuestion,bindingHandler, new Node[]
                 {
-                    new SingleQuestion(1, bindingHandler),
-                    new GridQuestion(2, bindingHandler, new Node[]
+                    new Node(3, fabrica.SingleQustion, bindingHandler),
+                    new Node(4, fabrica.SingleQustion, bindingHandler)
+                }),
+                new Node(5, fabrica.GridQuestion,bindingHandler, new Node[]
+                {
+                    new Node(6,fabrica.SingleQustion, bindingHandler),
+                    new Node(7,fabrica.GridQuestion, bindingHandler, new Node[]
                     {
-                        new SingleQuestion(3, bindingHandler),
-                        new SingleQuestion(4, bindingHandler)
-                    }),
-                    new GridQuestion(5, bindingHandler, new Node[]
-                    {
-                        new SingleQuestion(6, bindingHandler),
-                        new GridQuestion(7, bindingHandler, new Node[]
-                        {
-                            new SingleQuestion(8, bindingHandler),
-                            new SingleQuestion(9, bindingHandler)
-                        })
+                        new Node(8,fabrica.SingleQustion, bindingHandler),
+                        new Node(9, fabrica.SingleQustion,bindingHandler)
                     })
-                }));
+                })
+            }));
 
             return tree;
         }

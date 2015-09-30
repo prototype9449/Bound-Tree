@@ -5,7 +5,7 @@ using BoundTree.Interfaces;
 namespace BoundTree.Nodes
 {
     [Serializable]
-    public class RootNode : INodeInfo
+    public class RootNodeInfo : INodeInfo
     {
         
     }

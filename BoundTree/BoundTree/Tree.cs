@@ -60,10 +60,10 @@ namespace BoundTree
             return null;
         }
 
-        public Node GetNewInstanceById(int id)
-        {
-            return GetById(id).GetNewInstance();
-        }
+//        public Node GetNewInstanceById(int id)
+//        {
+//            return GetById(id).GetNewInstance();
+//        }
 
         public List<Node> ToList()
         {

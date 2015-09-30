@@ -11,9 +11,9 @@ namespace BoundTree.Helpers
     {
         private Func<Node, Node, bool>[] Patterns =
         {
-            IsMatched<GridQuestion, GridQuestion>,
-            IsMatched<SingleQuestion, SingleQuestion>,
-            IsMatched<OpenText, OpenText>
+            IsMatched<GridQuestionInfo, GridQuestionInfo>,
+            IsMatched<SingleQuestionInfo, SingleQuestionInfo>,
+            IsMatched<OpenTextInfo, OpenTextInfo>
         };
 
         public bool Bind(Node firtsNode, Node secondNode)

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using BoundTree.Helpers;
 using BoundTree.Interfaces;
+using BoundTree.Nodes;
 
 namespace BoundTree
 {
@@ -12,23 +13,27 @@ namespace BoundTree
         private readonly IBindingHandler _bindingHandler;
         public int Id { get; private set; }
         public List<Node> Nodes { get; internal set; }
+        public INodeInfo NodeInfo { get; set; }
+
         
         public IBindingHandler BindingHandler
         {
             get { return _bindingHandler; }
         }
 
-        protected Node(int id, IBindingHandler bindingHandler, IList<Node> nodes)
+        public Node(int id, INodeInfo nodeInfo, IBindingHandler bindingHandler, IList<Node> nodes)
         {
             Nodes = new List<Node>(nodes);
             _bindingHandler = bindingHandler;
             Id = id;
         }
 
-        protected Node(int id, IBindingHandler bindingHandler) : this(id, bindingHandler, new List<Node>())
+        public Node(int id, INodeInfo nodeInfo, IBindingHandler bindingHandler)
+            : this(id, nodeInfo, bindingHandler, new List<Node>())
         { }
 
-        protected Node(Node node, IBindingHandler bindingHandler) : this(node.Id, bindingHandler, new List<Node>())
+        public Node(Node node, INodeInfo nodeInfo, IBindingHandler bindingHandler)
+            : this(node.Id, nodeInfo, bindingHandler, new List<Node>())
         { }
 
         public bool BindWith(Node otherNode)
@@ -41,7 +46,5 @@ namespace BoundTree
 
             return false;
         }
-
-        public abstract Node GetNewInstance();
     }
 }
