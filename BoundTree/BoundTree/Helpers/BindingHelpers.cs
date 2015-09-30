@@ -9,19 +9,19 @@ namespace BoundTree.Helpers
     [Serializable]
     public class BindingHelper
     {
-        private Func<Node, Node, bool>[] Patterns =
+        private Func<INodeInfo, INodeInfo, bool>[] Patterns =
         {
             IsMatched<GridQuestionInfo, GridQuestionInfo>,
             IsMatched<SingleQuestionInfo, SingleQuestionInfo>,
             IsMatched<OpenTextInfo, OpenTextInfo>
         };
 
-        public bool Bind(Node firtsNode, Node secondNode)
+        public bool Bind(INodeInfo firtsNode, INodeInfo secondNode)
         {
             return Patterns.Select(func => func(firtsNode, secondNode)).Any(result => result == true);
         }
 
-        private static bool IsMatched<T1, T2>(Node firtsNode, Node secondNode)
+        private static bool IsMatched<T1, T2>(INodeInfo firtsNode, INodeInfo secondNode)
         {
             return firtsNode is T1 && secondNode is T2;
         }

@@ -24,6 +24,7 @@ namespace BoundTree
         public Node(int id, INodeInfo nodeInfo, IBindingHandler bindingHandler, IList<Node> nodes)
         {
             Nodes = new List<Node>(nodes);
+            NodeInfo = nodeInfo;
             _bindingHandler = bindingHandler;
             Id = id;
         }
@@ -38,7 +39,7 @@ namespace BoundTree
 
         public bool BindWith(Node otherNode)
         {
-            if (_bindingHelper.Bind(this, otherNode))
+            if (_bindingHelper.Bind(this.NodeInfo, otherNode.NodeInfo))
             {
                 BindingHandler.HandleBinding(this, otherNode);
                 return true;

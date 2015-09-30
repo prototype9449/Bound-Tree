@@ -12,12 +12,12 @@ namespace BoundTree.Helpers
             var tree = mainTree.Clone();
             var dictionary = bindingHandler.BoundNodes.ToDictionary(pair => pair.Key, pair => minorTree.GetById(pair.Value));
 
-            ReplaceLeafs(tree, dictionary);
-
+            ReplaceLeafs(tree, dictionary, minorTree);
+            
             return tree;
         }
 
-        private void ReplaceLeafs(Tree tree, Dictionary<int, Node> dictionary)
+        private void ReplaceLeafs(Tree tree, Dictionary<int, Node> dictionary, Tree minorTree)
         {
             var queue = new Queue<Node>();
             queue.Enqueue(tree.Root);
@@ -39,9 +39,11 @@ namespace BoundTree.Helpers
                     queue.Enqueue(node);
                 }
             }
+
+            RestoreRestNodes(tree, dictionary, minorTree);
         }
 
-        private void RestoreRestNodes(Tree tree, Tree minorTree, Dictionary<int, Node> dictionary)
+        private void RestoreRestNodes(Tree tree, Dictionary<int, Node> dictionary, Tree minorTree)
         {
             var stack = new Stack<Node>();
             stack.Push(tree.Root);
@@ -57,7 +59,8 @@ namespace BoundTree.Helpers
                 }
                 else if(currentNode.Nodes.All(markedNodes.Contains))
                 {
-                    currentNode.NodeInfo = TryGetCommonParent(currentNode.Nodes);
+                    currentNode.NodeInfo = GetCommonParent(currentNode.Nodes, dictionary, minorTree);
+                    markedNodes.Add(stack.Pop());
                 }
                 else
                 {
@@ -66,8 +69,23 @@ namespace BoundTree.Helpers
                         stack.Push(node);
                     }
                 }
-
             }
+        }
+
+        private INodeInfo GetCommonParent(List<Node> nodes, Dictionary<int, Node> dictionary, Tree minorTree)
+        {
+            var filteredNodes = nodes.Where(node => !(node.NodeInfo is EmptyNodeInfo));
+
+            if(!filteredNodes.Any())
+                return new EmptyNodeInfo();
+
+            var parentNodes = filteredNodes.Select(node => minorTree.GetParent(node.Id));
+
+            if (parentNodes.All(node => node == parentNodes.First()))
+                return parentNodes.First().NodeInfo;
+
+            return new EmptyNodeInfo();
+
         }
     }
 }

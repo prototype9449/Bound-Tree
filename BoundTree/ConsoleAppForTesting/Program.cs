@@ -31,27 +31,25 @@ namespace ConsoleAppForTesting
             mainVertex8.BindWith(minorVertex8);
             mainVertex9.BindWith(minorVertex9);
 
-            var mainParent = mainTree.GetParent(0);
-            var connections = bindingHandler.BoundNodes;
-            var newTree = mainTree.Clone();
+            var newTree = new TreeFiller().GetFilledTree(mainTree, minorTree, bindingHandler);
         }
 
         public static Tree GetMainTree(BindingHandler bindingHandler)
         {
             var fabrica = new NodeInfoFabrica();
 
-            var tree = new Tree(new Node(0, fabrica.Root, bindingHandler, new Node[]
+            var tree = new Tree(new Node(0, fabrica.Root, bindingHandler, new[]
             {
                 new Node(1, fabrica.SingleQustion, bindingHandler),
-                new Node(2, fabrica.GridQuestion,bindingHandler, new Node[]
+                new Node(2, fabrica.GridQuestion,bindingHandler, new[]
                 {
                     new Node(3, fabrica.SingleQustion, bindingHandler),
                     new Node(4, fabrica.SingleQustion, bindingHandler)
                 }),
-                new Node(5, fabrica.GridQuestion,bindingHandler, new Node[]
+                new Node(5, fabrica.GridQuestion,bindingHandler, new[]
                 {
                     new Node(6,fabrica.SingleQustion, bindingHandler),
-                    new Node(7,fabrica.GridQuestion, bindingHandler, new Node[]
+                    new Node(7,fabrica.GridQuestion, bindingHandler, new[]
                     {
                         new Node(8,fabrica.SingleQustion, bindingHandler),
                         new Node(9, fabrica.SingleQustion,bindingHandler)
