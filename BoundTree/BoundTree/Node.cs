@@ -1,11 +1,12 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System;
+using System.Collections.Generic;
 using BoundTree.Helpers;
 using BoundTree.Interfaces;
 
 namespace BoundTree
 {
-    abstract public class Node
+    [Serializable]
+    public class Node
     {
         private readonly BindingHelper _bindingHelper = new BindingHelper();
         private readonly IBindingHandler _bindingHandler;
@@ -17,19 +18,18 @@ namespace BoundTree
             get { return _bindingHandler; }
         }
 
-        protected Node(int id, IBindingHandler bindingHandler)
+        protected Node(int id, IBindingHandler bindingHandler, IList<Node> nodes)
         {
+            Nodes = new List<Node>(nodes);
             _bindingHandler = bindingHandler;
             Id = id;
-            Nodes = new List<Node>();
         }
 
-        protected Node(Node node, IBindingHandler bindingHandler)
-        {
-            _bindingHandler = bindingHandler;
-            Id = node.Id;
-            Nodes = new List<Node>();
-        }
+        protected Node(int id, IBindingHandler bindingHandler) : this(id, bindingHandler, new List<Node>())
+        { }
+
+        protected Node(Node node, IBindingHandler bindingHandler) : this(node.Id, bindingHandler, new List<Node>())
+        { }
 
         public bool BindWith(Node otherNode)
         {

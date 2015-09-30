@@ -4,10 +4,10 @@ using BoundTree.Interfaces;
 
 namespace BoundTree.Helpers
 {
+    [Serializable]
     public class BindingHandler : IBindingHandler
     {
-        private readonly List<KeyValuePair<int, int>> _boundNodes =
-           new List<KeyValuePair<int, int>>();
+        private readonly List<KeyValuePair<int, int>> _boundNodes = new List<KeyValuePair<int, int>>();
 
         public List<KeyValuePair<int, int>> BoundNodes
         {

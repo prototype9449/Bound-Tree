@@ -1,17 +1,12 @@
-﻿using BoundTree.Interfaces;
+﻿using System;
+using System.Collections.Generic;
+using BoundTree.Interfaces;
 
 namespace BoundTree.Nodes.Questions
 {
-    public class GridQuestion : Node
+    [Serializable]
+    public class GridQuestionInfo : INodeInfo
     {
-        public GridQuestion(IBindingHandler bindingHandler, Identificator identificator) : base(identificator, bindingHandler) { }
 
-        public GridQuestion(Node node, IBindingHandler bindingHandler) : base(node, bindingHandler) { }
-        
-
-        public override Node GetNewInstance()
-        {
-            return new GridQuestion(this, this.BindingHandler);
-        }
     }
 }

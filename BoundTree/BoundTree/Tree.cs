@@ -1,12 +1,17 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
 
 namespace BoundTree
 {
+    [Serializable]
     public class Tree
     {
         public Node Root { get; set; }
 
-        protected Tree(Node root)
+        public Tree(Node root)
         {
             Root = root;
         }
@@ -26,6 +31,29 @@ namespace BoundTree
                 foreach (var node in queue.Dequeue().Nodes)
                 {
                     queue.Enqueue(node);
+                }
+            }
+
+            return null;
+        }
+
+        public Node GetParent(int id)
+        {
+            var queue = new Stack<KeyValuePair<Node, int>>();
+            queue.Push(new KeyValuePair<Node, int>(Root, -1));
+            while (queue.Count != 0)
+            {
+                if (queue.Peek().Key.Id == id)
+                {
+                    if (queue.Peek().Value == -1) 
+                        return null;
+
+                    return GetById(queue.Peek().Value);
+                }
+                var parent = queue.Pop().Key;
+                foreach (var node in parent.Nodes)
+                {
+                    queue.Push(new KeyValuePair<Node, int>(node, parent.Id));
                 }
             }
 
@@ -56,5 +84,17 @@ namespace BoundTree
             }
         }
 
+
+        public Tree Clone()
+        {
+            IFormatter formatter = new BinaryFormatter();
+            Stream stream = new MemoryStream();
+            using (stream)
+            {
+                formatter.Serialize(stream, this);
+                stream.Seek(0, SeekOrigin.Begin);
+                return (Tree)formatter.Deserialize(stream);
+            }
+        }
     }
 }

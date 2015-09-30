@@ -6,6 +6,7 @@ using BoundTree.Nodes.Questions;
 
 namespace BoundTree.Helpers
 {
+    [Serializable]
     public class BindingHelper
     {
         private Func<Node, Node, bool>[] Patterns =
