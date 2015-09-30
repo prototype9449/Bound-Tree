@@ -4,7 +4,7 @@ namespace BoundTree.Nodes
 {
     public class EmptyNode : Node
     {
-        public EmptyNode(Identificator identificator, IBindingHandler bindingHandler) : base(identificator, bindingHandler)
+        public EmptyNode(int id, IBindingHandler bindingHandler) : base(id, bindingHandler)
         {
         }
 

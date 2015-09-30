@@ -9,7 +9,7 @@ namespace BoundTree.Nodes
 {
     public class RootNode : Node
     {
-        public RootNode(Identificator identificator, IBindingHandler bindingHandler) : base(identificator, bindingHandler)
+        public RootNode(int id, IBindingHandler bindingHandler) : base(id, bindingHandler)
         {
         }
 

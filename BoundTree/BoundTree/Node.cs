@@ -9,33 +9,25 @@ namespace BoundTree
     {
         private readonly BindingHelper _bindingHelper = new BindingHelper();
         private readonly IBindingHandler _bindingHandler;
-        public Identificator Identificator { get; private set; }
+        public int Id { get; private set; }
         public List<Node> Nodes { get; internal set; }
-
-        public string TestProperty
-        {
-            get
-            {
-                return Identificator.OrderIds.Select(x => x.ToString()).Aggregate((x, y) => { return x + " " + y; });
-            }
-        }
-
+        
         public IBindingHandler BindingHandler
         {
             get { return _bindingHandler; }
         }
 
-        protected Node(Identificator identificator, IBindingHandler bindingHandler)
+        protected Node(int id, IBindingHandler bindingHandler)
         {
             _bindingHandler = bindingHandler;
-            Identificator = identificator;
+            Id = id;
             Nodes = new List<Node>();
         }
 
         protected Node(Node node, IBindingHandler bindingHandler)
         {
-            Identificator = node.Identificator;
             _bindingHandler = bindingHandler;
+            Id = node.Id;
             Nodes = new List<Node>();
         }
 
@@ -48,49 +40,6 @@ namespace BoundTree
             }
 
             return false;
-        }
-
-        public bool Add(Node otherNode)
-        {
-            if (this.Identificator.NeedToPutInside(otherNode.Identificator))
-            {
-                Nodes.Add(otherNode);
-                return true;
-            }
-            foreach (var node in Nodes)
-            {
-                if (node.Identificator.NeedToInsert(otherNode.Identificator))
-                {
-                    return node.Add(otherNode);
-                }
-            }
-            return false;
-
-        }
-
-        public Node GetNodeById(Identificator identificator)
-        {
-            if (identificator == this.Identificator)
-                return this;
-
-            foreach (var node in Nodes)
-            {
-                if (node.Identificator.NeedToInsert(identificator))
-                {
-                    return node.GetNodeById(identificator);
-                }
-                if (node.Identificator == identificator) 
-                    return node;
-            }
-
-            return null;
-        }
-
-        public Node GetNewInstanceById(Identificator identificator)
-        {
-            var node = GetNodeById(identificator);
-            if (node == null) return null;
-            return node.GetNewInstance();
         }
 
         public abstract Node GetNewInstance();
