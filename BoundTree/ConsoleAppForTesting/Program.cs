@@ -32,6 +32,7 @@ namespace ConsoleAppForTesting
             mainVertex9.BindWith(minorVertex9);
 
             var newTree = new TreeFiller().GetFilledTree(mainTree, minorTree, bindingHandler);
+            new ConsoleWriter().WriteToConsole(mainTree, newTree);
         }
 
         public static Tree GetMainTree(BindingHandler bindingHandler)
