@@ -1,4 +1,5 @@
-﻿using BoundTree.Nodes.Questions;
+﻿using BoundTree.Nodes.Answers;
+using BoundTree.Nodes.Questions;
 
 namespace BoundTree.Nodes
 {
@@ -22,6 +23,11 @@ namespace BoundTree.Nodes
         public INodeInfo EmptyQuestion
         {
             get { return new EmptyNodeInfo(); }
+        }
+
+        public INodeInfo OpenTextInfo
+        {
+            get { return new OpenTextInfo(); }
         }
     }
 }

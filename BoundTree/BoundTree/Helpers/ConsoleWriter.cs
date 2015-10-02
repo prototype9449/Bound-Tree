@@ -1,19 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO.Pipes;
 using System.Linq;
+using System.Runtime.Remoting.Messaging;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace BoundTree.Helpers
 {
     struct Pair
     {
-        public Pair(Node firstNode, Node secondNode) : this()
+        public Pair(Node firstNode, Node secondNode, bool isVirtual) : this()
         {
             FirstNode = firstNode;
             SecondNode = secondNode;
+            IsVirtual = isVirtual;
         }
 
+        public bool IsVirtual { get; set; }
         public Node FirstNode { get; set; }
         public Node SecondNode { get; set; }
     }
@@ -30,9 +34,31 @@ namespace BoundTree.Helpers
         public IList<Pair> Childrens { get; set; }
     }
 
+    struct TreeNode
+    {
+        public Node Node { get; set; }
+        public int Deep { get; set; }
+
+        public TreeNode(Node node, int deep) : this()
+        {
+            Node = node;
+            Deep = deep;
+        }
+    }
+
     public class ConsoleWriter
     {
-        private IList<Table> CreateTables(Tree firstTree, Tree secondTree)
+        public void WriteToConsoleAsTables(Tree firstTree, Tree secondTree, BindingHandler bindingHandler)
+        {
+            var ids = bindingHandler.BoundNodes.Select(pair => pair.Key).ToList();
+            var tables = CreateTables(firstTree, secondTree, ids);
+            foreach (var table in tables.Where(table => table.Childrens.Count != 0))
+            {
+                WriteToConsole(table);
+            }
+        }
+
+         private IList<Table> CreateTables(Tree firstTree, Tree secondTree, IList<int> ids)
         {
             var firstQueue = new Queue<Node>(new[] { firstTree.Root });
             var secondQueue = new Queue<Node>(new[] { secondTree.Root });
@@ -44,12 +70,12 @@ namespace BoundTree.Helpers
                 var pairs = new List<Pair>();
                 for (var i = 0; i < firstNode.Nodes.Count; i++)
                 {
-                    pairs.Add(new Pair(firstNode.Nodes[i], secondNode.Nodes[i]));
+                    pairs.Add(new Pair(firstNode.Nodes[i], secondNode.Nodes[i], !ids.Contains(firstNode.Nodes[i].Id)));
 
                     firstQueue.Enqueue(firstNode.Nodes[i]);
                     secondQueue.Enqueue(secondNode.Nodes[i]);
                 }
-                var table = new Table(new Pair(firstNode, secondNode), pairs);
+                var table = new Table(new Pair(firstNode, secondNode, !ids.Contains(firstNode.Id)), pairs);
                 if (!tables.Contains(table))
                 {
                     tables.Add(table);
@@ -62,25 +88,60 @@ namespace BoundTree.Helpers
         private void WriteToConsole(Table table)
         {
             Console.WriteLine(new string('*', 10));
-            Console.WriteLine("{0} --- {1}", table.Parents.FirstNode.Id, table.Parents.SecondNode.Id);
+            var getSeparator = new Func<Pair, string>(pair => pair.IsVirtual ? "---" : "<->");
+            var getNodeName = new Func<Node, string>(node => node.Id + " " + node.NodeInfo.GetType().Name);
+
+            Console.WriteLine("{0} {1} {2}", getNodeName(table.Parents.FirstNode), getSeparator(table.Parents), getNodeName(table.Parents.SecondNode));
             Console.WriteLine(new string('-',10));
             foreach (var pair in table.Childrens)
             {
-                Console.WriteLine("{0} --- {1}", pair.FirstNode.Id, pair.SecondNode.Id);
+                Console.WriteLine("{0} {1} {2}", getNodeName(pair.FirstNode), getSeparator(pair), getNodeName(pair.SecondNode));
             }
             Console.WriteLine(new string('*', 10));
             Console.WriteLine();
         }
 
-        public void WriteToConsole(Tree firstTree, Tree secondTree)
+        public void WriteToConsoleAsTrees(Tree firstTree, Tree secondTree, BindingHandler bindingHandler)
         {
-            var tables = CreateTables(firstTree, secondTree);
-            foreach (var table in tables.Where(table => table.Childrens.Count != 0))
+            var ids = bindingHandler.BoundNodes.Select(pair => pair.Key).ToList();
+
+            var firstTreeLines = GetNodeLines(firstTree, true);
+            var secondTreeLines = GetNodeLines(secondTree, false);
+
+            var stringBuilder = new StringBuilder();
+            for (int i = 0; i < firstTreeLines.Count; i++)
             {
-                WriteToConsole(table);
+                stringBuilder.AppendLine(firstTreeLines[i] + ' ' + secondTreeLines[i]);
             }
+            Console.WriteLine(stringBuilder);
         }
 
+        private List<string> GetNodeLines(Tree tree, bool isLeft)
+        {
+            var nodeLines = new List<string>();
+            var stack = new Stack<TreeNode>();
+            stack.Push(new TreeNode(tree.Root, 0));
+            while (stack.Count != 0)
+            {
+                var topElement = stack.Pop();
 
+                var space = new string(' ', topElement.Deep*2);
+                var line = isLeft ? space + topElement.Node.Id : topElement.Node.Id + space;
+                nodeLines.Add(line);
+                
+
+                foreach (var node in topElement.Node.Nodes.OrderByDescending(node => node.Id))
+                {
+                    stack.Push(new TreeNode(node, topElement.Deep + 1));
+                }
+            }
+
+            var maxLength = nodeLines.Max(line => line.Length);
+
+            Func<string, string, bool, string> func = (first, second, left) => left ? first + second : second + first;
+
+            nodeLines = nodeLines.Select(line => func(line, new string(' ', maxLength - line.Length), isLeft)).ToList();
+            return nodeLines;
+        }
     }
 }
