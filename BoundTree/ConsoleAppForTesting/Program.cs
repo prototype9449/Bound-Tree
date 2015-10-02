@@ -87,16 +87,5 @@ namespace ConsoleAppForTesting
 
             return tree;
         }
-
-        public static void Display(Tree firtsTree, Tree secondTree)
-        {
-            var firstTreeList = firtsTree.ToList();
-            var secondTreeList = secondTree.ToList();
-
-            for (var i = 0; i < firstTreeList.Count; i++)
-            {
-                Console.WriteLine("{0}  --  {1}", firstTreeList[i].Id, secondTreeList[i].Id);
-            }
-        }
     }
 }
