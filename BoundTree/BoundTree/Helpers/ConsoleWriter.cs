@@ -121,12 +121,13 @@ namespace BoundTree.Helpers
             var nodeLines = new List<string>();
             var stack = new Stack<TreeNode>();
             stack.Push(new TreeNode(tree.Root, 0));
+            var getNodeName = new Func<Node, string>(node => node.Id + " " + node.NodeInfo.GetType().Name);
             while (stack.Count != 0)
             {
                 var topElement = stack.Pop();
 
                 var space = new string(' ', topElement.Deep*2);
-                var line = isLeft ? space + topElement.Node.Id : topElement.Node.Id + space;
+                var line = isLeft ? space + getNodeName(topElement.Node) : getNodeName(topElement.Node) + space;
                 nodeLines.Add(line);
                 
 
@@ -138,9 +139,9 @@ namespace BoundTree.Helpers
 
             var maxLength = nodeLines.Max(line => line.Length);
 
-            Func<string, string, bool, string> func = (first, second, left) => left ? first + second : second + first;
+            Func<string, string, bool, string> swapPlaces = (first, second, left) => left ? first + second : second + first;
 
-            nodeLines = nodeLines.Select(line => func(line, new string(' ', maxLength - line.Length), isLeft)).ToList();
+            nodeLines = nodeLines.Select(line => swapPlaces(line, new string(' ', maxLength - line.Length), isLeft)).ToList();
             return nodeLines;
         }
     }
