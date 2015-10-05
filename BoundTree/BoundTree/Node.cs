@@ -14,7 +14,7 @@ namespace BoundTree
         public int Id { get; private set; }
         public List<Node> Nodes { get; internal set; }
         public INodeInfo NodeInfo { get; set; }
-
+        internal int Deep { get; private set; }
         
         public IBindingHandler BindingHandler
         {
@@ -23,6 +23,7 @@ namespace BoundTree
 
         public Node(int id, INodeInfo nodeInfo, IBindingHandler bindingHandler, IList<Node> nodes)
         {
+            Deep = -1;
             Nodes = new List<Node>(nodes);
             NodeInfo = nodeInfo;
             _bindingHandler = bindingHandler;
@@ -46,6 +47,12 @@ namespace BoundTree
             }
 
             return false;
+        }
+
+        public void SetDeep(int initialDeep)
+        {
+            Deep = initialDeep + 1;
+            Nodes.ForEach(node => node.SetDeep(Deep));
         }
     }
 }

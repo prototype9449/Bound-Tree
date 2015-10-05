@@ -87,17 +87,17 @@ namespace BoundTree.Helpers
 
         private void WriteToConsole(Table table)
         {
-            Console.WriteLine(new string('*', 10));
+            Console.WriteLine(new string('*', 50));
             var getSeparator = new Func<Pair, string>(pair => pair.IsVirtual ? "----" : "<-->");
             var getNodeName = new Func<Node, string>(node => node.Id + " " + node.NodeInfo.GetType().Name);
 
             Console.WriteLine("{0} {1} {2}", getNodeName(table.Parents.FirstNode), getSeparator(table.Parents), getNodeName(table.Parents.SecondNode));
-            Console.WriteLine(new string('-',10));
+            Console.WriteLine(new string('-',50));
             foreach (var pair in table.Childrens)
             {
                 Console.WriteLine("{0} {1} {2}", getNodeName(pair.FirstNode), getSeparator(pair), getNodeName(pair.SecondNode));
             }
-            Console.WriteLine(new string('*', 10));
+            Console.WriteLine(new string('*', 50));
             Console.WriteLine();
         }
         
@@ -120,24 +120,29 @@ namespace BoundTree.Helpers
         private List<string> GetNodeLines(Tree tree, List<int> ids, bool isLeft)
         {
             var nodeLines = new List<string>();
-            var stack = new Stack<TreeNode>();
-            stack.Push(new TreeNode(tree.Root, 0));
+            var stack = new Stack<Node>();
+            stack.Push(tree.Root);
 
-            Func<Node, string> getNodeName = (node) => node.Id + " " + node.NodeInfo.GetType().Name;
-
+            Func<Node, string> getNodeName = (node) => isLeft ? node.NodeInfo.GetType().Name + '(' + node.Id + ')' : "(" + node.Id + ')' + node.NodeInfo.GetType().Name;
+            
             while (stack.Count != 0)
             {
                 var topElement = stack.Pop();
 
-                var space = new string(' ', topElement.Deep * 2);
+                var maxDeep = tree.ToList().Max(node => node.Deep);
 
-                var additionalSeparator = ids.Contains(topElement.Node.Id) ? isLeft ? '<' : '>' : '-';
-                var line = isLeft ? space + getNodeName(topElement.Node) + additionalSeparator : additionalSeparator + getNodeName(topElement.Node) + space;
+                var space = isLeft ? new string(' ', topElement.Deep * 3) : new String('-', (maxDeep - topElement.Deep)*3);
+
+                var additionalSeparator = ids.Contains(topElement.Id) ? isLeft ? '<' : '>' : '-';
+                var line = isLeft
+                    ? space + getNodeName(topElement) + additionalSeparator
+                    : space + additionalSeparator + getNodeName(topElement);
+                
                 nodeLines.Add(line);
                  
-                foreach (var node in topElement.Node.Nodes.OrderByDescending(node => node.Id))
+                foreach (var node in topElement.Nodes.OrderByDescending(node => node.Id))
                 {
-                    stack.Push(new TreeNode(node, topElement.Deep + 1));
+                    stack.Push(node);
                 }
             }
 
@@ -145,7 +150,13 @@ namespace BoundTree.Helpers
 
             Func<string, string, bool, string> swapPlaces = (first, second, isItLeft) => isItLeft ? first + second : second + first;
 
-            nodeLines = nodeLines.Select(line => swapPlaces(line, new string('-', maxLength - line.Length), isLeft)).ToList();
+            nodeLines =
+                nodeLines.Select(
+                    line =>
+                        isLeft
+                            ? line += new String('-', maxLength - line.Length)
+                            : line += new String(' ', maxLength - line.Length)).ToList();
+            var lengths = nodeLines.Select(x => x.Length).ToList();
             return nodeLines;
         }
     }

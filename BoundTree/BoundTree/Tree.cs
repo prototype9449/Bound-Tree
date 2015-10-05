@@ -14,6 +14,7 @@ namespace BoundTree
         public Tree(Node root)
         {
             Root = root;
+            Root.SetDeep(-1);
         }
        
 
