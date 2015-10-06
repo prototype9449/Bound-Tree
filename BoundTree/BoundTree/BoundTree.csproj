@@ -40,7 +40,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Helpers\BindingHandler.cs" />
-    <Compile Include="Helpers\ConsoleWriter.cs" />
+    <Compile Include="Helpers\ConsoleTableWriter.cs" />
+    <Compile Include="Helpers\ConsoleTreeWriter.cs" />
     <Compile Include="Helpers\TreeFiller.cs" />
     <Compile Include="Interfaces\IBindingHandler.cs" />
     <Compile Include="Nodes\Answers\Answer.cs" />

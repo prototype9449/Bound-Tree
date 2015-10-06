@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using BoundTree;
+﻿using BoundTree;
 using BoundTree.Helpers;
 using BoundTree.Nodes;
-using BoundTree.Nodes.Questions;
 
 namespace ConsoleAppForTesting
 {
@@ -33,7 +29,8 @@ namespace ConsoleAppForTesting
             mainVertex9.BindWith(minorVertex9);
 
             var newTree = new TreeFiller().GetFilledTree(mainTree, minorTree, bindingHandler);
-            new ConsoleWriter().WriteToConsoleAsTrees(mainTree, newTree, bindingHandler);
+            new ConsoleTreeWriter().WriteToConsoleAsTrees(mainTree, newTree, bindingHandler);
+            new ConsoleTableWriter().WriteToConsoleAsTables(mainTree, newTree, bindingHandler);
         }
 
         public static Tree GetMainTree(BindingHandler bindingHandler)
