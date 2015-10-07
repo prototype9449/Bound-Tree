@@ -99,9 +99,9 @@ namespace BoundTree.Helpers
             lines.Add(new string('*', maxLength));
             var firstLine = getReplacedLine(rootName,
                 new String(getSeparator(table.Parents), maxLength - rootName.Length), isLeft);
-            lines.Add(new string('.', maxLength));
             lines.Add(firstLine);
-            lines.Add(new string('^', maxLength));
+            lines.Add(new string('_', maxLength));
+            lines.Add(new string(' ', maxLength));
             foreach (var pair in table.Childrens)
             {
                 var nodeName = GetNodeName(pair, isLeft);
