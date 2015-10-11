@@ -56,11 +56,11 @@ namespace BoundTree.Helpers
             return result;
         }
 
-        private void RestoreRestNodes(Tree<T> tree, Tree<T> minorTree)
+        private void RestoreRestNodes(DoubleNode<T> doubleNode, Tree<T> minorTree)
         {
-            var stack = new Stack<Node<T>>();
-            stack.Push(tree.Root);
-            var markedNodes = new HashSet<Node<T>>();
+            var stack = new Stack<DoubleNode<T>>();
+            stack.Push(doubleNode);
+            var markedNodes = new HashSet<DoubleNode<T>>();
 
             while (stack.Any())
             {
