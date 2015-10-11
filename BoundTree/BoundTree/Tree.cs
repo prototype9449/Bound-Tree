@@ -80,7 +80,6 @@ namespace BoundTree
             }
         }
 
-
         public Tree<T> Clone()
         {
             IFormatter formatter = new BinaryFormatter();

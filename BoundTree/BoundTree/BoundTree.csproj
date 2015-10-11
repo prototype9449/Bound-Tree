@@ -39,6 +39,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Cortege.cs" />
+    <Compile Include="DoubleNode.cs" />
     <Compile Include="Helpers\BindingHandler.cs" />
     <Compile Include="Helpers\ConsoleTableWriter.cs" />
     <Compile Include="Helpers\ConsoleTreeWriter.cs" />
@@ -56,7 +58,6 @@
     <Compile Include="Nodes\Questions\SingleQuestionInfo.cs" />
     <Compile Include="Helpers\BindingHelpers.cs" />
     <Compile Include="Node.cs" />
-    <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tree.cs" />
   </ItemGroup>
