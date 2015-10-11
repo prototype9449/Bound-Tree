@@ -49,10 +49,15 @@ namespace BoundTree
             return false;
         }
 
-        public void SetDeep(int initialDeep)
+        internal void SetDeep(int initialDeep)
         {
             Deep = initialDeep + 1;
             Nodes.ForEach(node => node.SetDeep(Deep));
+        }
+
+        internal void IncreaseDeep()
+        {
+            SetDeep(Deep);
         }
     }
 }
