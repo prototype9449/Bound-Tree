@@ -5,9 +5,9 @@ using System.Text;
 
 namespace BoundTree.Helpers
 {
-    public class ConsoleTreeWriter
+    public class ConsoleTreeWriter<T> where T : class, IEquatable<T>
     {
-        public void WriteToConsoleAsTrees(Tree firstTree, Tree secondTree, BindingHandler bindingHandler)
+        public void WriteToConsoleAsTrees(Tree<T> firstTree, Tree<T> secondTree, BindingHandler<T> bindingHandler)
         {
             var ids = bindingHandler.BoundNodes.Select(pair => pair.Key).ToList();
 
@@ -23,13 +23,13 @@ namespace BoundTree.Helpers
             Console.WriteLine(stringBuilder);
         }
 
-        private List<string> GetNodeLines(Tree tree, List<int> ids, bool isLeft)
+        private List<string> GetNodeLines(Tree<T> tree, List<T> ids, bool isLeft)
         {
             var nodeLines = new List<string>();
-            var stack = new Stack<Node>();
+            var stack = new Stack<Node<T>>();
             stack.Push(tree.Root);
 
-            Func<Node, string> getNodeName = (node) => isLeft ? node.NodeInfo.GetType().Name + '(' + node.Id + ')' : "(" + node.Id + ')' + node.NodeInfo.GetType().Name;
+            Func<Node<T>, string> getNodeName = (node) => isLeft ? node.NodeInfo.GetType().Name + '(' + node.Id + ')' : "(" + node.Id + ')' + node.NodeInfo.GetType().Name;
 
             while (stack.Count != 0)
             {

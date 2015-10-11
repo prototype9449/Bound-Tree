@@ -5,20 +5,18 @@ using BoundTree.Interfaces;
 namespace BoundTree.Helpers
 {
     [Serializable]
-    public class BindingHandler : IBindingHandler
+    public class BindingHandler<T> : IBindingHandler<T>
     {
-        private readonly List<KeyValuePair<int, int>> _boundNodes = new List<KeyValuePair<int, int>>();
+        private readonly List<KeyValuePair<T, T>> _boundNodes = new List<KeyValuePair<T, T>>();
 
-        public List<KeyValuePair<int, int>> BoundNodes
+        public List<KeyValuePair<T, T>> BoundNodes
         {
             get { return _boundNodes; }
         }
 
-        public void HandleBinding(Node mainNode, Node minorNode)
+        public void HandleBinding(Node<T> mainNode, Node<T> minorNode)
         {
-            BoundNodes.Add(new KeyValuePair<int, int>(mainNode.Id, minorNode.Id));
+            BoundNodes.Add(new KeyValuePair<T, T>(mainNode.Id, minorNode.Id));
         }
     }
-
-    
 }

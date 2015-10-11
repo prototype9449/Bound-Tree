@@ -7,38 +7,38 @@ using BoundTree.Nodes;
 namespace BoundTree
 {
     [Serializable]
-    public class Node
+    public class Node<T>
     {
         private readonly BindingHelper _bindingHelper = new BindingHelper();
-        private readonly IBindingHandler _bindingHandler;
-        public int Id { get; private set; }
-        public List<Node> Nodes { get; internal set; }
+        private readonly IBindingHandler<T> _bindingHandler;
+        public T Id { get; private set; }
+        public List<Node<T>> Nodes { get; internal set; }
         public INodeInfo NodeInfo { get; set; }
         internal int Deep { get; private set; }
-        
-        public IBindingHandler BindingHandler
+
+        public IBindingHandler<T> BindingHandler
         {
             get { return _bindingHandler; }
         }
 
-        public Node(int id, INodeInfo nodeInfo, IBindingHandler bindingHandler, IList<Node> nodes)
+        public Node(T id, INodeInfo nodeInfo, IBindingHandler<T> bindingHandler, IList<Node<T>> nodes)
         {
             Deep = -1;
-            Nodes = new List<Node>(nodes);
+            Nodes = new List<Node<T>>(nodes);
             NodeInfo = nodeInfo;
             _bindingHandler = bindingHandler;
             Id = id;
         }
 
-        public Node(int id, INodeInfo nodeInfo, IBindingHandler bindingHandler)
-            : this(id, nodeInfo, bindingHandler, new List<Node>())
+        public Node(T id, INodeInfo nodeInfo, IBindingHandler<T> bindingHandler)
+            : this(id, nodeInfo, bindingHandler, new List<Node<T>>())
         { }
 
-        public Node(Node node, INodeInfo nodeInfo, IBindingHandler bindingHandler)
-            : this(node.Id, nodeInfo, bindingHandler, new List<Node>())
+        public Node(Node<T> node, INodeInfo nodeInfo, IBindingHandler<T> bindingHandler)
+            : this(node.Id, nodeInfo, bindingHandler, new List<Node<T>>())
         { }
 
-        public bool BindWith(Node otherNode)
+        public bool BindWith(Node<T> otherNode)
         {
             if (_bindingHelper.Bind(this.NodeInfo, otherNode.NodeInfo))
             {

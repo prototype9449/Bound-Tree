@@ -5,9 +5,9 @@ using BoundTree.Nodes;
 
 namespace BoundTree.Helpers
 {
-    public class TreeFiller
+    public class TreeFiller<T> where T : class, IEquatable<T>
     {
-        public Tree GetFilledTree(Tree mainTree, Tree minorTree, BindingHandler bindingHandler)
+        public Tree<T> GetFilledTree(Tree<T> mainTree, Tree<T> minorTree, BindingHandler<T> bindingHandler)
         {
             var tree = mainTree.Clone();
             var dictionary = bindingHandler.BoundNodes.ToDictionary(pair => pair.Key, pair => minorTree.GetById(pair.Value));
@@ -17,9 +17,9 @@ namespace BoundTree.Helpers
             return tree;
         }
 
-        private void ReplaceLeafs(Tree tree, Dictionary<int, Node> dictionary, Tree minorTree)
+        private void ReplaceLeafs(Tree<T> tree, Dictionary<T, Node<T>> dictionary, Tree<T> minorTree)
         {
-            var queue = new Queue<Node>();
+            var queue = new Queue<Node<T>>();
             queue.Enqueue(tree.Root);
             while (queue.Count != 0)
             {
@@ -43,11 +43,11 @@ namespace BoundTree.Helpers
             RestoreRestNodes(tree, dictionary, minorTree);
         }
 
-        private void RestoreRestNodes(Tree tree, Dictionary<int, Node> dictionary, Tree minorTree)
+        private void RestoreRestNodes(Tree<T> tree, Dictionary<T, Node<T>> dictionary, Tree<T> minorTree)
         {
-            var stack = new Stack<Node>();
+            var stack = new Stack<Node<T>>();
             stack.Push(tree.Root);
-            var markedNodes = new HashSet<Node>();
+            var markedNodes = new HashSet<Node<T>>();
 
             while (stack.Count != 0)
             {
@@ -72,7 +72,7 @@ namespace BoundTree.Helpers
             }
         }
 
-        private INodeInfo GetCommonParent(List<Node> nodes, Dictionary<int, Node> dictionary, Tree minorTree)
+        private INodeInfo GetCommonParent(List<Node<T>> nodes, Dictionary<T, Node<T>> dictionary, Tree<T> minorTree)
         {
             var filteredNodes = nodes.Where(node => !(node.NodeInfo is EmptyNodeInfo));
 

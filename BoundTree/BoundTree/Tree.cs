@@ -7,24 +7,24 @@ using System.Runtime.Serialization.Formatters.Binary;
 namespace BoundTree
 {
     [Serializable]
-    public class Tree
+    public class Tree<T> where T : class, IEquatable<T>
     {
-        public Node Root { get; set; }
+        public Node<T> Root { get; set; }
 
-        public Tree(Node root)
+        public Tree(Node<T> root)
         {
             Root = root;
             Root.SetDeep(-1);
         }
-       
 
-        public Node GetById(int id)
+
+        public Node<T> GetById(T id)
         {
-            var queue = new Queue<Node>();
+            var queue = new Queue<Node<T>>();
             queue.Enqueue(Root);
             while (queue.Count != 0)
             {
-                if (queue.Peek().Id == id)
+                if (queue.Peek().Id.Equals(id))
                 {
                     return queue.Peek();
                 }
@@ -38,15 +38,15 @@ namespace BoundTree
             return null;
         }
 
-        public Node GetParent(int id)
+        public Node<T> GetParent(T id)
         {
-            var queue = new Stack<KeyValuePair<Node, int>>();
-            queue.Push(new KeyValuePair<Node, int>(Root, -1));
+            var queue = new Stack<KeyValuePair<Node<T>, T>>();
+            queue.Push(new KeyValuePair<Node<T>, T>(Root, null));
             while (queue.Count != 0)
             {
-                if (queue.Peek().Key.Id == id)
+                if (queue.Peek().Key.Id.Equals(id))
                 {
-                    if (queue.Peek().Value == -1) 
+                    if (queue.Peek().Value == null)
                         return null;
 
                     return GetById(queue.Peek().Value);
@@ -54,26 +54,21 @@ namespace BoundTree
                 var parent = queue.Pop().Key;
                 foreach (var node in parent.Nodes)
                 {
-                    queue.Push(new KeyValuePair<Node, int>(node, parent.Id));
+                    queue.Push(new KeyValuePair<Node<T>, T>(node, parent.Id));
                 }
             }
 
             return null;
         }
 
-//        public Node GetNewInstanceById(int id)
-//        {
-//            return GetById(id).GetNewInstance();
-//        }
-
-        public List<Node> ToList()
+        public List<Node<T>> ToList()
         {
-            var nodes = new List<Node>();
+            var nodes = new List<Node<T>>();
             RecursiveFillNodes(Root, nodes);
             return nodes;
         }
 
-        private void RecursiveFillNodes(Node root, List<Node> nodes)
+        private void RecursiveFillNodes(Node<T> root, List<Node<T>> nodes)
         {
             nodes.Add(root);
 
@@ -86,7 +81,7 @@ namespace BoundTree
         }
 
 
-        public Tree Clone()
+        public Tree<T> Clone()
         {
             IFormatter formatter = new BinaryFormatter();
             Stream stream = new MemoryStream();
@@ -94,7 +89,7 @@ namespace BoundTree
             {
                 formatter.Serialize(stream, this);
                 stream.Seek(0, SeekOrigin.Begin);
-                return (Tree)formatter.Deserialize(stream);
+                return (Tree<T>)formatter.Deserialize(stream);
             }
         }
     }

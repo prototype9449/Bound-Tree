@@ -8,9 +8,9 @@ using System.Text;
 
 namespace BoundTree.Helpers
 {
-    struct Pair
+    struct Pair<T> where T : IEquatable<T>
     {
-        public Pair(Node firstNode, Node secondNode, bool isVirtual)
+        public Pair(Node<T> firstNode, Node<T> secondNode, bool isVirtual)
             : this()
         {
             FirstNode = firstNode;
@@ -19,26 +19,26 @@ namespace BoundTree.Helpers
         }
 
         public bool IsVirtual { get; set; }
-        public Node FirstNode { get; set; }
-        public Node SecondNode { get; set; }
+        public Node<T> FirstNode { get; set; }
+        public Node<T> SecondNode { get; set; }
     }
 
-    struct Table
+    struct Table<T> where T : IEquatable<T>
     {
-        public Table(Pair parents, IList<Pair> childrens)
+        public Table(Pair<T> parents, IList<Pair<T>> childrens)
             : this()
         {
             Parents = parents;
             Childrens = childrens;
         }
 
-        public Pair Parents { get; set; }
-        public IList<Pair> Childrens { get; set; }
+        public Pair<T> Parents { get; set; }
+        public IList<Pair<T>> Childrens { get; set; }
     }
 
-    public class ConsoleTableWriter
+    public class ConsoleTableWriter<T> where T : class, IEquatable<T>
     {
-        public void WriteToConsoleAsTables(Tree firstTree, Tree secondTree, BindingHandler bindingHandler)
+        public void WriteToConsoleAsTables(Tree<T> firstTree, Tree<T> secondTree, BindingHandler<T> bindingHandler) 
         {
             var ids = bindingHandler.BoundNodes.Select(pair => pair.Key).ToList();
             var tables = CreateTables(firstTree, secondTree, ids);
@@ -48,24 +48,24 @@ namespace BoundTree.Helpers
             }
         }
 
-        private IList<Table> CreateTables(Tree firstTree, Tree secondTree, IList<int> ids)
+        private IList<Table<T>> CreateTables(Tree<T> firstTree, Tree<T> secondTree, IList<T> ids) 
         {
-            var firstQueue = new Queue<Node>(new[] { firstTree.Root });
-            var secondQueue = new Queue<Node>(new[] { secondTree.Root });
-            var tables = new HashSet<Table>();
+            var firstQueue = new Queue<Node<T>>(new[] { firstTree.Root });
+            var secondQueue = new Queue<Node<T>>(new[] { secondTree.Root });
+            var tables = new HashSet<Table<T>>();
             while (firstQueue.Count != 0)
             {
                 var firstNode = firstQueue.Dequeue();
                 var secondNode = secondQueue.Dequeue();
-                var pairs = new List<Pair>();
+                var pairs = new List<Pair<T>>();
                 for (var i = 0; i < firstNode.Nodes.Count; i++)
                 {
-                    pairs.Add(new Pair(firstNode.Nodes[i], secondNode.Nodes[i], !ids.Contains(firstNode.Nodes[i].Id)));
+                    pairs.Add(new Pair<T>(firstNode.Nodes[i], secondNode.Nodes[i], !ids.Contains(firstNode.Nodes[i].Id)));
 
                     firstQueue.Enqueue(firstNode.Nodes[i]);
                     secondQueue.Enqueue(secondNode.Nodes[i]);
                 }
-                var table = new Table(new Pair(firstNode, secondNode, !ids.Contains(firstNode.Id)), pairs);
+                var table = new Table<T>(new Pair<T>(firstNode, secondNode, !ids.Contains(firstNode.Id)), pairs);
                 if (!tables.Contains(table))
                 {
                     tables.Add(table);
@@ -75,23 +75,23 @@ namespace BoundTree.Helpers
             return tables.ToList();
         }
 
-        private string GetNodeName(Pair pair, bool isLeft)
+        private string GetNodeName(Pair<T> pair, bool isLeft) 
         {
             return isLeft ? pair.FirstNode.NodeInfo.GetType().Name + " " + pair.FirstNode.Id : pair.SecondNode.Id +  " " + pair.SecondNode.NodeInfo.GetType().Name;
         }
 
-        private int GetMaxLength(Table table, bool isLeft)
+        private int GetMaxLength(Table<T> table, bool isLeft) 
         {
             return Math.Max(GetNodeName(table.Parents, isLeft).Length,
                 table.Childrens.Max(pair => GetNodeName(pair, isLeft).Length));
         }
 
-        private List<string> GetTableLines(Table table, bool isLeft)
+        private List<string> GetTableLines(Table<T> table, bool isLeft)
         {
             var maxLength = GetMaxLength(table, isLeft) + 5;
             var lines = new List<string>();
             var rootName = GetNodeName(table.Parents, isLeft);
-            Func<Pair, char> getSeparator = (pair) => pair.IsVirtual ? '-' : '=';
+            Func<Pair<T>, char> getSeparator = (pair) => pair.IsVirtual ? '-' : '=';
             Func<string, string, bool, string> getReplacedLine =
                 (first, second, left) => left ? first + second : second + first;
 
@@ -112,7 +112,7 @@ namespace BoundTree.Helpers
             return lines;
         }
 
-        private void WriteToConsole(Table table)
+        private void WriteToConsole(Table<T> table)
         {
             var leftLines = GetTableLines(table, true);
             var rightLines = GetTableLines(table, false);

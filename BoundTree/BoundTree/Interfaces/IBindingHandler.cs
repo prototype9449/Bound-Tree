@@ -1,7 +1,7 @@
 ﻿namespace BoundTree.Interfaces
 {
-    public interface IBindingHandler
+    public interface IBindingHandler<T>
     {
-        void HandleBinding(Node mainNode, Node minorNode);
+        void HandleBinding(Node<T> mainNode, Node<T> minorNode);
     }
 }
