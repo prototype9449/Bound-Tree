@@ -16,21 +16,21 @@ namespace ConsoleAppForTesting
             var mainVertex3 = mainTree.GetById("A");
             var mainVertex4 = mainTree.GetById("B");
             var mainVertex8 = mainTree.GetById("C");
-            var mainVertex9 = mainTree.GetById("D");
+            var mainVertex9 = mainTree.GetById("T");
 
             var minorVertex3 = minorTree.GetById("A");
             var minorVertex4 = minorTree.GetById("B");
             var minorVertex8 = minorTree.GetById("C");
-            var minorVertex9 = minorTree.GetById("D");
+            var minorVertex9 = minorTree.GetById("T");
 
-            mainVertex3.BindWith(minorVertex4);
-            mainVertex4.BindWith(minorVertex3);
+            mainVertex3.BindWith(minorVertex3);
+            mainVertex4.BindWith(minorVertex4);
             mainVertex8.BindWith(minorVertex8);
             mainVertex9.BindWith(minorVertex9);
 
             var newTree = new TreeFiller<string> ().GetFilledTree(mainTree, minorTree, bindingHandler);
-            new ConsoleTreeWriter<string>().WriteToConsoleAsTrees(mainTree, newTree, bindingHandler);
-            new ConsoleTableWriter<string>().WriteToConsoleAsTables(mainTree, newTree, bindingHandler);
+            new ConsoleTreeWriter<string>().WriteToConsoleAsTrees(newTree, bindingHandler);
+            new ConsoleTableWriter<string>().WriteToConsoleAsTables(newTree, bindingHandler);
         }
 
         public static Tree<string> GetMainTree(BindingHandler<string> bindingHandler)

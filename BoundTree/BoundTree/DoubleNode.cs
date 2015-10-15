@@ -11,8 +11,9 @@ namespace BoundTree
     {
         public Cortege<T> MainLeaf { get; set; }
         public Cortege<T> MinorLeaf { get; set; }
-
+        public ConnectionKind ConnectionKind { get; set; }
         public List<DoubleNode<T>> Nodes { get; set; }
+        public int Deep { get; set; }
 
         public DoubleNode()
         {
@@ -34,9 +35,36 @@ namespace BoundTree
 
         public DoubleNode(Node<T> node) : this(new Cortege<T>(node)) { }
 
-        public void Add(DoubleNode<T> dobuleNode)
+        public void Add(DoubleNode<T> doubleNode)
         {
-            Nodes.Add(dobuleNode);
+            doubleNode.Deep+=Deep + 1;
+            Nodes.Add(doubleNode);
         }
+        
+        public List<DoubleNode<T>> ToList()
+        {
+            var nodes = new List<DoubleNode<T>>();
+            RecursiveFillNodes(this, nodes);
+            return nodes;
+        }
+
+        private void RecursiveFillNodes(DoubleNode<T> root, List<DoubleNode<T>> nodes)
+        {
+            nodes.Add(root);
+
+            if (root.Nodes.Count == 0) return;
+
+            foreach (var node in root.Nodes)
+            {
+                RecursiveFillNodes(node, nodes);
+            }
+        }
+    }
+
+    public enum ConnectionKind
+    {
+        Strict,
+        Relative,
+        None
     }
 }

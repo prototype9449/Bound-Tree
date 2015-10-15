@@ -7,12 +7,10 @@ namespace BoundTree.Helpers
 {
     public class ConsoleTreeWriter<T> where T : class, IEquatable<T>
     {
-        public void WriteToConsoleAsTrees(Tree<T> firstTree, Tree<T> secondTree, BindingHandler<T> bindingHandler)
+        public void WriteToConsoleAsTrees(DoubleNode<T> tree , BindingHandler<T> bindingHandler)
         {
-            var ids = bindingHandler.BoundNodes.Select(pair => pair.Key).ToList();
-
-            var firstTreeLines = GetNodeLines(firstTree, ids, true);
-            var secondTreeLines = GetNodeLines(secondTree, ids, false);
+            var firstTreeLines = GetNodeLines(tree, true);
+            var secondTreeLines = GetNodeLines(tree, false);
 
             var stringBuilder = new StringBuilder();
             for (int i = 0; i < firstTreeLines.Count; i++)
@@ -23,13 +21,15 @@ namespace BoundTree.Helpers
             Console.WriteLine(stringBuilder);
         }
 
-        private List<string> GetNodeLines(Tree<T> tree, List<T> ids, bool isLeft)
+        private List<string> GetNodeLines(DoubleNode<T>  tree, bool isLeft)
         {
             var nodeLines = new List<string>();
-            var stack = new Stack<Node<T>>();
-            stack.Push(tree.Root);
+            var stack = new Stack<DoubleNode<T>>();
+            stack.Push(tree);
 
-            Func<Node<T>, string> getNodeName = (node) => isLeft ? node.NodeInfo.GetType().Name + '(' + node.Id + ')' : "(" + node.Id + ')' + node.NodeInfo.GetType().Name;
+            Func<DoubleNode<T>, string> getNodeName = (node) => isLeft 
+                ? node.MainLeaf.NodeInfo.GetType().Name + '(' + node.MainLeaf.Id + ')' 
+                : "(" + node.MinorLeaf.Id + ')' + node.MinorLeaf.NodeInfo.GetType().Name;
 
             while (stack.Count != 0)
             {
@@ -39,14 +39,14 @@ namespace BoundTree.Helpers
 
                 var space = isLeft ? new string(' ', topElement.Deep * 3) : new String('-', (maxDeep - topElement.Deep) * 3);
 
-                var additionalSeparator = ids.Contains(topElement.Id) ? isLeft ? '<' : '>' : '-';
+                var additionalSeparator = topElement.ConnectionKind == ConnectionKind.Strict ? isLeft ? '<' : '>' : '-';
                 var line = isLeft
                     ? space + getNodeName(topElement) + additionalSeparator
                     : space + additionalSeparator + getNodeName(topElement);
 
                 nodeLines.Add(line);
 
-                foreach (var node in topElement.Nodes.OrderByDescending(node => node.Id))
+                foreach (var node in topElement.Nodes.OrderByDescending(node => isLeft ? node.MainLeaf.Id : node.MinorLeaf.Id))
                 {
                     stack.Push(node);
                 }

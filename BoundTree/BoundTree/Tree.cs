@@ -61,25 +61,6 @@ namespace BoundTree
             return null;
         }
 
-        public List<Node<T>> ToList()
-        {
-            var nodes = new List<Node<T>>();
-            RecursiveFillNodes(Root, nodes);
-            return nodes;
-        }
-
-        private void RecursiveFillNodes(Node<T> root, List<Node<T>> nodes)
-        {
-            nodes.Add(root);
-
-            if (root.Nodes.Count == 0) return;
-
-            foreach (var node in root.Nodes)
-            {
-                RecursiveFillNodes(node, nodes);
-            }
-        }
-
         public Tree<T> Clone()
         {
             IFormatter formatter = new BinaryFormatter();

@@ -10,12 +10,12 @@ namespace BoundTree.Helpers
 {
     public class TreeFiller<T> where T : class, IEquatable<T>
     {
-        public Tree<T> GetFilledTree(Tree<T> mainTree, Tree<T> minorTree, BindingHandler<T> bindingHandler)
+        public DoubleNode<T> GetFilledTree(Tree<T> mainTree, Tree<T> minorTree, BindingHandler<T> bindingHandler)
         {
             var clonedMainTree = mainTree.Clone();
             var doubleNode = GetDoubleNode(clonedMainTree, mainTree, bindingHandler);
 
-            return null;
+            return doubleNode;
         }
         private Queue<SomeType> CreateAnonymQueue<SomeType>(SomeType value)
         {
@@ -39,10 +39,12 @@ namespace BoundTree.Helpers
                 if (dictionary.ContainsKey(mainCurrentId))
                 {
                     current.doubleNode.MinorLeaf = new Cortege<T>(dictionary[mainCurrentId].Id, dictionary[mainCurrentId].NodeInfo);
+                    current.doubleNode.ConnectionKind = ConnectionKind.Strict;
                 }
                 else
                 {
-                    current.doubleNode.MinorLeaf = new Cortege<T>(current.doubleNode.MinorLeaf.Id, new EmptyNodeInfo());
+                    current.doubleNode.MinorLeaf = new Cortege<T>(current.doubleNode.MainLeaf.Id, new EmptyNodeInfo());
+                    current.doubleNode.ConnectionKind = ConnectionKind.None;
                 }
 
                 foreach (var node in current.node.Nodes)
@@ -56,43 +58,43 @@ namespace BoundTree.Helpers
             return result;
         }
 
-        private void RestoreRestNodes(DoubleNode<T> doubleNode, Tree<T> minorTree)
-        {
-            var stack = new Stack<DoubleNode<T>>();
-            stack.Push(doubleNode);
-            var markedNodes = new HashSet<DoubleNode<T>>();
-
-            while (stack.Any())
-            {
-                var currentNode = stack.Peek();
-                if (!currentNode.Nodes.Any())
-                {
-                    markedNodes.Add(currentNode);
-                    stack.Pop();
-                }
-                else if (currentNode.Nodes.All(markedNodes.Contains))
-                {
-                    var areTheSame = currentNode.Nodes.Any(node => node == currentNode.Nodes.First());
-                    var commonParent = areTheSame
-                        ? GetMostCommonParent(currentNode.Nodes)
-                        : GetCommonParent(currentNode.Nodes, minorTree);
-
-                    if (currentNode.Id.Equals(commonParent.Id))
-                    {
-                        currentNode.NodeInfo = commonParent.NodeInfo;
-                    }
-                    else
-                    {
-                        //todo we should add the node in both trees
-                    }
-
-                    markedNodes.Add(stack.Pop());
-                }
-                else
-                    currentNode.Nodes.ForEach(stack.Push);
-
-            }
-        }
+//        private void RestoreRestNodes(DoubleNode<T> doubleNode, Tree<T> minorTree)
+//        {
+//            var stack = new Stack<DoubleNode<T>>();
+//            stack.Push(doubleNode);
+//            var markedNodes = new HashSet<DoubleNode<T>>();
+//
+//            while (stack.Any())
+//            {
+//                var currentNode = stack.Peek();
+//                if (!currentNode.Nodes.Any())
+//                {
+//                    markedNodes.Add(currentNode);
+//                    stack.Pop();
+//                }
+//                else if (currentNode.Nodes.All(markedNodes.Contains))
+//                {
+//                    var areTheSame = currentNode.Nodes.Any(node => node == currentNode.Nodes.First());
+//                    var commonParent = areTheSame
+//                        ? GetMostCommonParent(currentNode.Nodes)
+//                        : GetCommonParent(currentNode.Nodes, minorTree);
+//
+//                    if (currentNode.Id.Equals(commonParent.Id))
+//                    {
+//                        currentNode.NodeInfo = commonParent.NodeInfo;
+//                    }
+//                    else
+//                    {
+//                        //todo we should add the node in both trees
+//                    }
+//
+//                    markedNodes.Add(stack.Pop());
+//                }
+//                else
+//                    currentNode.Nodes.ForEach(stack.Push);
+//
+//            }
+//        }
 
         private Cortege<T> GetMostCommonParent(List<Node<T>> nodes)
         {
