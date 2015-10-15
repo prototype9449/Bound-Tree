@@ -18,5 +18,10 @@ namespace BoundTree.Helpers
         {
             BoundNodes.Add(new KeyValuePair<T, T>(mainNode.Id, minorNode.Id));
         }
+
+        public void RemoveConnection(T mainId)
+        {
+            _boundNodes.RemoveAll(pair => pair.Key.Equals(mainId));
+        }
     }
 }

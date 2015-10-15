@@ -7,7 +7,7 @@ namespace BoundTree.Helpers
 {
     public class ConsoleTreeWriter<T> where T : class, IEquatable<T>
     {
-        public void WriteToConsoleAsTrees(DoubleNode<T> tree , BindingHandler<T> bindingHandler)
+        public void WriteToConsoleAsTrees(DoubleNode<T> tree)
         {
             var firstTreeLines = GetNodeLines(tree, true);
             var secondTreeLines = GetNodeLines(tree, false);

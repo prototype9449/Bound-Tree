@@ -41,6 +41,7 @@
   <ItemGroup>
     <Compile Include="Cortege.cs" />
     <Compile Include="DoubleNode.cs" />
+    <Compile Include="Helpers\BindContoller.cs" />
     <Compile Include="Helpers\BindingHandler.cs" />
     <Compile Include="Helpers\ConsoleTableWriter.cs" />
     <Compile Include="Helpers\ConsoleTreeWriter.cs" />

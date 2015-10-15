@@ -1,10 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO.Pipes;
 using System.Linq;
-using System.Runtime.Remoting.Messaging;
-using System.Text;
 
 namespace BoundTree.Helpers
 {
@@ -36,17 +32,16 @@ namespace BoundTree.Helpers
 
     public class ConsoleTableWriter<T> where T : class, IEquatable<T>
     {
-        public void WriteToConsoleAsTables(DoubleNode<T> tree, BindingHandler<T> bindingHandler) 
+        public void WriteToConsoleAsTables(DoubleNode<T> tree) 
         {
-            var ids = bindingHandler.BoundNodes.Select(pair => pair.Key).ToList();
-            var tables = CreateTables(tree, ids);
+            var tables = CreateTables(tree);
             foreach (var table in tables.Where(table => table.Childrens.Count != 0))
             {
                 WriteToConsole(table);
             }
         }
 
-        private IList<Table<T>> CreateTables(DoubleNode<T> tree, IList<T> ids) 
+        private IList<Table<T>> CreateTables(DoubleNode<T> tree) 
         {
             var queue = new Queue<DoubleNode<T>>(new[] { tree });
             var tables = new HashSet<Table<T>>();

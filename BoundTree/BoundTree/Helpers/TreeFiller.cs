@@ -10,10 +10,10 @@ namespace BoundTree.Helpers
 {
     public class TreeFiller<T> where T : class, IEquatable<T>
     {
-        public DoubleNode<T> GetFilledTree(Tree<T> mainTree, Tree<T> minorTree, BindingHandler<T> bindingHandler)
+        public DoubleNode<T> GetFilledTree(Tree<T> mainTree, Tree<T> minorTree)
         {
             var clonedMainTree = mainTree.Clone();
-            var doubleNode = GetDoubleNode(clonedMainTree, mainTree, bindingHandler);
+            var doubleNode = GetDoubleNode(clonedMainTree, mainTree);
 
             return doubleNode;
         }
@@ -24,9 +24,9 @@ namespace BoundTree.Helpers
             return queue;
         }
 
-        private DoubleNode<T> GetDoubleNode(Tree<T> tree, Tree<T> minorTree, BindingHandler<T> bindingHandler)
+        private DoubleNode<T> GetDoubleNode(Tree<T> tree, Tree<T> minorTree)
         {
-            var dictionary = bindingHandler.BoundNodes.ToDictionary(pair => pair.Key, pair => minorTree.GetById(pair.Value));
+            var dictionary = tree.Root.BindingHandler.BoundNodes.ToDictionary(pair => pair.Key, pair => minorTree.GetById(pair.Value));
             var result = new DoubleNode<T>(new Cortege<T>(tree.Root));
             var root = new { node = tree.Root, doubleNode = result };
             var queue = CreateAnonymQueue(root);

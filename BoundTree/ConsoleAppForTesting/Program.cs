@@ -13,24 +13,16 @@ namespace ConsoleAppForTesting
             var mainTree = GetMainTree(bindingHandler);
             var minorTree = GetMinorTree(bindingHandler);
 
-            var mainVertex3 = mainTree.GetById("A");
-            var mainVertex4 = mainTree.GetById("B");
-            var mainVertex8 = mainTree.GetById("C");
-            var mainVertex9 = mainTree.GetById("T");
+            var bindController = new BindContoller<string>(mainTree, minorTree);
 
-            var minorVertex3 = minorTree.GetById("A");
-            var minorVertex4 = minorTree.GetById("B");
-            var minorVertex8 = minorTree.GetById("C");
-            var minorVertex9 = minorTree.GetById("T");
+            bindController.Bind("A", "A");
+            bindController.Bind("B", "B");
+            bindController.Bind("C", "C");
+            bindController.Bind("T", "T");
 
-            mainVertex3.BindWith(minorVertex3);
-            mainVertex4.BindWith(minorVertex4);
-            mainVertex8.BindWith(minorVertex8);
-            mainVertex9.BindWith(minorVertex9);
-
-            var newTree = new TreeFiller<string> ().GetFilledTree(mainTree, minorTree, bindingHandler);
-            new ConsoleTreeWriter<string>().WriteToConsoleAsTrees(newTree, bindingHandler);
-            new ConsoleTableWriter<string>().WriteToConsoleAsTables(newTree, bindingHandler);
+            var newTree = new TreeFiller<string>().GetFilledTree(mainTree, minorTree);
+            new ConsoleTreeWriter<string>().WriteToConsoleAsTrees(newTree);
+            new ConsoleTableWriter<string>().WriteToConsoleAsTables(newTree);
         }
 
         public static Tree<string> GetMainTree(BindingHandler<string> bindingHandler)
