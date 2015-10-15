@@ -4,19 +4,19 @@ namespace BoundTree.Helpers
 {
     public class BindContoller<T> where T : class, IEquatable<T>
     {
-        private readonly Tree<T> _mainTree;
-        private readonly Tree<T> _minorTree;
-        
+        public Tree<T> MainTree { get; private set; }
+        public Tree<T> MinorTree { get; private set; }
+
         public BindContoller(Tree<T> mainTree, Tree<T> minorTree)
         {
-            _mainTree = mainTree;
-            _minorTree = minorTree;
+            MainTree = mainTree;
+            MinorTree = minorTree;
         }
 
         public bool Bind(T mainId, T minorId)
         {
-            var mainNode = _mainTree.GetById(mainId);
-            var minorNode = _minorTree.GetById(minorId);
+            var mainNode = MainTree.GetById(mainId);
+            var minorNode = MinorTree.GetById(minorId);
 
             if (mainNode == null || minorNode == null)
                 return false;
@@ -27,7 +27,7 @@ namespace BoundTree.Helpers
 
         public void RemoveConnection(T main)
         {
-            _mainTree.Root.BindingHandler.RemoveConnection(main);
+            MainTree.Root.BindingHandler.RemoveConnection(main);
         }
     }
 }

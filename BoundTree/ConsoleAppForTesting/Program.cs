@@ -15,14 +15,7 @@ namespace ConsoleAppForTesting
 
             var bindController = new BindContoller<string>(mainTree, minorTree);
 
-            bindController.Bind("A", "A");
-            bindController.Bind("B", "B");
-            bindController.Bind("C", "C");
-            bindController.Bind("T", "T");
-
-            var newTree = new TreeFiller<string>().GetFilledTree(mainTree, minorTree);
-            new ConsoleTreeWriter<string>().WriteToConsoleAsTrees(newTree);
-            new ConsoleTableWriter<string>().WriteToConsoleAsTables(newTree);
+            new ConsoleController(bindController).Start();
         }
 
         public static Tree<string> GetMainTree(BindingHandler<string> bindingHandler)

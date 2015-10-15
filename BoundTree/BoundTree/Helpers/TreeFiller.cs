@@ -13,7 +13,7 @@ namespace BoundTree.Helpers
         public DoubleNode<T> GetFilledTree(Tree<T> mainTree, Tree<T> minorTree)
         {
             var clonedMainTree = mainTree.Clone();
-            var doubleNode = GetDoubleNode(clonedMainTree, mainTree);
+            var doubleNode = GetDoubleNode(clonedMainTree, minorTree);
 
             return doubleNode;
         }
