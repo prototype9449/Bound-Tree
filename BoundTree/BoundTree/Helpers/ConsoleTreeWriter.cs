@@ -21,6 +21,46 @@ namespace BoundTree.Helpers
             Console.WriteLine(stringBuilder);
         }
 
+        public void WriteToConsoleAsTrees(Tree<T> mainTree, Tree<T> minorTree)
+        {
+            var firstTreeLines = GetNodeLines(mainTree);
+            var secondTreeLines = GetNodeLines(minorTree);
+
+            var stringBuilder = new StringBuilder();
+            for (int i = 0; i < firstTreeLines.Count; i++)
+            {
+                var firstPart = i < firstTreeLines.Count
+                    ? firstTreeLines[i]
+                    : new string(' ', firstTreeLines.First().Length);
+
+                var secondPart = i < secondTreeLines.Count ? secondTreeLines[i] : "";
+
+                stringBuilder.AppendLine(firstPart + new String(' ', 10) + secondPart);
+                stringBuilder.AppendLine();
+            }
+            Console.WriteLine(stringBuilder);
+        }
+
+        private List<string> GetNodeLines(Tree<T>  tree)
+        {
+            var stack = new Stack<Node<T>>(new []{ tree.Root });
+            var lines = new List<string>();
+
+            while (stack.Any())
+            {
+                var topElement = stack.Pop();
+
+                topElement.Nodes.ForEach(node => stack.Push(node));
+
+                var line = string.Format("{0}{1} ({2})", new string(' ', topElement.Deep*2),
+                    topElement.NodeInfo.GetType().Name, topElement.Id);
+                lines.Add(line);
+            }
+
+            var maxLength = lines.Max(line => line.Length);
+            return lines.Select(line => line += new string(' ', maxLength - line.Length)).ToList();
+        }
+        
         private List<string> GetNodeLines(DoubleNode<T>  tree, bool isLeft)
         {
             var nodeLines = new List<string>();
@@ -31,7 +71,7 @@ namespace BoundTree.Helpers
                 ? node.MainLeaf.NodeInfo.GetType().Name + '(' + node.MainLeaf.Id + ')' 
                 : "(" + node.MinorLeaf.Id + ')' + node.MinorLeaf.NodeInfo.GetType().Name;
 
-            while (stack.Count != 0)
+            while (stack.Any())
             {
                 var topElement = stack.Pop();
 

@@ -16,6 +16,7 @@ namespace BoundTree.Helpers
         {
             while (true)
             {
+                DisplayTree();
                 Console.WriteLine("Type 'a' to Add, 'r' to Remove, 'e' to exit");
                 var action = Console.ReadLine();
                 KeyValuePair<string, string> ids = new KeyValuePair<string, string>();
@@ -24,12 +25,10 @@ namespace BoundTree.Helpers
                     case "r" :
                         ids = GetIds(true);
                         _bindController.RemoveConnection(ids.Key);
-                        DisplayTree();
                         break;
                     case "a" : 
                       ids = GetIds(false);
                         _bindController.Bind(ids.Key, ids.Value);
-                        DisplayTree();
                         break;
                 }
                
@@ -44,6 +43,7 @@ namespace BoundTree.Helpers
         {
             Console.Clear();
             var tree = new TreeFiller<string>().GetFilledTree(_bindController.MainTree, _bindController.MinorTree);
+            new ConsoleTreeWriter<string>().WriteToConsoleAsTrees(_bindController.MainTree, _bindController.MinorTree);
             new ConsoleTreeWriter<string>().WriteToConsoleAsTrees(tree);
         }
 

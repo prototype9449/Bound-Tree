@@ -17,9 +17,9 @@ namespace BoundTree.Helpers
 
             return doubleNode;
         }
-        private Queue<SomeType> CreateAnonymQueue<SomeType>(SomeType value)
+        private Queue<TSomeType> CreateAnonymQueue<TSomeType>(TSomeType value)
         {
-            var queue = new Queue<SomeType>();
+            var queue = new Queue<TSomeType>();
             queue.Enqueue(value);
             return queue;
         }
