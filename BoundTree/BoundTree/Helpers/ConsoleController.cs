@@ -42,8 +42,8 @@ namespace BoundTree.Helpers
         private void DisplayTree()
         {
             Console.Clear();
-            var tree = new TreeFiller<string>(_bindController).GetFilledTree(_bindController.MainTree, _bindController.MinorTree);
-            new ConsoleTreeWriter<string>().WriteToConsoleAsTrees(_bindController.MainTree, _bindController.MinorTree);
+            var tree = new TreeFiller<string>(_bindController).GetFilledTree(_bindController.MainSingleTree, _bindController.MinorSingleTree);
+            new ConsoleTreeWriter<string>().WriteToConsoleAsTrees(_bindController.MainSingleTree, _bindController.MinorSingleTree);
             new ConsoleTreeWriter<string>().WriteToConsoleAsTrees(tree);
         }
 

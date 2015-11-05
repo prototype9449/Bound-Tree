@@ -5,38 +5,38 @@ namespace BoundTree
 {
     public class DoubleNode<T> where T : class, IEquatable<T>
     {
-        public Cortege<T> MainLeaf { get; set; }
-        public Cortege<T> MinorLeaf { get; set; }
+        public Node<T> MainLeaf { get; set; }
+        public Node<T> MinorLeaf { get; set; }
         public ConnectionKind ConnectionKind { get; set; }
         public List<DoubleNode<T>> Nodes { get; set; }
         public int Deep { get; set; }
 
         public DoubleNode()
         {
-            MainLeaf = new Cortege<T>();
-            MinorLeaf = new Cortege<T>();
             Nodes = new List<DoubleNode<T>>();
         }
 
-        public DoubleNode(Cortege<T> mainLeaf, Cortege<T> minorLeaf) : this()
+        public DoubleNode(Node<T> mainLeaf, Node<T> minorLeaf) : this()
         {
             MainLeaf = mainLeaf;
             MinorLeaf = minorLeaf;
         }
 
-        public DoubleNode(Cortege<T> mainLeaf) : this()
+        public DoubleNode(Node<T> mainLeaf) : this()
         {
             MainLeaf = mainLeaf;
         }
 
-        public DoubleNode(Node<T> node) : this(new Cortege<T>(node)) { }
+        public DoubleNode(SingleNode<T> singleNode) : this(new Node<T>(singleNode))
+        { }
+        
 
         public void Add(DoubleNode<T> doubleNode)
         {
-            doubleNode.Deep+=Deep + 1;
+            doubleNode.Deep += Deep + 1;
             Nodes.Add(doubleNode);
         }
-        
+
         public List<DoubleNode<T>> ToList()
         {
             var nodes = new List<DoubleNode<T>>();

@@ -14,9 +14,9 @@ namespace BoundTree.Helpers
             get { return _boundNodes; }
         }
 
-        public void HandleBinding(Node<T> mainNode, Node<T> minorNode)
+        public void HandleBinding(SingleNode<T> mainSingleNode, SingleNode<T> minorSingleNode)
         {
-            BoundNodes.Add(new KeyValuePair<T, T>(mainNode.Id, minorNode.Id));
+            BoundNodes.Add(new KeyValuePair<T, T>(mainSingleNode.Id, minorSingleNode.Id));
         }
 
         public void RemoveConnection(T mainId)

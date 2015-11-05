@@ -21,10 +21,10 @@ namespace BoundTree.Helpers
             Console.WriteLine(stringBuilder);
         }
 
-        public void WriteToConsoleAsTrees(Tree<T> mainTree, Tree<T> minorTree)
+        public void WriteToConsoleAsTrees(SingleTree<T> mainSingleTree, SingleTree<T> minorSingleTree)
         {
-            var firstTreeLines = GetNodeLines(mainTree);
-            var secondTreeLines = GetNodeLines(minorTree);
+            var firstTreeLines = GetNodeLines(mainSingleTree);
+            var secondTreeLines = GetNodeLines(minorSingleTree);
 
             var stringBuilder = new StringBuilder();
             for (int i = 0; i < firstTreeLines.Count; i++)
@@ -41,9 +41,9 @@ namespace BoundTree.Helpers
             Console.WriteLine(stringBuilder);
         }
 
-        private List<string> GetNodeLines(Tree<T>  tree)
+        private List<string> GetNodeLines(SingleTree<T>  singleTree)
         {
-            var stack = new Stack<Node<T>>(new []{ tree.Root });
+            var stack = new Stack<SingleNode<T>>(new []{ singleTree.Root });
             var lines = new List<string>();
 
             while (stack.Any())
