@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Linq;
-using BoundTree.Nodes;
-using BoundTree.Nodes.Answers;
-using BoundTree.Nodes.Questions;
+using BoundTree.NodeInfo;
+using BoundTree.NodeInfo.Answers;
+using BoundTree.NodeInfo.Questions;
 
 namespace BoundTree.Helpers
 {
@@ -19,7 +19,6 @@ namespace BoundTree.Helpers
         public bool Bind(INodeInfo firtsNode, INodeInfo secondNode)
         {
             return true;
-            //return Patterns.Select(func => func(firtsNode, secondNode)).Any(result => result == true);
         }
 
         private static bool IsMatched<T1, T2>(INodeInfo firtsNode, INodeInfo secondNode)

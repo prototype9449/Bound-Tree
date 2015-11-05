@@ -1,5 +1,5 @@
 ﻿using System;
-using BoundTree.Nodes;
+using BoundTree.NodeInfo;
 
 namespace BoundTree
 {

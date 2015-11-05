@@ -6,11 +6,15 @@ namespace BoundTree.Helpers
     {
         public Tree<T> MainTree { get; private set; }
         public Tree<T> MinorTree { get; private set; }
+        public BindingHelper BindingHelper { get; private set; }
+        public BindingHandler<T> BindingHandler { get; private set; }
 
         public BindContoller(Tree<T> mainTree, Tree<T> minorTree)
         {
             MainTree = mainTree;
             MinorTree = minorTree;
+            BindingHelper = new BindingHelper();
+            BindingHandler = new BindingHandler<T>();
         }
 
         public bool Bind(T mainId, T minorId)
@@ -21,13 +25,17 @@ namespace BoundTree.Helpers
             if (mainNode == null || minorNode == null)
                 return false;
 
-            mainNode.BindWith(minorNode);
-            return true;
+            if (BindingHelper.Bind(mainNode.NodeInfo, minorNode.NodeInfo))
+            {
+                BindingHandler.HandleBinding(mainNode, minorNode);
+            }
+
+           return true;
         }
 
         public void RemoveConnection(T main)
         {
-            MainTree.Root.BindingHandler.RemoveConnection(main);
+            BindingHandler.RemoveConnection(main);
         }
     }
 }

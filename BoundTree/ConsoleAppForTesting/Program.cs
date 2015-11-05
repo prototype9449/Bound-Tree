@@ -1,7 +1,6 @@
-﻿using System;
-using BoundTree;
+﻿using BoundTree;
 using BoundTree.Helpers;
-using BoundTree.Nodes;
+using BoundTree.NodeInfo;
 
 namespace ConsoleAppForTesting
 {
@@ -22,21 +21,21 @@ namespace ConsoleAppForTesting
         {
             var fabrica = new NodeInfoFabrica();
 
-            var tree = new Tree<string>(new Node<string>("A", fabrica.Root, bindingHandler, new[]
+            var tree = new Tree<string>(new Node<string>("A", fabrica.Root, new[]
             {
-                new Node<string>("B", fabrica.SingleQustion, bindingHandler),
-                new Node<string>("C", fabrica.GridQuestion,bindingHandler, new[]
+                new Node<string>("B", fabrica.SingleQustion),
+                new Node<string>("C", fabrica.GridQuestion, new[]
                 {
-                    new Node<string>("D", fabrica.OpenTextInfo, bindingHandler),
-                    new Node<string>("E", fabrica.SingleQustion, bindingHandler)
+                    new Node<string>("D", fabrica.OpenTextInfo),
+                    new Node<string>("E", fabrica.SingleQustion)
                 }),
-                new Node<string>("F", fabrica.GridQuestion,bindingHandler, new[]
+                new Node<string>("F", fabrica.GridQuestion, new[]
                 {
-                    new Node<string>("G",fabrica.SingleQustion, bindingHandler),
-                    new Node<string>("H",fabrica.GridQuestion, bindingHandler, new[]
+                    new Node<string>("G", fabrica.SingleQustion),
+                    new Node<string>("H", fabrica.GridQuestion, new[]
                     {
-                        new Node<string>("T",fabrica.SingleQustion, bindingHandler),
-                        new Node<string>("R", fabrica.SingleQustion,bindingHandler)
+                        new Node<string>("T", fabrica.SingleQustion),
+                        new Node<string>("R", fabrica.SingleQustion)
                     })
                 })
             }));
@@ -48,21 +47,21 @@ namespace ConsoleAppForTesting
         {
             var fabrica = new NodeInfoFabrica();
 
-            var tree = new Tree<string>(new Node<string>("A", fabrica.Root, bindingHandler, new[]
+            var tree = new Tree<string>(new Node<string>("A", fabrica.Root, new[]
             {
-                new Node<string>("B", fabrica.SingleQustion, bindingHandler),
-                new Node<string>("C", fabrica.GridQuestion,bindingHandler, new[]
+                new Node<string>("B", fabrica.SingleQustion),
+                new Node<string>("C", fabrica.GridQuestion, new[]
                 {
-                    new Node<string>("D", fabrica.OpenTextInfo, bindingHandler),
-                    new Node<string>("E", fabrica.SingleQustion, bindingHandler)
+                    new Node<string>("D", fabrica.OpenTextInfo),
+                    new Node<string>("E", fabrica.SingleQustion)
                 }),
-                new Node<string>("F", fabrica.GridQuestion,bindingHandler, new[]
+                new Node<string>("F", fabrica.GridQuestion, new[]
                 {
-                    new Node<string>("G",fabrica.SingleQustion, bindingHandler),
-                    new Node<string>("H",fabrica.GridQuestion, bindingHandler, new[]
+                    new Node<string>("G", fabrica.SingleQustion),
+                    new Node<string>("H", fabrica.GridQuestion, new[]
                     {
-                        new Node<string>("T",fabrica.SingleQustion, bindingHandler),
-                        new Node<string>("R", fabrica.SingleQustion,bindingHandler)
+                        new Node<string>("T", fabrica.SingleQustion),
+                        new Node<string>("R", fabrica.SingleQustion)
                     })
                 })
             }));

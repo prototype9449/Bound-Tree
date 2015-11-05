@@ -1,7 +1,7 @@
-﻿using BoundTree.Nodes.Answers;
-using BoundTree.Nodes.Questions;
+﻿using BoundTree.NodeInfo.Answers;
+using BoundTree.NodeInfo.Questions;
 
-namespace BoundTree.Nodes
+namespace BoundTree.NodeInfo
 {
     public class NodeInfoFabrica
     {

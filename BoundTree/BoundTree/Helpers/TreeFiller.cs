@@ -4,12 +4,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
-using BoundTree.Nodes;
+using BoundTree.NodeInfo;
 
 namespace BoundTree.Helpers
 {
     public class TreeFiller<T> where T : class, IEquatable<T>
     {
+        private readonly BindContoller<T> _bindContoller;
+
+        public TreeFiller(BindContoller<T> bindContoller)
+        {
+            _bindContoller = bindContoller;
+        }
+
+
         public DoubleNode<T> GetFilledTree(Tree<T> mainTree, Tree<T> minorTree)
         {
             var clonedMainTree = mainTree.Clone();
@@ -26,7 +34,7 @@ namespace BoundTree.Helpers
 
         private DoubleNode<T> GetDoubleNode(Tree<T> tree, Tree<T> minorTree)
         {
-            var dictionary = tree.Root.BindingHandler.BoundNodes.ToDictionary(pair => pair.Key, pair => minorTree.GetById(pair.Value));
+            var dictionary = _bindContoller.BindingHandler.BoundNodes.ToDictionary(pair => pair.Key, pair => minorTree.GetById(pair.Value));
             var result = new DoubleNode<T>(new Cortege<T>(tree.Root));
             var root = new { node = tree.Root, doubleNode = result };
             var queue = CreateAnonymQueue(root);
