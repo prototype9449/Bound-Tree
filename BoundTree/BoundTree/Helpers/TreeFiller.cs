@@ -28,8 +28,8 @@ namespace BoundTree.Helpers
         {
             var resultDoubleNode = new DoubleNode<T>(mainTree.Root);
 
-            var root = new { node = mainTree.Root, doubleNode = resultDoubleNode };
-            var queue   = new Queue<dynamic>(new[] {root});
+            var root = new {node = mainTree.Root, doubleNode = resultDoubleNode};
+            var queue = new Queue<dynamic>(new[] {root});
 
             while (queue.Any())
             {
@@ -38,7 +38,7 @@ namespace BoundTree.Helpers
 
                 if (connections.ContainsKey(mainCurrentId))
                 {
-                    current.doubleNode.MinorLeaf = connections[mainCurrentId];
+                    current.doubleNode.MinorLeaf = connections[mainCurrentId].Node;
                     current.doubleNode.ConnectionKind = ConnectionKind.Strict;
                 }
                 else
@@ -58,78 +58,96 @@ namespace BoundTree.Helpers
             return resultDoubleNode;
         }
 
-//        private void RestoreRestNodes(DoubleNode<T> doubleNode, Tree<T> minorTree)
-//        {
-//            var stack = new Stack<DoubleNode<T>>();
-//            stack.Push(doubleNode);
-//            var markedNodes = new HashSet<DoubleNode<T>>();
-//
-//            while (stack.Any())
-//            {
-//                var currentNode = stack.Peek();
-//                if (!currentNode.Nodes.Any())
-//                {
-//                    markedNodes.Add(currentNode);
-//                    stack.Pop();
-//                }
-//                else if (currentNode.Nodes.All(markedNodes.Contains))
-//                {
-//                    var areTheSame = currentNode.Nodes.Any(node => node == currentNode.Nodes.First());
-//                    var commonParent = areTheSame
-//                        ? GetMostCommonParent(currentNode.Nodes)
-//                        : GetCommonParent(currentNode.Nodes, minorTree);
-//
-//                    if (currentNode.Id.Equals(commonParent.Id))
-//                    {
-//                        currentNode.NodeInfo = commonParent.NodeInfo;
-//                    }
-//                    else
-//                    {
-//                        //todo we should add the node in both trees
-//                    }
-//
-//                    markedNodes.Add(stack.Pop());
-//                }
-//                else
-//                    currentNode.Nodes.ForEach(stack.Push);
-//
-//            }
-//        }
+        private void RestoreRestNodes(DoubleNode<T> doubleNode)
+        {
+            var stack = new Stack<DoubleNode<T>>(new[] {doubleNode});
+            var markedNodes = new HashSet<DoubleNode<T>>();
 
-//        private Cortege<T> GetMostCommonParent(List<SingleNode<T>> nodes)
-//        {
-//            if (nodes.Any(node => node != nodes.First()))
-//                throw new InvalidOperationException("nodes are not the same");
-//
-//            var children = new List<SingleNode<T>>();
-//            nodes.ForEach(node => children.AddRange(node.Nodes));
-//
-//            Cortege<T> mostCommonParent = null;
-//            while (children.Distinct().Count() != 1)
-//            {
-//                mostCommonParent = new Cortege<T>(children.First().Id, children.First().NodeInfo);
-//                children.ForEach(node => node.NodeInfo = new EmptyNodeInfo());
-//                children.Clear();
-//                children.ForEach(node => children.AddRange(node.Nodes));
-//            }
-//            if (mostCommonParent == null)
-//                throw new InvalidOperationException("most common parent is null");
-//
-//            return mostCommonParent;
-//        }
-//
-//        private Cortege<T> GetCommonParent(IEnumerable<SingleNode<T>> nodes, SingleTree<T> minorSingleTree)
-//        {
-//            var filteredNodes = nodes.Where(node => !(node.NodeInfo is EmptyNodeInfo));
-//            if (!filteredNodes.Any())
-//                return new Cortege<T>(null, new EmptyNodeInfo());
-//
-//            var parentNodes = filteredNodes.Select(node => minorSingleTree.GetParent(node.Id));
-//
-//            if (parentNodes.All(node => node == parentNodes.First()))
-//                return new Cortege<T>(parentNodes.First().Id, parentNodes.First().NodeInfo);
-//
-//            return new Cortege<T>(null, new EmptyNodeInfo());
-//        }
+            while (stack.Any())
+            {
+                var currentNode = stack.Peek();
+                if (!currentNode.Nodes.Any())
+                {
+                    markedNodes.Add(currentNode);
+                    stack.Pop();
+                    continue;
+                }
+
+                if (!currentNode.Nodes.All(markedNodes.Contains))
+                {
+                    currentNode.Nodes.ForEach(stack.Push);
+                    continue;
+                }
+
+                RepairNode(currentNode);
+                markedNodes.Add(stack.Pop());
+            }
+        }
+
+
+        private void RepairNode(DoubleNode<T> doubleNode)
+        {
+            DoubleNode<T> commonParent;
+            if (doubleNode.MinorLeaf.NodeInfo.Type != "Empty")
+            {
+                commonParent = GetCommonMostParent(doubleNode.Nodes);
+                CleanUselessNodes(doubleNode, commonParent);
+                return;
+            }
+
+            commonParent = GetCommonMostParent(doubleNode.Nodes);
+
+            while (commonParent.LogicLevel < doubleNode.LogicLevel)
+            {
+                commonParent = GetCommonMostParent(commonParent.Nodes);
+            }
+
+            if (commonParent.LogicLevel == doubleNode.LogicLevel && commonParent.Type == doubleNode.Type)
+            {
+                doubleNode.MinorLeaf = commonParent.MinorLeaf;
+                return;
+            }
+
+            if (commonParent.LogicLevel > doubleNode.LogicLevel)
+            {
+                doubleNode.Shadow = commonParent.MinorLeaf;
+                return;
+            }
+
+            while (commonParent.LogicLevel <= doubleNode.LogicLevel)
+            {
+                commonParent = GetCommonMostParent(commonParent.Nodes);
+            }
+
+            doubleNode.Shadow = commonParent.MinorLeaf;
+        }
+
+        private void CleanUselessNodes(DoubleNode<T> node, DoubleNode<T> comparedNode)
+        {
+            var descendants = node.ToList();
+            foreach (var descendant in descendants)
+            {
+                descendant.Shadow = null;
+                var identicalNodes = descendants.FindAll(item => item.MinorLeaf == descendant.MinorLeaf);
+                if (identicalNodes.Count > 1)
+                {
+                    identicalNodes.ForEach(item => item.MinorLeaf = new Node<T>());
+                }
+
+                var tooHighLogicNodes = descendants.FindAll(item => descendant.LogicLevel < comparedNode.LogicLevel);
+                tooHighLogicNodes.ForEach(item => item.MinorLeaf = new Node<T>());
+
+                var tooHighDeepNodes = descendants
+                    .FindAll(item => descendant.LogicLevel == item.LogicLevel)
+                    .FindAll(item => descendant.Deep < item.Deep);
+
+                tooHighDeepNodes.ForEach(item => item.MinorLeaf = new Node<T>());
+            }
+        }
+
+        private DoubleNode<T> GetCommonMostParent(IList<DoubleNode<T>> nodes)
+        {
+            
+        }
     }
 }

@@ -7,9 +7,32 @@ namespace BoundTree
     {
         public Node<T> MainLeaf { get; set; }
         public Node<T> MinorLeaf { get; set; }
+        internal Node<T> Shadow { get; set; }
         public ConnectionKind ConnectionKind { get; set; }
         public List<DoubleNode<T>> Nodes { get; set; }
         public int Deep { get; set; }
+
+        public int LogicLevel
+        {
+            get
+            {
+                if (MinorLeaf.NodeInfo.Type == "Empty")
+                    return MainLeaf.NodeInfo.LogicLevel;
+
+                return MinorLeaf.NodeInfo.LogicLevel;
+            }
+        }
+
+        public string Type
+        {
+            get
+            {
+                if (MinorLeaf.NodeInfo.Type == "Empty")
+                    return MainLeaf.NodeInfo.Type;
+
+                return MainLeaf.NodeInfo.Type;
+            }
+        }
 
         public DoubleNode()
         {

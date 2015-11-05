@@ -15,6 +15,8 @@ namespace BoundTree.Helpers
             MinorSingleTree = minorSingleTree;
             BindingHelper = new BindingHelper();
             BindingHandler = new BindingHandler<T>();
+
+            Bind(mainSingleTree.Root.Node.Id, minorSingleTree.Root.Node.Id);
         }
 
         public bool Bind(T mainId, T minorId)
