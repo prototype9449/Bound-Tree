@@ -90,16 +90,16 @@ namespace BoundTree.Helpers
             DoubleNode<T> commonParent;
             if (doubleNode.MinorLeaf.NodeInfo.Type != "Empty")
             {
-                commonParent = GetCommonMostParent(doubleNode.Nodes);
+                commonParent = GetMostCommonParent(doubleNode.Nodes);
                 CleanUselessNodes(doubleNode, commonParent);
                 return;
             }
 
-            commonParent = GetCommonMostParent(doubleNode.Nodes);
+            commonParent = GetMostCommonParent(doubleNode.Nodes);
 
             while (commonParent.LogicLevel < doubleNode.LogicLevel)
             {
-                commonParent = GetCommonMostParent(commonParent.Nodes);
+                commonParent = GetMostCommonParent(commonParent.Nodes);
             }
 
             if (commonParent.LogicLevel == doubleNode.LogicLevel && commonParent.Type == doubleNode.Type)
@@ -116,7 +116,7 @@ namespace BoundTree.Helpers
 
             while (commonParent.LogicLevel <= doubleNode.LogicLevel)
             {
-                commonParent = GetCommonMostParent(commonParent.Nodes);
+                commonParent = GetMostCommonParent(commonParent.Nodes);
             }
 
             doubleNode.Shadow = commonParent.MinorLeaf;
@@ -145,7 +145,7 @@ namespace BoundTree.Helpers
             }
         }
 
-        private DoubleNode<T> GetCommonMostParent(IList<DoubleNode<T>> nodes)
+        private DoubleNode<T> GetMostCommonParent(IList<DoubleNode<T>> nodes)
         {
             
         }
