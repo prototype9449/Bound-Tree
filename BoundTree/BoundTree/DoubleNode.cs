@@ -27,9 +27,9 @@ namespace BoundTree
             MainLeaf = mainLeaf;
         }
 
-        public DoubleNode(SingleNode<T> singleNode) : this(new Node<T>(singleNode))
-        { }
-        
+        public DoubleNode(SingleNode<T> singleNode) : this(singleNode.Node)
+        {
+        }
 
         public void Add(DoubleNode<T> doubleNode)
         {

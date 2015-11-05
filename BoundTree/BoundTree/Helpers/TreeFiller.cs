@@ -14,7 +14,6 @@ namespace BoundTree.Helpers
             _bindContoller = bindContoller;
         }
 
-
         public DoubleNode<T> GetFilledTree(SingleTree<T> mainSingleTree, SingleTree<T> minorSingleTree)
         {
             var clonedMainTree = mainSingleTree.Clone();
@@ -28,9 +27,9 @@ namespace BoundTree.Helpers
             var dictionary = _bindContoller.BindingHandler.BoundNodes
                 .ToDictionary(pair => pair.Key, pair => minorSingleTree.GetById(pair.Value));
 
-            var result = new DoubleNode<T>(new Node<T>(singleTree.Root));
-            var root = new { node = singleTree.Root, doubleNode = result };
-            var queue = new Queue<dynamic>(root);
+            var result  = new DoubleNode<T>(singleTree.Root);
+            var root    = new {node = singleTree.Root, doubleNode = result};
+            var queue   = new Queue<dynamic>(new[] {root});
 
             while (queue.Any())
             {
@@ -39,19 +38,19 @@ namespace BoundTree.Helpers
 
                 if (dictionary.ContainsKey(mainCurrentId))
                 {
-                    current.doubleNode.MinorLeaf = new Cortege<T>(dictionary[mainCurrentId].Id, dictionary[mainCurrentId].NodeInfo);
+                    current.doubleNode.MinorLeaf = dictionary[mainCurrentId];
                     current.doubleNode.ConnectionKind = ConnectionKind.Strict;
                 }
                 else
                 {
-                    current.doubleNode.MinorLeaf = new Cortege<T>(current.doubleNode.MainLeaf.Id, new EmptyNodeInfo());
+                    current.doubleNode.MinorLeaf = new Node<T>(current.doubleNode.MainLeaf.Id, -1, new EmptyNodeInfo());
                     current.doubleNode.ConnectionKind = ConnectionKind.None;
                 }
 
                 foreach (var node in current.node.Nodes)
                 {
                     var doubleNode = new DoubleNode<T>(node);
-                    queue.Enqueue(new { node, doubleNode});
+                    queue.Enqueue(new {node, doubleNode});
                     current.doubleNode.Add(doubleNode);
                 }
             }
@@ -97,40 +96,40 @@ namespace BoundTree.Helpers
 //            }
 //        }
 
-        private Cortege<T> GetMostCommonParent(List<SingleNode<T>> nodes)
-        {
-            if (nodes.Any(node => node != nodes.First()))
-                throw new InvalidOperationException("nodes are not the same");
-
-            var children = new List<SingleNode<T>>();
-            nodes.ForEach(node => children.AddRange(node.Nodes));
-
-            Cortege<T> mostCommonParent = null;
-            while (children.Distinct().Count() != 1)
-            {
-                mostCommonParent = new Cortege<T>(children.First().Id, children.First().NodeInfo);
-                children.ForEach(node => node.NodeInfo = new EmptyNodeInfo());
-                children.Clear();
-                children.ForEach(node => children.AddRange(node.Nodes));
-            }
-            if (mostCommonParent == null)
-                throw new InvalidOperationException("most common parent is null");
-
-            return mostCommonParent;
-        }
-
-        private Cortege<T> GetCommonParent(IEnumerable<SingleNode<T>> nodes, SingleTree<T> minorSingleTree)
-        {
-            var filteredNodes = nodes.Where(node => !(node.NodeInfo is EmptyNodeInfo));
-            if (!filteredNodes.Any())
-                return new Cortege<T>(null, new EmptyNodeInfo());
-
-            var parentNodes = filteredNodes.Select(node => minorSingleTree.GetParent(node.Id));
-
-            if (parentNodes.All(node => node == parentNodes.First()))
-                return new Cortege<T>(parentNodes.First().Id, parentNodes.First().NodeInfo);
-
-            return new Cortege<T>(null, new EmptyNodeInfo());
-        }
+//        private Cortege<T> GetMostCommonParent(List<SingleNode<T>> nodes)
+//        {
+//            if (nodes.Any(node => node != nodes.First()))
+//                throw new InvalidOperationException("nodes are not the same");
+//
+//            var children = new List<SingleNode<T>>();
+//            nodes.ForEach(node => children.AddRange(node.Nodes));
+//
+//            Cortege<T> mostCommonParent = null;
+//            while (children.Distinct().Count() != 1)
+//            {
+//                mostCommonParent = new Cortege<T>(children.First().Id, children.First().NodeInfo);
+//                children.ForEach(node => node.NodeInfo = new EmptyNodeInfo());
+//                children.Clear();
+//                children.ForEach(node => children.AddRange(node.Nodes));
+//            }
+//            if (mostCommonParent == null)
+//                throw new InvalidOperationException("most common parent is null");
+//
+//            return mostCommonParent;
+//        }
+//
+//        private Cortege<T> GetCommonParent(IEnumerable<SingleNode<T>> nodes, SingleTree<T> minorSingleTree)
+//        {
+//            var filteredNodes = nodes.Where(node => !(node.NodeInfo is EmptyNodeInfo));
+//            if (!filteredNodes.Any())
+//                return new Cortege<T>(null, new EmptyNodeInfo());
+//
+//            var parentNodes = filteredNodes.Select(node => minorSingleTree.GetParent(node.Id));
+//
+//            if (parentNodes.All(node => node == parentNodes.First()))
+//                return new Cortege<T>(parentNodes.First().Id, parentNodes.First().NodeInfo);
+//
+//            return new Cortege<T>(null, new EmptyNodeInfo());
+//        }
     }
 }

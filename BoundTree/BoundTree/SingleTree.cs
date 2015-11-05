@@ -9,13 +9,13 @@ namespace BoundTree
     [Serializable]
     public class SingleTree<T> where T : class, IEquatable<T>
     {
+        public SingleNode<T> Root { get; set; }
+
         public SingleTree(SingleNode<T> root)
         {
             Root = root;
             Root.SetDeep(-1);
         }
-
-        public SingleNode<T> Root { get; set; }
 
         public SingleNode<T> GetById(T id)
         {
