@@ -7,7 +7,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 namespace BoundTree
 {
     [Serializable]
-    public class SingleTree<T> where T : class, IEquatable<T>
+    public class SingleTree<T> where T : class, IEquatable<T>, new()
     {
         public SingleNode<T> Root { get; set; }
 

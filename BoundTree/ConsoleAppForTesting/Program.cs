@@ -1,4 +1,5 @@
-﻿using BoundTree;
+﻿using System;
+using BoundTree;
 using BoundTree.Helpers;
 using BoundTree.NodeInfo;
 
@@ -8,65 +9,67 @@ namespace ConsoleAppForTesting
     {
         private static void Main(string[] args)
         {
-            var bindingHandler = new BindingHandler<string>();
+            var bindingHandler = new BindingHandler<StringId>();
             var mainTree = GetMainTree(bindingHandler);
             var minorTree = GetMinorTree(bindingHandler);
 
-            var bindController = new BindContoller<string>(mainTree, minorTree);
+            var bindController = new BindContoller<StringId>(mainTree, minorTree);
 
             new ConsoleController(bindController).Start();
         }
 
-        public static SingleTree<string> GetMainTree(BindingHandler<string> bindingHandler)
+        public static SingleTree<StringId> GetMainTree(BindingHandler<StringId> bindingHandler)
         {
-            var fabrica = new NodeInfoFabrica();
+            var nodeInfoFabrica = new NodeInfoFabrica();
+            var singleNodeFabrica = new SingleNodeFabrica();
 
-            var tree = new SingleTree<string>(new SingleNode<string>("A", fabrica.Root, new[]
+            var tree = singleNodeFabrica.GetNode("A", nodeInfoFabrica.Root, new[]
             {
-                new SingleNode<string>("B", fabrica.SingleQustion),
-                new SingleNode<string>("C", fabrica.GridQuestion, new[]
+                 singleNodeFabrica.GetNode("B", nodeInfoFabrica.SingleQustion),
+                 singleNodeFabrica.GetNode("C", nodeInfoFabrica.GridQuestion, new[]
                 {
-                    new SingleNode<string>("D", fabrica.OpenTextInfo),
-                    new SingleNode<string>("E", fabrica.SingleQustion)
+                     singleNodeFabrica.GetNode("D", nodeInfoFabrica.OpenTextInfo),
+                     singleNodeFabrica.GetNode("E", nodeInfoFabrica.SingleQustion)
                 }),
-                new SingleNode<string>("F", fabrica.GridQuestion, new[]
+                 singleNodeFabrica.GetNode("F", nodeInfoFabrica.GridQuestion, new[]
                 {
-                    new SingleNode<string>("G", fabrica.SingleQustion),
-                    new SingleNode<string>("H", fabrica.GridQuestion, new[]
+                     singleNodeFabrica.GetNode("G", nodeInfoFabrica.SingleQustion),
+                     singleNodeFabrica.GetNode("H", nodeInfoFabrica.GridQuestion, new[]
                     {
-                        new SingleNode<string>("T", fabrica.SingleQustion),
-                        new SingleNode<string>("R", fabrica.SingleQustion)
+                         singleNodeFabrica.GetNode("T", nodeInfoFabrica.SingleQustion),
+                         singleNodeFabrica.GetNode("R", nodeInfoFabrica.SingleQustion)
                     })
                 })
-            }));
+            });
 
-            return tree;
+            return new SingleTree<StringId>(tree);
         }
 
-        public static SingleTree<string> GetMinorTree(BindingHandler<string> bindingHandler)
+        public static SingleTree<StringId> GetMinorTree(BindingHandler<StringId> bindingHandler)
         {
-            var fabrica = new NodeInfoFabrica();
+            var nodeInfoFabrica = new NodeInfoFabrica();
+             var singleNodeFabrica = new SingleNodeFabrica();
 
-            var tree = new SingleTree<string>(new SingleNode<string>("A", fabrica.Root, new[]
+             var tree = singleNodeFabrica.GetNode("A", nodeInfoFabrica.Root, new[]
             {
-                new SingleNode<string>("B", fabrica.SingleQustion),
-                new SingleNode<string>("C", fabrica.GridQuestion, new[]
+                 singleNodeFabrica.GetNode("B", nodeInfoFabrica.SingleQustion),
+                 singleNodeFabrica.GetNode("C", nodeInfoFabrica.GridQuestion, new[]
                 {
-                    new SingleNode<string>("D", fabrica.OpenTextInfo),
-                    new SingleNode<string>("E", fabrica.SingleQustion)
+                     singleNodeFabrica.GetNode("D", nodeInfoFabrica.OpenTextInfo),
+                     singleNodeFabrica.GetNode("E", nodeInfoFabrica.SingleQustion)
                 }),
-                new SingleNode<string>("F", fabrica.GridQuestion, new[]
+                 singleNodeFabrica.GetNode("F", nodeInfoFabrica.GridQuestion, new[]
                 {
-                    new SingleNode<string>("G", fabrica.SingleQustion),
-                    new SingleNode<string>("H", fabrica.GridQuestion, new[]
+                     singleNodeFabrica.GetNode("G", nodeInfoFabrica.SingleQustion),
+                     singleNodeFabrica.GetNode("H", nodeInfoFabrica.GridQuestion, new[]
                     {
-                        new SingleNode<string>("T", fabrica.SingleQustion),
-                        new SingleNode<string>("R", fabrica.SingleQustion)
+                         singleNodeFabrica.GetNode("T", nodeInfoFabrica.SingleQustion),
+                         singleNodeFabrica.GetNode("R", nodeInfoFabrica.SingleQustion)
                     })
                 })
-            }));
+            });
 
-            return tree;
+            return new SingleTree<StringId>(tree);
         }
     }
 }

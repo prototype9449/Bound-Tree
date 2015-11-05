@@ -2,7 +2,7 @@
 
 namespace BoundTree.Helpers
 {
-    public class BindContoller<T> where T : class, IEquatable<T>
+    public class BindContoller<T> where T : class, IEquatable<T>, new()
     {
         public SingleTree<T> MainSingleTree { get; private set; }
         public SingleTree<T> MinorSingleTree { get; private set; }
@@ -25,7 +25,7 @@ namespace BoundTree.Helpers
             if (mainNode == null || minorNode == null)
                 return false;
 
-            if (BindingHelper.Bind(mainNode.NodeInfo, minorNode.NodeInfo))
+            if (BindingHelper.Bind(mainNode.Node.NodeInfo, minorNode.Node.NodeInfo))
             {
                 BindingHandler.HandleBinding(mainNode, minorNode);
             }

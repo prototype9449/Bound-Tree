@@ -5,7 +5,7 @@ using System.Text;
 
 namespace BoundTree.Helpers
 {
-    public class ConsoleTreeWriter<T> where T : class, IEquatable<T>
+    public class ConsoleTreeWriter<T> where T : class, IEquatable<T>, new()
     {
         public void WriteToConsoleAsTrees(DoubleNode<T> tree)
         {
@@ -52,8 +52,8 @@ namespace BoundTree.Helpers
 
                 topElement.Nodes.ForEach(node => stack.Push(node));
 
-                var line = string.Format("{0}{1} ({2})", new string(' ', topElement.Deep*2),
-                    topElement.NodeInfo.GetType().Name, topElement.Id);
+                var line = string.Format("{0}{1} ({2})", new string(' ', topElement.Node.Deep*2),
+                    topElement.Node.NodeInfo.GetType().Name, topElement.Node.Id);
                 lines.Add(line);
             }
 
@@ -86,7 +86,7 @@ namespace BoundTree.Helpers
 
                 nodeLines.Add(line);
 
-                foreach (var node in topElement.Nodes.OrderByDescending(node => isLeft ? node.MainLeaf.Id : node.MinorLeaf.Id))
+                foreach (var node in topElement.Nodes.OrderByDescending(node => isLeft ? node.MainLeaf.Id.ToString() : node.MinorLeaf.Id.ToString()))
                 {
                     stack.Push(node);
                 }

@@ -5,9 +5,9 @@ namespace BoundTree.Helpers
 {
     public class ConsoleController
     {
-        private readonly BindContoller<string> _bindController;
+        private readonly BindContoller<StringId> _bindController;
 
-        public ConsoleController(BindContoller<string> bindController)
+        public ConsoleController(BindContoller<StringId> bindController)
         {
             _bindController = bindController;
         }
@@ -19,7 +19,7 @@ namespace BoundTree.Helpers
                 DisplayTree();
                 Console.WriteLine("Type 'a' to Add, 'r' to Remove, 'e' to exit");
                 var action = Console.ReadLine();
-                KeyValuePair<string, string> ids = new KeyValuePair<string, string>();
+                KeyValuePair<StringId, StringId> ids = new KeyValuePair<StringId, StringId>();
                 switch (action)
                 {
                     case "r" :
@@ -42,12 +42,12 @@ namespace BoundTree.Helpers
         private void DisplayTree()
         {
             Console.Clear();
-            var tree = new TreeFiller<string>(_bindController).GetFilledTree(_bindController.MainSingleTree, _bindController.MinorSingleTree);
-            new ConsoleTreeWriter<string>().WriteToConsoleAsTrees(_bindController.MainSingleTree, _bindController.MinorSingleTree);
-            new ConsoleTreeWriter<string>().WriteToConsoleAsTrees(tree);
+            var tree = new TreeFiller<StringId>(_bindController).GetFilledTree();
+            new ConsoleTreeWriter<StringId>().WriteToConsoleAsTrees(_bindController.MainSingleTree, _bindController.MinorSingleTree);
+            new ConsoleTreeWriter<StringId>().WriteToConsoleAsTrees(tree);
         }
 
-        private KeyValuePair<string,string> GetIds(bool once)
+        private KeyValuePair<StringId, StringId> GetIds(bool once)
         {
             var main = "";
             var minor = "";
@@ -63,8 +63,8 @@ namespace BoundTree.Helpers
                 Console.Write("Minor :");
                 minor = Console.ReadLine();
             }
-            
-            return new KeyValuePair<string, string>(main, minor);
+
+            return new KeyValuePair<StringId, StringId>(new StringId(main), new StringId(minor));
         }
     }
 }

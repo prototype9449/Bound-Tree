@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace BoundTree.Helpers
 {
-    public class Pair<T> where T : class, IEquatable<T>
+    public class Pair<T> where T : class, IEquatable<T>, new()
     {
         public DoubleNode<T> DoubleNode { get; set; } 
 
@@ -17,7 +17,7 @@ namespace BoundTree.Helpers
 
     }
 
-    struct Table<T> where T :class, IEquatable<T>
+    struct Table<T> where T :class, IEquatable<T>, new()
     {
         public Table(Pair<T> parents, IList<Pair<T>> childrens)
             : this()
@@ -30,7 +30,7 @@ namespace BoundTree.Helpers
         public IList<Pair<T>> Childrens { get; set; }
     }
 
-    public class ConsoleTableWriter<T> where T : class, IEquatable<T>
+    public class ConsoleTableWriter<T> where T : class, IEquatable<T>, new()
     {
         public void WriteToConsoleAsTables(DoubleNode<T> tree) 
         {

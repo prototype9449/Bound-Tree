@@ -1,12 +1,21 @@
-﻿using BoundTree.NodeInfo;
+﻿using System;
+using BoundTree.NodeInfo;
 
 namespace BoundTree
 {
-    public class Node<T>
+    [Serializable]
+    public class Node<T> where T : new()
     {
         public int Deep { get; internal set; }
         public INodeInfo NodeInfo { get; protected set; }
         public T Id { get; protected set; }
+
+        public Node()
+        {
+            Id = new T();
+            NodeInfo = new EmptyNodeInfo();
+            Deep = -1;
+        }
 
         public Node(T id, int deep, INodeInfo nodeInfo)
         {

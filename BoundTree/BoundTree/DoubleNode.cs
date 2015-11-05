@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace BoundTree
 {
-    public class DoubleNode<T> where T : class, IEquatable<T>
+    public class DoubleNode<T> where T : class, IEquatable<T>, new()
     {
         public Node<T> MainLeaf { get; set; }
         public Node<T> MinorLeaf { get; set; }

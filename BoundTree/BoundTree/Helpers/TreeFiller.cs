@@ -5,7 +5,7 @@ using BoundTree.NodeInfo;
 
 namespace BoundTree.Helpers
 {
-    public class TreeFiller<T> where T : class, IEquatable<T>
+    public class TreeFiller<T> where T : class, IEquatable<T>, new()
     {
         private readonly BindContoller<T> _bindContoller;
 
@@ -14,21 +14,21 @@ namespace BoundTree.Helpers
             _bindContoller = bindContoller;
         }
 
-        public DoubleNode<T> GetFilledTree(SingleTree<T> mainSingleTree, SingleTree<T> minorSingleTree)
+        public DoubleNode<T> GetFilledTree()
         {
-            var clonedMainTree = mainSingleTree.Clone();
-            var doubleNode = GetDoubleNode(clonedMainTree, minorSingleTree);
+            var clonedMainTree = _bindContoller.MainSingleTree.Clone();
+            var connections = _bindContoller.BindingHandler.BoundNodes
+                .ToDictionary(pair => pair.Key, pair => _bindContoller.MinorSingleTree.GetById(pair.Value));
 
+            var doubleNode = GetDoubleNode(clonedMainTree, connections);
             return doubleNode;
         }
 
-        private DoubleNode<T> GetDoubleNode(SingleTree<T> singleTree, SingleTree<T> minorSingleTree)
+        private DoubleNode<T> GetDoubleNode(SingleTree<T> mainTree, Dictionary<T, SingleNode<T>> connections)
         {
-            var dictionary = _bindContoller.BindingHandler.BoundNodes
-                .ToDictionary(pair => pair.Key, pair => minorSingleTree.GetById(pair.Value));
+            var resultDoubleNode = new DoubleNode<T>(mainTree.Root);
 
-            var result  = new DoubleNode<T>(singleTree.Root);
-            var root    = new {node = singleTree.Root, doubleNode = result};
+            var root = new { node = mainTree.Root, doubleNode = resultDoubleNode };
             var queue   = new Queue<dynamic>(new[] {root});
 
             while (queue.Any())
@@ -36,9 +36,9 @@ namespace BoundTree.Helpers
                 var current = queue.Dequeue();
                 var mainCurrentId = current.doubleNode.MainLeaf.Id;
 
-                if (dictionary.ContainsKey(mainCurrentId))
+                if (connections.ContainsKey(mainCurrentId))
                 {
-                    current.doubleNode.MinorLeaf = dictionary[mainCurrentId];
+                    current.doubleNode.MinorLeaf = connections[mainCurrentId];
                     current.doubleNode.ConnectionKind = ConnectionKind.Strict;
                 }
                 else
@@ -55,7 +55,7 @@ namespace BoundTree.Helpers
                 }
             }
 
-            return result;
+            return resultDoubleNode;
         }
 
 //        private void RestoreRestNodes(DoubleNode<T> doubleNode, Tree<T> minorTree)

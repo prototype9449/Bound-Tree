@@ -5,7 +5,7 @@ using BoundTree.NodeInfo;
 namespace BoundTree
 {
     [Serializable]
-    public class SingleNode<T>
+    public class SingleNode<T> where T : new()
     {
         public Node<T> Node { get; protected set; }
         public List<SingleNode<T>> Nodes { get; internal set; }
