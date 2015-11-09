@@ -37,24 +37,28 @@ namespace BoundTree.Logic
             return null;
         }
 
+        private Stack<TAnon> GetStack<TAnon>(TAnon item)
+        {
+            return new Stack<TAnon>(new[] { item });
+        }
+
         public SingleNode<T> GetParent(T id)
         {
-            var queue = new Stack<dynamic>();
-            queue.Push(new { Node = Root, ParentId = -1});
+            var queue = GetStack(new {SingleNode = Root, ParentId = new T()});
             while (queue.Count != 0)
             {
                 var current = queue.Pop();
-                if (current.Node.Id.Equals(id))
+                if (current.SingleNode.Node.Id.Equals(id))
                 {
-                    if (current.ParentId == -1)
+                    if (current.ParentId.Equals(new T()))
                         return null;
 
                     return GetById(current.ParentId);
                 }
 
-                foreach (var node in current.Nodes)
+                foreach (var node in current.SingleNode.Nodes)
                 {
-                    queue.Push(new { Node = node, ParentId = current.Node.Id });
+                    queue.Push(new { SingleNode = node, ParentId = current.SingleNode.Node.Id });
                 }
             }
 

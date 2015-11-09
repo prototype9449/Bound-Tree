@@ -32,7 +32,11 @@ namespace BoundTree.Logic
 
         public Node<T> GetMinorValue()
         {
-            return MinorLeaf ?? Shadow;
+            if (MinorLeaf.IsEmpty())
+            {
+                return Shadow;
+            }
+            return MinorLeaf;
         }
         
         public DoubleNode()

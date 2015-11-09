@@ -49,7 +49,7 @@ namespace BoundTree.Helpers
                 }
                 else
                 {
-                    current.doubleNode.MinorLeaf = new Node<T>(current.doubleNode.MainLeaf.Id, -1, new EmptyNodeInfo());
+                    current.doubleNode.MinorLeaf = new Node<T>(new T(), -1, new EmptyNodeInfo());
                     current.doubleNode.ConnectionKind = ConnectionKind.None;
                 }
 
@@ -102,13 +102,14 @@ namespace BoundTree.Helpers
             }
 
             commonParent = GetMostCommonParent(doubleNode.Nodes);
+            if(commonParent.IsEmpty()) return;
 
             while (commonParent.LogicLevel < doubleNode.LogicLevel)
             {
                 commonParent = GetMostCommonParent(commonParent);
             }
 
-            if (commonParent.LogicLevel == doubleNode.LogicLevel && commonParent.NodeInfo.GetType() == doubleNode.MinorLeaf.NodeInfo.GetType())
+            if (commonParent.LogicLevel == doubleNode.LogicLevel && commonParent.NodeType == doubleNode.MainLeaf.NodeType)
             {
                 doubleNode.MinorLeaf = commonParent;
                 return;

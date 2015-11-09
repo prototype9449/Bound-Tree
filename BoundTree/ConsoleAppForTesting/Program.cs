@@ -15,7 +15,7 @@ namespace ConsoleAppForTesting
             var minorTree = GetMinorTree(bindingHandler);
 
             var bindController = new BindContoller<StringId>(mainTree, minorTree);
-
+            bindController.Bind(new StringId("D"), new StringId("D"));
             new ConsoleController(bindController).Start();
         }
 
