@@ -34,7 +34,9 @@ namespace BoundTree.Helpers
                     ? firstTreeLines[i]
                     : new string(' ', firstTreeLines.First().Length);
 
-                var secondPart = i < secondTreeLines.Count ? secondTreeLines[i] : "";
+                var secondPart = i < secondTreeLines.Count
+                    ? secondTreeLines[i]
+                    : "";
 
                 stringBuilder.AppendLine(firstPart + new String(' ', 10) + secondPart);
                 stringBuilder.AppendLine();
@@ -42,9 +44,9 @@ namespace BoundTree.Helpers
             Console.WriteLine(stringBuilder);
         }
 
-        private List<string> GetNodeLines(SingleTree<T>  singleTree)
+        private List<string> GetNodeLines(SingleTree<T> singleTree)
         {
-            var stack = new Stack<SingleNode<T>>(new []{ singleTree.Root });
+            var stack = new Stack<SingleNode<T>>(new[] { singleTree.Root });
             var lines = new List<string>();
 
             while (stack.Any())
@@ -53,7 +55,7 @@ namespace BoundTree.Helpers
 
                 topElement.Nodes.ForEach(node => stack.Push(node));
 
-                var line = string.Format("{0}{1} ({2})", new string(' ', topElement.Node.Deep*2),
+                var line = string.Format("{0}{1} ({2})", new string(' ', topElement.Node.Deep * 2),
                     topElement.Node.NodeInfo.GetType().Name, topElement.Node.Id);
                 lines.Add(line);
             }
@@ -61,16 +63,16 @@ namespace BoundTree.Helpers
             var maxLength = lines.Max(line => line.Length);
             return lines.Select(line => line += new string(' ', maxLength - line.Length)).ToList();
         }
-        
-        private List<string> GetNodeLines(DoubleNode<T>  tree, bool isLeft)
+
+        private List<string> GetNodeLines(DoubleNode<T> tree, bool isLeft)
         {
             var nodeLines = new List<string>();
             var stack = new Stack<DoubleNode<T>>();
             stack.Push(tree);
 
-            Func<DoubleNode<T>, string> getNodeName = (node) => isLeft 
-                ? node.MainLeaf.NodeInfo.GetType().Name + '(' + node.MainLeaf.Id + ')' 
-                : "(" + node.MinorLeaf.Id + ')' + node.MinorLeaf.NodeInfo.GetType().Name;
+            Func<DoubleNode<T>, string> getNodeName = (node) => isLeft
+                ? node.MainLeaf.NodeType.Name + '(' + node.MainLeaf.Id + ')'
+                : "(" + node.MinorLeaf.Id + ')' + node.MinorLeaf.NodeType.Name;
 
             while (stack.Any())
             {
@@ -78,9 +80,18 @@ namespace BoundTree.Helpers
 
                 var maxDeep = tree.ToList().Max(node => node.Deep);
 
-                var space = isLeft ? new string(' ', topElement.Deep * 3) : new String('-', (maxDeep - topElement.Deep) * 3);
+                var space = isLeft
+                    ? new string(' ', topElement.Deep * 3)
+                    : new String('-', (maxDeep - topElement.Deep) * 3);
 
-                var additionalSeparator = topElement.ConnectionKind == ConnectionKind.Strict ? isLeft ? '<' : '>' : '-';
+                var additionalSeparator = '-';
+                if (topElement.ConnectionKind == ConnectionKind.Strict)
+                {
+                    additionalSeparator = isLeft 
+                        ? '<' 
+                        : '>';
+                }
+
                 var line = isLeft
                     ? space + getNodeName(topElement) + additionalSeparator
                     : space + additionalSeparator + getNodeName(topElement);
@@ -97,12 +108,12 @@ namespace BoundTree.Helpers
 
             nodeLines =
                 nodeLines.Select(
-                    line =>
-                        isLeft
+                    line => isLeft
                             ? line += new String('-', maxLength - line.Length)
-                            : line += new String(' ', maxLength - line.Length)).ToList();
+                            : line += new String(' ', maxLength - line.Length)
+                                ).ToList();
 
             return nodeLines;
-        } 
+        }
     }
 }

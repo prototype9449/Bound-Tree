@@ -27,18 +27,20 @@ namespace BoundTree.Helpers
 
             var doubleNode = GetDoubleNode(clonedMainTree, connections);
             RestoreRestNodes(doubleNode);
-            var doubleNodes =  doubleNode.ToList();
-            doubleNodes.ForEach(node => node.Deep = 0);
-            doubleNode.SetDeep(-1);
             return doubleNode;
         }
+
+        private Queue<Ttype> GetQueue<Ttype>(Ttype item)
+        {
+            return new Queue<Ttype>(new[] { item });
+        } 
 
         private DoubleNode<T> GetDoubleNode(SingleTree<T> mainTree, Dictionary<T, SingleNode<T>> connections)
         {
             var resultDoubleNode = new DoubleNode<T>(mainTree.Root);
 
             var root = new { node = mainTree.Root, doubleNode = resultDoubleNode };
-            var queue = new Queue<dynamic>(new[] { root });
+            var queue = GetQueue(root);
 
             while (queue.Any())
             {
@@ -179,7 +181,7 @@ namespace BoundTree.Helpers
                 {
                     return doubleNode.Shadow;
                 }
-                //if node equals Root
+                //if node equals to Root
                 if (doubleNode.LogicLevel == 0)
                 {
                     return doubleNode.MinorLeaf;
@@ -188,7 +190,24 @@ namespace BoundTree.Helpers
                 return _minorTree.GetParent(doubleNode.MinorLeaf.Id).Node;
             }
 
-            List<List<Node<T>>> setRouts = new List<List<Node<T>>>();
+            var routes = GetRoutes(notEmptyNodes);
+
+            var minLength = routes.Min(nodes => nodes.Count);
+            for (int i = 0; i < minLength; i++)
+            {
+                var areDifferent = routes.Select(nodes => nodes[i]).Any(node => node.Id != routes.First()[i].Id);
+                if (areDifferent)
+                {
+                    return routes.First()[i - 1];
+                }
+            }
+
+            return routes.First()[minLength - 1];
+        }
+
+        private List<List<Node<T>>> GetRoutes(List<DoubleNode<T>> notEmptyNodes)
+        {
+           var setRouts = new List<List<Node<T>>>();
             foreach (var doubleNode in notEmptyNodes)
             {
                 var route = new List<Node<T>>();
@@ -198,8 +217,8 @@ namespace BoundTree.Helpers
                 {
                     route.Add(parentNode.Node);
                     parentNode = _minorTree.GetParent(parentNode.Node.Id);
-                } 
-               
+                }
+
                 route.Reverse();
 
                 var childNode = doubleNode.GetLonelyChild();
@@ -216,17 +235,7 @@ namespace BoundTree.Helpers
 
                 setRouts.Add(route);
             }
-
-            var minLength = setRouts.Min(nodes => nodes.Count);
-            for (int i = 0; i < minLength; i++)
-            {
-                if (setRouts.Any(nodes => nodes[i].Id != nodes.First().Id))
-                {
-                    return setRouts.First()[i - 1];
-                }
-            }
-
-            return setRouts.First()[minLength - 1];
+            return setRouts;
         }
     }
 }

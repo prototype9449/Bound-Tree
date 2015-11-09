@@ -37,17 +37,17 @@ namespace BoundTree.Logic
             return null;
         }
 
-        private Stack<TAnon> GetStack<TAnon>(TAnon item)
+        private Stack<Ttype> GetStack<Ttype>(Ttype item)
         {
-            return new Stack<TAnon>(new[] { item });
+            return new Stack<Ttype>(new[] { item });
         }
 
         public SingleNode<T> GetParent(T id)
         {
-            var queue = GetStack(new {SingleNode = Root, ParentId = new T()});
-            while (queue.Count != 0)
+            var stack = GetStack(new { SingleNode = Root, ParentId = new T() });
+            while (stack.Count != 0)
             {
-                var current = queue.Pop();
+                var current = stack.Pop();
                 if (current.SingleNode.Node.Id.Equals(id))
                 {
                     if (current.ParentId.Equals(new T()))
@@ -58,7 +58,7 @@ namespace BoundTree.Logic
 
                 foreach (var node in current.SingleNode.Nodes)
                 {
-                    queue.Push(new { SingleNode = node, ParentId = current.SingleNode.Node.Id });
+                    stack.Push(new { SingleNode = node, ParentId = current.SingleNode.Node.Id });
                 }
             }
 
@@ -73,7 +73,7 @@ namespace BoundTree.Logic
             {
                 formatter.Serialize(stream, this);
                 stream.Seek(0, SeekOrigin.Begin);
-                return (SingleTree<T>) formatter.Deserialize(stream);
+                return (SingleTree<T>)formatter.Deserialize(stream);
             }
         }
     }

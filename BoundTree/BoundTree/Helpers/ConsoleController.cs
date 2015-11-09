@@ -20,7 +20,7 @@ namespace BoundTree.Helpers
                 DisplayTree();
                 Console.WriteLine("Type 'a' to Add, 'r' to Remove, 'e' to exit");
                 var action = Console.ReadLine();
-                KeyValuePair<StringId, StringId> ids = new KeyValuePair<StringId, StringId>();
+                var ids = new KeyValuePair<StringId, StringId>();
                 switch (action)
                 {
                     case "r" :

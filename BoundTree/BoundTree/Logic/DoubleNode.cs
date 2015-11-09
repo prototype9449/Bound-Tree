@@ -14,6 +14,31 @@ namespace BoundTree.Logic
         public List<DoubleNode<T>> Nodes { get; set; }
         public int Deep { get; set; }
 
+        public DoubleNode()
+        {
+            MainLeaf = new Node<T>(new T(), -1, new EmptyNodeInfo());
+            MinorLeaf = new Node<T>(new T(), -1, new EmptyNodeInfo());
+            Nodes = new List<DoubleNode<T>>();
+        }
+
+        public DoubleNode(Node<T> mainLeaf, Node<T> minorLeaf)
+            : this()
+        {
+            MainLeaf = mainLeaf;
+            MinorLeaf = minorLeaf;
+        }
+
+        public DoubleNode(Node<T> mainLeaf)
+            : this()
+        {
+            MainLeaf = mainLeaf;
+        }
+
+        public DoubleNode(SingleNode<T> singleNode)
+            : this(singleNode.Node)
+        {
+        }
+
         public int LogicLevel
         {
             get
@@ -37,28 +62,6 @@ namespace BoundTree.Logic
                 return Shadow;
             }
             return MinorLeaf;
-        }
-        
-        public DoubleNode()
-        {
-            MainLeaf = new Node<T>(new T(), -1, new EmptyNodeInfo());
-            MinorLeaf = new Node<T>(new T(), -1, new EmptyNodeInfo());
-            Nodes = new List<DoubleNode<T>>();
-        }
-
-        public DoubleNode(Node<T> mainLeaf, Node<T> minorLeaf) : this()
-        {
-            MainLeaf = mainLeaf;
-            MinorLeaf = minorLeaf;
-        }
-
-        public DoubleNode(Node<T> mainLeaf) : this()
-        {
-            MainLeaf = mainLeaf;
-        }
-
-        public DoubleNode(SingleNode<T> singleNode) : this(singleNode.Node)
-        {
         }
 
         public void Add(DoubleNode<T> doubleNode)
@@ -84,6 +87,17 @@ namespace BoundTree.Logic
             return nodes;
         }
 
+        internal void SetDeep(int initialDeep)
+        {
+            Deep = initialDeep + 1;
+            Nodes.ForEach(node => node.SetDeep(this.Deep));
+        }
+
+        internal void IncreaseDeep()
+        {
+            SetDeep(Deep);
+        }
+
         private void RecursiveFillNodes(DoubleNode<T> root, List<DoubleNode<T>> nodes)
         {
             nodes.Add(root);
@@ -95,23 +109,5 @@ namespace BoundTree.Logic
                 RecursiveFillNodes(node, nodes);
             }
         }
-
-        internal void SetDeep(int initialDeep)
-        {
-            this.Deep = initialDeep + 1;
-            Nodes.ForEach(node => node.SetDeep(this.Deep));
-        }
-
-        internal void IncreaseDeep()
-        {
-            SetDeep(this.Deep);
-        }
-    }
-
-    public enum ConnectionKind
-    {
-        Strict,
-        Relative,
-        None
     }
 }

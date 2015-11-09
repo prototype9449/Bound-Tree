@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using BoundTree.NodeInfo;
 
 namespace BoundTree.Logic
@@ -17,10 +16,12 @@ namespace BoundTree.Logic
             Nodes = new List<SingleNode<T>>(nodes);
         }
 
-        public SingleNode(T id, INodeInfo nodeInfo) : this(id, nodeInfo, new List<SingleNode<T>>())
+        public SingleNode(T id, INodeInfo nodeInfo)
+            : this(id, nodeInfo, new List<SingleNode<T>>())
         { }
 
-        public SingleNode(SingleNode<T> singleNode, INodeInfo nodeInfo) : this(singleNode.Node.Id, nodeInfo)
+        public SingleNode(SingleNode<T> singleNode, INodeInfo nodeInfo)
+            : this(singleNode.Node.Id, nodeInfo)
         { }
 
         internal void SetDeep(int initialDeep)

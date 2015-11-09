@@ -1,6 +1,4 @@
-﻿using System;
-using BoundTree;
-using BoundTree.Helpers;
+﻿using BoundTree.Helpers;
 using BoundTree.Logic;
 using BoundTree.NodeInfo;
 
@@ -49,9 +47,9 @@ namespace ConsoleAppForTesting
         public static SingleTree<StringId> GetMinorTree(BindingHandler<StringId> bindingHandler)
         {
             var nodeInfoFabrica = new NodeInfoFabrica();
-             var singleNodeFabrica = new SingleNodeFabrica();
+            var singleNodeFabrica = new SingleNodeFabrica();
 
-             var tree = singleNodeFabrica.GetNode("A", nodeInfoFabrica.Root, new[]
+            var tree = singleNodeFabrica.GetNode("A", nodeInfoFabrica.Root, new[]
             {
                  singleNodeFabrica.GetNode("B", nodeInfoFabrica.SingleQustion),
                  singleNodeFabrica.GetNode("C", nodeInfoFabrica.GridQuestion, new[]
