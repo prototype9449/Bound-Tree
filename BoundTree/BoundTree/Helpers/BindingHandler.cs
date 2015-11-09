@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using BoundTree.Interfaces;
+using BoundTree.Logic;
 
 namespace BoundTree.Helpers
 {

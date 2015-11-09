@@ -1,14 +1,15 @@
 ﻿namespace BoundTree.NodeInfo
 {
-    public class EmptyNodeInfo : INodeInfo
+    public class EmptyNodeInfo : NodeInfo
     {
         public EmptyNodeInfo()
         {
             LogicLevel = -1;
-            Type = "Empty";
         }
 
-        public int LogicLevel { get; private set; }
-        public string Type { get; private set; }
+        public override bool IsEmpty()
+        {
+            return true;
+        }
     }
 }

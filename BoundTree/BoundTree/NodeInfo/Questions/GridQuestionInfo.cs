@@ -3,15 +3,11 @@
 namespace BoundTree.NodeInfo.Questions
 {
     [Serializable]
-    public class GridQuestionInfo : INodeInfo
+    public class GridQuestionInfo : NodeInfo
     {
         public GridQuestionInfo()
         {
-            LogicLevel = 2;
-            Type = "Grid";
+            this.LogicLevel = 2;
         }
-
-        public int LogicLevel { get; private set; }
-        public string Type { get; private set; }
     }
 }

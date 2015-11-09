@@ -3,15 +3,11 @@
 namespace BoundTree.NodeInfo.Questions
 {
     [Serializable]
-    public class SingleQuestionInfo : INodeInfo
+    public class SingleQuestionInfo : NodeInfo
     {
         public SingleQuestionInfo()
         {
             LogicLevel = 3;
-            Type = "Single";
         }
-
-        public int LogicLevel { get; private set; }
-        public string Type { get; private set; }
     }
 }

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using BoundTree.NodeInfo;
 
-namespace BoundTree
+namespace BoundTree.Logic
 {
     public class SingleNodeFabrica
     {

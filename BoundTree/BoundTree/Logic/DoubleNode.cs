@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace BoundTree
+namespace BoundTree.Logic
 {
     public class DoubleNode<T> where T : class, IEquatable<T>, new()
     {
@@ -16,21 +16,26 @@ namespace BoundTree
         {
             get
             {
-                if (MinorLeaf.NodeInfo.Type == "Empty")
+                if (MinorLeaf.NodeInfo.IsEmpty())
                     return MainLeaf.NodeInfo.LogicLevel;
 
                 return MinorLeaf.NodeInfo.LogicLevel;
             }
         }
 
-        public string Type
+        public bool IsMinorEmpty()
+        {
+            return MinorLeaf.NodeInfo.IsEmpty();
+        }
+
+        public Type NodeType
         {
             get
             {
-                if (MinorLeaf.NodeInfo.Type == "Empty")
-                    return MainLeaf.NodeInfo.Type;
+                if (MinorLeaf.NodeInfo.IsEmpty())
+                    return MainLeaf.NodeInfo.GetType();
 
-                return MainLeaf.NodeInfo.Type;
+                return MinorLeaf.NodeInfo.GetType();
             }
         }
 

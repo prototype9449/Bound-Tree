@@ -1,7 +1,7 @@
 ﻿using System;
 using BoundTree.NodeInfo;
 
-namespace BoundTree
+namespace BoundTree.Logic
 {
     [Serializable]
     public class Node<T> where T : new()

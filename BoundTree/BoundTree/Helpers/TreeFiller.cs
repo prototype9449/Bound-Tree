@@ -1,24 +1,29 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using BoundTree.Logic;
 using BoundTree.NodeInfo;
 
 namespace BoundTree.Helpers
 {
     public class TreeFiller<T> where T : class, IEquatable<T>, new()
     {
-        private readonly BindContoller<T> _bindContoller;
+        private readonly SingleTree<T> _mainTree;
+        private readonly SingleTree<T> _minorTree;
+        public readonly BindingHandler<T> _bindingHandler;
 
         public TreeFiller(BindContoller<T> bindContoller)
         {
-            _bindContoller = bindContoller;
+            _minorTree = bindContoller.MinorSingleTree;
+            _mainTree = bindContoller.MainSingleTree;
+            _bindingHandler = bindContoller.BindingHandler;
         }
 
         public DoubleNode<T> GetFilledTree()
         {
-            var clonedMainTree = _bindContoller.MainSingleTree.Clone();
-            var connections = _bindContoller.BindingHandler.BoundNodes
-                .ToDictionary(pair => pair.Key, pair => _bindContoller.MinorSingleTree.GetById(pair.Value));
+            var clonedMainTree = _mainTree.Clone();
+            var connections = _bindingHandler.BoundNodes
+                .ToDictionary(pair => pair.Key, pair => _minorTree.GetById(pair.Value));
 
             var doubleNode = GetDoubleNode(clonedMainTree, connections);
             return doubleNode;
@@ -88,7 +93,7 @@ namespace BoundTree.Helpers
         private void RepairNode(DoubleNode<T> doubleNode)
         {
             DoubleNode<T> commonParent;
-            if (doubleNode.MinorLeaf.NodeInfo.Type != "Empty")
+            if (doubleNode.MinorLeaf.NodeInfo.IsEmpty())
             {
                 commonParent = GetMostCommonParent(doubleNode.Nodes);
                 CleanUselessNodes(doubleNode, commonParent);
@@ -102,7 +107,7 @@ namespace BoundTree.Helpers
                 commonParent = GetMostCommonParent(commonParent.Nodes);
             }
 
-            if (commonParent.LogicLevel == doubleNode.LogicLevel && commonParent.Type == doubleNode.Type)
+            if (commonParent.LogicLevel == doubleNode.LogicLevel && commonParent.NodeType == doubleNode.NodeType)
             {
                 doubleNode.MinorLeaf = commonParent.MinorLeaf;
                 return;
@@ -145,7 +150,7 @@ namespace BoundTree.Helpers
             }
         }
 
-        private DoubleNode<T> GetMostCommonParent(IList<DoubleNode<T>> nodes)
+        private DoubleNode<T> GetMostCommonParent(IList<DoubleNode<T>> doubleNodes)
         {
             
         }

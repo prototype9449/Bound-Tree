@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace BoundTree
+namespace BoundTree.Logic
 {
     [Serializable]
     public class StringId : IEquatable<StringId>

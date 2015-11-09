@@ -3,6 +3,6 @@
     public interface INodeInfo
     {
         int LogicLevel { get; }
-        string Type { get; }
+        bool IsEmpty();
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using BoundTree;
 using BoundTree.Helpers;
+using BoundTree.Logic;
 using BoundTree.NodeInfo;
 
 namespace ConsoleAppForTesting
