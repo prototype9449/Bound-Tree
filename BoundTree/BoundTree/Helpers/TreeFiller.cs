@@ -27,6 +27,9 @@ namespace BoundTree.Helpers
 
             var doubleNode = GetDoubleNode(clonedMainTree, connections);
             RestoreRestNodes(doubleNode);
+            var doubleNodes =  doubleNode.ToList();
+            doubleNodes.ForEach(node => node.Deep = 0);
+            doubleNode.SetDeep(-1);
             return doubleNode;
         }
 
@@ -162,7 +165,8 @@ namespace BoundTree.Helpers
 
         private Node<T> GetMostCommonParent(IList<DoubleNode<T>> doubleNodes)
         {
-            var notEmptyNodes = doubleNodes.Where(node => node.GetMinorValue() != null);
+            var notEmptyNodes = doubleNodes.Where(doubleNode => doubleNode.GetMinorValue() != null).ToList();
+            
             if (!notEmptyNodes.Any())
             {
                 return new Node<T>();
@@ -185,16 +189,18 @@ namespace BoundTree.Helpers
             }
 
             List<List<Node<T>>> setRouts = new List<List<Node<T>>>();
-            foreach (var doubleNode in doubleNodes)
+            foreach (var doubleNode in notEmptyNodes)
             {
                 var route = new List<Node<T>>();
-                Node<T> parentNode;
-                while ((parentNode = _minorTree.GetParent(doubleNode.MinorLeaf.Id).Node) != null)
-                {
-                    route.Add(parentNode);
-                }
-                route.Reverse();
+                var parentNode = _minorTree.GetParent(doubleNode.MinorLeaf.Id);
 
+                while (parentNode != null)
+                {
+                    route.Add(parentNode.Node);
+                    parentNode = _minorTree.GetParent(parentNode.Node.Id);
+                } 
+               
+                route.Reverse();
 
                 var childNode = doubleNode.GetLonelyChild();
                 if (childNode == null)

@@ -87,7 +87,7 @@ namespace BoundTree.Helpers
 
                 nodeLines.Add(line);
 
-                foreach (var node in topElement.Nodes.OrderByDescending(node => isLeft ? node.MainLeaf.Id.ToString() : node.MinorLeaf.Id.ToString()))
+                foreach (var node in topElement.Nodes)
                 {
                     stack.Push(node);
                 }

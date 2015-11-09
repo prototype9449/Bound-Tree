@@ -95,6 +95,17 @@ namespace BoundTree.Logic
                 RecursiveFillNodes(node, nodes);
             }
         }
+
+        internal void SetDeep(int initialDeep)
+        {
+            this.Deep = initialDeep + 1;
+            Nodes.ForEach(node => node.SetDeep(this.Deep));
+        }
+
+        internal void IncreaseDeep()
+        {
+            SetDeep(this.Deep);
+        }
     }
 
     public enum ConnectionKind
