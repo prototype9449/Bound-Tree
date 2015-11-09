@@ -34,8 +34,8 @@ namespace BoundTree.Helpers
         {
             var resultDoubleNode = new DoubleNode<T>(mainTree.Root);
 
-            var root = new {node = mainTree.Root, doubleNode = resultDoubleNode};
-            var queue = new Queue<dynamic>(new[] {root});
+            var root = new { node = mainTree.Root, doubleNode = resultDoubleNode };
+            var queue = new Queue<dynamic>(new[] { root });
 
             while (queue.Any())
             {
@@ -56,7 +56,7 @@ namespace BoundTree.Helpers
                 foreach (var node in current.node.Nodes)
                 {
                     var doubleNode = new DoubleNode<T>(node);
-                    queue.Enqueue(new {node, doubleNode});
+                    queue.Enqueue(new { node, doubleNode });
                     current.doubleNode.Add(doubleNode);
                 }
             }
@@ -66,7 +66,7 @@ namespace BoundTree.Helpers
 
         private void RestoreRestNodes(DoubleNode<T> doubleNode)
         {
-            var stack = new Stack<DoubleNode<T>>(new[] {doubleNode});
+            var stack = new Stack<DoubleNode<T>>(new[] { doubleNode });
             var markedNodes = new HashSet<DoubleNode<T>>();
 
             while (stack.Any())
@@ -102,7 +102,7 @@ namespace BoundTree.Helpers
             }
 
             commonParent = GetMostCommonParent(doubleNode.Nodes);
-            if(commonParent.IsEmpty()) return;
+            if (commonParent.IsEmpty()) return;
 
             while (commonParent.LogicLevel < doubleNode.LogicLevel)
             {
@@ -140,16 +140,16 @@ namespace BoundTree.Helpers
                 {
                     identicalNodes.ForEach(item => item.MinorLeaf = new Node<T>());
                 }
-
-                var tooHighLogicNodes = descendants.FindAll(item => descendant.LogicLevel < comparedNode.LogicLevel);
-                tooHighLogicNodes.ForEach(item => item.MinorLeaf = new Node<T>());
-
-                var tooHighDeepNodes = descendants
-                    .FindAll(item => descendant.LogicLevel == item.LogicLevel)
-                    .FindAll(item => descendant.Deep < item.Deep);
-
-                tooHighDeepNodes.ForEach(item => item.MinorLeaf = new Node<T>());
             }
+
+            var tooHighLogicNodes = descendants.FindAll(item => item.LogicLevel < comparedNode.LogicLevel);
+            tooHighLogicNodes.ForEach(item => item.MinorLeaf = new Node<T>());
+
+            var tooHighDeepNodes = descendants
+                .FindAll(item => item.LogicLevel == comparedNode.LogicLevel)
+                .FindAll(item => item.Deep > comparedNode.Deep);
+
+            tooHighDeepNodes.ForEach(item => item.MinorLeaf = new Node<T>());
         }
 
         private Node<T> GetMostCommonParent(Node<T> node)
@@ -183,7 +183,7 @@ namespace BoundTree.Helpers
 
                 return _minorTree.GetParent(doubleNode.MinorLeaf.Id).Node;
             }
-            
+
             List<List<Node<T>>> setRouts = new List<List<Node<T>>>();
             foreach (var doubleNode in doubleNodes)
             {
@@ -207,7 +207,7 @@ namespace BoundTree.Helpers
                 {
                     route.Add(childNode.MinorLeaf);
                 } while ((childNode = childNode.GetLonelyChild()) != null);
-                
+
                 setRouts.Add(route);
             }
 
@@ -216,7 +216,7 @@ namespace BoundTree.Helpers
             {
                 if (setRouts.Any(nodes => nodes[i].Id != nodes.First().Id))
                 {
-                    return setRouts.First()[i-1];
+                    return setRouts.First()[i - 1];
                 }
             }
 
