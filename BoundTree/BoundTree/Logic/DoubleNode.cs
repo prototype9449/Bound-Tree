@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using BoundTree.NodeInfo;
 
 namespace BoundTree.Logic
 {
@@ -16,31 +18,27 @@ namespace BoundTree.Logic
         {
             get
             {
-                if (MinorLeaf.NodeInfo.IsEmpty())
-                    return MainLeaf.NodeInfo.LogicLevel;
+                if (MinorLeaf.IsEmpty())
+                    return MainLeaf.LogicLevel;
 
-                return MinorLeaf.NodeInfo.LogicLevel;
+                return MinorLeaf.LogicLevel;
             }
         }
 
         public bool IsMinorEmpty()
         {
-            return MinorLeaf.NodeInfo.IsEmpty();
+            return MinorLeaf.IsEmpty();
         }
 
-        public Type NodeType
+        public Node<T> GetMinorValue()
         {
-            get
-            {
-                if (MinorLeaf.NodeInfo.IsEmpty())
-                    return MainLeaf.NodeInfo.GetType();
-
-                return MinorLeaf.NodeInfo.GetType();
-            }
+            return MinorLeaf ?? Shadow;
         }
-
+        
         public DoubleNode()
         {
+            MainLeaf = new Node<T>(new T(), -1, new EmptyNodeInfo());
+            MinorLeaf = new Node<T>(new T(), -1, new EmptyNodeInfo());
             Nodes = new List<DoubleNode<T>>();
         }
 
@@ -63,6 +61,16 @@ namespace BoundTree.Logic
         {
             doubleNode.Deep += Deep + 1;
             Nodes.Add(doubleNode);
+        }
+
+        public DoubleNode<T> GetLonelyChild()
+        {
+            if (Nodes.Count() != 1 || Nodes.First().MinorLeaf.IsEmpty())
+            {
+                return null;
+            }
+
+            return Nodes.First();
         }
 
         public List<DoubleNode<T>> ToList()

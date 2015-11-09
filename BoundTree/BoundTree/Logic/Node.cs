@@ -23,5 +23,26 @@ namespace BoundTree.Logic
             Deep = deep;
             NodeInfo = nodeInfo;
         }
+
+        public int LogicLevel
+        {
+            get
+            {
+                return NodeInfo.LogicLevel;
+            }
+        }
+
+        public bool IsEmpty()
+        {
+            return NodeInfo.IsEmpty();
+        }
+
+        public Type NodeType
+        {
+            get
+            {
+                return NodeInfo.GetType();
+            }
+        }
     }
 }

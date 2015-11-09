@@ -26,6 +26,7 @@ namespace BoundTree.Helpers
                 .ToDictionary(pair => pair.Key, pair => _minorTree.GetById(pair.Value));
 
             var doubleNode = GetDoubleNode(clonedMainTree, connections);
+            RestoreRestNodes(doubleNode);
             return doubleNode;
         }
 
@@ -92,8 +93,8 @@ namespace BoundTree.Helpers
 
         private void RepairNode(DoubleNode<T> doubleNode)
         {
-            DoubleNode<T> commonParent;
-            if (doubleNode.MinorLeaf.NodeInfo.IsEmpty())
+            Node<T> commonParent;
+            if (!doubleNode.MinorLeaf.IsEmpty())
             {
                 commonParent = GetMostCommonParent(doubleNode.Nodes);
                 CleanUselessNodes(doubleNode, commonParent);
@@ -104,30 +105,30 @@ namespace BoundTree.Helpers
 
             while (commonParent.LogicLevel < doubleNode.LogicLevel)
             {
-                commonParent = GetMostCommonParent(commonParent.Nodes);
+                commonParent = GetMostCommonParent(commonParent);
             }
 
-            if (commonParent.LogicLevel == doubleNode.LogicLevel && commonParent.NodeType == doubleNode.NodeType)
+            if (commonParent.LogicLevel == doubleNode.LogicLevel && commonParent.NodeInfo.GetType() == doubleNode.MinorLeaf.NodeInfo.GetType())
             {
-                doubleNode.MinorLeaf = commonParent.MinorLeaf;
+                doubleNode.MinorLeaf = commonParent;
                 return;
             }
 
             if (commonParent.LogicLevel > doubleNode.LogicLevel)
             {
-                doubleNode.Shadow = commonParent.MinorLeaf;
+                doubleNode.Shadow = commonParent;
                 return;
             }
 
             while (commonParent.LogicLevel <= doubleNode.LogicLevel)
             {
-                commonParent = GetMostCommonParent(commonParent.Nodes);
+                commonParent = GetMostCommonParent(commonParent);
             }
 
-            doubleNode.Shadow = commonParent.MinorLeaf;
+            doubleNode.Shadow = commonParent;
         }
 
-        private void CleanUselessNodes(DoubleNode<T> node, DoubleNode<T> comparedNode)
+        private void CleanUselessNodes(DoubleNode<T> node, Node<T> comparedNode)
         {
             var descendants = node.ToList();
             foreach (var descendant in descendants)
@@ -150,9 +151,75 @@ namespace BoundTree.Helpers
             }
         }
 
-        private DoubleNode<T> GetMostCommonParent(IList<DoubleNode<T>> doubleNodes)
+        private Node<T> GetMostCommonParent(Node<T> node)
         {
+            if (node.LogicLevel == 0)
+                return node;
+
+            return _minorTree.GetParent(node.Id).Node;
+        }
+
+        private Node<T> GetMostCommonParent(IList<DoubleNode<T>> doubleNodes)
+        {
+            var notEmptyNodes = doubleNodes.Where(node => node.GetMinorValue() != null);
+            if (!notEmptyNodes.Any())
+            {
+                return new Node<T>();
+            }
+
+            if (notEmptyNodes.Count() == 1)
+            {
+                var doubleNode = notEmptyNodes.First();
+                if (doubleNode.Shadow != null && doubleNode.MinorLeaf.IsEmpty())
+                {
+                    return doubleNode.Shadow;
+                }
+                //if node equals Root
+                if (doubleNode.LogicLevel == 0)
+                {
+                    return doubleNode.MinorLeaf;
+                }
+
+                return _minorTree.GetParent(doubleNode.MinorLeaf.Id).Node;
+            }
             
+            List<List<Node<T>>> setRouts = new List<List<Node<T>>>();
+            foreach (var doubleNode in doubleNodes)
+            {
+                var route = new List<Node<T>>();
+                Node<T> parentNode;
+                while ((parentNode = _minorTree.GetParent(doubleNode.MinorLeaf.Id).Node) != null)
+                {
+                    route.Add(parentNode);
+                }
+                route.Reverse();
+
+
+                var childNode = doubleNode.GetLonelyChild();
+                if (childNode == null)
+                {
+                    setRouts.Add(route);
+                    continue;
+                }
+
+                do
+                {
+                    route.Add(childNode.MinorLeaf);
+                } while ((childNode = childNode.GetLonelyChild()) != null);
+                
+                setRouts.Add(route);
+            }
+
+            var minLength = setRouts.Min(nodes => nodes.Count);
+            for (int i = 0; i < minLength; i++)
+            {
+                if (setRouts.Any(nodes => nodes[i].Id != nodes.First().Id))
+                {
+                    return setRouts.First()[i-1];
+                }
+            }
+
+            return setRouts.First()[minLength - 1];
         }
     }
 }
