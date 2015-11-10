@@ -1,4 +1,4 @@
-﻿namespace BoundTree.NodeInfo.Answers
+﻿namespace BoundTree.Logic.Nodes
 {
     public class PredefinedListInfo : NodeInfo
     {

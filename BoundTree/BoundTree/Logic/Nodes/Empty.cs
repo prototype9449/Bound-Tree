@@ -1,8 +1,8 @@
-﻿namespace BoundTree.NodeInfo
+﻿namespace BoundTree.Logic.Nodes
 {
-    public class EmptyNodeInfo : NodeInfo
+    public class Empty : NodeInfo
     {
-        public EmptyNodeInfo()
+        public Empty()
         {
             LogicLevel = -1;
         }

@@ -1,5 +1,5 @@
 ﻿using System;
-using BoundTree.NodeInfo;
+using BoundTree.Logic.Nodes;
 
 namespace BoundTree.Logic
 {
@@ -7,17 +7,17 @@ namespace BoundTree.Logic
     public class Node<T> where T : new()
     {
         public int Deep { get; internal set; }
-        public INodeInfo NodeInfo { get; protected set; }
+        public NodeInfo NodeInfo { get; protected set; }
         public T Id { get; protected set; }
 
         public Node()
         {
             Id = new T();
-            NodeInfo = new EmptyNodeInfo();
+            NodeInfo = new Empty();
             Deep = -1;
         }
 
-        public Node(T id, int deep, INodeInfo nodeInfo)
+        public Node(T id, int deep, NodeInfo nodeInfo)
         {
             Id = id;
             Deep = deep;

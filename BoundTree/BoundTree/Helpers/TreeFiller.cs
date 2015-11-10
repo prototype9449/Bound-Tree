@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using BoundTree.Logic;
-using BoundTree.NodeInfo;
+using BoundTree.Logic.Nodes;
 
 namespace BoundTree.Helpers
 {
@@ -54,7 +54,7 @@ namespace BoundTree.Helpers
                 }
                 else
                 {
-                    current.doubleNode.MinorLeaf = new Node<T>(new T(), -1, new EmptyNodeInfo());
+                    current.doubleNode.MinorLeaf = new Node<T>(new T(), -1, new Empty());
                     current.doubleNode.ConnectionKind = ConnectionKind.None;
                 }
 

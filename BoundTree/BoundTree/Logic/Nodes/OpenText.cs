@@ -1,13 +1,13 @@
 ﻿using System;
 
-namespace BoundTree.NodeInfo.Answers
+namespace BoundTree.Logic.Nodes
 {
      [Serializable]
     public class OpenTextInfo : NodeInfo
     {
          public OpenTextInfo()
          {
-             LogicLevel = 3;
+             LogicLevel = 2;
          }
     }
 }

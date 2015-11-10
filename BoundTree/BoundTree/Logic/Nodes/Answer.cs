@@ -1,5 +1,8 @@
-﻿namespace BoundTree.NodeInfo.Answers
+﻿using System;
+
+namespace BoundTree.Logic.Nodes
 {
+    [Serializable]
     public class AnswerInfo : NodeInfo
     {
         public AnswerInfo()

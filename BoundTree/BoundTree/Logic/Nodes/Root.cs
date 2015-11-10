@@ -1,11 +1,11 @@
 ﻿using System;
 
-namespace BoundTree.NodeInfo
+namespace BoundTree.Logic.Nodes
 {
     [Serializable]
-    public class RootNodeInfo : NodeInfo
+    public class Root : NodeInfo
     {
-        public RootNodeInfo()
+        public Root()
         {
             LogicLevel = 0;
         }

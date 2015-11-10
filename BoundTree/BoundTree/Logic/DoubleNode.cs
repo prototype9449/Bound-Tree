@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using BoundTree.NodeInfo;
+using BoundTree.Logic.Nodes;
 
 namespace BoundTree.Logic
 {
@@ -16,8 +16,8 @@ namespace BoundTree.Logic
 
         public DoubleNode()
         {
-            MainLeaf = new Node<T>(new T(), -1, new EmptyNodeInfo());
-            MinorLeaf = new Node<T>(new T(), -1, new EmptyNodeInfo());
+            MainLeaf = new Node<T>(new T(), -1, new Empty());
+            MinorLeaf = new Node<T>(new T(), -1, new Empty());
             Nodes = new List<DoubleNode<T>>();
         }
 

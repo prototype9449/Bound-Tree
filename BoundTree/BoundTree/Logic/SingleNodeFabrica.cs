@@ -1,16 +1,16 @@
 ﻿using System.Collections.Generic;
-using BoundTree.NodeInfo;
+using BoundTree.Logic.Nodes;
 
 namespace BoundTree.Logic
 {
     public class SingleNodeFabrica
     {
-        public SingleNode<StringId> GetNode(string id, INodeInfo nodeInfo)
+        public SingleNode<StringId> GetNode(string id, NodeInfo nodeInfo)
         {
             return new SingleNode<StringId>(new StringId(id), nodeInfo);
         }
 
-        public SingleNode<StringId> GetNode(string id, INodeInfo nodeInfo, IList<SingleNode<StringId>> nodes)
+        public SingleNode<StringId> GetNode(string id, NodeInfo nodeInfo, IList<SingleNode<StringId>> nodes)
         {
             return new SingleNode<StringId>(new StringId(id), nodeInfo, nodes);
         }
