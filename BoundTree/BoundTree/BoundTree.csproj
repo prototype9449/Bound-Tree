@@ -39,7 +39,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Helpers\ContainHelper.cs" />
     <Compile Include="Helpers\TreeReconstruction\ConnectionReconstruction.cs" />
+    <Compile Include="Helpers\TreeReconstruction\PostReconstruction.cs" />
     <Compile Include="Helpers\TreeReconstruction\VirtualNodeReconstruction.cs" />
     <Compile Include="Logic\ConnectionKind.cs" />
     <Compile Include="Logic\DoubleNode.cs" />
