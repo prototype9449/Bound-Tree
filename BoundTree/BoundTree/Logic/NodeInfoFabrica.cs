@@ -6,7 +6,7 @@ namespace BoundTree.Logic
     {
         public NodeInfo Grid
         {
-            get { return new Grid();}
+            get { return new Grid(); }
         }
 
         public NodeInfo Root
@@ -46,7 +46,12 @@ namespace BoundTree.Logic
 
         public NodeInfo PredefinedList
         {
-            get { return new PredefinedListInfo(); }
+            get { return new PredefinedList(); }
+        }
+
+        public AnswerInfo Answer
+        {
+            get { return new AnswerInfo(); }
         }
     }
 }

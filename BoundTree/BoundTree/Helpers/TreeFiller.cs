@@ -98,18 +98,11 @@ namespace BoundTree.Helpers
 
         private void RepairNode(DoubleNode<T> doubleNode)
         {
-            Node<T> commonParent;
-            if (!doubleNode.MinorLeaf.IsEmpty())
-            {
-                commonParent = GetMostCommonParent(doubleNode.Nodes);
-                CleanUselessNodes(doubleNode, commonParent);
-                return;
-            }
+            Node<T> commonParent = GetMostCommonParent(doubleNode.Nodes);
 
-            commonParent = GetMostCommonParent(doubleNode.Nodes);
             if (commonParent.IsEmpty()) return;
 
-            while (commonParent.LogicLevel < doubleNode.LogicLevel)
+            while (commonParent.LogicLevel > doubleNode.LogicLevel)
             {
                 commonParent = GetMostCommonParent(commonParent);
             }
@@ -120,23 +113,25 @@ namespace BoundTree.Helpers
                 return;
             }
 
-            if (commonParent.LogicLevel > doubleNode.LogicLevel)
+            if (commonParent.LogicLevel < doubleNode.LogicLevel)
             {
                 doubleNode.Shadow = commonParent;
                 return;
             }
 
-            while (commonParent.LogicLevel <= doubleNode.LogicLevel)
+            while (commonParent.LogicLevel >= doubleNode.LogicLevel)
             {
                 commonParent = GetMostCommonParent(commonParent);
             }
 
             doubleNode.Shadow = commonParent;
+
+            CleanUselessNodes(doubleNode, commonParent);
         }
 
-        private void CleanUselessNodes(DoubleNode<T> node, Node<T> comparedNode)
+        private void CleanUselessNodes(DoubleNode<T> doubleNode, Node<T> comparedNode)
         {
-            var descendants = node.ToList();
+            var descendants = doubleNode.ToList();
             foreach (var descendant in descendants)
             {
                 descendant.Shadow = null;
@@ -211,7 +206,11 @@ namespace BoundTree.Helpers
             foreach (var doubleNode in notEmptyNodes)
             {
                 var route = new List<Node<T>>();
-                var parentNode = _minorTree.GetParent(doubleNode.MinorLeaf.Id);
+                var minorNodeId = doubleNode.MinorLeaf.IsEmpty() 
+                    ? doubleNode.Shadow.Id 
+                    : doubleNode.MinorLeaf.Id;
+
+                var parentNode = _minorTree.GetParent(minorNodeId);
 
                 while (parentNode != null)
                 {

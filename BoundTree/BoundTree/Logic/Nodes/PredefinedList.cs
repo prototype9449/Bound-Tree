@@ -1,8 +1,11 @@
-﻿namespace BoundTree.Logic.Nodes
+﻿using System;
+
+namespace BoundTree.Logic.Nodes
 {
-    public class PredefinedListInfo : NodeInfo
+    [Serializable]
+    public class PredefinedList : NodeInfo
     {
-        public PredefinedListInfo()
+        public PredefinedList()
         {
             LogicLevel = 4;
         }
