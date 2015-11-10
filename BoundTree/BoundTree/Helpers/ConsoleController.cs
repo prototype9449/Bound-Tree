@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using BoundTree.Helpers.TreeReconstruction;
 using BoundTree.Logic;
 
 namespace BoundTree.Helpers
@@ -43,7 +44,7 @@ namespace BoundTree.Helpers
         private void DisplayTree()
         {
             Console.Clear();
-            var tree = new TreeFiller<StringId>(_bindController).GetFilledTree();
+            var tree = new TreeReconstruction<StringId>(_bindController).GetFilledTree();
             new ConsoleTreeWriter<StringId>().WriteToConsoleAsTrees(_bindController.MainSingleTree, _bindController.MinorSingleTree);
             new ConsoleTreeWriter<StringId>().WriteToConsoleAsTrees(tree);
         }

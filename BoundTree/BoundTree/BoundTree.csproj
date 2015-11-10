@@ -39,6 +39,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Helpers\TreeReconstruction\ConnectionReconstruction.cs" />
+    <Compile Include="Helpers\TreeReconstruction\VirtualNodeReconstruction.cs" />
     <Compile Include="Logic\ConnectionKind.cs" />
     <Compile Include="Logic\DoubleNode.cs" />
     <Compile Include="Helpers\BindContoller.cs" />
@@ -46,7 +48,7 @@
     <Compile Include="Helpers\ConsoleController.cs" />
     <Compile Include="Helpers\ConsoleTableWriter.cs" />
     <Compile Include="Helpers\ConsoleTreeWriter.cs" />
-    <Compile Include="Helpers\TreeFiller.cs" />
+    <Compile Include="Helpers\TreeReconstruction\TreeReconstruction.cs" />
     <Compile Include="Interfaces\IBindingHandler.cs" />
     <Compile Include="Logic\Node.cs" />
     <Compile Include="Logic\Nodes\Grid3D.cs" />

@@ -2,74 +2,19 @@
 using System.Collections.Generic;
 using System.Linq;
 using BoundTree.Logic;
-using BoundTree.Logic.Nodes;
 
-namespace BoundTree.Helpers
+namespace BoundTree.Helpers.TreeReconstruction
 {
-    public class TreeFiller<T> where T : class, IEquatable<T>, new()
+    public class VirtualNodeReconstruction<T> where T : class, IEquatable<T>, new()
     {
-        private readonly SingleTree<T> _mainTree;
         private readonly SingleTree<T> _minorTree;
-        public readonly BindingHandler<T> _bindingHandler;
 
-        public TreeFiller(BindContoller<T> bindContoller)
+        public VirtualNodeReconstruction(SingleTree<T> minorTree)
         {
-            _minorTree = bindContoller.MinorSingleTree;
-            _mainTree = bindContoller.MainSingleTree;
-            _bindingHandler = bindContoller.BindingHandler;
+            _minorTree = minorTree;
         }
 
-        public DoubleNode<T> GetFilledTree()
-        {
-            var clonedMainTree = _mainTree.Clone();
-            var connections = _bindingHandler.BoundNodes
-                .ToDictionary(pair => pair.Key, pair => _minorTree.GetById(pair.Value));
-
-            var doubleNode = GetDoubleNode(clonedMainTree, connections);
-            RestoreRestNodes(doubleNode);
-            return doubleNode;
-        }
-
-        private Queue<Ttype> GetQueue<Ttype>(Ttype item)
-        {
-            return new Queue<Ttype>(new[] { item });
-        } 
-
-        private DoubleNode<T> GetDoubleNode(SingleTree<T> mainTree, Dictionary<T, SingleNode<T>> connections)
-        {
-            var resultDoubleNode = new DoubleNode<T>(mainTree.Root);
-
-            var root = new { node = mainTree.Root, doubleNode = resultDoubleNode };
-            var queue = GetQueue(root);
-
-            while (queue.Any())
-            {
-                var current = queue.Dequeue();
-                var mainCurrentId = current.doubleNode.MainLeaf.Id;
-
-                if (connections.ContainsKey(mainCurrentId))
-                {
-                    current.doubleNode.MinorLeaf = connections[mainCurrentId].Node;
-                    current.doubleNode.ConnectionKind = ConnectionKind.Strict;
-                }
-                else
-                {
-                    current.doubleNode.MinorLeaf = new Node<T>(new T(), -1, new Empty());
-                    current.doubleNode.ConnectionKind = ConnectionKind.None;
-                }
-
-                foreach (var node in current.node.Nodes)
-                {
-                    var doubleNode = new DoubleNode<T>(node);
-                    queue.Enqueue(new { node, doubleNode });
-                    current.doubleNode.Add(doubleNode);
-                }
-            }
-
-            return resultDoubleNode;
-        }
-
-        private void RestoreRestNodes(DoubleNode<T> doubleNode)
+        public void Reconstruct(DoubleNode<T> doubleNode)
         {
             var stack = new Stack<DoubleNode<T>>(new[] { doubleNode });
             var markedNodes = new HashSet<DoubleNode<T>>();
@@ -163,7 +108,7 @@ namespace BoundTree.Helpers
         private Node<T> GetMostCommonParent(IList<DoubleNode<T>> doubleNodes)
         {
             var notEmptyNodes = doubleNodes.Where(doubleNode => doubleNode.GetMinorValue() != null).ToList();
-            
+
             if (!notEmptyNodes.Any())
             {
                 return new Node<T>();
@@ -202,12 +147,12 @@ namespace BoundTree.Helpers
 
         private List<List<Node<T>>> GetRoutes(List<DoubleNode<T>> notEmptyNodes)
         {
-           var setRouts = new List<List<Node<T>>>();
+            var setRouts = new List<List<Node<T>>>();
             foreach (var doubleNode in notEmptyNodes)
             {
                 var route = new List<Node<T>>();
-                var minorNodeId = doubleNode.MinorLeaf.IsEmpty() 
-                    ? doubleNode.Shadow.Id 
+                var minorNodeId = doubleNode.MinorLeaf.IsEmpty()
+                    ? doubleNode.Shadow.Id
                     : doubleNode.MinorLeaf.Id;
 
                 var parentNode = _minorTree.GetParent(minorNodeId);
@@ -235,6 +180,6 @@ namespace BoundTree.Helpers
                 setRouts.Add(route);
             }
             return setRouts;
-        }
+        } 
     }
 }
