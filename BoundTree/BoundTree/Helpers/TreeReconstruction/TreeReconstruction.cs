@@ -20,7 +20,7 @@ namespace BoundTree.Helpers.TreeReconstruction
         public DoubleNode<T> GetFilledTree()
         {
             var clonedMainTree = _mainTree.Clone();
-            var connections = _bindingHandler.BoundNodes
+            var connections = _bindingHandler.Connections
                 .ToDictionary(pair => pair.Key, pair => _minorTree.GetById(pair.Value));
 
             var doubleNode = new ConnectionReconstruction<T>().GetDoubleNodeWithConnections(clonedMainTree, connections);

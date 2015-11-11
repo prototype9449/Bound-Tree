@@ -24,6 +24,26 @@ namespace BoundTree.Logic
             : this(singleNode.Node.Id, nodeInfo)
         { }
 
+        public SingleNode<T> GetById(T id)
+        {
+            var queue = new Queue<SingleNode<T>>();
+            queue.Enqueue(this);
+            while (queue.Count != 0)
+            {
+                if (queue.Peek().Node.Id.Equals(id))
+                {
+                    return queue.Peek();
+                }
+
+                foreach (var node in queue.Dequeue().Nodes)
+                {
+                    queue.Enqueue(node);
+                }
+            }
+
+            return null;
+        }
+
         public void RecalculateDeep()
         {
             SetDeep(-1);

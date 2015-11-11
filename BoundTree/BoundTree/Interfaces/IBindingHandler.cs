@@ -7,6 +7,6 @@ namespace BoundTree.Interfaces
     {
         void HandleBinding(SingleNode<T> mainSingleNode, SingleNode<T> minorSingleNode);
         void RemoveConnection(T mainId);
-        List<KeyValuePair<T, T>> BoundNodes { get; }
+        List<KeyValuePair<T, T>> Connections { get; }
     }
 }

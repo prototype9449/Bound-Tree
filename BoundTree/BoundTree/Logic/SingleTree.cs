@@ -19,22 +19,7 @@ namespace BoundTree.Logic
 
         public SingleNode<T> GetById(T id)
         {
-            var queue = new Queue<SingleNode<T>>();
-            queue.Enqueue(Root);
-            while (queue.Count != 0)
-            {
-                if (queue.Peek().Node.Id.Equals(id))
-                {
-                    return queue.Peek();
-                }
-
-                foreach (var node in queue.Dequeue().Nodes)
-                {
-                    queue.Enqueue(node);
-                }
-            }
-
-            return null;
+            return Root.GetById(id);
         }
 
         private Stack<Ttype> GetStack<Ttype>(Ttype item)

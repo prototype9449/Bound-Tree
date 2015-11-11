@@ -204,4 +204,50 @@ namespace ConsoleAppForTesting
             return new SingleTree<StringId>(tree);
         }
     }
+
+    public class Tree8 : ITree
+    {
+        public SingleTree<StringId> GetTree()
+        {
+            var nodeInfoFabrica = new NodeInfoFabrica();
+            var singleNodeFabrica = new SingleNodeFabrica();
+
+            var tree = singleNodeFabrica.GetNode("A", nodeInfoFabrica.Root, new[]
+            {
+                singleNodeFabrica.GetNode("B", nodeInfoFabrica.Single, new[]
+                {
+                    singleNodeFabrica.GetNode("C", nodeInfoFabrica.PredefinedList, new[]
+                    {
+                        singleNodeFabrica.GetNode("D", nodeInfoFabrica.PredefinedList),
+                        singleNodeFabrica.GetNode("E", nodeInfoFabrica.PredefinedList)
+                    })
+                })
+            });
+
+            return new SingleTree<StringId>(tree);
+        }
+    }
+
+    public class Tree9 : ITree
+    {
+        public SingleTree<StringId> GetTree()
+        {
+            var nodeInfoFabrica = new NodeInfoFabrica();
+            var singleNodeFabrica = new SingleNodeFabrica();
+
+            var tree = singleNodeFabrica.GetNode("A", nodeInfoFabrica.Root, new[]
+            {
+                singleNodeFabrica.GetNode("B", nodeInfoFabrica.Single, new[]
+                {
+                    singleNodeFabrica.GetNode("C", nodeInfoFabrica.PredefinedList, new[]
+                    {
+                        singleNodeFabrica.GetNode("D", nodeInfoFabrica.PredefinedList),
+                        singleNodeFabrica.GetNode("E", nodeInfoFabrica.PredefinedList)
+                    })
+                })
+            });
+
+            return new SingleTree<StringId>(tree);
+        }
+    }
 }
