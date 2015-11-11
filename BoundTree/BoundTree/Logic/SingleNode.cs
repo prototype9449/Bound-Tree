@@ -24,15 +24,15 @@ namespace BoundTree.Logic
             : this(singleNode.Node.Id, nodeInfo)
         { }
 
-        internal void SetDeep(int initialDeep)
+        public void RecalculateDeep()
+        {
+            SetDeep(-1);
+        }
+
+        private void SetDeep(int initialDeep)
         {
             Node.Deep = initialDeep + 1;
             Nodes.ForEach(node => node.SetDeep(Node.Deep));
-        }
-
-        internal void IncreaseDeep()
-        {
-            SetDeep(Node.Deep);
         }
     }
 }

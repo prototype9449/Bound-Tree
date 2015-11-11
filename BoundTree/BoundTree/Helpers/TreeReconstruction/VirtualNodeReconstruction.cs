@@ -17,26 +17,26 @@ namespace BoundTree.Helpers.TreeReconstruction
         public void Reconstruct(DoubleNode<T> doubleNode)
         {
             var stack = new Stack<DoubleNode<T>>(new[] { doubleNode });
-            var markedNodes = new HashSet<DoubleNode<T>>();
+            var passedNodes = new HashSet<DoubleNode<T>>();
 
             while (stack.Any())
             {
                 var currentNode = stack.Peek();
                 if (!currentNode.Nodes.Any())
                 {
-                    markedNodes.Add(currentNode);
+                    passedNodes.Add(currentNode);
                     stack.Pop();
                     continue;
                 }
 
-                if (!currentNode.Nodes.All(markedNodes.Contains))
+                if (!currentNode.Nodes.All(passedNodes.Contains))
                 {
                     currentNode.Nodes.ForEach(stack.Push);
                     continue;
                 }
 
                 RepairNode(currentNode);
-                markedNodes.Add(stack.Pop());
+                passedNodes.Add(stack.Pop());
             }
         }
 
@@ -117,7 +117,7 @@ namespace BoundTree.Helpers.TreeReconstruction
             if (notEmptyNodes.Count() == 1)
             {
                 var doubleNode = notEmptyNodes.First();
-                if (doubleNode.Shadow != null && doubleNode.MinorLeaf.IsEmpty())
+                if (doubleNode.Shadow != null && doubleNode.IsMinorEmpty())
                 {
                     return doubleNode.Shadow;
                 }
@@ -135,7 +135,10 @@ namespace BoundTree.Helpers.TreeReconstruction
             var minLength = routes.Min(nodes => nodes.Count);
             for (int i = 0; i < minLength; i++)
             {
-                var areDifferent = routes.Select(nodes => nodes[i]).Any(node => node.Id != routes.First()[i].Id);
+                var areDifferent = routes
+                    .Select(nodes => nodes[i])
+                    .Any(node => node.Id != routes.First()[i].Id);
+
                 if (areDifferent)
                 {
                     return routes.First()[i - 1];
@@ -151,7 +154,7 @@ namespace BoundTree.Helpers.TreeReconstruction
             foreach (var doubleNode in notEmptyNodes)
             {
                 var route = new List<Node<T>>();
-                var minorNodeId = doubleNode.MinorLeaf.IsEmpty()
+                var minorNodeId = doubleNode.IsMinorEmpty()
                     ? doubleNode.Shadow.Id
                     : doubleNode.MinorLeaf.Id;
 
@@ -180,6 +183,6 @@ namespace BoundTree.Helpers.TreeReconstruction
                 setRouts.Add(route);
             }
             return setRouts;
-        } 
+        }
     }
 }

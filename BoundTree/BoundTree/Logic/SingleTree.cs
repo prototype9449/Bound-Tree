@@ -14,7 +14,7 @@ namespace BoundTree.Logic
         public SingleTree(SingleNode<T> root)
         {
             Root = root;
-            Root.SetDeep(-1);
+            Root.RecalculateDeep();
         }
 
         public SingleNode<T> GetById(T id)
