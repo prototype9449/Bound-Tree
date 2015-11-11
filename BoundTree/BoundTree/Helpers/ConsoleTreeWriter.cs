@@ -28,7 +28,9 @@ namespace BoundTree.Helpers
             var secondTreeLines = GetNodeLines(minorSingleTree);
 
             var stringBuilder = new StringBuilder();
-            for (int i = 0; i < firstTreeLines.Count; i++)
+            var maxlength = Math.Max(firstTreeLines.Count(), secondTreeLines.Count());
+
+            for (int i = 0; i < maxlength; i++)
             {
                 var firstPart = i < firstTreeLines.Count
                     ? firstTreeLines[i]

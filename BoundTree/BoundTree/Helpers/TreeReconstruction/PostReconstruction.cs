@@ -17,14 +17,14 @@ namespace BoundTree.Helpers.TreeReconstruction
         public void Reconstruct(DoubleNode<T> doubleNode)
         {
             var stack = new Stack<DoubleNode<T>>(new[] { doubleNode });
-            var passedNodes = new HashSet<DoubleNode<T>>();
+            var passedNodes = new List<DoubleNode<T>>();
 
             while (stack.Any())
             {
                 var current = stack.Pop();
                 current.Nodes.ForEach(node => stack.Push(node));
 
-                if(current.MinorLeaf.IsEmpty()) continue;
+                if(current.MinorLeaf.IsEmpty() || passedNodes.Exists(node => node.MinorLeaf.Id == current.MinorLeaf.Id)) continue;
 
                 var initialChildIds = current.Nodes
                     .Where(node => !node.MinorLeaf.IsEmpty())
