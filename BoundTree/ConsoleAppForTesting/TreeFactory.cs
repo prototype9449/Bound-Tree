@@ -152,4 +152,56 @@ namespace ConsoleAppForTesting
             return new SingleTree<StringId>(tree);
         }
     }
+
+    public class Tree6 : ITree
+    {
+        public SingleTree<StringId> GetTree()
+        {
+            var nodeInfoFabrica = new NodeInfoFabrica();
+            var singleNodeFabrica = new SingleNodeFabrica();
+
+            var tree = singleNodeFabrica.GetNode("A", nodeInfoFabrica.Root, new[]
+            {
+                singleNodeFabrica.GetNode("B", nodeInfoFabrica.Single, new[]
+                {
+                    singleNodeFabrica.GetNode("C", nodeInfoFabrica.Answer),
+                    singleNodeFabrica.GetNode("D", nodeInfoFabrica.Answer),
+                    singleNodeFabrica.GetNode("E", nodeInfoFabrica.Answer)
+                })
+            });
+
+            return new SingleTree<StringId>(tree);
+        }
+    }
+
+    public class Tree7 : ITree
+    {
+        public SingleTree<StringId> GetTree()
+        {
+            var nodeInfoFabrica = new NodeInfoFabrica();
+            var singleNodeFabrica = new SingleNodeFabrica();
+
+            var tree = singleNodeFabrica.GetNode("A", nodeInfoFabrica.Root, new[]
+            {
+                singleNodeFabrica.GetNode("C", nodeInfoFabrica.Single, new[]
+                {
+                    singleNodeFabrica.GetNode("B", nodeInfoFabrica.Answer),
+                    singleNodeFabrica.GetNode("D", nodeInfoFabrica.PredefinedList, new[]
+                    {
+                        singleNodeFabrica.GetNode("E", nodeInfoFabrica.Answer)
+                    }),
+                    singleNodeFabrica.GetNode("G", nodeInfoFabrica.PredefinedList, new[]
+                    {
+                        singleNodeFabrica.GetNode("F", nodeInfoFabrica.Answer),
+                        singleNodeFabrica.GetNode("K", nodeInfoFabrica.PredefinedList, new[]
+                        {
+                            singleNodeFabrica.GetNode("H", nodeInfoFabrica.Answer)
+                        })
+                    })
+                })
+            });
+
+            return new SingleTree<StringId>(tree);
+        }
+    }
 }

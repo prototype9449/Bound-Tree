@@ -55,7 +55,9 @@ namespace BoundTree.Helpers
             {
                 var topElement = stack.Pop();
 
-                topElement.Nodes.ForEach(node => stack.Push(node));
+                var nodes = topElement.Nodes.ToList();
+                nodes.Reverse();
+                nodes.ForEach(node => stack.Push(node));
 
                 var line = string.Format("{0}{1} ({2})", new string(' ', topElement.Node.Deep * 2),
                     topElement.Node.NodeInfo.GetType().Name, topElement.Node.Id);
@@ -100,10 +102,9 @@ namespace BoundTree.Helpers
 
                 nodeLines.Add(line);
 
-                foreach (var node in topElement.Nodes)
-                {
-                    stack.Push(node);
-                }
+                var nodes = topElement.Nodes.ToList();
+                nodes.Reverse();
+                nodes.ForEach(node => stack.Push(node));
             }
 
             var maxLength = nodeLines.Max(line => line.Length);
