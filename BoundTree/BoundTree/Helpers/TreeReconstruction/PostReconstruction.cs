@@ -22,15 +22,17 @@ namespace BoundTree.Helpers.TreeReconstruction
             while (stack.Any())
             {
                 var current = stack.Pop();
-                current.Nodes.ForEach(node => stack.Push(node));
+                current.Nodes.ForEach(stack.Push);
 
-                if(current.MinorLeaf.IsEmpty() || passedNodes.Exists(node => node.MinorLeaf.Id == current.MinorLeaf.Id)) continue;
+                if(current.IsMinorEmpty() || passedNodes.Exists(node => node.MinorLeaf.Id == current.MinorLeaf.Id)) 
+                    continue;
 
                 var initialChildIds = current.Nodes
-                    .Where(node => !node.MinorLeaf.IsEmpty())
+                    .Where(node => !node.IsMinorEmpty())
                     .Select(node => node.MinorLeaf.Id).ToList();
 
-                if (!initialChildIds.Any()) continue;
+                if (!initialChildIds.Any()) 
+                    continue;
 
                 if (passedNodes.Contains(current))
                 {
@@ -39,10 +41,11 @@ namespace BoundTree.Helpers.TreeReconstruction
                 }
 
                 var descendants = current.Nodes
-                    .Where(node => !node.MinorLeaf.IsEmpty())
+                    .Where(node => !node.IsMinorEmpty())
                     .Select(node => GetRepairedNode(current, node)).ToList();
 
-                if(!descendants.Any()) continue;
+                if(!descendants.Any()) 
+                    continue;
 
                 current.Nodes = descendants.Select(pair => pair.Value).ToList();
                 for (int i = 0; i < current.Nodes.Count; i++)
@@ -100,14 +103,16 @@ namespace BoundTree.Helpers.TreeReconstruction
             while (queue.Any())
             {
                 var current = queue.Dequeue();
-                if (initialChildIds.Contains(current.MinorLeaf.Id)) continue;
+                if (initialChildIds.Contains(current.MinorLeaf.Id)) 
+                    continue;
 
                 var groupedNodes = doubleNode.Nodes
-                    .Where(node => !node.MainLeaf.IsEmpty())
+                    .Where(node => !node.IsMinorEmpty())
                     .GroupBy(node => node.MinorLeaf.Id)
                     .Where(group => group.Count() > 1);
 
-                if (!groupedNodes.Any()) continue;
+                if (!groupedNodes.Any()) 
+                    continue;
 
                 var repairedNodes = groupedNodes.Select(GetRepairedNode).ToList();
 

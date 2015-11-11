@@ -23,7 +23,8 @@ namespace BoundTree.Helpers
             IsMatched<Grid, Single>,
             IsMatched<Single, AnswerInfo>,
             IsMatched<Single, PredefinedList>,
-            IsMatched<PredefinedList, AnswerInfo>
+            IsMatched<PredefinedList, AnswerInfo>,
+            IsMatched<PredefinedList, PredefinedList>
         };
         
         public ContainHelper CreateHelper(NodeInfo nodeInfo)

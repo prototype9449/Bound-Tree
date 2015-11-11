@@ -87,23 +87,6 @@ namespace BoundTree.Logic
             return nodes;
         }
 
-        public void RecalculateDeep()
-        {
-            Deep = -1;
-            SetDeep(-1);
-        }
-
-        internal void SetDeep(int initialDeep)
-        {
-            Deep = initialDeep + 1;
-            Nodes.ForEach(node => node.SetDeep(this.Deep));
-        }
-
-        internal void IncreaseDeep()
-        {
-            SetDeep(Deep);
-        }
-
         private void RecursiveFillNodes(DoubleNode<T> root, List<DoubleNode<T>> nodes)
         {
             nodes.Add(root);
@@ -115,5 +98,19 @@ namespace BoundTree.Logic
                 RecursiveFillNodes(node, nodes);
             }
         }
+
+        public void RecalculateDeep()
+        {
+            Deep = -1;
+            SetDeep(-1);
+        }
+
+        private void SetDeep(int initialDeep)
+        {
+            Deep = initialDeep + 1;
+            Nodes.ForEach(node => node.SetDeep(this.Deep));
+        }
+
+       
     }
 }
