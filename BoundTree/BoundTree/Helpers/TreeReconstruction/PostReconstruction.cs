@@ -41,7 +41,6 @@ namespace BoundTree.Helpers.TreeReconstruction
                 }
 
                 var descendants = current.Nodes
-                    .Where(node => !node.IsMinorEmpty())
                     .Select(node => GetRepairedNode(current, node)).ToList();
 
                 if(!descendants.Any()) 
@@ -70,6 +69,9 @@ namespace BoundTree.Helpers.TreeReconstruction
 
         private KeyValuePair<bool, DoubleNode<T>> GetRepairedNode(DoubleNode<T> parent, DoubleNode<T> child)
         {
+            if(child.IsMinorEmpty()) 
+                return new KeyValuePair<bool, DoubleNode<T>>(false, child);
+
             var isDone = false;
             var containHelper = new ContainHelper();
 
