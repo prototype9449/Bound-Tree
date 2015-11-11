@@ -10,6 +10,9 @@ namespace BoundTree.Helpers
         private NodeInfo _nodeInfo;
         private Func<NodeInfo, NodeInfo, bool>[] Patterns =
         {
+            IsMatched<Root, Grid>,
+            IsMatched<Root, Grid3D>,
+            IsMatched<Root, Single>,
             IsMatched<Grid3D, Grid>,
             IsMatched<Grid3D, Single>,
             IsMatched<Grid3D, PredefinedList>,

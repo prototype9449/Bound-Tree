@@ -18,13 +18,19 @@ namespace BoundTree.Helpers.TreeReconstruction
         {
             var stack = new Stack<DoubleNode<T>>(new[] { doubleNode });
             var passedNodes = new HashSet<DoubleNode<T>>();
-            var initialChildIds = doubleNode.Nodes.Select(node => node.MinorLeaf.Id).ToList();
 
             while (stack.Any())
             {
                 var current = stack.Pop();
+                current.Nodes.ForEach(node => stack.Push(node));
 
-                if (!current.Nodes.Any()) continue;
+                if(current.MinorLeaf.IsEmpty()) continue;
+
+                var initialChildIds = current.Nodes
+                    .Where(node => !node.MinorLeaf.IsEmpty())
+                    .Select(node => node.MinorLeaf.Id).ToList();
+
+                if (!initialChildIds.Any()) continue;
 
                 if (passedNodes.Contains(current))
                 {
@@ -32,7 +38,12 @@ namespace BoundTree.Helpers.TreeReconstruction
                     continue;
                 }
 
-                var descendants = current.Nodes.Select(node => GetRepairedNode(current, node)).ToList();
+                var descendants = current.Nodes
+                    .Where(node => !node.MinorLeaf.IsEmpty())
+                    .Select(node => GetRepairedNode(current, node)).ToList();
+
+                if(!descendants.Any()) continue;
+
                 current.Nodes = descendants.Select(pair => pair.Value).ToList();
                 for (int i = 0; i < current.Nodes.Count; i++)
                 {
@@ -68,13 +79,14 @@ namespace BoundTree.Helpers.TreeReconstruction
 
             var doubleAscendant = child;
 
-            while (containHelper.CreateHelper(parent.MinorLeaf.NodeInfo).CanContain(doubleAscendant.MinorLeaf.NodeInfo))
+            while (containHelper.CreateHelper(parent.MinorLeaf.NodeInfo).CanContain(singleAscendant.Node.NodeInfo))
             {
                 doubleAscendant = new DoubleNode<T>(new Node<T>(), singleAscendant.Node)
                 {
                     Nodes = new List<DoubleNode<T>>(new[] { doubleAscendant })
                 };
                 isDone = true;
+                singleAscendant = _minorTree.GetParent(doubleAscendant.MinorLeaf.Id);
             }
 
             return new KeyValuePair<bool, DoubleNode<T>>(isDone, doubleAscendant);
@@ -88,19 +100,24 @@ namespace BoundTree.Helpers.TreeReconstruction
             while (queue.Any())
             {
                 var current = queue.Dequeue();
-                if(initialChildIds.Contains(current.MinorLeaf.Id)) continue;
+                if (initialChildIds.Contains(current.MinorLeaf.Id)) continue;
 
                 var groupedNodes = doubleNode.Nodes
                     .Where(node => !node.MainLeaf.IsEmpty())
                     .GroupBy(node => node.MinorLeaf.Id)
                     .Where(group => group.Count() > 1);
 
+                if (!groupedNodes.Any()) continue;
+
                 var repairedNodes = groupedNodes.Select(GetRepairedNode).ToList();
 
-                doubleNode.Nodes.RemoveAll(repairedNode 
+                doubleNode.Nodes.RemoveAll(repairedNode
                     => repairedNodes.Exists(node => node.MinorLeaf.Id == repairedNode.MinorLeaf.Id));
 
                 repairedNodes.ForEach(doubleNode.Nodes.Add);
+
+                queue.Clear();
+                queue.Enqueue(doubleNode);
             }
         }
 

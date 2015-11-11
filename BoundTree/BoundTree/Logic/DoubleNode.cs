@@ -86,7 +86,13 @@ namespace BoundTree.Logic
             RecursiveFillNodes(this, nodes);
             return nodes;
         }
-        
+
+        public void RecalculateDeep()
+        {
+            Deep = -1;
+            SetDeep(-1);
+        }
+
         internal void SetDeep(int initialDeep)
         {
             Deep = initialDeep + 1;
