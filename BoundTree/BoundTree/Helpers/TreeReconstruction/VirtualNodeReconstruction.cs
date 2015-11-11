@@ -137,7 +137,7 @@ namespace BoundTree.Helpers.TreeReconstruction
             {
                 var areDifferent = routes
                     .Select(nodes => nodes[i])
-                    .Any(node => node.Id != routes.First()[i].Id);
+                    .Any(node => node != routes.First()[i]);
 
                 if (areDifferent)
                 {

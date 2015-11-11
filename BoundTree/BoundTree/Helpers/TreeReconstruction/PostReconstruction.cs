@@ -24,7 +24,7 @@ namespace BoundTree.Helpers.TreeReconstruction
                 var current = stack.Pop();
                 current.Nodes.ForEach(stack.Push);
 
-                if(current.IsMinorEmpty() || passedNodes.Exists(node => node.MinorLeaf.Id == current.MinorLeaf.Id)) 
+                if(current.IsMinorEmpty() || passedNodes.Exists(node => node.MinorLeaf == current.MinorLeaf)) 
                     continue;
 
                 var initialChildIds = current.Nodes
