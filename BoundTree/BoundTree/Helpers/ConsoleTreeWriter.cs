@@ -88,12 +88,20 @@ namespace BoundTree.Helpers
                     ? new string(' ', topElement.Deep * 3)
                     : new String('-', (maxDeep - topElement.Deep) * 3);
 
-                var additionalSeparator = '-';
+                var additionalSeparator = "-";
                 if (topElement.ConnectionKind == ConnectionKind.Strict)
                 {
                     additionalSeparator = isLeft 
-                        ? '<' 
-                        : '>';
+                        ? "<<" 
+                        : ">>";
+
+                } 
+                
+                if (topElement.ConnectionKind == ConnectionKind.Relative)
+                {
+                    additionalSeparator = isLeft 
+                        ? "<*"
+                        : "*>";
                 }
 
                 var line = isLeft

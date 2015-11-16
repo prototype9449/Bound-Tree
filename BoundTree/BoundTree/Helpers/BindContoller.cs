@@ -1,5 +1,6 @@
 ﻿using System;
 using BoundTree.Logic;
+using System.Collections.Generic;
 
 namespace BoundTree.Helpers
 {
@@ -14,8 +15,13 @@ namespace BoundTree.Helpers
             MainSingleTree = mainSingleTree;
             MinorSingleTree = minorSingleTree;
             BindingHandler = new BindingHandler<T>(mainSingleTree, minorSingleTree);
-
+            
             Bind(mainSingleTree.Root.Node.Id, minorSingleTree.Root.Node.Id);
+        }
+
+        public List<KeyValuePair<T, T>> Connections
+        {
+            get { return BindingHandler.Connections; }
         }
 
         public bool Bind(T mainId, T minorId)
