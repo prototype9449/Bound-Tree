@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using BoundTree.Logic;
+using BoundTree.Logic.ConnectionKinds;
 using BoundTree.Logic.Nodes;
 
 namespace BoundTree.Helpers.TreeReconstruction
@@ -23,12 +24,12 @@ namespace BoundTree.Helpers.TreeReconstruction
                 if (connections.ContainsKey(mainCurrentId))
                 {
                     current.doubleNode.MinorLeaf = connections[mainCurrentId].Node;
-                    current.doubleNode.ConnectionKind = ConnectionKind.Strict;
+                    current.doubleNode.Connection = new StrictConnection();
                 }
                 else
                 {
                     current.doubleNode.MinorLeaf = new Node<T>(new T(), -1, new Empty());
-                    current.doubleNode.ConnectionKind = ConnectionKind.None;
+                    current.doubleNode.Connection = new NoneConnection();
                 }
 
                 foreach (var node in current.node.Nodes)

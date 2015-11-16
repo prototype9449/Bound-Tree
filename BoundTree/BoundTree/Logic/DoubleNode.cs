@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using BoundTree.Logic.Nodes;
+using BoundTree.Logic.ConnectionKinds;
 
 namespace BoundTree.Logic
 {
@@ -10,7 +11,7 @@ namespace BoundTree.Logic
         public Node<T> MainLeaf { get; set; }
         public Node<T> MinorLeaf { get; set; }
         internal Node<T> Shadow { get; set; }
-        public ConnectionKind ConnectionKind { get; set; }
+        public Connection Connection { get; set; }
         public List<DoubleNode<T>> Nodes { get; set; }
         public int Deep { get; set; }
 

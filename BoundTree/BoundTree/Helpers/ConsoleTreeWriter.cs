@@ -86,27 +86,11 @@ namespace BoundTree.Helpers
 
                 var space = isLeft
                     ? new string(' ', topElement.Deep * 3)
-                    : new String('-', (maxDeep - topElement.Deep) * 3);
-
-                var additionalSeparator = "-";
-                if (topElement.ConnectionKind == ConnectionKind.Strict)
-                {
-                    additionalSeparator = isLeft 
-                        ? "<<" 
-                        : ">>";
-
-                } 
-                
-                if (topElement.ConnectionKind == ConnectionKind.Relative)
-                {
-                    additionalSeparator = isLeft 
-                        ? "<*"
-                        : "*>";
-                }
+                    : new String('-', (maxDeep - topElement.Deep) * 3);               
 
                 var line = isLeft
-                    ? space + getNodeName(topElement) + additionalSeparator
-                    : space + additionalSeparator + getNodeName(topElement);
+                    ? space + getNodeName(topElement) + topElement.Connection.GetSign(true)
+                    : space + topElement.Connection.GetSign(false) + getNodeName(topElement);
 
                 nodeLines.Add(line);
 
