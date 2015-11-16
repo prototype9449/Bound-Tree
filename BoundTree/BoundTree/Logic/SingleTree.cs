@@ -9,12 +9,25 @@ namespace BoundTree.Logic
     [Serializable]
     public class SingleTree<T> where T : class, IEquatable<T>, new()
     {
-        public SingleNode<T> Root { get; set; }
+        private SingleNode<T> _root;
+
+        public SingleNode<T> Root
+        {
+            get { return _root; }
+            set
+            {
+                _root = value;
+
+                if (value != null)
+                {
+                    _root.RecalculateDeep();
+                }
+            }
+        }
 
         public SingleTree(SingleNode<T> root)
         {
             Root = root;
-            Root.RecalculateDeep();
         }
 
         public SingleNode<T> GetById(T id)

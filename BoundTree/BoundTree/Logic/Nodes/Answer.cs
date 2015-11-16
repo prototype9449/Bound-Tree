@@ -9,5 +9,13 @@ namespace BoundTree.Logic.Nodes
         {
             LogicLevel = 5;
         }
+
+//        private List<Type> validChildTypes = new List<Type>(typeif);
+//
+//        public void Add(NodeInfo info)
+//        {
+//            if ()
+//                _nodes.add(info);
+//        }
     }
 }

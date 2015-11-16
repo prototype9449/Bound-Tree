@@ -48,8 +48,15 @@ namespace BoundTree.Helpers
 
         private List<string> GetNodeLines(SingleTree<T> singleTree)
         {
-            var stack = new Stack<SingleNode<T>>(new[] { singleTree.Root });
+            if(singleTree == null) 
+                throw new ArgumentNullException("singleTree is null");
+
             var lines = new List<string>();
+
+            if (singleTree.Root == null) 
+                return lines;
+
+            var stack = new Stack<SingleNode<T>>(new[] { singleTree.Root });
 
             while (stack.Any())
             {

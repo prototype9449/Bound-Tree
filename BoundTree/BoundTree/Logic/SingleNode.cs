@@ -24,6 +24,12 @@ namespace BoundTree.Logic
             : this(singleNode.Node.Id, nodeInfo)
         { }
 
+        public void Add(SingleNode<T> singleNode)
+        {
+            singleNode.Node.Deep = this.Node.Deep + 1;
+            Nodes.Add(singleNode);
+        }
+
         public SingleNode<T> GetById(T id)
         {
             var queue = new Queue<SingleNode<T>>();

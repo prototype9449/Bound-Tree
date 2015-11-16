@@ -39,6 +39,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Helpers\ConsoleHelper\ConController.cs" />
     <Compile Include="Helpers\ContainHelper.cs" />
     <Compile Include="Helpers\TreeReconstruction\ConnectionKindReconstruction.cs" />
     <Compile Include="Helpers\TreeReconstruction\ConnectionReconstruction.cs" />
@@ -52,9 +53,9 @@
     <Compile Include="Logic\DoubleNode.cs" />
     <Compile Include="Helpers\BindContoller.cs" />
     <Compile Include="Helpers\BindingHandler.cs" />
-    <Compile Include="Helpers\ConsoleController.cs" />
-    <Compile Include="Helpers\ConsoleTableWriter.cs" />
-    <Compile Include="Helpers\ConsoleTreeWriter.cs" />
+    <Compile Include="Helpers\ConsoleHelper\ConsoleController.cs" />
+    <Compile Include="Helpers\ConsoleHelper\ConsoleTableWriter.cs" />
+    <Compile Include="Helpers\ConsoleHelper\ConsoleTreeWriter.cs" />
     <Compile Include="Helpers\TreeReconstruction\TreeReconstruction.cs" />
     <Compile Include="Interfaces\IBindingHandler.cs" />
     <Compile Include="Logic\Node.cs" />
