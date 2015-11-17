@@ -15,7 +15,7 @@ namespace BoundTree.Logic.Nodes
 
         public OpenTextInfo()
         {
-            LogicLevel = 2;
+            LogicLevel = 5;
         }
     }
 }

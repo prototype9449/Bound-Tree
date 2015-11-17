@@ -8,14 +8,14 @@ namespace BoundTree.Logic.Nodes
     {
         private readonly List<Type> _validTypes = new List<Type>(new[]
         {
-            typeof(PredefinedList),typeof(MultiGrid),typeof(Multi),typeof(OpenTextInfo),typeof(Answer), typeof(Single)
+            typeof(PredefinedList),typeof(Multi),typeof(OpenTextInfo),typeof(Answer), typeof(Single)
         });
 
         internal override List<Type> ValidTypes { get { return _validTypes; } }
 
         public Grid()
         {
-            this.LogicLevel = 2;
+            this.LogicLevel = 3;
         }
     }
 }

@@ -15,7 +15,7 @@ namespace BoundTree.Logic.Nodes
 
         public PredefinedList()
         {
-            LogicLevel = 4;
+            LogicLevel = 6;
         }
     }
 }

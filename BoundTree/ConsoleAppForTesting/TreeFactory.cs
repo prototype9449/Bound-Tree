@@ -316,4 +316,55 @@ namespace ConsoleAppForTesting
             return new SingleTree<StringId>(tree);
         }
     }
+
+
+    public class Tree12 : ITree
+    {
+        public SingleTree<StringId> GetTree()
+        {
+            var nodeInfoFabrica = new NodeInfoFactory();
+            var singleNodeFabrica = new SingleNodeFactory();
+
+            var tree = singleNodeFabrica.GetNode("A", nodeInfoFabrica.Root, new[]
+            {
+                singleNodeFabrica.GetNode("B", nodeInfoFabrica.Grid3D, new[]
+                {
+                    singleNodeFabrica.GetNode("C", nodeInfoFabrica.Single),
+                    singleNodeFabrica.GetNode("D", nodeInfoFabrica.Multi)
+                }),
+                singleNodeFabrica.GetNode("E", nodeInfoFabrica.OpenText)
+            });
+
+            return new SingleTree<StringId>(tree);
+        }
+    }
+
+    public class Tree13 : ITree
+    {
+        public SingleTree<StringId> GetTree()
+        {
+            var nodeInfoFabrica = new NodeInfoFactory();
+            var singleNodeFabrica = new SingleNodeFactory();
+
+            var tree = singleNodeFabrica.GetNode("A", nodeInfoFabrica.Root, new[]
+                    {
+                        singleNodeFabrica.GetNode("B", nodeInfoFabrica.Grid3D, new[]
+                        {
+                            singleNodeFabrica.GetNode("C", nodeInfoFabrica.Single),
+                            singleNodeFabrica.GetNode("D", nodeInfoFabrica.Multi)
+                        }),
+                        singleNodeFabrica.GetNode("E", nodeInfoFabrica.OpenText)
+                    });
+
+            return new SingleTree<StringId>(tree);
+        }
+    }
+
+
+    // Root                  Root
+    //    Grid3D           Grid3d
+    //      Single       Single
+    //      Multi  <---> Multi
+    //    OpenText <---->  OpenText
+
 }
