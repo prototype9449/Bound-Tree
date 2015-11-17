@@ -28,10 +28,9 @@ namespace BoundTree.Helpers.TreeReconstruction
                     continue;
 
                 var initialChildIds = current.Nodes
-                    .Where(node => !node.IsMinorEmpty())
                     .Select(node => node.MinorLeaf.Id).ToList();
 
-                if (!initialChildIds.Any()) 
+                if (current.Nodes.All(node => node.IsMinorEmpty())) 
                     continue;
 
                 if (passedNodes.Contains(current))
@@ -50,6 +49,9 @@ namespace BoundTree.Helpers.TreeReconstruction
                 for (int i = 0; i < current.Nodes.Count; i++)
                 {
                     var currentDoubleNode = descendants[i].Value;
+                    
+                    if(!currentDoubleNode.Nodes.Any())
+                        passedNodes.Add(currentDoubleNode);
 
                     while (currentDoubleNode.Nodes.Count() == 1 && currentDoubleNode.MinorLeaf.Id != initialChildIds[i])
                     {

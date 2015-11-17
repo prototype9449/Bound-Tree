@@ -250,4 +250,70 @@ namespace ConsoleAppForTesting
             return new SingleTree<StringId>(tree);
         }
     }
+
+    public class Tree10 : ITree
+    {
+        public SingleTree<StringId> GetTree()
+        {
+            var nodeInfoFabrica = new NodeInfoFactory();
+            var singleNodeFabrica = new SingleNodeFactory();
+
+            var tree = singleNodeFabrica.GetNode("A", nodeInfoFabrica.Root, new[]
+            {
+                singleNodeFabrica.GetNode("B", nodeInfoFabrica.Grid3D, new[]
+                {
+                    singleNodeFabrica.GetNode("C", nodeInfoFabrica.Single, new[]
+                    {
+                        singleNodeFabrica.GetNode("D", nodeInfoFabrica.Answer),
+                    })
+                }),
+                singleNodeFabrica.GetNode("E", nodeInfoFabrica.Grid3D, new[]
+                {
+                    singleNodeFabrica.GetNode("F", nodeInfoFabrica.Single, new[]
+                    {
+                        singleNodeFabrica.GetNode("G", nodeInfoFabrica.Answer),
+                    })
+                }),
+                singleNodeFabrica.GetNode("R", nodeInfoFabrica.Grid3D, new[]
+                {
+                    singleNodeFabrica.GetNode("T", nodeInfoFabrica.Single)
+                })
+            });
+
+            return new SingleTree<StringId>(tree);
+        }
+    }
+
+    public class Tree11 : ITree
+    {
+        public SingleTree<StringId> GetTree()
+        {
+            var nodeInfoFabrica = new NodeInfoFactory();
+            var singleNodeFabrica = new SingleNodeFactory();
+
+            var tree = singleNodeFabrica.GetNode("A", nodeInfoFabrica.Root, new[]
+            {
+                singleNodeFabrica.GetNode("B", nodeInfoFabrica.Grid, new[]
+                {
+                    singleNodeFabrica.GetNode("C", nodeInfoFabrica.Single, new[]
+                    {
+                        singleNodeFabrica.GetNode("D", nodeInfoFabrica.Answer),
+                    })
+                }),
+                singleNodeFabrica.GetNode("E", nodeInfoFabrica.Grid, new[]
+                {
+                    singleNodeFabrica.GetNode("F", nodeInfoFabrica.Single, new[]
+                    {
+                        singleNodeFabrica.GetNode("G", nodeInfoFabrica.Answer),
+                    })
+                }),
+                singleNodeFabrica.GetNode("R", nodeInfoFabrica.Grid, new[]
+                {
+                    singleNodeFabrica.GetNode("T", nodeInfoFabrica.Single)
+                })
+            });
+
+            return new SingleTree<StringId>(tree);
+        }
+    }
 }

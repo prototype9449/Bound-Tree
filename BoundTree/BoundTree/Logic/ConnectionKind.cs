@@ -2,8 +2,8 @@
 {
     public enum ConnectionKind
     {
+        None,
         Strict,
-        Relative,
-        None
+        Relative
     }
 }

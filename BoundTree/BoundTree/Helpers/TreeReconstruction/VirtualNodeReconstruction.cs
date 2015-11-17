@@ -167,7 +167,7 @@ namespace BoundTree.Helpers.TreeReconstruction
                 }
 
                 route.Reverse();
-
+                route.Add(doubleNode.MinorLeaf);
                 var childNode = doubleNode.GetLonelyChild();
                 if (childNode == null)
                 {
