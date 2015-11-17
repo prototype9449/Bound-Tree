@@ -62,7 +62,7 @@
     <Compile Include="Logic\Nodes\PredefinedList.cs" />
     <Compile Include="Logic\Nodes\Empty.cs" />
     <Compile Include="Logic\Nodes\NodeInfo.cs" />
-    <Compile Include="Logic\NodeInfoFabrica.cs" />
+    <Compile Include="Logic\NodeInfoFactory.cs" />
     <Compile Include="Logic\Nodes\Grid.cs" />
     <Compile Include="Logic\Nodes\OpenText.cs" />
     <Compile Include="Logic\Nodes\Root.cs" />
@@ -70,7 +70,7 @@
     <Compile Include="Logic\Relation.cs" />
     <Compile Include="Logic\SingleNode.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Logic\SingleNodeFabrica.cs" />
+    <Compile Include="Logic\SingleNodeFactory.cs" />
     <Compile Include="Logic\SingleTree.cs" />
     <Compile Include="Logic\StringId.cs" />
   </ItemGroup>
