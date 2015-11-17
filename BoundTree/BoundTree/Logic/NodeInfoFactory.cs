@@ -2,7 +2,7 @@
 
 namespace BoundTree.Logic
 {
-    public class NodeInfoFabrica
+    public class NodeInfoFactory
     {
         public NodeInfo Grid
         {

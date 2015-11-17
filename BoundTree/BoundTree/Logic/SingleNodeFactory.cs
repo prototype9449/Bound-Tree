@@ -3,7 +3,7 @@ using BoundTree.Logic.Nodes;
 
 namespace BoundTree.Logic
 {
-    public class SingleNodeFabrica
+    public class SingleNodeFactory
     {
         public SingleNode<StringId> GetNode(string id, NodeInfo nodeInfo)
         {

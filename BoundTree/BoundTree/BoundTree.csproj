@@ -39,21 +39,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Helpers\ConsoleHelper\ConController.cs" />
+    <Compile Include="Helpers\ConsoleHelper\ConsoleController.cs" />
     <Compile Include="Helpers\ContainHelper.cs" />
     <Compile Include="Helpers\TreeReconstruction\ConnectionKindReconstruction.cs" />
     <Compile Include="Helpers\TreeReconstruction\ConnectionReconstruction.cs" />
     <Compile Include="Helpers\TreeReconstruction\PostReconstruction.cs" />
     <Compile Include="Helpers\TreeReconstruction\VirtualNodeReconstruction.cs" />
-    <Compile Include="Logic\ConnectionKinds\Connection.cs" />
-    <Compile Include="Logic\ConnectionKinds\ConnectionKind.cs" />
-    <Compile Include="Logic\ConnectionKinds\NoneConnection.cs" />
-    <Compile Include="Logic\ConnectionKinds\RelativeConnection.cs" />
-    <Compile Include="Logic\ConnectionKinds\StrictConnection.cs" />
+    <Compile Include="Logic\ConnectionKind.cs" />
     <Compile Include="Logic\DoubleNode.cs" />
     <Compile Include="Helpers\BindContoller.cs" />
     <Compile Include="Helpers\BindingHandler.cs" />
-    <Compile Include="Helpers\ConsoleHelper\ConsoleController.cs" />
+    <Compile Include="Helpers\ConsoleHelper\ConsoleConnectionController.cs" />
     <Compile Include="Helpers\ConsoleHelper\ConsoleTableWriter.cs" />
     <Compile Include="Helpers\ConsoleHelper\ConsoleTreeWriter.cs" />
     <Compile Include="Helpers\TreeReconstruction\TreeReconstruction.cs" />

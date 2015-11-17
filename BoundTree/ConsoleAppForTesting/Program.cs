@@ -13,7 +13,7 @@ namespace ConsoleAppForTesting
             //var minorTree = treeFactory.GetTree(new Tree8());
 
             //var bindController = new BindContoller<StringId>(mainTree, minorTree);
-            new ConController().Run();
+            new ConsoleController().Run();
             //new ConsoleController(bindController).Start();
         }
     }

@@ -19,8 +19,8 @@ namespace ConsoleAppForTesting
     {
         public SingleTree<StringId> GetTree()
         {
-            var nodeInfoFabrica = new NodeInfoFabrica();
-            var singleNodeFabrica = new SingleNodeFabrica();
+            var nodeInfoFabrica = new NodeInfoFactory();
+            var singleNodeFabrica = new SingleNodeFactory();
 
             var tree = singleNodeFabrica.GetNode("A", nodeInfoFabrica.Root, new[]
             {
@@ -38,8 +38,8 @@ namespace ConsoleAppForTesting
     {
         public SingleTree<StringId> GetTree()
         {
-            var nodeInfoFabrica = new NodeInfoFabrica();
-            var singleNodeFabrica = new SingleNodeFabrica();
+            var nodeInfoFabrica = new NodeInfoFactory();
+            var singleNodeFabrica = new SingleNodeFactory();
 
             var tree = singleNodeFabrica.GetNode("A", nodeInfoFabrica.Root, new[]
             {
@@ -66,8 +66,8 @@ namespace ConsoleAppForTesting
     {
         public SingleTree<StringId> GetTree()
         {
-            var nodeInfoFabrica = new NodeInfoFabrica();
-            var singleNodeFabrica = new SingleNodeFabrica();
+            var nodeInfoFabrica = new NodeInfoFactory();
+            var singleNodeFabrica = new SingleNodeFactory();
 
             var tree = singleNodeFabrica.GetNode("A", nodeInfoFabrica.Root, new[]
             {
@@ -96,8 +96,8 @@ namespace ConsoleAppForTesting
     {
         public SingleTree<StringId> GetTree()
         {
-            var nodeInfoFabrica = new NodeInfoFabrica();
-            var singleNodeFabrica = new SingleNodeFabrica();
+            var nodeInfoFabrica = new NodeInfoFactory();
+            var singleNodeFabrica = new SingleNodeFactory();
 
             var tree = singleNodeFabrica.GetNode("A", nodeInfoFabrica.Root, new[]
             {
@@ -125,8 +125,8 @@ namespace ConsoleAppForTesting
     {
         public SingleTree<StringId> GetTree()
         {
-            var nodeInfoFabrica = new NodeInfoFabrica();
-            var singleNodeFabrica = new SingleNodeFabrica();
+            var nodeInfoFabrica = new NodeInfoFactory();
+            var singleNodeFabrica = new SingleNodeFactory();
 
             var tree = singleNodeFabrica.GetNode("A", nodeInfoFabrica.Root, new[]
             {
@@ -157,8 +157,8 @@ namespace ConsoleAppForTesting
     {
         public SingleTree<StringId> GetTree()
         {
-            var nodeInfoFabrica = new NodeInfoFabrica();
-            var singleNodeFabrica = new SingleNodeFabrica();
+            var nodeInfoFabrica = new NodeInfoFactory();
+            var singleNodeFabrica = new SingleNodeFactory();
 
             var tree = singleNodeFabrica.GetNode("A", nodeInfoFabrica.Root, new[]
             {
@@ -178,8 +178,8 @@ namespace ConsoleAppForTesting
     {
         public SingleTree<StringId> GetTree()
         {
-            var nodeInfoFabrica = new NodeInfoFabrica();
-            var singleNodeFabrica = new SingleNodeFabrica();
+            var nodeInfoFabrica = new NodeInfoFactory();
+            var singleNodeFabrica = new SingleNodeFactory();
 
             var tree = singleNodeFabrica.GetNode("A", nodeInfoFabrica.Root, new[]
             {
@@ -209,8 +209,8 @@ namespace ConsoleAppForTesting
     {
         public SingleTree<StringId> GetTree()
         {
-            var nodeInfoFabrica = new NodeInfoFabrica();
-            var singleNodeFabrica = new SingleNodeFabrica();
+            var nodeInfoFabrica = new NodeInfoFactory();
+            var singleNodeFabrica = new SingleNodeFactory();
 
             var tree = singleNodeFabrica.GetNode("A", nodeInfoFabrica.Root, new[]
             {
@@ -232,8 +232,8 @@ namespace ConsoleAppForTesting
     {
         public SingleTree<StringId> GetTree()
         {
-            var nodeInfoFabrica = new NodeInfoFabrica();
-            var singleNodeFabrica = new SingleNodeFabrica();
+            var nodeInfoFabrica = new NodeInfoFactory();
+            var singleNodeFabrica = new SingleNodeFactory();
 
             var tree = singleNodeFabrica.GetNode("A", nodeInfoFabrica.Root, new[]
             {

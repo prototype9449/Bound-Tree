@@ -26,7 +26,7 @@ namespace BoundTree.Helpers.TreeReconstruction
             var doubleNode = new ConnectionReconstruction<T>().GetDoubleNodeWithConnections(clonedMainTree, connections);
             new VirtualNodeReconstruction<T>(_minorTree).Reconstruct(doubleNode);
             new PostReconstruction<T>(_minorTree).Reconstruct(doubleNode);
-            new ConnectionKindReconstruction<T>(_bindingHandler).Reconstruct(doubleNode);
+            new ConnectionKindReconstruction<T>().Reconstruct(doubleNode);
             doubleNode.RecalculateDeep();
             return doubleNode;
         }

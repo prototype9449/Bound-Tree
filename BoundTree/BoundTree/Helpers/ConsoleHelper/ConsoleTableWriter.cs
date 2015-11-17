@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using BoundTree.Logic;
 
-namespace BoundTree.Helpers
+namespace BoundTree.Helpers.ConsoleHelper
 {
     public class Pair<T> where T : class, IEquatable<T>, new()
     {

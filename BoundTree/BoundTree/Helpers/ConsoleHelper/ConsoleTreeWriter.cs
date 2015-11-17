@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using BoundTree.Logic;
 
-namespace BoundTree.Helpers
+namespace BoundTree.Helpers.ConsoleHelper
 {
     public class ConsoleTreeWriter<T> where T : class, IEquatable<T>, new()
     {
@@ -93,11 +93,27 @@ namespace BoundTree.Helpers
 
                 var space = isLeft
                     ? new string(' ', topElement.Deep * 3)
-                    : new String('-', (maxDeep - topElement.Deep) * 3);               
+                    : new String('-', (maxDeep - topElement.Deep) * 3);
+
+                var additionalSeparator = "-";
+                if (topElement.ConnectionKind == ConnectionKind.Strict)
+                {
+                    additionalSeparator = isLeft
+                        ? "<<"
+                        : ">>";
+
+                }
+
+                if (topElement.ConnectionKind == ConnectionKind.Relative)
+                {
+                    additionalSeparator = isLeft
+                        ? "<*"
+                        : "*>";
+                }
 
                 var line = isLeft
-                    ? space + getNodeName(topElement) + topElement.Connection.GetSign(true)
-                    : space + topElement.Connection.GetSign(false) + getNodeName(topElement);
+                    ? space + getNodeName(topElement) + additionalSeparator
+                    : space + additionalSeparator + getNodeName(topElement);
 
                 nodeLines.Add(line);
 
