@@ -49,9 +49,9 @@ namespace BoundTree.Logic
             get { return new PredefinedList(); }
         }
 
-        public AnswerInfo Answer
+        public Answer Answer
         {
-            get { return new AnswerInfo(); }
+            get { return new Answer(); }
         }
     }
 }

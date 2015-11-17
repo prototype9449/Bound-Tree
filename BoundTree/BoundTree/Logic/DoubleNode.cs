@@ -72,7 +72,7 @@ namespace BoundTree.Logic
 
         public DoubleNode<T> GetLonelyChild()
         {
-            if (Nodes.Count() != 1 || Nodes.First().MinorLeaf.IsEmpty())
+            if (Nodes.Count() != 1 || Nodes.First().IsMinorEmpty())
             {
                 return null;
             }

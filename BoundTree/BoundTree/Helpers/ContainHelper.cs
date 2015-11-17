@@ -18,12 +18,12 @@ namespace BoundTree.Helpers
             IsMatched<Grid3D, PredefinedList>,
             IsMatched<Grid3D, OpenTextInfo>,
             IsMatched<OpenTextInfo, PredefinedList>,
-            IsMatched<OpenTextInfo, AnswerInfo>,
-            IsMatched<Grid3D, AnswerInfo>,
+            IsMatched<OpenTextInfo, Answer>,
+            IsMatched<Grid3D, Answer>,
             IsMatched<Grid, Single>,
-            IsMatched<Single, AnswerInfo>,
+            IsMatched<Single, Answer>,
             IsMatched<Single, PredefinedList>,
-            IsMatched<PredefinedList, AnswerInfo>,
+            IsMatched<PredefinedList, Answer>,
             IsMatched<PredefinedList, PredefinedList>
         };
         

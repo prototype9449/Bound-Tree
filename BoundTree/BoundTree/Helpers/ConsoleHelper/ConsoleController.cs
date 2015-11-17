@@ -21,7 +21,7 @@ namespace BoundTree.Helpers.ConsoleHelper
             _nodeTypes.Add("MultiGrid", new MultiGrid());
             _nodeTypes.Add("OpenText", new OpenTextInfo());
             _nodeTypes.Add("Grid3D", new Grid3D());
-            _nodeTypes.Add("Answer", new AnswerInfo());
+            _nodeTypes.Add("Answer", new Answer());
             _nodeTypes.Add("PredefinedList", new PredefinedList());
         }
 

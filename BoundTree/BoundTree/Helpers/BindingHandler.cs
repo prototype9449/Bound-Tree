@@ -40,20 +40,20 @@ namespace BoundTree.Helpers
         {
             foreach (var connection in Connections)
             {
-                if (GetRelationKind(connection.Key, first.Node.Id) != GetRelationKind(connection.Value, second.Node.Id))
+                if (GetRelationKind(connection.Key, first.Node.Id, _mainTree) != GetRelationKind(connection.Value, second.Node.Id, _minorTree))
                     return false;
             }
 
             return true;
         }
 
-        private RelationKind GetRelationKind(T firstId, T secondId)
+        private RelationKind GetRelationKind(T firstId, T secondId, SingleTree<T> tree)
         {
-            var descendantOfFirst = _mainTree.GetById(firstId).GetById(secondId);
+            var descendantOfFirst = tree.GetById(firstId).GetById(secondId);
             if (descendantOfFirst != null)
                 return RelationKind.Ascendant;
 
-            var descendantOfSecond = _minorTree.GetById(secondId).GetById(firstId);
+            var descendantOfSecond = tree.GetById(secondId).GetById(firstId);
             if (descendantOfSecond != null)
                 return RelationKind.Descendant;
 

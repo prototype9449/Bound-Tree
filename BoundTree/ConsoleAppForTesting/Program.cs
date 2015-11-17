@@ -1,4 +1,5 @@
-﻿using BoundTree.Helpers;
+﻿using System;
+using BoundTree.Helpers;
 using BoundTree.Helpers.ConsoleHelper;
 using BoundTree.Logic;
 
@@ -8,13 +9,14 @@ namespace ConsoleAppForTesting
     {
         private static void Main(string[] args)
         {
-            //var treeFactory = new TreeFactory();
-            //var mainTree = treeFactory.GetTree(new Tree9());
-            //var minorTree = treeFactory.GetTree(new Tree8());
+//            var treeFactory = new TreeFactory();
+//            var mainTree = treeFactory.GetTree(new Tree10());
+//            var minorTree = treeFactory.GetTree(new Tree11());
+//
+//            var bindController = new BindContoller<StringId>(mainTree, minorTree);
+//            new ConsoleConnectionController(bindController).Start();
 
-            //var bindController = new BindContoller<StringId>(mainTree, minorTree);
             new ConsoleController().Run();
-            //new ConsoleController(bindController).Start();
         }
     }
 }
