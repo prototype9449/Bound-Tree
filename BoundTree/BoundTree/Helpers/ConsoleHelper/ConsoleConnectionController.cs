@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
+using BoundTree.Helpers.ConsoleHelper.CommandRepositories;
 using BoundTree.Helpers.TreeReconstruction;
 using BoundTree.Logic;
 
@@ -9,14 +11,16 @@ namespace BoundTree.Helpers.ConsoleHelper
     public class ConsoleConnectionController
     {
         private readonly BindContoller<StringId> _bindController;
+        private readonly IEnumerator<string> _commandRepository;
         private DoubleNode<StringId> _preivousDoubleNode;
         private TreeLogger _treeLogger;
 
         private List<string> _messages = new List<string>();
 
-        public ConsoleConnectionController(BindContoller<StringId> bindController)
+        public ConsoleConnectionController(BindContoller<StringId> bindController, IEnumerator<string> commandRepository)
         {
             _bindController = bindController;
+            _commandRepository = commandRepository;
             _treeLogger = new TreeLogger(bindController.MainSingleTree, bindController.MinorSingleTree);
         }
 
@@ -26,31 +30,45 @@ namespace BoundTree.Helpers.ConsoleHelper
             {
                 DisplayTree();
                 Console.WriteLine("Type 'a' to add, 'r' to remove, 'ra' to remove all connection, 'e' to exit");
-                var action = Console.ReadLine();
+
+                string action;
+                if (_commandRepository.MoveNext())
+                {
+                    action = _commandRepository.Current;
+                }
+                else
+                {
+                    break;
+                }
                 var ids = new KeyValuePair<StringId, StringId>();
 
-                switch (action)
+                if (action == "r" || action == "remove")
                 {
-                    case "r":
-                        ids = GetIds(true);
-                        if (_bindController.RemoveConnection(ids.Key))
-                        {
-                            _treeLogger.ProcessCommand(string.Format("remove {0}", ids.Key));
-                        }
-                        break;
-                    case "a":
-                        ids = GetIds(false);
-                        if (_bindController.Bind(ids.Key, ids.Value))
-                        {
-                            _treeLogger.ProcessCommand(string.Format("add {0} {1}", ids.Key, ids.Value));
-                        }
-                        break;
-                    case "ra":
-                        if (_bindController.ClearConnection())
-                        {
-                            _treeLogger.ProcessCommand("remove all");
-                        }
-                        break;
+                    ids = GetIds(true);
+                    if (_bindController.RemoveConnection(ids.Key))
+                    {
+                        _treeLogger.ProcessCommand(string.Format("remove {0}", ids.Key));
+                    }
+                    continue;
+                }
+
+                if (action == "a" || action == "add")
+                {
+                    ids = GetIds(false);
+                    if (_bindController.Bind(ids.Key, ids.Value))
+                    {
+                        _treeLogger.ProcessCommand(string.Format("add {0} {1}", ids.Key, ids.Value));
+                    }
+                    continue;
+                }
+
+                if (action == "ra" || action == "remove all")
+                {
+                    if (_bindController.ClearConnection())
+                    {
+                        _treeLogger.ProcessCommand("remove all");
+                    }
+                    continue;
                 }
 
                 if (action == "e")
@@ -79,6 +97,12 @@ namespace BoundTree.Helpers.ConsoleHelper
             }
             new ConsoleTreeWriter<StringId>().WriteToConsoleAsTrees(_bindController.MainSingleTree, _bindController.MinorSingleTree);
             new ConsoleTreeWriter<StringId>().WriteToConsoleAsTrees(tree);
+            Console.WriteLine();
+            if (_messages.Any())
+            {
+                Console.WriteLine(_messages.Last());
+            }
+            Console.WriteLine();
         }
 
         private KeyValuePair<StringId, StringId> GetIds(bool once)

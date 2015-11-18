@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 
-namespace BoundTree.Logic.Nodes
+namespace BoundTree.Logic.Nodes.GeneralNodes
 {
     [Serializable]
     public class Grid3D : NodeInfo

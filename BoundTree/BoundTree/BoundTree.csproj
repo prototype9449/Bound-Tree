@@ -39,7 +39,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Helpers\ConsoleHelper\CommandRepositories\ConsoleCommandRepository.cs" />
     <Compile Include="Helpers\ConsoleHelper\ConsoleController.cs" />
+    <Compile Include="Helpers\ConsoleHelper\CommandRepositories\ICommandRepository.cs" />
     <Compile Include="Helpers\ConsoleHelper\TreeLogger.cs" />
     <Compile Include="Helpers\TreeReconstruction\ConnectionKindReconstruction.cs" />
     <Compile Include="Helpers\TreeReconstruction\ConnectionReconstruction.cs" />

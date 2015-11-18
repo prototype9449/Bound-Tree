@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace BoundTree.Logic.Nodes
+namespace BoundTree.Logic.Nodes.GeneralNodes
 {
     [Serializable]
     public class Multi : NodeInfo

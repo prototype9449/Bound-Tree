@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using BoundTree.Helpers.ConsoleHelper.CommandRepositories;
 using BoundTree.Logic;
 using BoundTree.Logic.Nodes;
-using Single = BoundTree.Logic.Nodes.Single;
+using BoundTree.Logic.Nodes.GeneralNodes;
+using Single = BoundTree.Logic.Nodes.GeneralNodes.Single;
 
 namespace BoundTree.Helpers.ConsoleHelper
 {
@@ -33,7 +35,7 @@ namespace BoundTree.Helpers.ConsoleHelper
         {
             ProcessBuildingTree(_mainTree);
             ProcessBuildingTree(_minorTree);
-            _consoleConnectionController = new ConsoleConnectionController(new BindContoller<StringId>(_mainTree, _minorTree));
+            _consoleConnectionController = new ConsoleConnectionController(new BindContoller<StringId>(_mainTree, _minorTree), new ConsoleCommandRepository());
             _consoleConnectionController.Start();
         }
 
