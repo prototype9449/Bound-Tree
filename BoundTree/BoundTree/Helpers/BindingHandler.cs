@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using BoundTree.Interfaces;
 using BoundTree.Logic;
 
@@ -18,9 +19,15 @@ namespace BoundTree.Helpers
             _minorTree = minorTree;
         }
 
+        public void ClearConnections()
+        {
+            _connections.Clear();
+            HandleBinding(_mainTree.Root, _minorTree.Root);
+        }
+
         public List<KeyValuePair<T, T>> Connections
         {
-            get { return _connections; }
+            get { return _connections.ToList(); }
         }
 
         public bool HandleBinding(SingleNode<T> mainSingleNode, SingleNode<T> minorSingleNode)
@@ -28,10 +35,10 @@ namespace BoundTree.Helpers
             if (!IsValidConnection(mainSingleNode, minorSingleNode))
                 return false;
 
-            if (Connections.Exists(pair => pair.Key == mainSingleNode.Node.Id || pair.Value == minorSingleNode.Node.Id))
+            if (_connections.Exists(pair => pair.Key == mainSingleNode.Node.Id || pair.Value == minorSingleNode.Node.Id))
                 return false;
 
-            Connections.Add(new KeyValuePair<T, T>(mainSingleNode.Node.Id, minorSingleNode.Node.Id));
+            _connections.Add(new KeyValuePair<T, T>(mainSingleNode.Node.Id, minorSingleNode.Node.Id));
             return true;
         }
 
@@ -42,7 +49,7 @@ namespace BoundTree.Helpers
 
         private bool IsValidConnection(SingleNode<T> first, SingleNode<T> second)
         {
-            foreach (var connection in Connections)
+            foreach (var connection in _connections)
             {
                 if (GetRelationKind(connection.Key, first.Node.Id, _mainTree) != GetRelationKind(connection.Value, second.Node.Id, _minorTree))
                     return false;

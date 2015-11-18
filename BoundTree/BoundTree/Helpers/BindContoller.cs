@@ -8,20 +8,21 @@ namespace BoundTree.Helpers
     {
         public SingleTree<T> MainSingleTree { get; private set; }
         public SingleTree<T> MinorSingleTree { get; private set; }
-        public BindingHandler<T> BindingHandler { get; private set; }
+        public BindingHandler<T> Handler { get; private set; }
+
 
         public BindContoller(SingleTree<T> mainSingleTree, SingleTree<T> minorSingleTree)
         {
             MainSingleTree = mainSingleTree;
             MinorSingleTree = minorSingleTree;
-            BindingHandler = new BindingHandler<T>(mainSingleTree, minorSingleTree);
+            Handler = new BindingHandler<T>(mainSingleTree, minorSingleTree);
             
             Bind(mainSingleTree.Root.Node.Id, minorSingleTree.Root.Node.Id);
         }
 
-        public List<KeyValuePair<T, T>> Connections
+        public void ClearConnection()
         {
-            get { return BindingHandler.Connections; }
+            Handler.ClearConnections();
         }
 
         public bool Bind(T mainId, T minorId)
@@ -34,7 +35,7 @@ namespace BoundTree.Helpers
 
             if (mainNode.Node.NodeInfo.GetType() == minorNode.Node.NodeInfo.GetType())
             {
-                return BindingHandler.HandleBinding(mainNode, minorNode);
+                return Handler.HandleBinding(mainNode, minorNode);
             }
 
             return false;
@@ -42,7 +43,7 @@ namespace BoundTree.Helpers
 
         public void RemoveConnection(T main)
         {
-            BindingHandler.RemoveConnection(main);
+            Handler.RemoveConnection(main);
         }
     }
 }

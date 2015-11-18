@@ -22,10 +22,9 @@ namespace BoundTree.Helpers.ConsoleHelper
             while (true)
             {
                 DisplayTree();
-                Console.WriteLine("Type 'a' to Add, 'r' to Remove, 'e' to exit");
+                Console.WriteLine("Type 'a' to add, 'r' to remove, 'ra' to remove all connection, 'e' to exit");
                 var action = Console.ReadLine();
                 var ids = new KeyValuePair<StringId, StringId>();
-
 
                 switch (action)
                 {
@@ -36,6 +35,9 @@ namespace BoundTree.Helpers.ConsoleHelper
                     case "a":
                         ids = GetIds(false);
                         _bindController.Bind(ids.Key, ids.Value);
+                        break;
+                    case "ra":
+                        _bindController.ClearConnection();
                         break;
                 }
 
@@ -57,12 +59,11 @@ namespace BoundTree.Helpers.ConsoleHelper
             }
             catch (Exception)
             {
-                Console.WriteLine("Sorry");
-                Console.ReadKey();
+                Console.WriteLine("Sorry, there was an error");
+                Console.WriteLine("Press any button to continue");
                 tree = _preivousDoubleNode;
+                Console.ReadKey();
             }
-
-
             new ConsoleTreeWriter<StringId>().WriteToConsoleAsTrees(_bindController.MainSingleTree, _bindController.MinorSingleTree);
             new ConsoleTreeWriter<StringId>().WriteToConsoleAsTrees(tree);
         }

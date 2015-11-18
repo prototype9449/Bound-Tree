@@ -14,7 +14,7 @@ namespace BoundTree.Helpers.TreeReconstruction
         {
             _minorTree = bindContoller.MinorSingleTree;
             _mainTree = bindContoller.MainSingleTree;
-            _bindingHandler = bindContoller.BindingHandler;
+            _bindingHandler = bindContoller.Handler;
         }
 
         public DoubleNode<T> GetFilledTree()

@@ -141,7 +141,7 @@ namespace BoundTree.Helpers.ConsoleHelper
                 return isLeft ? LeftRelativeConnectionSign : RightRelativeConnectionSign;
             }
 
-            return NoneConnectionSign;
+            return isLeft ? " " + NoneConnectionSign : NoneConnectionSign + " ";
         }
     }
 }
