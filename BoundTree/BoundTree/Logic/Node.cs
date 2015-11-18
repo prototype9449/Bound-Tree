@@ -33,6 +33,11 @@ namespace BoundTree.Logic
             }
         }
 
+        public bool CanContain(Node<T> otherNode)
+        {
+            return NodeInfo.CanContain(otherNode.NodeInfo);
+        }
+
         public bool IsEmpty()
         {
             return NodeInfo.IsEmpty();

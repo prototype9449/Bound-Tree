@@ -40,7 +40,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Helpers\ConsoleHelper\ConsoleController.cs" />
-    <Compile Include="Helpers\ContainHelper.cs" />
     <Compile Include="Helpers\TreeReconstruction\ConnectionKindReconstruction.cs" />
     <Compile Include="Helpers\TreeReconstruction\ConnectionReconstruction.cs" />
     <Compile Include="Helpers\TreeReconstruction\PostReconstruction.cs" />

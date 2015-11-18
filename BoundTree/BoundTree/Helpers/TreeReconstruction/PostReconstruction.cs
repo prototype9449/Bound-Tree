@@ -75,7 +75,6 @@ namespace BoundTree.Helpers.TreeReconstruction
                 return new KeyValuePair<bool, DoubleNode<T>>(false, child);
 
             var isDone = false;
-            var containHelper = new ContainHelper();
 
             var singleAscendant = _minorTree.GetParent(child.MinorLeaf.Id);
 
@@ -86,7 +85,7 @@ namespace BoundTree.Helpers.TreeReconstruction
 
             var doubleAscendant = child;
 
-            while (containHelper.CreateHelper(parent.MinorLeaf.NodeInfo).CanContain(singleAscendant.Node.NodeInfo))
+            while (parent.MinorLeaf.CanContain(singleAscendant.Node))
             {
                 doubleAscendant = new DoubleNode<T>(new Node<T>(), singleAscendant.Node)
                 {

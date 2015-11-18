@@ -26,24 +26,18 @@ namespace BoundTree.Helpers.ConsoleHelper
                 var action = Console.ReadLine();
                 var ids = new KeyValuePair<StringId, StringId>();
 
-                //try
-                //{
-                    switch (action)
-                    {
-                        case "r":
-                            ids = GetIds(true);
-                            _bindController.RemoveConnection(ids.Key);
-                            break;
-                        case "a":
-                            ids = GetIds(false);
-                            _bindController.Bind(ids.Key, ids.Value);
-                            break;
-                    }
-                //}
-                //catch (Exception)
-                //{
-                //    Console.WriteLine("Sorry");
-                //}
+
+                switch (action)
+                {
+                    case "r":
+                        ids = GetIds(true);
+                        _bindController.RemoveConnection(ids.Key);
+                        break;
+                    case "a":
+                        ids = GetIds(false);
+                        _bindController.Bind(ids.Key, ids.Value);
+                        break;
+                }
 
                 if (action == "e")
                 {
@@ -67,8 +61,8 @@ namespace BoundTree.Helpers.ConsoleHelper
                 Console.ReadKey();
                 tree = _preivousDoubleNode;
             }
-            
-            
+
+
             new ConsoleTreeWriter<StringId>().WriteToConsoleAsTrees(_bindController.MainSingleTree, _bindController.MinorSingleTree);
             new ConsoleTreeWriter<StringId>().WriteToConsoleAsTrees(tree);
         }

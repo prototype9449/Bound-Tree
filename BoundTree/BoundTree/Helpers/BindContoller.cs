@@ -34,10 +34,10 @@ namespace BoundTree.Helpers
 
             if (mainNode.Node.NodeInfo.GetType() == minorNode.Node.NodeInfo.GetType())
             {
-                BindingHandler.HandleBinding(mainNode, minorNode);
+                return BindingHandler.HandleBinding(mainNode, minorNode);
             }
 
-            return true;
+            return false;
         }
 
         public void RemoveConnection(T main)

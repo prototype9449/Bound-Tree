@@ -6,7 +6,7 @@ using BoundTree.Logic;
 namespace BoundTree.Helpers
 {
     [Serializable]
-    public class BindingHandler<T> : IBindingHandler<T> where T : class, IEquatable<T>,new()
+    public class BindingHandler<T> : IBindingHandler<T> where T : class, IEquatable<T>, new()
     {
         private readonly SingleTree<T> _mainTree;
         private readonly SingleTree<T> _minorTree;
@@ -23,12 +23,16 @@ namespace BoundTree.Helpers
             get { return _connections; }
         }
 
-        public void HandleBinding(SingleNode<T> mainSingleNode, SingleNode<T> minorSingleNode)
+        public bool HandleBinding(SingleNode<T> mainSingleNode, SingleNode<T> minorSingleNode)
         {
             if (!IsValidConnection(mainSingleNode, minorSingleNode))
-                return;
+                return false;
+
+            if (Connections.Exists(pair => pair.Key == mainSingleNode.Node.Id || pair.Value == minorSingleNode.Node.Id))
+                return false;
 
             Connections.Add(new KeyValuePair<T, T>(mainSingleNode.Node.Id, minorSingleNode.Node.Id));
+            return true;
         }
 
         public void RemoveConnection(T mainId)
