@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Text.RegularExpressions;
 using BoundTree.Helpers;
 using BoundTree.Helpers.ConsoleHelper;
 using BoundTree.Logic;
@@ -17,7 +18,11 @@ namespace ConsoleAppForTesting
 //            var bindController = new BindContoller<StringId>(mainTree, minorTree);
 //            new ConsoleConnectionController(bindController).Start();
 
-            new ConsoleController().Run();
+            //new ConsoleController().Run();
+
+            //TreeLogger.GetDoubleNodeFromFile();
+            Console.WriteLine(new Regex(@"\[(.*?)\]").Split("(hi)")[0]);
+            
         }
     }
 }

@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
-using BoundTree.Helpers.ConsoleHelper.CommandRepositories;
 using BoundTree.Helpers.TreeReconstruction;
 using BoundTree.Logic;
 
@@ -11,16 +9,14 @@ namespace BoundTree.Helpers.ConsoleHelper
     public class ConsoleConnectionController
     {
         private readonly BindContoller<StringId> _bindController;
-        private readonly IEnumerator<string> _commandRepository;
         private DoubleNode<StringId> _preivousDoubleNode;
         private TreeLogger _treeLogger;
 
         private List<string> _messages = new List<string>();
 
-        public ConsoleConnectionController(BindContoller<StringId> bindController, IEnumerator<string> commandRepository)
+        public ConsoleConnectionController(BindContoller<StringId> bindController)
         {
             _bindController = bindController;
-            _commandRepository = commandRepository;
             _treeLogger = new TreeLogger(bindController.MainSingleTree, bindController.MinorSingleTree);
         }
 
@@ -32,14 +28,9 @@ namespace BoundTree.Helpers.ConsoleHelper
                 Console.WriteLine("Type 'a' to add, 'r' to remove, 'ra' to remove all connection, 'e' to exit");
 
                 string action;
-                if (_commandRepository.MoveNext())
-                {
-                    action = _commandRepository.Current;
-                }
-                else
-                {
-                    break;
-                }
+
+                action = Console.ReadLine();
+               
                 var ids = new KeyValuePair<StringId, StringId>();
 
                 if (action == "r" || action == "remove")
@@ -95,8 +86,10 @@ namespace BoundTree.Helpers.ConsoleHelper
                 tree = _preivousDoubleNode;
                 Console.ReadKey();
             }
+
             new ConsoleTreeWriter<StringId>().WriteToConsoleAsTrees(_bindController.MainSingleTree, _bindController.MinorSingleTree);
             new ConsoleTreeWriter<StringId>().WriteToConsoleAsTrees(tree);
+
             Console.WriteLine();
             if (_messages.Any())
             {

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using BoundTree.Helpers.ConsoleHelper.CommandRepositories;
 using BoundTree.Logic;
 using BoundTree.Logic.Nodes;
 using BoundTree.Logic.Nodes.GeneralNodes;
@@ -15,35 +14,22 @@ namespace BoundTree.Helpers.ConsoleHelper
 
         private SingleTree<StringId> _mainTree = new SingleTree<StringId>(null);
         private SingleTree<StringId> _minorTree = new SingleTree<StringId>(null);
-        private static Dictionary<string, NodeInfo> _nodeTypes = new Dictionary<string, NodeInfo>();
         private List<string> _messages = new List<string>();
-
-
-        static ConsoleController()
-        {
-            _nodeTypes.Add("Single", new Single());
-            _nodeTypes.Add("Grid", new Grid());
-            _nodeTypes.Add("Multi", new Multi());
-            _nodeTypes.Add("MultiGrid", new MultiGrid());
-            _nodeTypes.Add("OpenText", new OpenTextInfo());
-            _nodeTypes.Add("Grid3D", new Grid3D());
-            _nodeTypes.Add("Answer", new Answer());
-            _nodeTypes.Add("PredefinedList", new PredefinedList());
-        }
+        
 
         public void Run()
         {
             ProcessBuildingTree(_mainTree);
             ProcessBuildingTree(_minorTree);
-            _consoleConnectionController = new ConsoleConnectionController(new BindContoller<StringId>(_mainTree, _minorTree), new ConsoleCommandRepository());
+            _consoleConnectionController = new ConsoleConnectionController(new BindContoller<StringId>(_mainTree, _minorTree));
             _consoleConnectionController.Start();
         }
 
         private void ProcessBuildingTree(SingleTree<StringId> tree)
         {
-            var fabrica = new SingleNodeFactory();
+            var factory = new SingleNodeFactory();
 
-            SingleNode<StringId> root = fabrica.GetNode("Root", new Root());
+            SingleNode<StringId> root = factory.GetNode("Root", new Root());
 
             tree.Root = root;
 
@@ -85,7 +71,7 @@ namespace BoundTree.Helpers.ConsoleHelper
 
                 var secondCommand = commands[1];
 
-                if (!_nodeTypes.ContainsKey(secondCommand))
+                if (!NodeInfoFactory.Contains(secondCommand))
                 {
                     _messages.Add(String.Format("There is not such type of node like - {0}", secondCommand));
                     DisplayInitialCommand();
@@ -102,7 +88,7 @@ namespace BoundTree.Helpers.ConsoleHelper
                 }
 
                 var parentNode = tree.GetById(new StringId(thirdCommand));
-                var childNode = fabrica.GetNode(firstCommand, _nodeTypes[secondCommand]);
+                var childNode = factory.GetNode(firstCommand, NodeInfoFactory.GetNodeInfo(secondCommand));
 
                 var parentTypeName = GetNodeClassName(parentNode);
                 var childTypeName = GetNodeClassName(childNode);
