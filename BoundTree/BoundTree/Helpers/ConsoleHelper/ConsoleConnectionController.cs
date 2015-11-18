@@ -10,11 +10,14 @@ namespace BoundTree.Helpers.ConsoleHelper
     {
         private readonly BindContoller<StringId> _bindController;
         private DoubleNode<StringId> _preivousDoubleNode;
+        private TreeLogger _treeLogger;
 
+        private List<string> _messages = new List<string>();
 
         public ConsoleConnectionController(BindContoller<StringId> bindController)
         {
             _bindController = bindController;
+            _treeLogger = new TreeLogger(bindController.MainSingleTree, bindController.MinorSingleTree);
         }
 
         public void Start()
@@ -30,19 +33,29 @@ namespace BoundTree.Helpers.ConsoleHelper
                 {
                     case "r":
                         ids = GetIds(true);
-                        _bindController.RemoveConnection(ids.Key);
+                        if (_bindController.RemoveConnection(ids.Key))
+                        {
+                            _treeLogger.ProcessCommand(string.Format("remove {0}", ids.Key));
+                        }
                         break;
                     case "a":
                         ids = GetIds(false);
-                        _bindController.Bind(ids.Key, ids.Value);
+                        if (_bindController.Bind(ids.Key, ids.Value))
+                        {
+                            _treeLogger.ProcessCommand(string.Format("add {0} {1}", ids.Key, ids.Value));
+                        }
                         break;
                     case "ra":
-                        _bindController.ClearConnection();
+                        if (_bindController.ClearConnection())
+                        {
+                            _treeLogger.ProcessCommand("remove all");
+                        }
                         break;
                 }
 
                 if (action == "e")
                 {
+                    _treeLogger.ProcessCommand("exit");
                     break;
                 }
             }

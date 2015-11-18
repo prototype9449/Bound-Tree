@@ -9,11 +9,11 @@ namespace BoundTree.Helpers.ConsoleHelper
 {
     public class ConsoleController
     {
-        private readonly BindContoller<StringId> _bindController;
+        private ConsoleConnectionController _consoleConnectionController;
+
         private SingleTree<StringId> _mainTree = new SingleTree<StringId>(null);
         private SingleTree<StringId> _minorTree = new SingleTree<StringId>(null);
         private static Dictionary<string, NodeInfo> _nodeTypes = new Dictionary<string, NodeInfo>();
-        private ConsoleConnectionController _consoleConnectionController;
         private List<string> _messages = new List<string>();
 
 
@@ -73,7 +73,6 @@ namespace BoundTree.Helpers.ConsoleHelper
                     _messages.Add("There is not such command");
                     continue;
                 }
-
 
                 if (ids.Contains(firstCommand))
                 {

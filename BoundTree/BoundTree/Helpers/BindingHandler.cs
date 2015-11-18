@@ -19,10 +19,16 @@ namespace BoundTree.Helpers
             _minorTree = minorTree;
         }
 
-        public void ClearConnections()
+        public bool ClearConnections()
         {
-            _connections.Clear();
-            HandleBinding(_mainTree.Root, _minorTree.Root);
+            if (_connections.Count > 1)
+            {
+                _connections.Clear();
+                HandleBinding(_mainTree.Root, _minorTree.Root);
+                return true;
+            }
+
+            return false;
         }
 
         public List<KeyValuePair<T, T>> Connections
@@ -42,9 +48,16 @@ namespace BoundTree.Helpers
             return true;
         }
 
-        public void RemoveConnection(T mainId)
+        public bool RemoveConnection(T mainId)
         {
-            _connections.RemoveAll(pair => pair.Key.Equals(mainId));
+            if(_connections.Exists(pair => pair.Key.Equals(mainId)))
+            {
+                _connections.RemoveAll(pair => pair.Key.Equals(mainId));
+                return true;
+            }
+
+            return false;
+
         }
 
         private bool IsValidConnection(SingleNode<T> first, SingleNode<T> second)

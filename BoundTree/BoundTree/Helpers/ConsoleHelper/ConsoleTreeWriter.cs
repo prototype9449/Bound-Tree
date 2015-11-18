@@ -54,7 +54,7 @@ namespace BoundTree.Helpers.ConsoleHelper
             Console.WriteLine(stringBuilder);
         }
 
-        private List<string> GetNodeLines(SingleTree<T> singleTree)
+        public List<string> GetNodeLines(SingleTree<T> singleTree)
         {
             if(singleTree == null) 
                 throw new ArgumentNullException("singleTree");

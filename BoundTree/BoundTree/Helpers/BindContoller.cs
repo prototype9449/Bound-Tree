@@ -20,9 +20,9 @@ namespace BoundTree.Helpers
             Bind(mainSingleTree.Root.Node.Id, minorSingleTree.Root.Node.Id);
         }
 
-        public void ClearConnection()
+        public bool ClearConnection()
         {
-            Handler.ClearConnections();
+            return Handler.ClearConnections();
         }
 
         public bool Bind(T mainId, T minorId)
@@ -41,9 +41,9 @@ namespace BoundTree.Helpers
             return false;
         }
 
-        public void RemoveConnection(T main)
+        public bool RemoveConnection(T main)
         {
-            Handler.RemoveConnection(main);
+            return Handler.RemoveConnection(main);
         }
     }
 }
