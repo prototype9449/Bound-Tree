@@ -8,6 +8,14 @@ namespace BoundTree.Helpers.ConsoleHelper
 {
     public class ConsoleTreeWriter<T> where T : class, IEquatable<T>, new()
     {
+        private const string LeftStrictConnectionSign = " <<";
+        private const string RightStrictConnectionSign = ">> ";
+        private const string LeftRelativeConnectionSign = " <*";
+        private const string RightRelativeConnectionSign = " *>";
+        private const string NoneConnectionSign = "-";
+        private const string ConnectionSeparator = "-";
+
+
         public void WriteToConsoleAsTrees(DoubleNode<T> tree)
         {
             var firstTreeLines = GetNodeLines(tree, true);
@@ -16,7 +24,7 @@ namespace BoundTree.Helpers.ConsoleHelper
             var stringBuilder = new StringBuilder();
             for (int i = 0; i < firstTreeLines.Count; i++)
             {
-                stringBuilder.AppendLine(firstTreeLines[i] + '-' + secondTreeLines[i]);
+                stringBuilder.AppendLine(firstTreeLines[i] + ConnectionSeparator + secondTreeLines[i]);
                 stringBuilder.AppendLine();
             }
             Console.WriteLine(stringBuilder);
@@ -49,7 +57,7 @@ namespace BoundTree.Helpers.ConsoleHelper
         private List<string> GetNodeLines(SingleTree<T> singleTree)
         {
             if(singleTree == null) 
-                throw new ArgumentNullException("singleTree is null");
+                throw new ArgumentNullException("singleTree");
 
             var lines = new List<string>();
 
@@ -75,11 +83,11 @@ namespace BoundTree.Helpers.ConsoleHelper
             return lines.Select(line => line += new string(' ', maxLength - line.Length)).ToList();
         }
 
-        private List<string> GetNodeLines(DoubleNode<T> tree, bool isLeft)
+        private List<string> GetNodeLines(DoubleNode<T> doubleNode, bool isLeft)
         {
             var nodeLines = new List<string>();
             var stack = new Stack<DoubleNode<T>>();
-            stack.Push(tree);
+            stack.Push(doubleNode);
 
             Func<DoubleNode<T>, string> getNodeName = (node) => isLeft
                 ? node.MainLeaf.NodeType.Name + '(' + node.MainLeaf.Id + ')'
@@ -89,31 +97,18 @@ namespace BoundTree.Helpers.ConsoleHelper
             {
                 var topElement = stack.Pop();
 
-                var maxDeep = tree.ToList().Max(node => node.Deep);
+                var maxDeep = doubleNode.ToList().Max(node => node.Deep);
 
                 var space = isLeft
                     ? new string(' ', topElement.Deep * 3)
                     : new String('-', (maxDeep - topElement.Deep) * 3);
 
-                var additionalSeparator = "-";
-                if (topElement.ConnectionKind == ConnectionKind.Strict)
-                {
-                    additionalSeparator = isLeft
-                        ? "<<"
-                        : ">>";
 
-                }
-
-                if (topElement.ConnectionKind == ConnectionKind.Relative)
-                {
-                    additionalSeparator = isLeft
-                        ? "<*"
-                        : "*>";
-                }
+                var connectionSign = GetConnectionSigh(topElement.ConnectionKind, isLeft);
 
                 var line = isLeft
-                    ? space + getNodeName(topElement) + additionalSeparator
-                    : space + additionalSeparator + getNodeName(topElement);
+                    ? space + getNodeName(topElement) + connectionSign
+                    : space + connectionSign + getNodeName(topElement);
 
                 nodeLines.Add(line);
 
@@ -132,6 +127,21 @@ namespace BoundTree.Helpers.ConsoleHelper
                                 ).ToList();
 
             return nodeLines;
+        }
+
+        private string GetConnectionSigh(ConnectionKind connectionKind, bool isLeft)
+        {
+            if (connectionKind == ConnectionKind.Strict)
+            {
+                return isLeft ? LeftStrictConnectionSign : RightStrictConnectionSign;
+            }
+
+            if (connectionKind == ConnectionKind.Relative)
+            {
+                return isLeft ? LeftRelativeConnectionSign : RightRelativeConnectionSign;
+            }
+
+            return NoneConnectionSign;
         }
     }
 }
