@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using BoundTree.Logic;
 using BoundTree.Logic.Nodes;
 using Single = BoundTree.Logic.Nodes.Single;
@@ -13,6 +14,9 @@ namespace BoundTree.Helpers.ConsoleHelper
         private SingleTree<StringId> _minorTree = new SingleTree<StringId>(null);
         private static Dictionary<string, NodeInfo> _nodeTypes = new Dictionary<string, NodeInfo>();
         private ConsoleConnectionController _consoleConnectionController;
+        private List<string> _messages = new List<string>();
+
+
         static ConsoleController()
         {
             _nodeTypes.Add("Single", new Single());
@@ -52,53 +56,88 @@ namespace BoundTree.Helpers.ConsoleHelper
 
                 if (commands.Length != 3 && commands.Length != 1)
                 {
-                    Console.WriteLine("Not full line of commands");
+                    _messages.Add("Not full set of commands");
                     continue;
                 }
+
+                var firstCommand = commands[0];
                 
                 if (commands.Length == 1)
                 {
-                    if (commands[0] == "end")
+                    if (firstCommand == "end")
                     {
+                        _messages.Add("Tree was successfully built");
                         break;
                     }
 
-                    Console.WriteLine("There is not such command");
+                    _messages.Add("There is not such command");
                     continue;
                 }
 
 
-                if (ids.Contains(commands[0]))
+                if (ids.Contains(firstCommand))
                 {
-                    Console.WriteLine("The such id is already existed");
+                    _messages.Add("The such id already exists");
                     DisplayInitialCommand();
                     continue;
                 }
 
-                if (!_nodeTypes.ContainsKey(commands[1]))
+                var secondCommand = commands[1];
+
+                if (!_nodeTypes.ContainsKey(secondCommand))
                 {
-                    Console.WriteLine("There is not such type of node");
+                    _messages.Add(String.Format("There is not such type of node like - {0}", secondCommand));
                     DisplayInitialCommand();
                     continue;
                 }
 
-                if (!ids.Contains(commands[2]))
+                var thirdCommand = commands[2];
+
+                if (!ids.Contains(thirdCommand))
                 {
-                    Console.WriteLine("The such parent id is not existed");
+                    _messages.Add(String.Format("The such parent id like {0} does not exist", thirdCommand));
                     DisplayInitialCommand();
                     continue;
                 }
 
-                var parentNode = tree.GetById(new StringId(commands[2]));
-                parentNode.Add(fabrica.GetNode(commands[0], _nodeTypes[commands[1]]));
-                ids.Add(commands[0]);
+                var parentNode = tree.GetById(new StringId(thirdCommand));
+                var childNode = fabrica.GetNode(firstCommand, _nodeTypes[secondCommand]);
+
+                var parentTypeName = GetNodeClassName(parentNode);
+                var childTypeName = GetNodeClassName(childNode);
+
+                if (parentNode.Node.CanContain(childNode.Node))
+                {
+                    _messages.Add(string.Format("The node {0} with type - {1} was added to {2} with type - {3}",
+                        childNode.Node.Id, childTypeName, parentNode.Node.Id, parentTypeName));
+
+                    parentNode.Add(childNode);
+                    ids.Add(firstCommand);
+                }
+                else
+                {
+                    
+                    _messages.Add(string.Format("The node with type {0} can not be added to the {1}",  childTypeName, parentTypeName));
+                }
+                
             }
+        }
+
+        private string GetNodeClassName(SingleNode<StringId> singleNode)
+        {
+            return singleNode.Node.NodeInfo.GetType().Name;
         }
 
         private void DisplayInitialCommand()
         {
             Console.Clear();
             new ConsoleTreeWriter<StringId>().WriteToConsoleAsTrees(_mainTree, _minorTree);
+            Console.WriteLine();
+            if (_messages.Any())
+            {
+                Console.WriteLine(_messages.Last());
+            }
+            Console.WriteLine();
             Console.WriteLine("Enter 'end' to finish with building of current tree");
             Console.WriteLine("Enter id, type and id of parent");
         }
