@@ -20,9 +20,7 @@ namespace ConsoleAppForTesting
 
             //new ConsoleController().Run();
 
-            //TreeLogger.GetDoubleNodeFromFile();
-            Console.WriteLine(new Regex(@"\[(.*?)\]").Split("(hi)")[0]);
-            
+            TreeLogger.GetDoubleNode();
         }
     }
 }

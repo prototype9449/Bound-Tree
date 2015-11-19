@@ -7,7 +7,7 @@ namespace BoundTree.Logic
     [Serializable]
     public class Node<T> : IEquatable<Node<T>> where T : new()
     {
-        public int Deep { get; internal set; }
+        public int Depth { get; internal set; }
         public NodeInfo NodeInfo { get; protected set; }
         public T Id { get; protected set; }
 
@@ -15,13 +15,13 @@ namespace BoundTree.Logic
         {
             Id = new T();
             NodeInfo = new Empty();
-            Deep = -1;
+            Depth = -1;
         }
 
-        public Node(T id, int deep, NodeInfo nodeInfo)
+        public Node(T id, int depth, NodeInfo nodeInfo)
         {
             Id = id;
-            Deep = deep;
+            Depth = depth;
             NodeInfo = nodeInfo;
         }
 
@@ -78,7 +78,7 @@ namespace BoundTree.Logic
         {
             unchecked
             {
-                var hashCode = Deep;
+                var hashCode = Depth;
                 hashCode = (hashCode * 397) ^ (NodeInfo != null ? NodeInfo.GetHashCode() : 0);
                 hashCode = (hashCode * 397) ^ EqualityComparer<T>.Default.GetHashCode(Id);
                 return hashCode;

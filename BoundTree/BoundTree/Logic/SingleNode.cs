@@ -20,13 +20,19 @@ namespace BoundTree.Logic
             : this(id, nodeInfo, new List<SingleNode<T>>())
         { }
 
+        public SingleNode(T id, NodeInfo nodeInfo, int depth)
+            : this(id, nodeInfo, new List<SingleNode<T>>())
+        {
+            Node.Depth = depth;
+        }
+
         public SingleNode(SingleNode<T> singleNode, NodeInfo nodeInfo)
             : this(singleNode.Node.Id, nodeInfo)
         { }
 
         public void Add(SingleNode<T> singleNode)
         {
-            singleNode.Node.Deep = this.Node.Deep + 1;
+            singleNode.Node.Depth = this.Node.Depth + 1;
             Nodes.Add(singleNode);
         }
 
@@ -57,8 +63,8 @@ namespace BoundTree.Logic
 
         private void SetDeep(int initialDeep)
         {
-            Node.Deep = initialDeep + 1;
-            Nodes.ForEach(node => node.SetDeep(Node.Deep));
+            Node.Depth = initialDeep + 1;
+            Nodes.ForEach(node => node.SetDeep(Node.Depth));
         }
     }
 }

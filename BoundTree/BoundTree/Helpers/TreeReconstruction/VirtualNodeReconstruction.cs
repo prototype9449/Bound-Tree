@@ -92,7 +92,7 @@ namespace BoundTree.Helpers.TreeReconstruction
 
             var tooHighDeepNodes = descendants
                 .FindAll(item => item.LogicLevel == comparedNode.LogicLevel)
-                .FindAll(item => item.Deep > comparedNode.Deep);
+                .FindAll(item => item.Deep > comparedNode.Depth);
 
             tooHighDeepNodes.ForEach(item => item.MinorLeaf = new Node<T>());
         }
