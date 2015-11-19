@@ -12,6 +12,11 @@ namespace BoundTree.Helpers.ConsoleHelper
         private DoubleNode<StringId> _preivousDoubleNode;
         private TreeLogger _treeLogger;
 
+        private const string AddCommand = "add";
+        private const string RemoveCommand = "remove";
+        private const string RemoveAllCommand = "remove all";
+        private const string ExitCommand = "exit";
+
         private List<string> _messages = new List<string>();
 
         public ConsoleConnectionController(BindContoller<StringId> bindController)
@@ -33,38 +38,38 @@ namespace BoundTree.Helpers.ConsoleHelper
                
                 var ids = new KeyValuePair<StringId, StringId>();
 
-                if (action == "r" || action == "remove")
+                if (action == "r" || action == RemoveCommand)
                 {
                     ids = GetIds(true);
                     if (_bindController.RemoveConnection(ids.Key))
                     {
-                        _treeLogger.ProcessCommand(string.Format("remove {0}", ids.Key));
+                        _treeLogger.ProcessCommand(string.Format("{0} {1}",RemoveCommand, ids.Key));
                     }
                     continue;
                 }
 
-                if (action == "a" || action == "add")
+                if (action == "a" || action == AddCommand)
                 {
                     ids = GetIds(false);
                     if (_bindController.Bind(ids.Key, ids.Value))
                     {
-                        _treeLogger.ProcessCommand(string.Format("add {0} {1}", ids.Key, ids.Value));
+                        _treeLogger.ProcessCommand(string.Format("{0} {1} {2}",AddCommand, ids.Key, ids.Value));
                     }
                     continue;
                 }
 
-                if (action == "ra" || action == "remove all")
+                if (action == "ra" || action == RemoveAllCommand)
                 {
                     if (_bindController.RemoveAllConnections())
                     {
-                        _treeLogger.ProcessCommand("remove all");
+                        _treeLogger.ProcessCommand(RemoveAllCommand);
                     }
                     continue;
                 }
 
-                if (action == "e")
+                if (action == "e" || action == ExitCommand)
                 {
-                    _treeLogger.ProcessCommand("exit");
+                    _treeLogger.ProcessCommand(ExitCommand);
                     break;
                 }
             }

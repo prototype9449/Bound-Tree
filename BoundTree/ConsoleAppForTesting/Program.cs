@@ -18,9 +18,9 @@ namespace ConsoleAppForTesting
 //            var bindController = new BindContoller<StringId>(mainTree, minorTree);
 //            new ConsoleConnectionController(bindController).Start();
 
-            //new ConsoleController().Run();
+            new ConsoleController().Run();
 
-            var doubleNode = TreeLogger.GetDoubleNode();
+            //var doubleNode = TreeLogger.GetDoubleNode();
         }
     }
 }

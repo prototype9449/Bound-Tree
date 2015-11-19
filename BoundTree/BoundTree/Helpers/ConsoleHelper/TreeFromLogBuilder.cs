@@ -10,10 +10,9 @@ namespace BoundTree.Helpers.ConsoleHelper
 {
     public class TreeFromLogBuilder
     {
-        public TreeFromLogBuilder()
-        {
-            
-        }
+        private const string AddCommand = "add";
+        private const string RemoveCommand = "remove";
+        private const string RemoveAllCommand = "remove all";
 
         public DoubleNode<StringId> GetDoubleNodeFromFile(string pathToFile)
         {
@@ -56,23 +55,20 @@ namespace BoundTree.Helpers.ConsoleHelper
             foreach (var command in commands)
             {
                 var partsOfCommand = command.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-                if (partsOfCommand[0] == "add")
+                if (partsOfCommand[0] == AddCommand)
                 {
                     bindContoller.Bind(new StringId(partsOfCommand[1]), new StringId(partsOfCommand[2]));
                 }
-                if (partsOfCommand[0] == "remove all")
+                if (partsOfCommand[0] == RemoveAllCommand)
                 {
                     bindContoller.RemoveAllConnections();
                 }
-                if (partsOfCommand[0] == "remove")
+                if (partsOfCommand[0] == RemoveCommand)
                 {
                     bindContoller.RemoveConnection(new StringId(partsOfCommand[1]));
                 }
             }
         }
-
-
-
 
         private SingleTree<StringId> GetSingleTree(List<string> treeLines)
         {
