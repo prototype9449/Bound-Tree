@@ -20,7 +20,7 @@ namespace BoundTree.Helpers
             Bind(mainSingleTree.Root.Node.Id, minorSingleTree.Root.Node.Id);
         }
 
-        public bool ClearConnection()
+        public bool RemoveAllConnections()
         {
             return Handler.ClearConnections();
         }

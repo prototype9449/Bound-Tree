@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using BoundTree.Helpers.TreeReconstruction;
 using BoundTree.Logic;
 using BoundTree.Logic.Nodes;
 
@@ -39,14 +40,38 @@ namespace BoundTree.Helpers.ConsoleHelper
             var minorTreeLines = lines
                 .Skip(mainTreeLines.Count + 1)
                 .Take(connectionIndex - minorTreeIndex - 1).ToList();
-            var connectionLines = lines.Skip(connectionIndex).ToList();
+
+            var connectionCommands = lines.Skip(connectionIndex).ToList();
 
             var mainTree = GetSingleTree(mainTreeLines);
-            var minorTree = GetSingleTree(mainTreeLines);
+            var minorTree = GetSingleTree(minorTreeLines);
 
-
-            return null;
+            var bindController = new BindContoller<StringId>(mainTree, minorTree);
+            AddConnections(bindController, connectionCommands);
+            return new TreeReconstruction<StringId>(bindController).GetFilledTree();
         }
+
+        private void AddConnections(BindContoller<StringId> bindContoller, List<string> commands)
+        {
+            foreach (var command in commands)
+            {
+                var partsOfCommand = command.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                if (partsOfCommand[0] == "add")
+                {
+                    bindContoller.Bind(new StringId(partsOfCommand[1]), new StringId(partsOfCommand[2]));
+                }
+                if (partsOfCommand[0] == "remove all")
+                {
+                    bindContoller.RemoveAllConnections();
+                }
+                if (partsOfCommand[0] == "remove")
+                {
+                    bindContoller.RemoveConnection(new StringId(partsOfCommand[1]));
+                }
+            }
+        }
+
+
 
 
         private SingleTree<StringId> GetSingleTree(List<string> treeLines)

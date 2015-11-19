@@ -55,7 +55,7 @@ namespace BoundTree.Helpers.ConsoleHelper
 
                 if (action == "ra" || action == "remove all")
                 {
-                    if (_bindController.ClearConnection())
+                    if (_bindController.RemoveAllConnections())
                     {
                         _treeLogger.ProcessCommand("remove all");
                     }

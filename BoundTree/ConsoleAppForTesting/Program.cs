@@ -20,7 +20,7 @@ namespace ConsoleAppForTesting
 
             //new ConsoleController().Run();
 
-            TreeLogger.GetDoubleNode();
+            var doubleNode = TreeLogger.GetDoubleNode();
         }
     }
 }
