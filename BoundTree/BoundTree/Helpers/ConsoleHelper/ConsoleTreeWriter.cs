@@ -9,10 +9,10 @@ namespace BoundTree.Helpers.ConsoleHelper
 {
     public class ConsoleTreeWriter<T> where T : class, IEquatable<T>, new()
     {
-        private const string LeftStrictConnectionSign = " <<";
-        private const string RightStrictConnectionSign = ">> ";
-        private const string LeftRelativeConnectionSign = " <*";
-        private const string RightRelativeConnectionSign = " *>";
+        private const string LeftStrictConnectionSign = " << ";
+        private const string RightStrictConnectionSign = " >>";
+        private const string LeftRelativeConnectionSign = " <* ";
+        private const string RightRelativeConnectionSign = " *> ";
         private const string NoneConnectionSign = "-";
         private const string ConnectionSeparator = "-";
 

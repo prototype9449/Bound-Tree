@@ -29,7 +29,6 @@ namespace BoundTree.Helpers.ConsoleHelper
             _commandMediator.Remove += RemoveConnection;
             _commandMediator.RemoveAll += RemoveAllConnections;
             _commandMediator.Add += AddConnection;
-            _commandMediator.Exit += ExitConnection;
         }
 
         private void RemoveConnection(object sender, EventArgs e)
@@ -67,11 +66,6 @@ namespace BoundTree.Helpers.ConsoleHelper
             _messages.Add(string.Format("The {0} have not been connected with {1}", ids.Key, ids.Value));
         }
 
-        private void ExitConnection(object sender, EventArgs e)
-        {
-            _treeLogger.ProcessCommand(CommandMediator.ExitLongName);
-        }
-
         public void Start()
         {
             while (true)
@@ -97,6 +91,8 @@ namespace BoundTree.Helpers.ConsoleHelper
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
+                Console.WriteLine();
+                Console.WriteLine(e.StackTrace);
                 Console.WriteLine();
                 Console.WriteLine("Sorry, there was an error");
                 Console.WriteLine("Press any button to continue");

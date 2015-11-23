@@ -25,6 +25,8 @@ namespace BoundTree.Helpers
 
         public bool ClearConnections()
         {
+            Contract.Ensures(_connections.Count == 1);
+
             if (_connections.Count > 1)
             {
                 _connections.Clear();

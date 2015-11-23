@@ -14,22 +14,19 @@ namespace BoundTree.Helpers.ConsoleHelper
         public DoubleNode<StringId> GetDoubleNodeFromFile(string pathToFile)
         {
             Contract.Requires(!string.IsNullOrEmpty(pathToFile));
+            Contract.Requires<FileNotFoundException>(File.Exists(pathToFile));
             Contract.Ensures(Contract.Result<DoubleNode<StringId>>() != null);
 
-            if (!File.Exists(pathToFile))
-            {
-                throw new FileNotFoundException(pathToFile);
-            }
-
             var lines = File.ReadAllLines(pathToFile).ToList();
-            lines.RemoveAll(line => line == "");
 
-            var minorTreeIndex = lines.FindIndex(line => line.Contains(TreeLogger.TreeSeparator)) + 1;
+            var minorTreeIndex = lines.FindIndex(line => line == "") + 2;
+
             if (minorTreeIndex > lines.Count)
             {
                 throw new FileLoadException("Minor tree not found");
             }
-            var connectionIndex = lines.FindIndex(line => line.Contains(TreeLogger.GeneralSeparator)) + 1;
+
+            var connectionIndex = lines.Skip(minorTreeIndex + 1).ToList().FindIndex(line => line == "") + 3 + minorTreeIndex;
             if (connectionIndex > lines.Count)
             {
                 throw new FileLoadException("Connection separator was not found");

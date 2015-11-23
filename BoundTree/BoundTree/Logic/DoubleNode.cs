@@ -66,8 +66,6 @@ namespace BoundTree.Logic
 
         public Node<T> GetMinorValue()
         {
-            Contract.Ensures(Contract.Result<Node<T>>() != null);
-
             if (MinorLeaf.IsEmpty())
             {
                 return Shadow;

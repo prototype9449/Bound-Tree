@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.IO;
 using BoundTree.Logic;
@@ -7,9 +8,6 @@ namespace BoundTree.Helpers.ConsoleHelper
 {
     public class TreeLogger
     {
-        public const string GeneralSeparator = "GeneralSeparator";
-        public const string TreeSeparator = "TreeSeparator";
-
         private SingleTree<StringId> _mainTree;
         private SingleTree<StringId> _minorTree;
         private readonly string _pathToFile;
@@ -64,15 +62,17 @@ namespace BoundTree.Helpers.ConsoleHelper
         {
             var mainTreeLines = new ConsoleTreeWriter<StringId>().GetNodeLines(_mainTree);
             var minorTreeLines = new ConsoleTreeWriter<StringId>().GetNodeLines(_minorTree);
-            mainTreeLines.Add(Environment.NewLine);
-            mainTreeLines.Add(TreeSeparator);
-            mainTreeLines.Add(Environment.NewLine);
-            mainTreeLines.AddRange(minorTreeLines);
-            mainTreeLines.Add(Environment.NewLine);
+
+            var result = new List<string>();
+            result.AddRange(mainTreeLines);
+            result.Add(Environment.NewLine);
+            result.Add(Environment.NewLine);
+            result.AddRange(minorTreeLines);
+            result.Add(Environment.NewLine);
+            result.Add(Environment.NewLine);
 
             File.Create(_pathToFile).Close();
-            File.AppendAllLines(_pathToFile, mainTreeLines);
-            File.AppendAllLines(_pathToFile, new[] { GeneralSeparator });
+            File.AppendAllLines(_pathToFile, result);
         }
     }
 }
