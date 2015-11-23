@@ -106,7 +106,6 @@ namespace BoundTree.Helpers.ConsoleHelper
                     
                     _messages.Add(string.Format("The node with type {0} can not be added to the {1}",  childTypeName, parentTypeName));
                 }
-                
             }
         }
 

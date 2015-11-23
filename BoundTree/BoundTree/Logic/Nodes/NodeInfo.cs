@@ -8,7 +8,7 @@ namespace BoundTree.Logic.Nodes
     {
         internal abstract List<Type> ValidTypes { get; }
 
-        public int LogicLevel { get; internal set; }
+        public LogicLevel LogicLevel { get; internal set; }
 
         public virtual bool IsEmpty()
         {

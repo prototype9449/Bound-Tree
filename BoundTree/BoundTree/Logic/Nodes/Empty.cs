@@ -7,7 +7,7 @@ namespace BoundTree.Logic.Nodes
     {
         public Empty()
         {
-            LogicLevel = -1;
+            LogicLevel = new LogicLevel();
         }
 
         internal override List<Type> ValidTypes

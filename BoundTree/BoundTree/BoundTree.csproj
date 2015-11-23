@@ -55,6 +55,7 @@
     <Compile Include="Helpers\ConsoleHelper\ConsoleTreeWriter.cs" />
     <Compile Include="Helpers\TreeReconstruction\TreeReconstruction.cs" />
     <Compile Include="Interfaces\IBindingHandler.cs" />
+    <Compile Include="Logic\LogicLevel.cs" />
     <Compile Include="Logic\Node.cs" />
     <Compile Include="Logic\Nodes\GeneralNodes\Grid3D.cs" />
     <Compile Include="Logic\Nodes\GeneralNodes\Answer.cs" />

@@ -15,7 +15,7 @@ namespace BoundTree.Logic.Nodes.GeneralNodes
 
         public Multi()
         {
-            LogicLevel = 4;
+            LogicLevel = new LogicLevel(4);
         }
     }
 }

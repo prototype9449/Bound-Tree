@@ -15,7 +15,7 @@ namespace BoundTree.Logic.Nodes.GeneralNodes
 
         public Grid()
         {
-            this.LogicLevel = 3;
+            this.LogicLevel = new LogicLevel(3);
         }
     }
 }

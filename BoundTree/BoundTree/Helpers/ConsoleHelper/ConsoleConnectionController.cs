@@ -84,8 +84,10 @@ namespace BoundTree.Helpers.ConsoleHelper
                 tree = new TreeReconstruction<StringId>(_bindController).GetFilledTree();
                 _preivousDoubleNode = tree;
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                Console.WriteLine(e.Message);
+                Console.WriteLine();
                 Console.WriteLine("Sorry, there was an error");
                 Console.WriteLine("Press any button to continue");
                 tree = _preivousDoubleNode;

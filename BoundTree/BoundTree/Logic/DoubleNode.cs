@@ -39,7 +39,7 @@ namespace BoundTree.Logic
         {
         }
 
-        public int LogicLevel
+        public LogicLevel LogicLevel
         {
             get
             {

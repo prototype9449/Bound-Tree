@@ -18,7 +18,7 @@ namespace BoundTree.Logic.Nodes
 
         public Root()
         {
-            LogicLevel = 0;
+            LogicLevel = new LogicLevel(0);
         }
     }
 }

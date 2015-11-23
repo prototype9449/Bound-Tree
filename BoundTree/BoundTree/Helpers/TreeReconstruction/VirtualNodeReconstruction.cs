@@ -99,7 +99,7 @@ namespace BoundTree.Helpers.TreeReconstruction
 
         private Node<T> GetMostCommonParent(Node<T> node)
         {
-            if (node.LogicLevel == 0)
+            if (node.LogicLevel == new LogicLevel(0))
                 return node;
 
             return _minorTree.GetParent(node.Id).Node;
@@ -122,7 +122,7 @@ namespace BoundTree.Helpers.TreeReconstruction
                     return doubleNode.Shadow;
                 }
                 //if node equals to Root
-                if (doubleNode.LogicLevel == 0)
+                if (doubleNode.LogicLevel == new LogicLevel(0))
                 {
                     return doubleNode.MinorLeaf;
                 }

@@ -15,7 +15,7 @@ namespace BoundTree.Logic.Nodes.GeneralNodes
 
         public Answer()
         {
-            LogicLevel = 7;
+            LogicLevel = new LogicLevel(7);
         }
     }
 }

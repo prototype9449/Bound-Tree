@@ -13,7 +13,7 @@ namespace BoundTree.Logic.Nodes.GeneralNodes
 
         public Single()
         {
-            LogicLevel = 5;
+            LogicLevel = new LogicLevel(5);
         }
 
         internal override List<Type> ValidTypes

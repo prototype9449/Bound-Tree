@@ -15,7 +15,7 @@ namespace BoundTree.Logic.Nodes.GeneralNodes
 
         public MultiGrid()
         {
-            LogicLevel = 2;
+            LogicLevel = new LogicLevel(2);
         }
     }
 }

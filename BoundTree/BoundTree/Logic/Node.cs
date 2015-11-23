@@ -25,7 +25,7 @@ namespace BoundTree.Logic
             NodeInfo = nodeInfo;
         }
 
-        public int LogicLevel
+        public LogicLevel LogicLevel
         {
             get
             {

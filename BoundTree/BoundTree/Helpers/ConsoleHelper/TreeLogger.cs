@@ -1,32 +1,32 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using BoundTree.Logic;
-using BoundTree.Logic.Nodes;
 
 namespace BoundTree.Helpers.ConsoleHelper
 {
     public class TreeLogger
     {
-        private SingleTree<StringId> _mainTree;
-        private SingleTree<StringId> _minorTree;
-        private static readonly string FileName = "log.txt";
         public const string GeneralSeparator = "GeneralSeparator";
         public const string TreeSeparator = "TreeSeparator";
 
-        private static string _pathToFile;
+        private SingleTree<StringId> _mainTree;
+        private SingleTree<StringId> _minorTree;
+        private readonly string _pathToFile;
 
-        static TreeLogger()
-        {
-            _pathToFile = Path.Combine(Directory.GetCurrentDirectory(), FileName);
-        }
-
+        private static readonly string FileName = "log.txt";
+        
         public TreeLogger(SingleTree<StringId> mainTree, SingleTree<StringId> minorTree)
         {
             _mainTree = mainTree;
             _minorTree = minorTree;
+            _pathToFile = Path.Combine(Directory.GetCurrentDirectory(), FileName);
             AddTreesToLogFile();
+        }
+
+        public TreeLogger(SingleTree<StringId> mainTree, SingleTree<StringId> minorTree, string pathToFile)
+            : this(mainTree, minorTree)
+        {
+            _pathToFile = pathToFile;
         }
 
         public void ProcessCommand(string command)
@@ -34,9 +34,9 @@ namespace BoundTree.Helpers.ConsoleHelper
             File.AppendAllLines(_pathToFile, new[] { command });
         }
 
-        public static DoubleNode<StringId> GetDoubleNode()
+        public static DoubleNode<StringId> GetDoubleNodeFromFile(string pathToFile)
         {
-            return new TreeFromLogBuilder().GetDoubleNodeFromFile(_pathToFile);
+            return new TreeFromLogBuilder().GetDoubleNodeFromFile(pathToFile);
         }
 
         private void AddTreesToLogFile()
