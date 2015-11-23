@@ -32,10 +32,10 @@ namespace BoundTree.Helpers.ConsoleHelper
                 throw new FileLoadException("Connection separator was not found");
             }
 
-            var mainTreeLines = lines.Take(minorTreeIndex - 1).ToList();
+            var mainTreeLines = lines.Take(minorTreeIndex - 2).ToList();
             var minorTreeLines = lines
                 .Skip(mainTreeLines.Count + 1)
-                .Take(connectionIndex - minorTreeIndex - 1).ToList();
+                .Take(connectionIndex - minorTreeIndex - 2).ToList();
 
             var connectionCommands = lines.Skip(connectionIndex).ToList();
 
