@@ -11,31 +11,34 @@ namespace BoundTree.Helpers.ConsoleHelper
 {
     public class TreeFromLogBuilder
     {
+        private const int SpaceCount = 2;
+
+
         public DoubleNode<StringId> GetDoubleNodeFromFile(string pathToFile)
         {
             Contract.Requires(!string.IsNullOrEmpty(pathToFile));
-            Contract.Requires<FileNotFoundException>(File.Exists(pathToFile));
+            //Contract.Requires<FileNotFoundException>(File.Exists(pathToFile));
             Contract.Ensures(Contract.Result<DoubleNode<StringId>>() != null);
 
             var lines = File.ReadAllLines(pathToFile).ToList();
 
-            var minorTreeIndex = lines.FindIndex(line => line == "") + 2;
+            var minorTreeIndex = lines.FindIndex(line => line == "") + SpaceCount;
 
             if (minorTreeIndex > lines.Count)
             {
                 throw new FileLoadException("Minor tree not found");
             }
 
-            var connectionIndex = lines.Skip(minorTreeIndex + 1).ToList().FindIndex(line => line == "") + 3 + minorTreeIndex;
+            var connectionIndex = lines.Skip(minorTreeIndex).ToList().FindIndex(line => line == "") + SpaceCount + minorTreeIndex;
             if (connectionIndex > lines.Count)
             {
                 throw new FileLoadException("Connection separator was not found");
             }
 
-            var mainTreeLines = lines.Take(minorTreeIndex - 2).ToList();
+            var mainTreeLines = lines.Take(minorTreeIndex - SpaceCount).ToList();
             var minorTreeLines = lines
-                .Skip(mainTreeLines.Count + 1)
-                .Take(connectionIndex - minorTreeIndex - 2).ToList();
+                .Skip(minorTreeIndex)
+                .Take(connectionIndex - minorTreeIndex - SpaceCount).ToList();
 
             var connectionCommands = lines.Skip(connectionIndex).ToList();
 

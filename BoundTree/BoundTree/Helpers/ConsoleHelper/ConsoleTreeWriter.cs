@@ -10,7 +10,7 @@ namespace BoundTree.Helpers.ConsoleHelper
     public class ConsoleTreeWriter<T> where T : class, IEquatable<T>, new()
     {
         private const string LeftStrictConnectionSign = " << ";
-        private const string RightStrictConnectionSign = " >>";
+        private const string RightStrictConnectionSign = " >> ";
         private const string LeftRelativeConnectionSign = " <* ";
         private const string RightRelativeConnectionSign = " *> ";
         private const string NoneConnectionSign = "-";
@@ -102,21 +102,15 @@ namespace BoundTree.Helpers.ConsoleHelper
             var stack = new Stack<DoubleNode<T>>();
             stack.Push(doubleNode);
 
-            Func<DoubleNode<T>, string> getNodeName = (node) => isLeft
-                ? node.MainLeaf.NodeType.Name + '(' + node.MainLeaf.Id + ')'
-                : "(" + node.MinorLeaf.Id + ')' + node.MinorLeaf.NodeType.Name;
-
+            Func<DoubleNode<T>, string> getNodeName = (node) => String.Format("{0} ({1})",node.MainLeaf.NodeType.Name ,node.MainLeaf.Id);
+               
             while (stack.Any())
             {
                 var topElement = stack.Pop();
-
-                var maxDeep = doubleNode.ToList().Max(node => node.Deep);
-
                 var space = isLeft
                     ? new string(' ', topElement.Deep * 3)
-                    : new String('-', (maxDeep - topElement.Deep) * 3);
-
-
+                    : new string('-', topElement.Deep * 3);
+                
                 var connectionSign = GetConnectionSigh(topElement.ConnectionKind, isLeft);
 
                 var line = isLeft

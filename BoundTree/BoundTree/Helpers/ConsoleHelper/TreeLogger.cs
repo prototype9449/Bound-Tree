@@ -8,8 +8,8 @@ namespace BoundTree.Helpers.ConsoleHelper
 {
     public class TreeLogger
     {
-        private SingleTree<StringId> _mainTree;
-        private SingleTree<StringId> _minorTree;
+        private readonly SingleTree<StringId> _mainTree;
+        private readonly SingleTree<StringId> _minorTree;
         private readonly string _pathToFile;
 
         private const string FileName = "log.txt";
@@ -66,9 +66,7 @@ namespace BoundTree.Helpers.ConsoleHelper
             var result = new List<string>();
             result.AddRange(mainTreeLines);
             result.Add(Environment.NewLine);
-            result.Add(Environment.NewLine);
             result.AddRange(minorTreeLines);
-            result.Add(Environment.NewLine);
             result.Add(Environment.NewLine);
 
             File.Create(_pathToFile).Close();

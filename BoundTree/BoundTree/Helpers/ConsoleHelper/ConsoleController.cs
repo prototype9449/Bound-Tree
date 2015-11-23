@@ -4,8 +4,6 @@ using System.Diagnostics.Contracts;
 using System.Linq;
 using BoundTree.Logic;
 using BoundTree.Logic.Nodes;
-using BoundTree.Logic.Nodes.GeneralNodes;
-using Single = BoundTree.Logic.Nodes.GeneralNodes.Single;
 
 namespace BoundTree.Helpers.ConsoleHelper
 {
