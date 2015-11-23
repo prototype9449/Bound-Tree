@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.IO;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
@@ -32,6 +33,8 @@ namespace BoundTree.Logic
 
         public SingleNode<T> GetById(T id)
         {
+            Contract.Requires(id != null);
+
             return Root.GetById(id);
         }
 
@@ -42,6 +45,8 @@ namespace BoundTree.Logic
 
         public SingleNode<T> GetParent(T id)
         {
+            Contract.Requires(id != null);
+
             var stack = GetStack(new { SingleNode = Root, ParentId = new T() });
             while (stack.Count != 0)
             {
@@ -65,6 +70,8 @@ namespace BoundTree.Logic
 
         public SingleTree<T> Clone()
         {
+            Contract.Ensures(Contract.Result<SingleTree<T>>() != null);
+
             IFormatter formatter = new BinaryFormatter();
             Stream stream = new MemoryStream();
             using (stream)

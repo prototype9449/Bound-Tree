@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Text;
 using BoundTree.Logic;
@@ -18,6 +19,8 @@ namespace BoundTree.Helpers.ConsoleHelper
 
         public void WriteToConsoleAsTrees(DoubleNode<T> tree)
         {
+            Contract.Requires(tree != null);
+
             var firstTreeLines = GetNodeLines(tree, true);
             var secondTreeLines = GetNodeLines(tree, false);
 
@@ -32,6 +35,9 @@ namespace BoundTree.Helpers.ConsoleHelper
 
         public void WriteToConsoleAsTrees(SingleTree<T> mainSingleTree, SingleTree<T> minorSingleTree)
         {
+            Contract.Requires(mainSingleTree != null);
+            Contract.Requires(minorSingleTree != null);
+
             var firstTreeLines = GetNodeLines(mainSingleTree);
             var secondTreeLines = GetNodeLines(minorSingleTree);
 
@@ -56,6 +62,9 @@ namespace BoundTree.Helpers.ConsoleHelper
 
         public List<string> GetNodeLines(SingleTree<T> singleTree)
         {
+            Contract.Requires(singleTree != null);
+            Contract.Ensures(Contract.Result<List<string>>() != null);
+
             if(singleTree == null) 
                 throw new ArgumentNullException("singleTree");
 
@@ -85,6 +94,10 @@ namespace BoundTree.Helpers.ConsoleHelper
 
         private List<string> GetNodeLines(DoubleNode<T> doubleNode, bool isLeft)
         {
+            Contract.Requires(doubleNode != null);
+            Contract.Ensures(Contract.Result<List<string>>().Count != 0);
+            Contract.Ensures(Contract.Result<List<string>>() != null);
+
             var nodeLines = new List<string>();
             var stack = new Stack<DoubleNode<T>>();
             stack.Push(doubleNode);
@@ -131,6 +144,8 @@ namespace BoundTree.Helpers.ConsoleHelper
 
         private string GetConnectionSigh(ConnectionKind connectionKind, bool isLeft)
         {
+            Contract.Ensures(!string.IsNullOrEmpty(Contract.Result<string>()));
+
             if (connectionKind == ConnectionKind.Strict)
             {
                 return isLeft ? LeftStrictConnectionSign : RightStrictConnectionSign;

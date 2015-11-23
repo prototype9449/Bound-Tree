@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.Contracts;
 
 namespace BoundTree.Helpers.ConsoleHelper
 {
@@ -23,6 +24,8 @@ namespace BoundTree.Helpers.ConsoleHelper
 
         public void ProcessCommand(string command)
         {
+            Contract.Requires(command != null);
+
             switch (command)
             {
                 case AddShortName:

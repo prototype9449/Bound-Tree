@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.IO;
 using System.Linq;
 using BoundTree.Helpers.TreeReconstruction;
@@ -10,12 +11,11 @@ namespace BoundTree.Helpers.ConsoleHelper
 {
     public class TreeFromLogBuilder
     {
-        private const string AddCommand = "add";
-        private const string RemoveCommand = "remove";
-        private const string RemoveAllCommand = "remove all";
-
         public DoubleNode<StringId> GetDoubleNodeFromFile(string pathToFile)
         {
+            Contract.Requires(!string.IsNullOrEmpty(pathToFile));
+            Contract.Ensures(Contract.Result<DoubleNode<StringId>>() != null);
+
             if (!File.Exists(pathToFile))
             {
                 throw new FileNotFoundException(pathToFile);
@@ -52,18 +52,21 @@ namespace BoundTree.Helpers.ConsoleHelper
 
         private void AddConnections(BindContoller<StringId> bindContoller, List<string> commands)
         {
+            Contract.Requires(bindContoller != null);
+            Contract.Requires(commands != null);
+
             foreach (var command in commands)
             {
                 var partsOfCommand = command.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-                if (partsOfCommand[0] == AddCommand)
+                if (partsOfCommand[0] == CommandMediator.AddLongName)
                 {
                     bindContoller.Bind(new StringId(partsOfCommand[1]), new StringId(partsOfCommand[2]));
                 }
-                if (partsOfCommand[0] == RemoveAllCommand)
+                if (partsOfCommand[0] == CommandMediator.RemoveAllLongName)
                 {
                     bindContoller.RemoveAllConnections();
                 }
-                if (partsOfCommand[0] == RemoveCommand)
+                if (partsOfCommand[0] == CommandMediator.RemoveLongName)
                 {
                     bindContoller.RemoveConnection(new StringId(partsOfCommand[1]));
                 }
@@ -72,6 +75,9 @@ namespace BoundTree.Helpers.ConsoleHelper
 
         private SingleTree<StringId> GetSingleTree(List<string> treeLines)
         {
+            Contract.Requires(treeLines != null);
+            Contract.Ensures(Contract.Result<SingleTree<StringId>>() != null);
+
             NodeInfo root = new Root();
             var nodes = GetList(new { NodeType = root, id = new StringId("Root"), Depth = 0 });
 
@@ -116,6 +122,9 @@ namespace BoundTree.Helpers.ConsoleHelper
 
         private SingleNode<StringId> GetNearestParent(int index, List<SingleNode<StringId>> singleNodes)
         {
+            Contract.Requires(singleNodes != null);
+            Contract.Ensures(Contract.Result<SingleNode<StringId>>() != null);
+
             for (var i = index; i >= 0; i--)
             {
                 if (singleNodes[index].Node.Depth - singleNodes[i].Node.Depth== 1)

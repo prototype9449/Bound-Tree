@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Diagnostics.Contracts;
 using System.Text.RegularExpressions;
 using BoundTree.Helpers;
 using BoundTree.Helpers.ConsoleHelper;
@@ -18,9 +19,10 @@ namespace ConsoleAppForTesting
 //            var bindController = new BindContoller<StringId>(mainTree, minorTree);
 //            new ConsoleConnectionController(bindController).Start();
 
-            //new ConsoleController().Run();
+            new ConsoleController().Run();
 
-            var doubleNode = TreeLogger.GetDoubleNodeFromFile();
+            //var doubleNode = TreeLogger.GetDoubleNodeFromFile();
+            
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Linq;
 using BoundTree.Interfaces;
 using BoundTree.Logic;
@@ -15,6 +16,9 @@ namespace BoundTree.Helpers
 
         public BindingHandler(SingleTree<T> mainTree, SingleTree<T> minorTree)
         {
+            Contract.Requires(mainTree != null);
+            Contract.Requires(minorTree != null);
+
             _mainTree = mainTree;
             _minorTree = minorTree;
         }
@@ -38,6 +42,9 @@ namespace BoundTree.Helpers
 
         public bool HandleBinding(SingleNode<T> mainSingleNode, SingleNode<T> minorSingleNode)
         {
+            Contract.Requires(mainSingleNode != null);
+            Contract.Requires(minorSingleNode != null); 
+
             if (!IsValidConnection(mainSingleNode, minorSingleNode))
                 return false;
 
@@ -50,6 +57,8 @@ namespace BoundTree.Helpers
 
         public bool RemoveConnection(T mainId)
         {
+            Contract.Requires(mainId != null);
+
             if(_connections.Exists(pair => pair.Key.Equals(mainId)))
             {
                 _connections.RemoveAll(pair => pair.Key.Equals(mainId));
@@ -62,6 +71,9 @@ namespace BoundTree.Helpers
 
         private bool IsValidConnection(SingleNode<T> first, SingleNode<T> second)
         {
+            Contract.Requires(first != null);
+            Contract.Requires(second != null);
+
             foreach (var connection in _connections)
             {
                 if (GetRelationKind(connection.Key, first.Node.Id, _mainTree) != GetRelationKind(connection.Value, second.Node.Id, _minorTree))
@@ -73,6 +85,10 @@ namespace BoundTree.Helpers
 
         private RelationKind GetRelationKind(T firstId, T secondId, SingleTree<T> tree)
         {
+            Contract.Requires(firstId != null);
+            Contract.Requires(secondId != null);
+            Contract.Requires(tree != null);
+
             var descendantOfFirst = tree.GetById(firstId).GetById(secondId);
             if (descendantOfFirst != null)
                 return RelationKind.Ascendant;

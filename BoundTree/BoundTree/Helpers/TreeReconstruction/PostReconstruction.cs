@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Linq;
 using BoundTree.Logic;
 
@@ -11,11 +12,15 @@ namespace BoundTree.Helpers.TreeReconstruction
 
         public PostReconstruction(SingleTree<T> minorTree)
         {
+            Contract.Requires(minorTree != null);
+
             _minorTree = minorTree;
         }
 
         public void Reconstruct(DoubleNode<T> doubleNode)
         {
+            Contract.Requires(doubleNode != null);
+
             var stack = new Stack<DoubleNode<T>>(new[] { doubleNode });
             var passedNodes = new List<DoubleNode<T>>();
 
@@ -71,6 +76,10 @@ namespace BoundTree.Helpers.TreeReconstruction
 
         private KeyValuePair<bool, DoubleNode<T>> GetRepairedNode(DoubleNode<T> parent, DoubleNode<T> child)
         {
+            Contract.Requires(parent != null);
+            Contract.Requires(child != null);
+            Contract.Ensures(Contract.Result<KeyValuePair<bool, DoubleNode<T>>>().Value != null);
+            
             if(child.IsMinorEmpty()) 
                 return new KeyValuePair<bool, DoubleNode<T>>(false, child);
 
@@ -101,6 +110,10 @@ namespace BoundTree.Helpers.TreeReconstruction
 
         private void GroupDoubleNodes(DoubleNode<T> doubleNode, List<T> initialChildIds)
         {
+            Contract.Requires(doubleNode != null);
+            Contract.Requires(initialChildIds != null);
+
+
             var queue = new Queue<DoubleNode<T>>(new[] { doubleNode });
 
             while (queue.Any())
@@ -131,6 +144,9 @@ namespace BoundTree.Helpers.TreeReconstruction
 
         private DoubleNode<T> GetRepairedNode(IGrouping<T, DoubleNode<T>> group)
         {
+            Contract.Requires(group != null);
+            Contract.Ensures(Contract.Result<DoubleNode<T>>() != null);
+
             var doubleNode = new DoubleNode<T>(new Node<T>(), group.First().MinorLeaf)
             {
                 Nodes = group.Select(node => node.Nodes.First()).ToList()

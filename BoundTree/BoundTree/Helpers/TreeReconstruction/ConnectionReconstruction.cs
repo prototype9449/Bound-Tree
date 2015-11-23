@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Linq;
 using BoundTree.Logic;
 using BoundTree.Logic.Nodes;
@@ -10,6 +11,11 @@ namespace BoundTree.Helpers.TreeReconstruction
     {
         public DoubleNode<T> GetDoubleNodeWithConnections(SingleTree<T> mainTree, Dictionary<T, SingleNode<T>> connections)
         {
+            Contract.Requires(mainTree != null);
+            Contract.Requires(connections != null);
+            Contract.Requires(connections.Any());
+            Contract.Ensures(Contract.Result<DoubleNode<T>>() != null);
+
             var resultDoubleNode = new DoubleNode<T>(mainTree.Root);
 
             var root = new { node = mainTree.Root, doubleNode = resultDoubleNode };

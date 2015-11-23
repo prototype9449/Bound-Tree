@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.Contracts;
 using System.Linq;
 using BoundTree.Logic;
 
@@ -12,6 +13,8 @@ namespace BoundTree.Helpers.TreeReconstruction
 
         public TreeReconstruction(BindContoller<T> bindContoller)
         {
+            Contract.Requires(bindContoller != null);
+
             _minorTree = bindContoller.MinorSingleTree;
             _mainTree = bindContoller.MainSingleTree;
             _bindingHandler = bindContoller.Handler;
@@ -19,6 +22,8 @@ namespace BoundTree.Helpers.TreeReconstruction
 
         public DoubleNode<T> GetFilledTree()
         {
+            Contract.Ensures(Contract.Result<DoubleNode<T>>() != null);
+
             var clonedMainTree = _mainTree.Clone();
             var connections = _bindingHandler.Connections
                 .ToDictionary(pair => pair.Key, pair => _minorTree.GetById(pair.Value));

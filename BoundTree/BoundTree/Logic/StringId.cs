@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.Contracts;
 
 namespace BoundTree.Logic
 {
@@ -9,6 +10,8 @@ namespace BoundTree.Logic
 
         public StringId(string id)
         {
+            Contract.Ensures(!string.IsNullOrEmpty(id));
+
             _id = id;
         }
 
@@ -19,6 +22,8 @@ namespace BoundTree.Logic
 
         public bool Equals(StringId other)
         {
+            Contract.Requires(other != null);
+
             return _id == other._id;
         }
 

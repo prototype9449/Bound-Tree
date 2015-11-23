@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Linq;
 using BoundTree.Helpers.TreeReconstruction;
 using BoundTree.Logic;
@@ -16,6 +17,8 @@ namespace BoundTree.Helpers.ConsoleHelper
 
         public ConsoleConnectionController(BindContoller<StringId> bindController)
         {
+            Contract.Requires(bindController !=null);
+
             _bindController = bindController;
             _treeLogger = new TreeLogger(bindController.MainSingleTree, bindController.MinorSingleTree);
             Subscribe();

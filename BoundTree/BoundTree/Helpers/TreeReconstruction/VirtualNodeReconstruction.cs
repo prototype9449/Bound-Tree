@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Linq;
 using BoundTree.Logic;
 
@@ -11,11 +12,15 @@ namespace BoundTree.Helpers.TreeReconstruction
 
         public VirtualNodeReconstruction(SingleTree<T> minorTree)
         {
+            Contract.Requires(minorTree != null);
+
             _minorTree = minorTree;
         }
 
         public void Reconstruct(DoubleNode<T> doubleNode)
         {
+            Contract.Requires(doubleNode != null);
+
             var stack = new Stack<DoubleNode<T>>(new[] { doubleNode });
             var passedNodes = new HashSet<DoubleNode<T>>();
 
@@ -43,6 +48,8 @@ namespace BoundTree.Helpers.TreeReconstruction
 
         private void RepairNode(DoubleNode<T> doubleNode)
         {
+            Contract.Requires(doubleNode != null);
+
             Node<T> commonParent = GetMostCommonParent(doubleNode.Nodes);
 
             if (commonParent.IsEmpty()) return;
@@ -76,6 +83,9 @@ namespace BoundTree.Helpers.TreeReconstruction
 
         private void CleanUselessNodes(DoubleNode<T> doubleNode, Node<T> comparedNode)
         {
+            Contract.Requires(doubleNode != null);
+            Contract.Requires(comparedNode != null);
+
             var descendants = doubleNode.ToList();
             foreach (var descendant in descendants)
             {
@@ -99,6 +109,8 @@ namespace BoundTree.Helpers.TreeReconstruction
 
         private Node<T> GetMostCommonParent(Node<T> node)
         {
+            Contract.Requires(node != null);
+
             if (node.LogicLevel == new LogicLevel(0))
                 return node;
 
@@ -107,6 +119,10 @@ namespace BoundTree.Helpers.TreeReconstruction
 
         private Node<T> GetMostCommonParent(IList<DoubleNode<T>> doubleNodes)
         {
+            Contract.Requires(doubleNodes != null);
+            Contract.Requires(doubleNodes.Any());
+            Contract.Ensures(Contract.Result<Node<T>>() != null);
+
             var notEmptyNodes = doubleNodes.Where(doubleNode => doubleNode.GetMinorValue() != null).ToList();
 
             if (!notEmptyNodes.Any())
@@ -150,6 +166,11 @@ namespace BoundTree.Helpers.TreeReconstruction
 
         private List<List<Node<T>>> GetRoutes(List<DoubleNode<T>> notEmptyNodes)
         {
+            Contract.Requires(notEmptyNodes != null);
+            Contract.Requires(notEmptyNodes.Any());
+            Contract.Ensures(Contract.Result<List<List<Node<T>>>>() != null);
+            Contract.Ensures(Contract.Result<List<List<Node<T>>>>().Any());
+
             var setRouts = new List<List<Node<T>>>();
             foreach (var doubleNode in notEmptyNodes)
             {

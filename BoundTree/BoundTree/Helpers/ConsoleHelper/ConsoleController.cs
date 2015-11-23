@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Linq;
 using BoundTree.Logic;
 using BoundTree.Logic.Nodes;
@@ -27,6 +28,8 @@ namespace BoundTree.Helpers.ConsoleHelper
 
         private void ProcessBuildingTree(SingleTree<StringId> tree)
         {
+            Contract.Requires(tree != null);
+
             var factory = new SingleNodeFactory();
 
             SingleNode<StringId> root = factory.GetNode("Root", new Root());
@@ -111,6 +114,8 @@ namespace BoundTree.Helpers.ConsoleHelper
 
         private string GetNodeClassName(SingleNode<StringId> singleNode)
         {
+            Contract.Requires(singleNode != null);
+
             return singleNode.Node.NodeInfo.GetType().Name;
         }
 
