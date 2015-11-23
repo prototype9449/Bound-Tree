@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using BoundTree.Logic.Nodes;
 
 namespace BoundTree.Logic
@@ -20,6 +21,10 @@ namespace BoundTree.Logic
 
         public Node(T id, int depth, NodeInfo nodeInfo)
         {
+            Contract.Requires(depth >= -1);
+            Contract.Requires(nodeInfo != null);
+            Contract.Requires(id != null);
+
             Id = id;
             Depth = depth;
             NodeInfo = nodeInfo;
@@ -29,12 +34,16 @@ namespace BoundTree.Logic
         {
             get
             {
+                Contract.Ensures(Contract.Result<LogicLevel>() != null);
+
                 return NodeInfo.LogicLevel;
             }
         }
 
         public bool CanContain(Node<T> otherNode)
         {
+            Contract.Requires(otherNode != null);
+
             return NodeInfo.CanContain(otherNode.NodeInfo);
         }
 

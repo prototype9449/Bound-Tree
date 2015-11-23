@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using BoundTree.Logic.Nodes;
 using BoundTree.Logic.Nodes.GeneralNodes;
 
@@ -22,11 +23,16 @@ namespace BoundTree.Logic
 
         public static NodeInfo GetNodeInfo(string nodeInfoType)
         {
+            Contract.Requires(!string.IsNullOrEmpty(nodeInfoType));
+            Contract.Exists(_nodeTypes, node => node.Key == nodeInfoType);
+
             return _nodeTypes[nodeInfoType];
         }
 
         public static bool Contains(string nodeInfoType)
         {
+            Contract.Requires(!string.IsNullOrEmpty(nodeInfoType));
+
             return _nodeTypes.ContainsKey(nodeInfoType);
         }
 

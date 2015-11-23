@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.Contracts;
 
 namespace BoundTree.Logic
 {
@@ -11,6 +12,8 @@ namespace BoundTree.Logic
 
         public LogicLevel(int level)
         {
+            Contract.Requires(level >= 0);
+
             _level = level;
         }
 
