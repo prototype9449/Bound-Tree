@@ -11,18 +11,62 @@ namespace BoundTree.Helpers.ConsoleHelper
         private readonly BindContoller<StringId> _bindController;
         private DoubleNode<StringId> _preivousDoubleNode;
         private TreeLogger _treeLogger;
-
-        private const string AddCommand = "add";
-        private const string RemoveCommand = "remove";
-        private const string RemoveAllCommand = "remove all";
-        private const string ExitCommand = "exit";
-
         private List<string> _messages = new List<string>();
+        private CommandMediator _commandMediator = new CommandMediator();
 
         public ConsoleConnectionController(BindContoller<StringId> bindController)
         {
             _bindController = bindController;
             _treeLogger = new TreeLogger(bindController.MainSingleTree, bindController.MinorSingleTree);
+            Subscribe();
+        }
+
+        private void Subscribe()
+        {
+            _commandMediator.Remove += RemoveConnection;
+            _commandMediator.RemoveAll += RemoveAllConnections;
+            _commandMediator.Add += AddConnection;
+            _commandMediator.Exit += ExitConnection;
+        }
+
+        private void RemoveConnection(object sender, EventArgs e)
+        {
+            var ids = GetIds(true);
+            if (_bindController.RemoveConnection(ids.Key))
+            {
+                _treeLogger.ProcessCommand(string.Format("{0} {1}", CommandMediator.RemoveLongName, ids.Key));
+                _messages.Add(string.Format("The connection with {0} was removed", ids.Key));
+                return;
+            }
+            _messages.Add(string.Format("The {0} was not removed", ids.Key));
+        }
+
+        private void RemoveAllConnections(object sender, EventArgs e)
+        {
+            if (_bindController.RemoveAllConnections())
+            {
+                _treeLogger.ProcessCommand(CommandMediator.RemoveAllLongName);
+                _messages.Add("The all connections were removed");
+                return;
+            }
+            _messages.Add("The all connections were not removed");
+        }
+
+        private void AddConnection(object sender, EventArgs e)
+        {
+            var ids = GetIds(false);
+            if (_bindController.Bind(ids.Key, ids.Value))
+            {
+                _treeLogger.ProcessCommand(string.Format("{0} {1} {2}", CommandMediator.AddLongName, ids.Key, ids.Value));
+                _messages.Add(string.Format("The {0} have been connected with {1}", ids.Key, ids.Value));
+                return;
+            }
+            _messages.Add(string.Format("The {0} have not been connected with {1}", ids.Key, ids.Value));
+        }
+
+        private void ExitConnection(object sender, EventArgs e)
+        {
+            _treeLogger.ProcessCommand(CommandMediator.ExitLongName);
         }
 
         public void Start()
@@ -31,47 +75,10 @@ namespace BoundTree.Helpers.ConsoleHelper
             {
                 DisplayTree();
                 Console.WriteLine("Type 'a' to add, 'r' to remove, 'ra' to remove all connection, 'e' to exit");
-
-                string action;
-
-                action = Console.ReadLine();
-               
-                var ids = new KeyValuePair<StringId, StringId>();
-
-                if (action == "r" || action == RemoveCommand)
-                {
-                    ids = GetIds(true);
-                    if (_bindController.RemoveConnection(ids.Key))
-                    {
-                        _treeLogger.ProcessCommand(string.Format("{0} {1}",RemoveCommand, ids.Key));
-                    }
-                    continue;
-                }
-
-                if (action == "a" || action == AddCommand)
-                {
-                    ids = GetIds(false);
-                    if (_bindController.Bind(ids.Key, ids.Value))
-                    {
-                        _treeLogger.ProcessCommand(string.Format("{0} {1} {2}",AddCommand, ids.Key, ids.Value));
-                    }
-                    continue;
-                }
-
-                if (action == "ra" || action == RemoveAllCommand)
-                {
-                    if (_bindController.RemoveAllConnections())
-                    {
-                        _treeLogger.ProcessCommand(RemoveAllCommand);
-                    }
-                    continue;
-                }
-
-                if (action == "e" || action == ExitCommand)
-                {
-                    _treeLogger.ProcessCommand(ExitCommand);
+                var action = Console.ReadLine();
+                _commandMediator.ProcessCommand(action);
+                if(action == CommandMediator.ExitLongName || action == CommandMediator.ExitShortName)
                     break;
-                }
             }
         }
 
