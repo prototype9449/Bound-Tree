@@ -13,13 +13,13 @@ namespace BoundTree.Helpers.ConsoleHelper
         private SingleTree<StringId> _minorTree;
         private readonly string _pathToFile;
 
-        private static readonly string FileName = "log.txt";
-        
+        private const string FileName = "log.txt";
+
         public TreeLogger(SingleTree<StringId> mainTree, SingleTree<StringId> minorTree)
         {
             _mainTree = mainTree;
             _minorTree = minorTree;
-            _pathToFile = Path.Combine(Directory.GetCurrentDirectory(), FileName);
+            _pathToFile = GetStandartFilePath();
             AddTreesToLogFile();
         }
 
@@ -37,6 +37,17 @@ namespace BoundTree.Helpers.ConsoleHelper
         public static DoubleNode<StringId> GetDoubleNodeFromFile(string pathToFile)
         {
             return new TreeFromLogBuilder().GetDoubleNodeFromFile(pathToFile);
+        }
+
+        public static DoubleNode<StringId> GetDoubleNodeFromFile()
+        {
+            var pathToFile = GetStandartFilePath();
+            return new TreeFromLogBuilder().GetDoubleNodeFromFile(pathToFile);
+        }
+
+        private static string GetStandartFilePath()
+        {
+            return Path.Combine(Directory.GetCurrentDirectory(), FileName);
         }
 
         private void AddTreesToLogFile()
