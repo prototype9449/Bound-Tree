@@ -60,8 +60,8 @@ namespace BoundTree.Helpers.ConsoleHelper
 
         private void AddTreesToLogFile()
         {
-            var mainTreeLines = new ConsoleTreeWriter<StringId>().GetNodeLines(_mainTree);
-            var minorTreeLines = new ConsoleTreeWriter<StringId>().GetNodeLines(_minorTree);
+            var mainTreeLines = new SingleTreeConverter<StringId>().ConvertTree(_mainTree);
+            var minorTreeLines = new SingleTreeConverter<StringId>().ConvertTree(_minorTree);
 
             var result = new List<string>();
             result.AddRange(mainTreeLines);

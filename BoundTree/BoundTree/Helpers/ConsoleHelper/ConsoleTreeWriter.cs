@@ -9,148 +9,17 @@ namespace BoundTree.Helpers.ConsoleHelper
 {
     public class ConsoleTreeWriter<T> where T : class, IEquatable<T>, new()
     {
-        private const string LeftStrictConnectionSign = " << ";
-        private const string RightStrictConnectionSign = " >> ";
-        private const string LeftRelativeConnectionSign = " <* ";
-        private const string RightRelativeConnectionSign = " *> ";
-        private const string NoneConnectionSign = "-";
-        private const string ConnectionSeparator = "-";
-
-
-        public void WriteToConsoleAsTrees(DoubleNode<T> tree)
+        public void WriteToConsole(DoubleNode<T> tree)
         {
-            Contract.Requires(tree != null);
+            Console.WriteLine(new DoubleNodeConverter<T>().ConvertDoubleNode(tree));
+        }
 
-            var firstTreeLines = GetNodeLines(tree, true);
-            var secondTreeLines = GetNodeLines(tree, false);
-
+        public void WriteToConsole(SingleTree<T> mainTree, SingleTree<T> minorTree)
+        {
+            var lines = new SingleTreeConverter<T>().ConvertTrees(mainTree, minorTree);
             var stringBuilder = new StringBuilder();
-            for (int i = 0; i < firstTreeLines.Count; i++)
-            {
-                stringBuilder.AppendLine(firstTreeLines[i] + ConnectionSeparator + secondTreeLines[i]);
-                stringBuilder.AppendLine();
-            }
+            lines.ForEach(line => stringBuilder.AppendLine(line));
             Console.WriteLine(stringBuilder);
-        }
-
-        public void WriteToConsoleAsTrees(SingleTree<T> mainSingleTree, SingleTree<T> minorSingleTree)
-        {
-            Contract.Requires(mainSingleTree != null);
-            Contract.Requires(minorSingleTree != null);
-
-            var firstTreeLines = GetNodeLines(mainSingleTree);
-            var secondTreeLines = GetNodeLines(minorSingleTree);
-
-            var stringBuilder = new StringBuilder();
-            var maxlength = Math.Max(firstTreeLines.Count(), secondTreeLines.Count());
-
-            for (int i = 0; i < maxlength; i++)
-            {
-                var firstPart = i < firstTreeLines.Count
-                    ? firstTreeLines[i]
-                    : new string(' ', firstTreeLines.First().Length);
-
-                var secondPart = i < secondTreeLines.Count
-                    ? secondTreeLines[i]
-                    : "";
-
-                stringBuilder.AppendLine(firstPart + new String(' ', 10) + secondPart);
-                stringBuilder.AppendLine();
-            }
-            Console.WriteLine(stringBuilder);
-        }
-
-        public List<string> GetNodeLines(SingleTree<T> singleTree)
-        {
-            Contract.Requires(singleTree != null);
-            Contract.Ensures(Contract.Result<List<string>>() != null);
-
-            if(singleTree == null) 
-                throw new ArgumentNullException("singleTree");
-
-            var lines = new List<string>();
-
-            if (singleTree.Root == null) 
-                return lines;
-
-            var stack = new Stack<SingleNode<T>>(new[] { singleTree.Root });
-
-            while (stack.Any())
-            {
-                var topElement = stack.Pop();
-
-                var nodes = topElement.Nodes.ToList();
-                nodes.Reverse();
-                nodes.ForEach(node => stack.Push(node));
-
-                var line = string.Format("{0}{1} ({2})", new string(' ', topElement.Node.Depth * 2),
-                    topElement.Node.NodeInfo.GetType().Name, topElement.Node.Id);
-                lines.Add(line);
-            }
-
-            var maxLength = lines.Max(line => line.Length);
-            return lines.Select(line => line += new string(' ', maxLength - line.Length)).ToList();
-        }
-
-        private List<string> GetNodeLines(DoubleNode<T> doubleNode, bool isLeft)
-        {
-            Contract.Requires(doubleNode != null);
-            Contract.Ensures(Contract.Result<List<string>>().Count != 0);
-            Contract.Ensures(Contract.Result<List<string>>() != null);
-
-            var nodeLines = new List<string>();
-            var stack = new Stack<DoubleNode<T>>();
-            stack.Push(doubleNode);
-
-            Func<DoubleNode<T>, string> getNodeName = (node) => String.Format("{0} ({1})",node.MainLeaf.NodeType.Name ,node.MainLeaf.Id);
-               
-            while (stack.Any())
-            {
-                var topElement = stack.Pop();
-                var space = isLeft
-                    ? new string(' ', topElement.Deep * 3)
-                    : new string('-', topElement.Deep * 3);
-                
-                var connectionSign = GetConnectionSigh(topElement.ConnectionKind, isLeft);
-
-                var line = isLeft
-                    ? space + getNodeName(topElement) + connectionSign
-                    : space + connectionSign + getNodeName(topElement);
-
-                nodeLines.Add(line);
-
-                var nodes = topElement.Nodes.ToList();
-                nodes.Reverse();
-                nodes.ForEach(node => stack.Push(node));
-            }
-
-            var maxLength = nodeLines.Max(line => line.Length);
-
-            nodeLines =
-                nodeLines.Select(
-                    line => isLeft
-                            ? line += new String('-', maxLength - line.Length)
-                            : line += new String(' ', maxLength - line.Length)
-                                ).ToList();
-
-            return nodeLines;
-        }
-
-        private string GetConnectionSigh(ConnectionKind connectionKind, bool isLeft)
-        {
-            Contract.Ensures(!string.IsNullOrEmpty(Contract.Result<string>()));
-
-            if (connectionKind == ConnectionKind.Strict)
-            {
-                return isLeft ? LeftStrictConnectionSign : RightStrictConnectionSign;
-            }
-
-            if (connectionKind == ConnectionKind.Relative)
-            {
-                return isLeft ? LeftRelativeConnectionSign : RightRelativeConnectionSign;
-            }
-
-            return isLeft ? " " + NoneConnectionSign : NoneConnectionSign + " ";
         }
     }
 }

@@ -100,8 +100,8 @@ namespace BoundTree.Helpers.ConsoleHelper
                 Console.ReadKey();
             }
 
-            new ConsoleTreeWriter<StringId>().WriteToConsoleAsTrees(_bindController.MainSingleTree, _bindController.MinorSingleTree);
-            new ConsoleTreeWriter<StringId>().WriteToConsoleAsTrees(tree);
+            new ConsoleTreeWriter<StringId>().WriteToConsole(_bindController.MainSingleTree, _bindController.MinorSingleTree);
+            new ConsoleTreeWriter<StringId>().WriteToConsole(tree);
 
             Console.WriteLine();
             if (_messages.Any())
