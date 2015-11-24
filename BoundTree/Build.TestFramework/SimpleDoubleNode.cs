@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using BoundTree.Logic;
 
-namespace Build.TestFramework.Logic
+namespace Build.TestFramework
 {
     public class SimpleDoubleNode : IEquatable<SimpleDoubleNode>
     {

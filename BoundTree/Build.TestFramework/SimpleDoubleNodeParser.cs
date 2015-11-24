@@ -5,13 +5,16 @@ using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using BoundTree.Logic;
-using Build.TestFramework.Logic;
 
 namespace Build.TestFramework
 {
     public class SimpleDoubleNodeParser
     {
         private const char TabSeparator = '\t';
+        private const string  SignStrictConnection = "+";
+        private const string SignRelativeConnection = "*";
+        private const string EmptyNodeName = "()";
+        private const string EmptyLine = "";
 
         public SimpleDoubleNode ParseDoubleNode(DoubleNode<StringId> doubleNode)
         {
@@ -44,6 +47,7 @@ namespace Build.TestFramework
 
             var mainLeafId = doubleNode.MainLeaf.Id.ToString().Replace(TabSeparator.ToString(), "");
             var minorLeafId = doubleNode.MinorLeaf.Id.ToString().Replace(TabSeparator.ToString(), "");
+
             return new SimpleDoubleNode(mainLeafId, minorLeafId, doubleNode.ConnectionKind, 0);
         }
 
@@ -54,7 +58,15 @@ namespace Build.TestFramework
             Contract.Ensures(Contract.Result<SimpleDoubleNode>() != null);
 
             var nodes = GetSimpleDoubleNodes(lines);
-            nodes.ForEach(node => node.MinorLeaf = node.MinorLeaf == "()" ? "" : node.MinorLeaf);
+
+            foreach (var simpleDoubleNode in nodes)
+            {
+                if (simpleDoubleNode.MinorLeaf == EmptyNodeName)
+                {
+                    simpleDoubleNode.MinorLeaf = EmptyLine;
+                }
+            }
+
             var maxDepth = nodes.Max(node => node.Depth);
             int greatestCommonDivisor = 1;
 
@@ -79,15 +91,21 @@ namespace Build.TestFramework
             return result;
         }
 
-        private static List<SimpleDoubleNode> GetSimpleDoubleNodes(List<string> lines)
+        private List<SimpleDoubleNode> GetSimpleDoubleNodes(List<string> lines)
         {
+            Contract.Requires(lines != null);
+            Contract.Requires(lines.Any());
+            Contract.Ensures(Contract.Result<List<SimpleDoubleNode>>() != null);
+            Contract.Ensures(Contract.Result<List<SimpleDoubleNode>>().Any());
+
             var rootNodes = lines.First().Split(new char[] {' '});
-            if (rootNodes[0] != "Root" || rootNodes[1] != "Root")
+
+            if (rootNodes[0] != "Root" || rootNodes[2] != "Root")
             {
                 throw new FileLoadException();
             }
 
-            var root = new SimpleDoubleNode(rootNodes[0], rootNodes[1], ConnectionKind.Strict, 0);
+            var root = new SimpleDoubleNode(rootNodes[0], rootNodes[2], ConnectionKind.Strict, 0);
 
             var nodes = new List<SimpleDoubleNode> {root};
 
@@ -111,14 +129,26 @@ namespace Build.TestFramework
                     var mainLeafId = splittedLine[0];
                     var connectionSign = splittedLine[1];
                     var minorLeafId = splittedLine[2];
-                    var connectionKind = connectionSign == "+"
-                        ? ConnectionKind.Strict
-                        : ConnectionKind.Relative;
+                    var connectionKind = GetConnectionKind(connectionSign);
 
                     nodes.Add(new SimpleDoubleNode(mainLeafId, minorLeafId, connectionKind, depth));
                 }
             }
+
             return nodes;
+        }
+
+        private ConnectionKind GetConnectionKind(string sign)
+        {
+            switch (sign)
+            {
+                case SignStrictConnection:
+                    return ConnectionKind.Strict;
+                case SignRelativeConnection:
+                    return ConnectionKind.Relative;
+            }
+
+            return ConnectionKind.None;
         }
 
         private SimpleDoubleNode GetNearestParent(int index, List<SimpleDoubleNode> simpleDoubleNodes)

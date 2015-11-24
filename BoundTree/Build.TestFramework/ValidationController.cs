@@ -11,6 +11,9 @@ namespace Build.TestFramework
     {
         public bool IsValid(string pathToFile)
         {
+            Contract.Requires(!string.IsNullOrEmpty(pathToFile));
+            Contract.Requires<FileNotFoundException>(File.Exists(pathToFile));
+
             var actual = new SimpleDoubleNodeParser().ParseDoubleNode(GetDoubleNodeFromFile(pathToFile));
             var expected = new SimpleDoubleNodeParser().ParseLines(GetExpectedDoubleNodeLines(pathToFile));
 
