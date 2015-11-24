@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BoundTree.ConsoleDisplaying
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BoundTree.Helpers", "BoundTree.Helpers\BoundTree.Helpers.csproj", "{C41BA8A3-F3DC-47F9-94FE-3788EB4CFAE4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Build.TestFramework", "Build.TestFramework\Build.TestFramework.csproj", "{ADD3161B-370D-4E93-831D-D1861DC9F47F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{C41BA8A3-F3DC-47F9-94FE-3788EB4CFAE4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C41BA8A3-F3DC-47F9-94FE-3788EB4CFAE4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C41BA8A3-F3DC-47F9-94FE-3788EB4CFAE4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ADD3161B-370D-4E93-831D-D1861DC9F47F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ADD3161B-370D-4E93-831D-D1861DC9F47F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ADD3161B-370D-4E93-831D-D1861DC9F47F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ADD3161B-370D-4E93-831D-D1861DC9F47F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

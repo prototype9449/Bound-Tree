@@ -1,16 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
-using System.IO;
 using System.Linq;
 using BoundTree.Logic;
-using BoundTree.TreeReconstruction;
 
 namespace BoundTree.Helpers.Helpers
 {
     public class DoubleNodeConverter
     {
-        private const int SpaceCount = 2;
         private const int TabSpace = 3;
         private const string LeftStrictConnectionSign = " << ";
         private const string RightStrictConnectionSign = " >> ";
@@ -35,41 +32,7 @@ namespace BoundTree.Helpers.Helpers
 
             return lines;
         }
-
-        public DoubleNode<StringId> GetDoubleNode(List<string> lines)
-        {
-            Contract.Ensures(Contract.Result<DoubleNode<StringId>>() != null);
-
-            var minorTreeIndex = lines.FindIndex(line => line == "") + SpaceCount;
-
-            if (minorTreeIndex > lines.Count)
-            {
-                throw new FileLoadException("Minor tree not found");
-            }
-
-            var connectionIndex = lines.Skip(minorTreeIndex).ToList().FindIndex(line => line == "") + SpaceCount + minorTreeIndex;
-            if (connectionIndex > lines.Count)
-            {
-                throw new FileLoadException("Connection separator was not found");
-            }
-
-            var mainTreeLines = lines.Take(minorTreeIndex - SpaceCount).ToList();
-            var minorTreeLines = lines
-                .Skip(minorTreeIndex)
-                .Take(connectionIndex - minorTreeIndex - SpaceCount).ToList();
-
-            var connectionCommands = lines.Skip(connectionIndex).ToList();
-
-            var singleTreeConverter = new SingleTreeConverter<StringId>();
-
-            var mainTree = singleTreeConverter.GetSingleTree(mainTreeLines);
-            var minorTree = singleTreeConverter.GetSingleTree(minorTreeLines);
-
-            var bindController = new BindContoller<StringId>(mainTree, minorTree);
-            AddConnections(bindController, connectionCommands);
-            return new TreeReconstruction<StringId>(bindController).GetFilledTree();
-        }
-
+        
         private string GetDoubleNodeName(DoubleNode<StringId> doubleNode, bool isLeft)
         {
             if (isLeft)
@@ -139,32 +102,5 @@ namespace BoundTree.Helpers.Helpers
 
             return isLeft ? " " + NoneConnectionSign : NoneConnectionSign + " ";
         }
-
-        private void AddConnections(BindContoller<StringId> bindContoller, List<string> commands)
-        {
-            Contract.Requires(bindContoller != null);
-            Contract.Requires(commands != null);
-
-            foreach (var command in commands)
-            {
-                var partsOfCommand = command.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-                if (partsOfCommand[0] == AddLongName)
-                {
-                    bindContoller.Bind(new StringId(partsOfCommand[1]), new StringId(partsOfCommand[2]));
-                }
-                if (partsOfCommand[0] == RemoveAllLongName)
-                {
-                    bindContoller.RemoveAllConnections();
-                }
-                if (partsOfCommand[0] == RemoveLongName)
-                {
-                    bindContoller.RemoveConnection(new StringId(partsOfCommand[1]));
-                }
-            }
-        }
-
-        private const string AddLongName = "add";
-        private const string RemoveAllLongName = "remove all";
-        private const string RemoveLongName = "remove";
     }
 }

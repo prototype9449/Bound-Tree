@@ -40,19 +40,6 @@ namespace BoundTree.Helpers.Helpers
             File.AppendAllLines(_pathToFile, new[] { command });
         }
 
-        public static DoubleNode<StringId> GetDoubleNodeFromFile(string pathToFile)
-        {
-            Contract.Requires(!string.IsNullOrEmpty(pathToFile));
-
-            return new TreeFromLogBuilder().GetDoubleNodeFromFile(pathToFile);
-        }
-
-        public static DoubleNode<StringId> GetDoubleNodeFromFile()
-        {
-            var pathToFile = GetStandartFilePath();
-            return new TreeFromLogBuilder().GetDoubleNodeFromFile(pathToFile);
-        }
-
         public void AddDoubleTreeToFile(DoubleNode<StringId> currentDoubleNode)
         {
             Contract.Requires(currentDoubleNode != null);
