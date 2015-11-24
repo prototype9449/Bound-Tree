@@ -1,22 +1,22 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics.Contracts;
-using System.Linq;
 using System.Text;
 using BoundTree.Logic;
 
 namespace BoundTree.Helpers.ConsoleHelper
 {
-    public class ConsoleTreeWriter<T> where T : class, IEquatable<T>, new()
+    public class ConsoleTreeWriter
     {
-        public void WriteToConsole(DoubleNode<T> tree)
+        public void WriteToConsole(DoubleNode<StringId> tree)
         {
-            Console.WriteLine(new DoubleNodeConverter<T>().ConvertDoubleNode(tree));
+            var lines = new DoubleNodeConverter().ConvertDoubleNode(tree);
+            var stringBuilder = new StringBuilder();
+            lines.ForEach(line => stringBuilder.AppendLine(line));
+            Console.WriteLine(stringBuilder);
         }
 
-        public void WriteToConsole(SingleTree<T> mainTree, SingleTree<T> minorTree)
+        public void WriteToConsole(SingleTree<StringId> mainTree, SingleTree<StringId> minorTree)
         {
-            var lines = new SingleTreeConverter<T>().ConvertTrees(mainTree, minorTree);
+            var lines = new SingleTreeConverter<StringId>().ConvertTrees(mainTree, minorTree);
             var stringBuilder = new StringBuilder();
             lines.ForEach(line => stringBuilder.AppendLine(line));
             Console.WriteLine(stringBuilder);

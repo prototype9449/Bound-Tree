@@ -120,7 +120,7 @@ namespace BoundTree.Helpers.ConsoleHelper
         private void DisplayInitialCommand()
         {
             Console.Clear();
-            new ConsoleTreeWriter<StringId>().WriteToConsole(_mainTree, _minorTree);
+            new ConsoleTreeWriter().WriteToConsole(_mainTree, _minorTree);
             Console.WriteLine();
             if (_messages.Any())
             {

@@ -14,11 +14,11 @@ namespace BoundTree.Helpers.ConsoleHelper
         public DoubleNode<StringId> GetDoubleNodeFromFile(string pathToFile)
         {
             Contract.Requires(!string.IsNullOrEmpty(pathToFile));
-            //Contract.Requires<FileNotFoundException>(File.Exists(pathToFile));
+            Contract.Requires<FileNotFoundException>(File.Exists(pathToFile));
             Contract.Ensures(Contract.Result<DoubleNode<StringId>>() != null);
 
             var lines = File.ReadAllLines(pathToFile).ToList();
-            return new DoubleNodeConverter<StringId>().GetDoubleNode(lines);
+            return new DoubleNodeConverter().GetDoubleNode(lines);
         }
     }
 }

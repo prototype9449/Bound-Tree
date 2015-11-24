@@ -53,6 +53,15 @@ namespace BoundTree.Helpers.ConsoleHelper
             return new TreeFromLogBuilder().GetDoubleNodeFromFile(pathToFile);
         }
 
+        public void AddDoubleTreeToFile(DoubleNode<StringId> currentDoubleNode)
+        {
+            Contract.Requires(currentDoubleNode != null);
+
+            var lines = new DoubleNodeConverter().ConvertDoubleNode(currentDoubleNode);
+            lines.Insert(0, Environment.NewLine);
+            File.AppendAllLines(_pathToFile, lines);
+        }
+
         private static string GetStandartFilePath()
         {
             return Path.Combine(Directory.GetCurrentDirectory(), FileName);
@@ -60,8 +69,9 @@ namespace BoundTree.Helpers.ConsoleHelper
 
         private void AddTreesToLogFile()
         {
-            var mainTreeLines = new SingleTreeConverter<StringId>().ConvertTree(_mainTree);
-            var minorTreeLines = new SingleTreeConverter<StringId>().ConvertTree(_minorTree);
+            var singleTreeConverter = new SingleTreeConverter<StringId>();
+            var mainTreeLines = singleTreeConverter.ConvertTree(_mainTree);
+            var minorTreeLines = singleTreeConverter.ConvertTree(_minorTree);
 
             var result = new List<string>();
             result.AddRange(mainTreeLines);

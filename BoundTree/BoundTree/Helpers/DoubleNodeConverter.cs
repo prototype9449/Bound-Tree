@@ -11,17 +11,17 @@ using BoundTree.Logic.Nodes;
 
 namespace BoundTree.Helpers
 {
-    public class DoubleNodeConverter<T> where T : class, IEquatable<T>, new()
+    public class DoubleNodeConverter
     {
         private const int SpaceCount = 2;
         private const string LeftStrictConnectionSign = " << ";
         private const string RightStrictConnectionSign = " >> ";
         private const string LeftRelativeConnectionSign = " <* ";
         private const string RightRelativeConnectionSign = " *> ";
-        private const string NoneConnectionSign = "-";
+        private const string NoneConnectionSign = "----";
         private const string ConnectionSeparator = "-";
 
-        public List<string> ConvertDoubleNode(DoubleNode<T> doubleNode)
+        public List<string> ConvertDoubleNode(DoubleNode<StringId> doubleNode)
         {
             Contract.Requires(doubleNode != null);
 
@@ -62,7 +62,7 @@ namespace BoundTree.Helpers
 
             var connectionCommands = lines.Skip(connectionIndex).ToList();
 
-            var singleTreeConverter = new SingleTreeConverter<T>();
+            var singleTreeConverter = new SingleTreeConverter<StringId>();
 
             var mainTree = singleTreeConverter.GetSingleTree(mainTreeLines);
             var minorTree = singleTreeConverter.GetSingleTree(minorTreeLines);
@@ -71,18 +71,28 @@ namespace BoundTree.Helpers
             AddConnections(bindController, connectionCommands);
             return new TreeReconstruction<StringId>(bindController).GetFilledTree();
         }
-        
-        private List<string> GetNodeLines(DoubleNode<T> doubleNode, bool isLeft)
+
+
+        private string GetDoubleNodeName(DoubleNode<StringId> doubleNode, bool isLeft)
+        {
+            if (isLeft)
+            {
+                return String.Format("{0} ({1})", doubleNode.MainLeaf.NodeType.Name, doubleNode.MainLeaf.Id);
+            }
+
+            return String.Format("{0} ({1})", doubleNode.MinorLeaf.NodeType.Name, doubleNode.MinorLeaf.Id);
+        }
+
+        private List<string> GetNodeLines(DoubleNode<StringId> doubleNode, bool isLeft)
         {
             Contract.Requires(doubleNode != null);
             Contract.Ensures(Contract.Result<List<string>>().Count != 0);
             Contract.Ensures(Contract.Result<List<string>>() != null);
 
             var nodeLines = new List<string>();
-            var stack = new Stack<DoubleNode<T>>();
+            var stack = new Stack<DoubleNode<StringId>>();
             stack.Push(doubleNode);
 
-            Func<DoubleNode<T>, string> getNodeName = (node) => String.Format("{0} ({1})", node.MainLeaf.NodeType.Name, node.MainLeaf.Id);
 
             while (stack.Any())
             {
@@ -94,8 +104,8 @@ namespace BoundTree.Helpers
                 var connectionSign = GetConnectionSigh(topElement.ConnectionKind, isLeft);
 
                 var line = isLeft
-                    ? space + getNodeName(topElement) + connectionSign
-                    : space + connectionSign + getNodeName(topElement);
+                    ? space + GetDoubleNodeName(topElement, true) + connectionSign
+                    : space + connectionSign + GetDoubleNodeName(topElement, false);
 
                 nodeLines.Add(line);
 
