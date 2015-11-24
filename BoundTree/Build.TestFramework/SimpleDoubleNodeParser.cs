@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using BoundTree.Logic;
 using Build.TestFramework.Logic;
 
@@ -41,9 +42,9 @@ namespace Build.TestFramework
             Contract.Requires(doubleNode != null);
             Contract.Ensures(Contract.Result<SimpleDoubleNode>() != null);
 
-            var mainLeafId = doubleNode.MainLeaf.Id;
-            var minorLeafId = doubleNode.MinorLeaf.Id;
-            return new SimpleDoubleNode(mainLeafId.ToString(), minorLeafId.ToString(), doubleNode.ConnectionKind, 0);
+            var mainLeafId = doubleNode.MainLeaf.Id.ToString().Replace(TabSeparator.ToString(), "");
+            var minorLeafId = doubleNode.MinorLeaf.Id.ToString().Replace(TabSeparator.ToString(), "");
+            return new SimpleDoubleNode(mainLeafId, minorLeafId, doubleNode.ConnectionKind, 0);
         }
 
         public SimpleDoubleNode ParseLines(List<string> lines)
@@ -53,7 +54,7 @@ namespace Build.TestFramework
             Contract.Ensures(Contract.Result<SimpleDoubleNode>() != null);
 
             var nodes = GetSimpleDoubleNodes(lines);
-
+            nodes.ForEach(node => node.MinorLeaf = node.MinorLeaf == "()" ? "" : node.MinorLeaf);
             var maxDepth = nodes.Max(node => node.Depth);
             int greatestCommonDivisor = 1;
 
@@ -81,19 +82,19 @@ namespace Build.TestFramework
         private static List<SimpleDoubleNode> GetSimpleDoubleNodes(List<string> lines)
         {
             var rootNodes = lines.First().Split(new char[] {' '});
-            if (rootNodes[0] != "Root" || rootNodes[2] != "Root")
+            if (rootNodes[0] != "Root" || rootNodes[1] != "Root")
             {
                 throw new FileLoadException();
             }
 
-            var root = new SimpleDoubleNode(rootNodes[0], rootNodes[2], ConnectionKind.Strict, 0);
+            var root = new SimpleDoubleNode(rootNodes[0], rootNodes[1], ConnectionKind.Strict, 0);
 
             var nodes = new List<SimpleDoubleNode> {root};
 
-            foreach (var line in lines)
+            foreach (var line in lines.Skip(1))
             {
-                var splittedLine = line.Split(new char[] {' '}, StringSplitOptions.None);
-                if (splittedLine.Length != 2 || splittedLine.Length != 3)
+                var splittedLine = line.Split(new char[] {' ', TabSeparator}, StringSplitOptions.RemoveEmptyEntries);
+                if (splittedLine.Length != 2 && splittedLine.Length != 3)
                 {
                     throw new FileLoadException();
                 }
@@ -124,7 +125,7 @@ namespace Build.TestFramework
         {
             Contract.Requires(simpleDoubleNodes != null);
             Contract.Requires(simpleDoubleNodes.Any());
-            Contract.Ensures(Contract.Result<SingleNode<StringId>>() != null);
+            Contract.Ensures(Contract.Result<SimpleDoubleNode>() != null);
 
             for (var i = index; i >= 0; i--)
             {

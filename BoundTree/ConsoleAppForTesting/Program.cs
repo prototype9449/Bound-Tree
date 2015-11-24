@@ -1,9 +1,11 @@
-﻿using BoundTree.ConsoleDisplaying;
+﻿using System;
+using BoundTree.ConsoleDisplaying;
+using Build.TestFramework;
 
 
 namespace ConsoleAppForTesting
 {
-    internal class Programa
+    internal class Program
     {
         private static void Main(string[] args)
         {
@@ -14,10 +16,9 @@ namespace ConsoleAppForTesting
 //            var bindController = new BindContoller<StringId>(mainTree, minorTree);
 //            new ConsoleConnectionController(bindController).Start();
 
-            new ConsoleController().Run();
+            //new ConsoleController().Run();
 
-            //var doubleNode = TreeLogger.GetDoubleNodeFromFile();
-            
+            Console.WriteLine(new ValidationController().IsValid(@"C:\Bound-Tree\BoundTree\ConsoleAppForTesting\bin\Debug\test.txt"));
         }
     }
 }

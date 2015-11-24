@@ -38,7 +38,7 @@ namespace Build.TestFramework
                 .Skip(minorTreeIndex)
                 .Take(connectionIndex - minorTreeIndex - SpaceCount).ToList();
 
-            var connectionCommands = lines.Skip(connectionIndex).ToList();
+            var connectionCommands = lines.Skip(connectionIndex).Where(line => line != "").ToList();
 
             var singleTreeConverter = new SingleTreeParser();
 
