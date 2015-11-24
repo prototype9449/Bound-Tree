@@ -33,7 +33,8 @@ namespace BoundTree.Helpers.TreeReconstruction
                 }
                 else
                 {
-                    current.doubleNode.MinorLeaf = new Node<T>(new T(), -1, new Empty());
+                    var depth = current.doubleNode.MainLeaf.Depth;
+                    current.doubleNode.MinorLeaf = new Node<T>(new T(), depth, new Empty());
                     current.doubleNode.ConnectionKind = ConnectionKind.None;
                 }
 

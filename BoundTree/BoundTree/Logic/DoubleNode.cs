@@ -121,7 +121,5 @@ namespace BoundTree.Logic
             Deep = initialDeep + 1;
             Nodes.ForEach(node => node.SetDeep(this.Deep));
         }
-
-       
     }
 }

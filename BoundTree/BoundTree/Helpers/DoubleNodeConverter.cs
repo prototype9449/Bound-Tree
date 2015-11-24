@@ -3,17 +3,16 @@ using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.IO;
 using System.Linq;
-using System.Text;
 using BoundTree.Helpers.ConsoleHelper;
 using BoundTree.Helpers.TreeReconstruction;
 using BoundTree.Logic;
-using BoundTree.Logic.Nodes;
 
 namespace BoundTree.Helpers
 {
     public class DoubleNodeConverter
     {
         private const int SpaceCount = 2;
+        private const int TabSpace = 3;
         private const string LeftStrictConnectionSign = " << ";
         private const string RightStrictConnectionSign = " >> ";
         private const string LeftRelativeConnectionSign = " <* ";
@@ -72,7 +71,6 @@ namespace BoundTree.Helpers
             return new TreeReconstruction<StringId>(bindController).GetFilledTree();
         }
 
-
         private string GetDoubleNodeName(DoubleNode<StringId> doubleNode, bool isLeft)
         {
             if (isLeft)
@@ -98,8 +96,8 @@ namespace BoundTree.Helpers
             {
                 var topElement = stack.Pop();
                 var space = isLeft
-                    ? new string(' ', topElement.Deep * 3)
-                    : new string('-', topElement.Deep * 3);
+                    ? new string(' ', topElement.Deep * TabSpace)
+                    : new string('-', topElement.Deep * TabSpace);
 
                 var connectionSign = GetConnectionSigh(topElement.ConnectionKind, isLeft);
 
