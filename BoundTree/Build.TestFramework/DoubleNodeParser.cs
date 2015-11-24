@@ -9,7 +9,7 @@ using BoundTree.TreeReconstruction;
 
 namespace Build.TestFramework
 {
-    public class DoubleNodeConverter
+    public class DoubleNodeParser
     {
         private const int SpaceCount = 2;
         private const string AddLongName = "add";
@@ -40,7 +40,7 @@ namespace Build.TestFramework
 
             var connectionCommands = lines.Skip(connectionIndex).ToList();
 
-            var singleTreeConverter = new SingleTreeConverter();
+            var singleTreeConverter = new SingleTreeParser();
 
             var mainTree =singleTreeConverter.GetSingleTree(mainTreeLines);
             var minorTree = singleTreeConverter.GetSingleTree(minorTreeLines);

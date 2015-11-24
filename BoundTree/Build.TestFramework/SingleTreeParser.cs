@@ -8,11 +8,12 @@ using BoundTree.Logic.Nodes;
 
 namespace Build.TestFramework
 {
-    public class SingleTreeConverter
+    public class SingleTreeParser
     {
         public SingleTree<StringId> GetSingleTree(List<string> lines)
         {
             Contract.Requires(lines != null);
+            Contract.Requires(lines.Any());
             Contract.Ensures(Contract.Result<SingleTree<StringId>>() != null);
 
             NodeInfo root = new Root();
