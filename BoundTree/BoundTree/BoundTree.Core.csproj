@@ -83,24 +83,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Helpers\ConsoleHelper\CommandMediator.cs" />
-    <Compile Include="Helpers\ConsoleHelper\ConsoleController.cs" />
-    <Compile Include="Helpers\ConsoleHelper\TreeFromLogBuilder.cs" />
-    <Compile Include="Helpers\ConsoleHelper\TreeLogger.cs" />
-    <Compile Include="Helpers\DoubleNodeConverter.cs" />
-    <Compile Include="Helpers\SingleTreeConverter.cs" />
-    <Compile Include="Helpers\TreeReconstruction\ConnectionKindReconstruction.cs" />
-    <Compile Include="Helpers\TreeReconstruction\ConnectionReconstruction.cs" />
-    <Compile Include="Helpers\TreeReconstruction\PostReconstruction.cs" />
-    <Compile Include="Helpers\TreeReconstruction\VirtualNodeReconstruction.cs" />
+    <Compile Include="BindContoller.cs" />
+    <Compile Include="BindingHandler.cs" />
     <Compile Include="Logic\ConnectionKind.cs" />
     <Compile Include="Logic\DoubleNode.cs" />
-    <Compile Include="Helpers\BindContoller.cs" />
-    <Compile Include="Helpers\BindingHandler.cs" />
-    <Compile Include="Helpers\ConsoleHelper\ConsoleConnectionController.cs" />
-    <Compile Include="Helpers\ConsoleHelper\ConsoleTableWriter.cs" />
-    <Compile Include="Helpers\ConsoleHelper\ConsoleTreeWriter.cs" />
-    <Compile Include="Helpers\TreeReconstruction\TreeReconstruction.cs" />
     <Compile Include="Interfaces\IBindingHandler.cs" />
     <Compile Include="Logic\LogicLevel.cs" />
     <Compile Include="Logic\Node.cs" />
@@ -122,6 +108,11 @@
     <Compile Include="Logic\SingleNodeFactory.cs" />
     <Compile Include="Logic\SingleTree.cs" />
     <Compile Include="Logic\StringId.cs" />
+    <Compile Include="TreeReconstruction\ConnectionKindReconstruction.cs" />
+    <Compile Include="TreeReconstruction\ConnectionReconstruction.cs" />
+    <Compile Include="TreeReconstruction\PostReconstruction.cs" />
+    <Compile Include="TreeReconstruction\TreeReconstruction.cs" />
+    <Compile Include="TreeReconstruction\VirtualNodeReconstruction.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

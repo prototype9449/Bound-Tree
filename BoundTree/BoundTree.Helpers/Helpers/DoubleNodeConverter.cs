@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.IO;
 using System.Linq;
-using BoundTree.Helpers.ConsoleHelper;
-using BoundTree.Helpers.TreeReconstruction;
 using BoundTree.Logic;
+using BoundTree.TreeReconstruction;
 
-namespace BoundTree.Helpers
+namespace BoundTree.Helpers.Helpers
 {
     public class DoubleNodeConverter
     {
@@ -140,7 +139,7 @@ namespace BoundTree.Helpers
 
             return isLeft ? " " + NoneConnectionSign : NoneConnectionSign + " ";
         }
-        
+
         private void AddConnections(BindContoller<StringId> bindContoller, List<string> commands)
         {
             Contract.Requires(bindContoller != null);
@@ -149,21 +148,23 @@ namespace BoundTree.Helpers
             foreach (var command in commands)
             {
                 var partsOfCommand = command.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-                if (partsOfCommand[0] == CommandMediator.AddLongName)
+                if (partsOfCommand[0] == AddLongName)
                 {
                     bindContoller.Bind(new StringId(partsOfCommand[1]), new StringId(partsOfCommand[2]));
                 }
-                if (partsOfCommand[0] == CommandMediator.RemoveAllLongName)
+                if (partsOfCommand[0] == RemoveAllLongName)
                 {
                     bindContoller.RemoveAllConnections();
                 }
-                if (partsOfCommand[0] == CommandMediator.RemoveLongName)
+                if (partsOfCommand[0] == RemoveLongName)
                 {
                     bindContoller.RemoveConnection(new StringId(partsOfCommand[1]));
                 }
             }
         }
 
-        
+        private const string AddLongName = "add";
+        private const string RemoveAllLongName = "remove all";
+        private const string RemoveLongName = "remove";
     }
 }

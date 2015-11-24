@@ -5,7 +5,7 @@ using System.Linq;
 using BoundTree.Interfaces;
 using BoundTree.Logic;
 
-namespace BoundTree.Helpers
+namespace BoundTree
 {
     [Serializable]
     public class BindingHandler<T> : IBindingHandler<T> where T : class, IEquatable<T>, new()

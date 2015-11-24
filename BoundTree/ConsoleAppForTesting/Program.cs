@@ -1,10 +1,5 @@
-﻿using System;
-using System.Diagnostics;
-using System.Diagnostics.Contracts;
-using System.Text.RegularExpressions;
-using BoundTree.Helpers;
-using BoundTree.Helpers.ConsoleHelper;
-using BoundTree.Logic;
+﻿using BoundTree.ConsoleDisplaying;
+
 
 namespace ConsoleAppForTesting
 {

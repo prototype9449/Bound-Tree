@@ -3,7 +3,7 @@ using System.IO;
 using System.Linq;
 using BoundTree.Logic;
 
-namespace BoundTree.Helpers.ConsoleHelper
+namespace BoundTree.Helpers.Helpers
 {
     public class TreeFromLogBuilder
     {

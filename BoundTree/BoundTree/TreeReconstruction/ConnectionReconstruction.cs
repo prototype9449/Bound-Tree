@@ -5,7 +5,7 @@ using System.Linq;
 using BoundTree.Logic;
 using BoundTree.Logic.Nodes;
 
-namespace BoundTree.Helpers.TreeReconstruction
+namespace BoundTree.TreeReconstruction
 {
     public class ConnectionReconstruction<T> where T : class, IEquatable<T>, new()
     {

@@ -3,7 +3,7 @@ using System.Diagnostics.Contracts;
 using System.Linq;
 using BoundTree.Logic;
 
-namespace BoundTree.Helpers.TreeReconstruction
+namespace BoundTree.TreeReconstruction
 {
     public class ConnectionKindReconstruction<T> where T : class, IEquatable<T>, new()
     {

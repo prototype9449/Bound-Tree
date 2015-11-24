@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Diagnostics.Contracts;
 
-namespace BoundTree.Helpers.ConsoleHelper
+namespace BoundTree.ConsoleDisplaying
 {
     public class CommandMediator
     {

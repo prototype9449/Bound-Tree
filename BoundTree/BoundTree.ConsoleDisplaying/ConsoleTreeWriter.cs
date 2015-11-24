@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Text;
+using BoundTree.Helpers.Helpers;
 using BoundTree.Logic;
 
-namespace BoundTree.Helpers.ConsoleHelper
+namespace BoundTree.ConsoleDisplaying
 {
     public class ConsoleTreeWriter
     {

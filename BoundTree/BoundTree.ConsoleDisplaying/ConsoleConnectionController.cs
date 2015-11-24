@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
-using BoundTree.Helpers.TreeReconstruction;
+using BoundTree.Helpers.Helpers;
 using BoundTree.Logic;
+using BoundTree.TreeReconstruction;
 
-namespace BoundTree.Helpers.ConsoleHelper
+namespace BoundTree.ConsoleDisplaying
 {
     public class ConsoleConnectionController
     {

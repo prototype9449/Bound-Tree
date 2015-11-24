@@ -88,15 +88,14 @@
   <ItemGroup>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TreeFactory.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BoundTree\BoundTree.csproj">
-      <Project>{287781ee-df51-4601-a94c-066163537702}</Project>
-      <Name>BoundTree</Name>
+    <ProjectReference Include="..\BoundTree.ConsoleDisplaying\BoundTree.ConsoleDisplaying.csproj">
+      <Project>{f25a28a9-6877-4355-8fe0-158cc36dbb84}</Project>
+      <Name>BoundTree.ConsoleDisplaying</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

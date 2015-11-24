@@ -6,7 +6,7 @@ using System.Linq;
 using BoundTree.Logic;
 using BoundTree.Logic.Nodes;
 
-namespace BoundTree.Helpers
+namespace BoundTree.Helpers.Helpers
 {
     public class SingleTreeConverter<T> where T : class, IEquatable<T>, new()
     {
@@ -14,6 +14,8 @@ namespace BoundTree.Helpers
         {
             Contract.Requires(mainSingleTree != null);
             Contract.Requires(minorSingleTree != null);
+            const int spaceBetweenTrees = 10;
+            const char signBetweenTrees = ' ';
 
             var firstTreeLines = ConvertTree(mainSingleTree);
             var secondTreeLines = ConvertTree(minorSingleTree);
@@ -26,13 +28,13 @@ namespace BoundTree.Helpers
             {
                 var firstPart = i < firstTreeLines.Count
                     ? firstTreeLines[i]
-                    : new string(' ', firstTreeLines.First().Length);
+                    : new string(signBetweenTrees, firstTreeLines.First().Length);
 
                 var secondPart = i < secondTreeLines.Count
                     ? secondTreeLines[i]
                     : "";
 
-                lines.Add(firstPart + new String(' ', 10) + secondPart);
+                lines.Add(firstPart + new String(signBetweenTrees, spaceBetweenTrees) + secondPart);
                 lines.Add(Environment.NewLine);
             }
             return lines;
@@ -89,6 +91,8 @@ namespace BoundTree.Helpers
         {
             Contract.Requires(singleTree != null);
             Contract.Ensures(Contract.Result<List<string>>() != null);
+            const int indent = 3;
+            const char signBetweenTrees = ' ';
 
             if (singleTree == null)
                 throw new ArgumentNullException("singleTree");
@@ -108,13 +112,13 @@ namespace BoundTree.Helpers
                 nodes.Reverse();
                 nodes.ForEach(node => stack.Push(node));
 
-                var line = string.Format("{0}{1} ({2})", new string(' ', topElement.Node.Depth * 2),
+                var line = string.Format("{0}{1} ({2})", new string(signBetweenTrees, topElement.Node.Depth * indent),
                     topElement.Node.NodeInfo.GetType().Name, topElement.Node.Id);
                 lines.Add(line);
             }
 
             var maxLength = lines.Max(line => line.Length);
-            return lines.Select(line => line += new string(' ', maxLength - line.Length)).ToList();
+            return lines.Select(line => line += new string(signBetweenTrees, maxLength - line.Length)).ToList();
         }
 
         private SingleNode<StringId> GetNearestParent(int index, List<SingleNode<StringId>> singleNodes)

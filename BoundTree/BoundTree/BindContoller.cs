@@ -2,7 +2,7 @@
 using System.Diagnostics.Contracts;
 using BoundTree.Logic;
 
-namespace BoundTree.Helpers
+namespace BoundTree
 {
     public class BindContoller<T> where T : class, IEquatable<T>, new()
     {
