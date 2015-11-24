@@ -39,10 +39,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Helpers\DoubleNodeConverter.cs" />
-    <Compile Include="Helpers\SingleTreeConverter.cs" />
-    <Compile Include="Helpers\TreeFactory.cs" />
-    <Compile Include="Helpers\TreeLogger.cs" />
+    <Compile Include="DoubleNodeConverter.cs" />
+    <Compile Include="SingleTreeConverter.cs" />
+    <Compile Include="TreeFactory.cs" />
+    <Compile Include="TreeLogger.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

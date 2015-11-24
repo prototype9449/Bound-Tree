@@ -1,6 +1,6 @@
 ﻿using BoundTree.Logic;
 
-namespace BoundTree.Helpers.Helpers
+namespace BoundTree.Helpers
 {
     public class TreeFactory
     {

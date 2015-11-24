@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
-using BoundTree.Helpers.Helpers;
+using BoundTree.Helpers;
 using BoundTree.Logic;
 using BoundTree.TreeReconstruction;
 

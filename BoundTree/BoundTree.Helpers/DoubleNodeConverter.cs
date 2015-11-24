@@ -4,7 +4,7 @@ using System.Diagnostics.Contracts;
 using System.Linq;
 using BoundTree.Logic;
 
-namespace BoundTree.Helpers.Helpers
+namespace BoundTree.Helpers
 {
     public class DoubleNodeConverter
     {

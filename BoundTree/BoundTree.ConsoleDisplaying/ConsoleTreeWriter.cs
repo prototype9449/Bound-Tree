@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Text;
-using BoundTree.Helpers.Helpers;
+using BoundTree.Helpers;
 using BoundTree.Logic;
 
 namespace BoundTree.ConsoleDisplaying

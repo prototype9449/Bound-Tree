@@ -4,7 +4,7 @@ using System.Diagnostics.Contracts;
 using System.IO;
 using BoundTree.Logic;
 
-namespace BoundTree.Helpers.Helpers
+namespace BoundTree.Helpers
 {
     public class TreeLogger
     {
