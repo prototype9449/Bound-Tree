@@ -1,0 +1,23 @@
+Root (Root)     
+   Single (A)   
+   Single (B)   
+   Grid (C)     
+      Single (D)
+
+
+Root (Root)     
+   Single (A)   
+   Single (B)   
+      Answer (C)
+
+
+add D B
+remove all
+add D B
+
+
+Root + Root
+	A () 
+	B ()
+	C ()
+		D + B
