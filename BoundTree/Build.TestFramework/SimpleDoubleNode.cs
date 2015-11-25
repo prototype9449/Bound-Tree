@@ -9,16 +9,16 @@ namespace Build.TestFramework
     {
         public SimpleDoubleNode(string mainLeafId, string minorLeafId, ConnectionKind connectionKind, int depth)
         {
-            MainLeaf = mainLeafId;
-            MinorLeaf = minorLeafId;
+            MainLeafId = mainLeafId;
+            MinorLeafId = minorLeafId;
             ConnectionKind = connectionKind;
             Depth = depth;
 
             Nodes = new List<SimpleDoubleNode>();
         }
 
-        public string MainLeaf { get; set; }
-        public string MinorLeaf { get; set; }
+        public string MainLeafId { get; set; }
+        public string MinorLeafId { get; set; }
         public int Depth { get; set; }
         public ConnectionKind ConnectionKind { get; set; }
         public List<SimpleDoubleNode> Nodes { get; set; }
@@ -42,8 +42,8 @@ namespace Build.TestFramework
         {
             unchecked
             {
-                var hashCode = (MainLeaf != null ? MainLeaf.GetHashCode() : 0);
-                hashCode = (hashCode*397) ^ (MinorLeaf != null ? MinorLeaf.GetHashCode() : 0);
+                var hashCode = (MainLeafId != null ? MainLeafId.GetHashCode() : 0);
+                hashCode = (hashCode*397) ^ (MinorLeafId != null ? MinorLeafId.GetHashCode() : 0);
                 hashCode = (hashCode*397) ^ Depth;
                 hashCode = (hashCode*397) ^ (int) ConnectionKind;
                 hashCode = (hashCode*397) ^ (Nodes != null ? Nodes.GetHashCode() : 0);
@@ -53,8 +53,8 @@ namespace Build.TestFramework
 
         public bool Equals(SimpleDoubleNode other)
         {
-            var result = MainLeaf == other.MainLeaf
-                         && MinorLeaf == other.MinorLeaf
+            var result = MainLeafId == other.MainLeafId
+                         && MinorLeafId == other.MinorLeafId
                          && Depth == other.Depth
                          && ConnectionKind == other.ConnectionKind;
             var otherResult = Nodes.SequenceEqual(other.Nodes);

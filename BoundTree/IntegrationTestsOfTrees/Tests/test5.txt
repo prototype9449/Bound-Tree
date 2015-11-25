@@ -1,0 +1,20 @@
+Root (Root)
+  Single (A)
+    Answer (B)
+
+
+Root (Root)
+  Grid3D (A)
+    Grid (B)
+      Single (C)
+        Answer (D)
+
+
+add B D
+
+
+Root + Root
+	() * A
+		() * B
+			A * C
+				B + D

@@ -61,9 +61,13 @@ namespace Build.TestFramework
 
             foreach (var simpleDoubleNode in nodes)
             {
-                if (simpleDoubleNode.MinorLeaf == EmptyNodeName)
+                if (simpleDoubleNode.MinorLeafId == EmptyNodeName)
                 {
-                    simpleDoubleNode.MinorLeaf = EmptyLine;
+                    simpleDoubleNode.MinorLeafId = EmptyLine;
+                }
+                if (simpleDoubleNode.MainLeafId == EmptyNodeName)
+                {
+                    simpleDoubleNode.MainLeafId = EmptyLine;
                 }
             }
 

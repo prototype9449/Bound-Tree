@@ -21,5 +21,33 @@ namespace IntegrationTestsOfTrees
             var path = Path.Combine(_pathToTestFolder, "test1.txt");
             Assert.IsTrue(_validator.IsValid(path));
         }
+
+        [TestMethod]
+        public void TestMethod2()
+        {
+            var path = Path.Combine(_pathToTestFolder, "test2.txt");
+            Assert.IsTrue(_validator.IsValid(path));
+        }
+
+        [TestMethod]
+        public void TestMethod3()
+        {
+            var path = Path.Combine(_pathToTestFolder, "test3.txt");
+            Assert.IsTrue(_validator.IsValid(path));
+        }
+
+        [TestMethod]
+        public void TestMethod4()
+        {
+            var path = Path.Combine(_pathToTestFolder, "test4.txt");
+            Assert.IsTrue(_validator.IsValid(path));
+        }
+
+        [TestMethod]
+        public void TestMethod5()
+        {
+            var path = Path.Combine(_pathToTestFolder, "test5.txt");
+            Assert.IsTrue(_validator.IsValid(path));
+        }
     }
 }
