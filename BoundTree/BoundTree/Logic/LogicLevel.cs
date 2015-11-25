@@ -48,17 +48,23 @@ namespace BoundTree.Logic
 
         public static bool operator >=(LogicLevel firstLevel, LogicLevel secondLevel)
         {
+            Validate(firstLevel, secondLevel);
+
             return firstLevel == secondLevel || firstLevel > secondLevel;
         }
 
         public static bool operator <=(LogicLevel firstLevel, LogicLevel secondLevel)
         {
-            return !(firstLevel >= secondLevel);
+            Validate(firstLevel, secondLevel);
+
+            return firstLevel == secondLevel || firstLevel < secondLevel;
         }
 
         public static bool operator <(LogicLevel firstLevel, LogicLevel secondLevel)
         {
-            return !(firstLevel > secondLevel);
+            Validate(firstLevel, secondLevel);
+
+            return firstLevel._level.Value < secondLevel._level.Value;
         }
 
         public bool Equals(LogicLevel otherLevel)

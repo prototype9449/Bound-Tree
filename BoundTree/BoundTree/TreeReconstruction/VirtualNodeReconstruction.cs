@@ -62,11 +62,13 @@ namespace BoundTree.TreeReconstruction
             if (commonParent.LogicLevel == doubleNode.LogicLevel && commonParent.NodeType == doubleNode.MainLeaf.NodeType)
             {
                 doubleNode.MinorLeaf = commonParent;
+                CleanUselessNodes(doubleNode, commonParent);
                 return;
             }
 
             if (commonParent.LogicLevel < doubleNode.LogicLevel)
             {
+                CleanUselessNodes(doubleNode, commonParent);
                 doubleNode.Shadow = commonParent;
                 return;
             }
@@ -100,11 +102,11 @@ namespace BoundTree.TreeReconstruction
             var tooHighLogicNodes = descendants.FindAll(item => item.LogicLevel < comparedNode.LogicLevel);
             tooHighLogicNodes.ForEach(item => item.MinorLeaf = new Node<T>());
 
-            var tooHighDeepNodes = descendants
-                .FindAll(item => item.LogicLevel == comparedNode.LogicLevel)
-                .FindAll(item => item.Deep > comparedNode.Depth);
-
-            tooHighDeepNodes.ForEach(item => item.MinorLeaf = new Node<T>());
+//            var tooHighDeepNodes = descendants
+//                .FindAll(item => item.LogicLevel == comparedNode.LogicLevel)
+//                .FindAll(item => item.Deep > comparedNode.Depth);
+//
+//            tooHighDeepNodes.ForEach(item => item.MinorLeaf = new Node<T>());
         }
 
         private Node<T> GetMostCommonParent(Node<T> node)
@@ -175,12 +177,19 @@ namespace BoundTree.TreeReconstruction
             foreach (var doubleNode in notEmptyNodes)
             {
                 var route = new List<Node<T>>();
-                var minorNodeId = doubleNode.IsMinorEmpty()
-                    ? doubleNode.Shadow.Id
-                    : doubleNode.MinorLeaf.Id;
 
-                var parentNode = _minorTree.GetParent(minorNodeId);
+                SingleNode<T> parentNode;
 
+                //Если minor не пустой то берём его родителя, иначе берём самого shadow, так как shadow выше по уровню чем Main
+                if (!doubleNode.IsMinorEmpty())
+                {
+                    parentNode = _minorTree.GetParent(doubleNode.MinorLeaf.Id);
+                } 
+                else
+                {
+                    parentNode = _minorTree.GetById(doubleNode.Shadow.Id);
+                }
+                
                 while (parentNode != null)
                 {
                     route.Add(parentNode.Node);

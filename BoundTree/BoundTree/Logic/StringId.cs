@@ -10,7 +10,7 @@ namespace BoundTree.Logic
 
         public StringId(string id)
         {
-            Contract.Ensures(!string.IsNullOrEmpty(id));
+            Contract.Ensures(id != null);
 
             _id = id;
         }
