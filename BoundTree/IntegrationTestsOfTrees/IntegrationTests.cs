@@ -15,81 +15,75 @@ namespace IntegrationTestsOfTrees
             _pathToTestFolder = Path.Combine(new DirectoryInfo(Directory.GetCurrentDirectory()).Parent.Parent.FullName,"Tests");
         }
 
+        private string GetFullPath(string fileName)
+        {
+            return Path.Combine(_pathToTestFolder, fileName);
+        }
+
         [TestMethod]
         public void TestTxt1()
         {
-            var path = Path.Combine(_pathToTestFolder, "test1.txt");
-            Assert.IsTrue(_validator.IsValid(path));
+            Assert.IsTrue(_validator.IsValid(GetFullPath("test1.txt")));
         }
 
         [TestMethod]
         public void TestTxt2()
         {
-            var path = Path.Combine(_pathToTestFolder, "test2.txt");
-            Assert.IsTrue(_validator.IsValid(path));
+            Assert.IsTrue(_validator.IsValid(GetFullPath("test2.txt")));
         }
 
         [TestMethod]
         public void TestTxt3()
         {
-            var path = Path.Combine(_pathToTestFolder, "test3.txt");
-            Assert.IsTrue(_validator.IsValid(path));
+            Assert.IsTrue(_validator.IsValid(GetFullPath("test3.txt")));
         }
 
         [TestMethod]
         public void TestTxt4()
         {
-            var path = Path.Combine(_pathToTestFolder, "test4.txt");
-            Assert.IsTrue(_validator.IsValid(path));
+            Assert.IsTrue(_validator.IsValid(GetFullPath("test4.txt")));
         }
 
         [TestMethod]
         public void TestTxt5()
         {
-            var path = Path.Combine(_pathToTestFolder, "test5.txt");
-            Assert.IsTrue(_validator.IsValid(path));
+            Assert.IsTrue(_validator.IsValid(GetFullPath("test5.txt")));
         }
 
         [TestMethod]
         public void TestTxt6()
         {
-            var path = Path.Combine(_pathToTestFolder, "test6.txt");
-            Assert.IsTrue(_validator.IsValid(path));
+            Assert.IsTrue(_validator.IsValid(GetFullPath("test6.txt")));
         }
 
         [TestMethod]
         public void TestTxt7()
         {
-            var path = Path.Combine(_pathToTestFolder, "test7.txt");
-            Assert.IsTrue(_validator.IsValid(path));
+            Assert.IsTrue(_validator.IsValid(GetFullPath("test7.txt")));
         }
 
         [TestMethod]
         public void TestTxt8()
         {
-            var path = Path.Combine(_pathToTestFolder, "test8.txt");
-            Assert.IsTrue(_validator.IsValid(path));
+            Assert.IsTrue(_validator.IsValid(GetFullPath("test8.txt")));
         }
 
         [TestMethod]
         public void TestTxt9()
         {
-            var path = Path.Combine(_pathToTestFolder, "test9.txt");
-            Assert.IsTrue(_validator.IsValid(path));
+            Assert.IsTrue(_validator.IsValid(GetFullPath("test9.txt")));
         }
 
         [TestMethod]
         public void TestTxt10()
         {
-            var path = Path.Combine(_pathToTestFolder, "test10.txt");
-            Assert.IsTrue(_validator.IsValid(path));
+            Assert.IsTrue(_validator.IsValid(GetFullPath("test10.txt")));
         }
 
         [TestMethod]
         public void TestTxt11()
         {
-            var path = Path.Combine(_pathToTestFolder, "test11.txt");
-            Assert.IsTrue(_validator.IsValid(path));
+            Assert.IsTrue(_validator.IsValid(GetFullPath("test11.txt")));
         }
     }
 }
