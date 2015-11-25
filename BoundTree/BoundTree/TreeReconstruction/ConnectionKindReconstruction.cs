@@ -11,10 +11,13 @@ namespace BoundTree.TreeReconstruction
         {
             Contract.Requires(doubleNode != null);
 
-            doubleNode.ToList()
-                .Where(node => !node.MinorLeaf.IsEmpty())
-                .Where(node => node.ConnectionKind != ConnectionKind.Strict).ToList()
-                .ForEach(node => node.ConnectionKind = ConnectionKind.Relative);      
+            foreach (var node in doubleNode.ToList().Where(node => node.ConnectionKind == ConnectionKind.None))
+            {
+                if (node.ToList().Exists(item => item.ConnectionKind != ConnectionKind.None))
+                {
+                    node.ConnectionKind = ConnectionKind.Relative;
+                }
+            }
         }
     }
 }

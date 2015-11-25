@@ -20,8 +20,8 @@ add H H
 
 Root + Root
 	A * A
-		B ()
-			C ()
+		B * ()
+			C * ()
 				D + C
-		T ()
+		T * ()
 			H + H

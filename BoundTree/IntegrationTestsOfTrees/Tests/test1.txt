@@ -19,5 +19,5 @@ add D B
 Root + Root
 	A () 
 	B ()
-	C ()
+	C * ()
 		D + B

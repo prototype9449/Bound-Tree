@@ -13,6 +13,6 @@ add C B
 
 
 Root + Root
-	A ()
+	A * ()
 		B * A
 			C + B  

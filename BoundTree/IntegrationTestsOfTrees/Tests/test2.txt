@@ -10,5 +10,5 @@ Root (Root)
 add B A
 
 Root + Root
-	A () 
+	A * () 
 		B + A
