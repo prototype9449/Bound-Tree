@@ -8,13 +8,10 @@ namespace BoundTree.Helpers
 {
     public class DoubleNodeConverter
     {
-        private const int TabSpace = 3;
-        private const string LeftStrictConnectionSign = " << ";
-        private const string RightStrictConnectionSign = " >> ";
-        private const string LeftRelativeConnectionSign = " <* ";
-        private const string RightRelativeConnectionSign = " *> ";
-        private const string NoneConnectionSign = "----";
-        private const string ConnectionSeparator = "-";
+        private const int TabSpace = 2;
+        private const string StrictConnectionSign = "+";
+        private const string RelativeConnectionSign = "*";
+        private const string NoneConnectionSign = " ";
 
         public List<string> ConvertDoubleNode(DoubleNode<StringId> doubleNode)
         {
@@ -26,21 +23,11 @@ namespace BoundTree.Helpers
             var lines = new List<string>();
             for (int i = 0; i < firstTreeLines.Count; i++)
             {
-                lines.Add(firstTreeLines[i] + ConnectionSeparator + secondTreeLines[i]);
+                lines.Add(firstTreeLines[i] + secondTreeLines[i]);
                 lines.Add(Environment.NewLine);
             }
 
             return lines;
-        }
-        
-        private string GetDoubleNodeName(DoubleNode<StringId> doubleNode, bool isLeft)
-        {
-            if (isLeft)
-            {
-                return String.Format("{0} ({1})", doubleNode.MainLeaf.NodeType.Name, doubleNode.MainLeaf.Id);
-            }
-
-            return String.Format("{0} ({1})", doubleNode.MinorLeaf.NodeType.Name, doubleNode.MinorLeaf.Id);
         }
 
         private List<string> GetNodeLines(DoubleNode<StringId> doubleNode, bool isLeft)
@@ -53,19 +40,28 @@ namespace BoundTree.Helpers
             var stack = new Stack<DoubleNode<StringId>>();
             stack.Push(doubleNode);
 
+            var maxDepth = doubleNode.ToList().Max(node => node.Deep);
 
             while (stack.Any())
             {
                 var topElement = stack.Pop();
                 var space = isLeft
-                    ? new string(' ', topElement.Deep * TabSpace)
-                    : new string('-', topElement.Deep * TabSpace);
+                    ? new string(' ', topElement.Deep*TabSpace)
+                    : new string(' ', (maxDepth - topElement.Deep)*TabSpace);
 
-                var connectionSign = GetConnectionSigh(topElement.ConnectionKind, isLeft);
+                var connectionSign = GetConnectionSigh(topElement.ConnectionKind);
+
+                var mainId = topElement.MainLeaf.Id.ToString() == ""
+                    ? "()"
+                    : topElement.MainLeaf.Id.ToString();
+
+                var minorId = topElement.MinorLeaf.Id.ToString() == ""
+                    ? "()"
+                    : topElement.MinorLeaf.Id.ToString();
 
                 var line = isLeft
-                    ? space + GetDoubleNodeName(topElement, true) + connectionSign
-                    : space + connectionSign + GetDoubleNodeName(topElement, false);
+                    ? space + mainId + new string(' ', TabSpace)
+                    : connectionSign + new string(' ', TabSpace) + space + minorId;
 
                 nodeLines.Add(line);
 
@@ -76,31 +72,19 @@ namespace BoundTree.Helpers
 
             var maxLength = nodeLines.Max(line => line.Length);
 
-            nodeLines =
-                nodeLines.Select(
-                    line => isLeft
-                            ? line += new String('-', maxLength - line.Length)
-                            : line += new String(' ', maxLength - line.Length)
-                                ).ToList();
+            nodeLines = nodeLines.Select(line => line += new String(' ', maxLength - line.Length)).ToList();
 
             return nodeLines;
         }
 
-        private string GetConnectionSigh(ConnectionKind connectionKind, bool isLeft)
+        private string GetConnectionSigh(ConnectionKind connectionKind)
         {
             Contract.Ensures(!String.IsNullOrEmpty(Contract.Result<string>()));
 
-            if (connectionKind == ConnectionKind.Strict)
-            {
-                return isLeft ? LeftStrictConnectionSign : RightStrictConnectionSign;
-            }
+            if (connectionKind == ConnectionKind.None)
+                return NoneConnectionSign;
 
-            if (connectionKind == ConnectionKind.Relative)
-            {
-                return isLeft ? LeftRelativeConnectionSign : RightRelativeConnectionSign;
-            }
-
-            return isLeft ? " " + NoneConnectionSign : NoneConnectionSign + " ";
+            return connectionKind == ConnectionKind.Strict ? StrictConnectionSign : RelativeConnectionSign;
         }
     }
 }
