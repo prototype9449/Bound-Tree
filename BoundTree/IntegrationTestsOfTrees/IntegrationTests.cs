@@ -84,5 +84,12 @@ namespace IntegrationTestsOfTrees
             var path = Path.Combine(_pathToTestFolder, "test10.txt");
             Assert.IsTrue(_validator.IsValid(path));
         }
+
+        [TestMethod]
+        public void TestTxt11()
+        {
+            var path = Path.Combine(_pathToTestFolder, "test11.txt");
+            Assert.IsTrue(_validator.IsValid(path));
+        }
     }
 }
