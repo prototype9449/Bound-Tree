@@ -27,6 +27,7 @@ namespace Build.TestFramework
             Contract.Ensures(Contract.Result<DoubleNode<StringId>>() != null);
 
             var lines = File.ReadAllLines(pathToFile).ToList();
+
             for (int i = lines.Count - 1; i >= 0; i--)
             {
                 if (lines[i] == "")

@@ -85,5 +85,11 @@ namespace IntegrationTestsOfTrees
         {
             Assert.IsTrue(_validator.IsValid(GetFullPath("test11.txt")));
         }
+
+        [TestMethod]
+        public void TestTxt12()
+        {
+            Assert.IsTrue(_validator.IsValid(GetFullPath("test12.txt")));
+        }
     }
 }

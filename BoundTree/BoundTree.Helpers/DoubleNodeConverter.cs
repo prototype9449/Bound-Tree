@@ -24,7 +24,7 @@ namespace BoundTree.Helpers
             for (int i = 0; i < firstTreeLines.Count; i++)
             {
                 lines.Add(firstTreeLines[i] + secondTreeLines[i]);
-                lines.Add(Environment.NewLine);
+                //lines.Add(Environment.NewLine);
             }
 
             return lines;
