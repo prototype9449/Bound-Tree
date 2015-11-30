@@ -12,7 +12,8 @@ Root (Root)
 add C B
 
 
-Root + Root
-	A * ()
-		B * A
-			C + B  
+
+Root     +        Root
+  A      *      ()    
+    B    *    A       
+      C  +  B         

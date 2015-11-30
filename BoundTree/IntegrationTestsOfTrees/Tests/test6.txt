@@ -18,10 +18,11 @@ add D C
 add H H
 
 
-Root + Root
-	A * A
-		B * ()
-			C * ()
-				D + C
-		T * ()
-			H + H
+
+Root       +          Root
+  A        *        A     
+    B      *      ()      
+      C    *    ()        
+        D  +  C           
+    T      *      ()      
+      H    +    H         

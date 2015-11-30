@@ -9,6 +9,7 @@ Root (Root)
 
 add B A
 
-Root + Root
-	A * () 
-		B + A
+
+Root   +      Root
+  A    *    ()    
+    B  +  A       

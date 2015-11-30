@@ -16,8 +16,10 @@ remove all
 add D B
 
 
-Root + Root
-	A () 
-	B ()
-	C * ()
-		D + B
+
+
+Root   +      Root
+  A         ()    
+  B         ()    
+  C    *    ()    
+    D  +  B       

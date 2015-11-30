@@ -20,11 +20,13 @@ add C D
 add R E
 
 
-Root + Root
-	A * A
-		B + B
-		D ()
-		() * C
-			C + D
-			() * T
-				R + E
+
+
+Root       +          Root
+  A        *        A     
+    B      +      B       
+    D             ()      
+    ()     *      C       
+      C    +    D         
+      ()   *    T         
+        R  +  E           

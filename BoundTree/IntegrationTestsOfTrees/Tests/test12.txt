@@ -24,15 +24,17 @@ add B R
 add U W
 
 
+
+
 Root             +                Root
-  A                             ()
-  ()             *              A
-    ()           *            B
-      ()         *          D 
-        B        +        R
-          C             ()
-            E         ()
-              R     ()
-  W              *              ()
-    T            *            D
-      U          +          W
+  A                             ()    
+  ()             *              A     
+    ()           *            B       
+      ()         *          D         
+        B        +        R           
+          C             ()            
+            E         ()              
+              R     ()                
+  W              *              ()    
+    T            *            D       
+      U          +          W         

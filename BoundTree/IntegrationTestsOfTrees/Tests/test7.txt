@@ -17,9 +17,10 @@ add C C
 add E D
 
 
-Root + Root
-	A * A
-		B * ()
-			C + C
-		D * ()
-			E + D
+
+Root     +        Root
+  A      *      A     
+    B    *    ()      
+      C  +  C         
+    D    *    ()      
+      E  +  D         

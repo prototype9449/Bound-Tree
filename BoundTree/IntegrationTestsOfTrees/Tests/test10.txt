@@ -22,11 +22,13 @@ add D D
 add H Y
 
 
-Root + Root
-	A * A
-		B + B
-		C * ()
-			D + D
-		E * ()
-			T * R
-				H + Y
+
+
+Root       +          Root
+  A        *        A     
+    B      +      B       
+    C      *      ()      
+      D    +    D         
+    E      *      ()      
+      T    *    R         
+        H  +  Y           

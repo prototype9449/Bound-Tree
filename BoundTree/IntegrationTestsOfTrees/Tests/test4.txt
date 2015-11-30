@@ -20,11 +20,12 @@ add C D
 add D E
 
 
-Root + Root
-	A * A
-		B + B
-		() * C
-			C + D
-		() * H
-			() * T
-				D + E
+
+Root       +          Root
+  A        *        A     
+    B      +      B       
+    ()     *      C       
+      C    +    D         
+    ()     *      H       
+      ()   *    T         
+        D  +  E           
