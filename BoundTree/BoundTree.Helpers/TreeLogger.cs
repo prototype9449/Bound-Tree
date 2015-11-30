@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.IO;
+using System.Linq;
 using BoundTree.Logic;
 
 namespace BoundTree.Helpers
@@ -12,7 +13,7 @@ namespace BoundTree.Helpers
         private readonly SingleTree<StringId> _minorTree;
         private readonly string _pathToFile;
 
-        private const string FileName = "log.txt";
+        private const string DefaultFileName = " log.txt";
 
         public TreeLogger(SingleTree<StringId> mainTree, SingleTree<StringId> minorTree)
         {
@@ -51,7 +52,18 @@ namespace BoundTree.Helpers
 
         private static string GetStandartFilePath()
         {
-            return Path.Combine(Directory.GetCurrentDirectory(), FileName);
+            var prefixFileName = DateTime.Now.ToString("yyyy.MM.dd");
+            var fileName = prefixFileName + DefaultFileName;
+
+            if (File.Exists(fileName))
+            {
+                var fileCount = new FileInfo(prefixFileName).Directory.GetFiles().ToList().FindAll(file => file.Name.Contains(prefixFileName)).Count();
+                var newFileName = prefixFileName + " " + fileCount + DefaultFileName;
+                return Path.Combine(Directory.GetCurrentDirectory(), newFileName);
+            }
+            
+
+            return Path.Combine(Directory.GetCurrentDirectory(), fileName);
         }
 
         private void AddTreesToLogFile()
@@ -65,6 +77,7 @@ namespace BoundTree.Helpers
             result.Add(Environment.NewLine);
             result.AddRange(minorTreeLines);
             result.Add(Environment.NewLine);
+
 
             File.Create(_pathToFile).Close();
             File.AppendAllLines(_pathToFile, result);
