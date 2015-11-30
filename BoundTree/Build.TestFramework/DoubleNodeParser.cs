@@ -42,7 +42,7 @@ namespace Build.TestFramework
 
             var singleTreeConverter = new SingleTreeParser();
 
-            var mainTree =singleTreeConverter.GetSingleTree(mainTreeLines);
+            var mainTree = singleTreeConverter.GetSingleTree(mainTreeLines);
             var minorTree = singleTreeConverter.GetSingleTree(minorTreeLines);
 
             var bindController = new BindContoller<StringId>(mainTree, minorTree);
@@ -57,7 +57,7 @@ namespace Build.TestFramework
 
             foreach (var command in commands)
             {
-                var partsOfCommand = command.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                var partsOfCommand = command.Split(new[] { ' ', '\t' }, StringSplitOptions.RemoveEmptyEntries);
                 if (partsOfCommand[0] == AddLongName)
                 {
                     bindContoller.Bind(new StringId(partsOfCommand[1]), new StringId(partsOfCommand[2]));

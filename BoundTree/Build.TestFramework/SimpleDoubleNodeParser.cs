@@ -10,8 +10,9 @@ namespace Build.TestFramework
 {
     public class SimpleDoubleNodeParser
     {
-        private const char TabSeparator = '\t';
-        private const string  SignStrictConnection = "+";
+        private const char TabIndention = '\t';
+        private const char SpaceIndention = ' ';
+        private const string SignStrictConnection = "+";
         private const string SignRelativeConnection = "*";
         private const string EmptyNodeName = "()";
         private const string EmptyLine = "";
@@ -45,8 +46,8 @@ namespace Build.TestFramework
             Contract.Requires(doubleNode != null);
             Contract.Ensures(Contract.Result<SimpleDoubleNode>() != null);
 
-            var mainLeafId = doubleNode.MainLeaf.Id.ToString().Replace(TabSeparator.ToString(), "");
-            var minorLeafId = doubleNode.MinorLeaf.Id.ToString().Replace(TabSeparator.ToString(), "");
+            var mainLeafId = doubleNode.MainLeaf.Id.ToString();
+            var minorLeafId = doubleNode.MinorLeaf.Id.ToString();
 
             return new SimpleDoubleNode(mainLeafId, minorLeafId, doubleNode.ConnectionKind, 0);
         }
@@ -102,7 +103,9 @@ namespace Build.TestFramework
             Contract.Ensures(Contract.Result<List<SimpleDoubleNode>>() != null);
             Contract.Ensures(Contract.Result<List<SimpleDoubleNode>>().Any());
 
-            var rootNodes = lines.First().Split(new char[] {' '});
+            var indention = lines.Any(line => line.Contains(TabIndention)) ? TabIndention : SpaceIndention;
+
+            var rootNodes = lines.First().Split(new[] { SpaceIndention }, StringSplitOptions.RemoveEmptyEntries);
 
             if (rootNodes[0] != "Root" || rootNodes[2] != "Root")
             {
@@ -111,17 +114,17 @@ namespace Build.TestFramework
 
             var root = new SimpleDoubleNode(rootNodes[0], rootNodes[2], ConnectionKind.Strict, 0);
 
-            var nodes = new List<SimpleDoubleNode> {root};
+            var nodes = new List<SimpleDoubleNode> { root };
 
             foreach (var line in lines.Skip(1))
             {
-                var splittedLine = line.Split(new char[] {' ', TabSeparator}, StringSplitOptions.RemoveEmptyEntries);
+                var splittedLine = line.Split(new [] {SpaceIndention, TabIndention }, StringSplitOptions.RemoveEmptyEntries);
                 if (splittedLine.Length != 2 && splittedLine.Length != 3)
                 {
                     throw new FileLoadException();
                 }
 
-                var depth = line.TakeWhile(symbol => symbol == TabSeparator).Count();
+                var depth = line.TakeWhile(symbol => symbol == indention).Count();
                 if (splittedLine.Length == 2)
                 {
                     var mainLeafId = splittedLine[0];

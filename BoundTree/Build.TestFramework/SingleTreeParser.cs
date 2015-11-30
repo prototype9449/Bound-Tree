@@ -10,18 +10,23 @@ namespace Build.TestFramework
 {
     public class SingleTreeParser
     {
+        private const char SpaceSeparator = ' ';
+        private const char TabSeparator = '\t';
+
         public SingleTree<StringId> GetSingleTree(List<string> lines)
         {
             Contract.Requires(lines != null);
             Contract.Requires(lines.Any());
             Contract.Ensures(Contract.Result<SingleTree<StringId>>() != null);
 
+            var indention = lines.Any(line => line.Contains(TabSeparator)) ? TabSeparator : SpaceSeparator;
+
             NodeInfo root = new Root();
             var nodes = GetList(new { NodeType = root, id = new StringId("Root"), Depth = 0 });
 
             foreach (var line in lines.Skip(1))
             {
-                var splittedLine = line.Split(new[] { ' ', ')', '(' }, StringSplitOptions.RemoveEmptyEntries);
+                var splittedLine = line.Split(new[] { SpaceSeparator, TabSeparator,')', '(' }, StringSplitOptions.RemoveEmptyEntries);
                 if (!NodeInfoFactory.Contains(splittedLine[0]))
                 {
                     throw new FileLoadException();
@@ -29,7 +34,7 @@ namespace Build.TestFramework
 
                 var nodeInfo = NodeInfoFactory.GetNodeInfo(splittedLine[0]);
                 var id = new StringId(splittedLine[1]);
-                var depth = line.TakeWhile(symbol => symbol == ' ').Count();
+                var depth = line.TakeWhile(symbol => symbol == indention).Count();
                 nodes.Add(new { NodeType = nodeInfo, id = id, Depth = depth });
             }
 
