@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
+using System.IO;
 using System.Linq;
+using System.Windows.Forms;
 using BoundTree.Helpers;
 using BoundTree.Logic;
 using BoundTree.Logic.Nodes;
+using Build.TestFramework;
 
 namespace BoundTree.ConsoleDisplaying
 {
@@ -19,10 +22,37 @@ namespace BoundTree.ConsoleDisplaying
 
         public void Run()
         {
-            ProcessBuildingTree(_mainTree);
-            ProcessBuildingTree(_minorTree);
+            Console.WriteLine("Do you want to open existed file?");
+            Console.WriteLine("Type 'y' if you want to open file");
+            var answer = Console.ReadLine();
+            var action = SelectFile(answer);
+            if (!action)
+            {
+                ProcessBuildingTree(_mainTree);
+                ProcessBuildingTree(_minorTree);
+            }
+
             _consoleConnectionController = new ConsoleConnectionController(new BindContoller<StringId>(_mainTree, _minorTree));
             _consoleConnectionController.Start();
+        }
+
+        private bool SelectFile(string answer)
+        {
+            if (answer == "y")
+            {
+                var dialog = new OpenFileDialog();
+                var result = dialog.ShowDialog();
+                if (result == DialogResult.OK)
+                {
+                    var lines = File.ReadAllLines(dialog.FileName).ToList();
+                    var treeData = new DoubleNodeParser().GetDoubleNode(lines);
+                    _mainTree = treeData.MainSingleTree;
+                    _minorTree = treeData.MinorSingleTree;
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         private void ProcessBuildingTree(SingleTree<StringId> tree)

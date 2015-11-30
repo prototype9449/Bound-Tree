@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.IO;
 using System.Linq;
-using BoundTree;
 using BoundTree.Logic;
 using BoundTree.TreeReconstruction;
+using Build.TestFramework;
 
-namespace Build.TestFramework
+namespace BoundTree.Helpers
 {
     public class DoubleNodeParser
     {
@@ -15,9 +15,9 @@ namespace Build.TestFramework
         private const string RemoveAllLongName = "remove all";
         private const string RemoveLongName = "remove";
 
-        public DoubleNode<StringId> GetDoubleNode(List<string> lines)
+        public TreesData GetDoubleNode(List<string> lines)
         {
-            Contract.Ensures(Contract.Result<DoubleNode<StringId>>() != null);
+            Contract.Ensures(Contract.Result<TreesData>() != null);
 
             var firstSpaceIndex = lines.FindIndex(line => line.Trim() == "");
             var minorTreeIndex = lines.Skip(firstSpaceIndex).ToList().FindIndex(line => line.Trim() != "") + firstSpaceIndex;
@@ -48,7 +48,9 @@ namespace Build.TestFramework
 
             var bindController = new BindContoller<StringId>(mainTree, minorTree);
             AddConnections(bindController, connectionCommands);
-            return new TreeReconstruction<StringId>(bindController).GetFilledTree();
+            var doubleNode = new TreeReconstruction<StringId>(bindController).GetFilledTree();
+
+            return new TreesData(doubleNode, mainTree, minorTree);
         }
 
         private void AddConnections(BindContoller<StringId> bindContoller, List<string> commands)

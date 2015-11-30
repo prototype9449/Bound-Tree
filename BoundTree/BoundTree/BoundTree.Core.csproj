@@ -113,6 +113,7 @@
     <Compile Include="TreeReconstruction\PostReconstruction.cs" />
     <Compile Include="TreeReconstruction\TreeReconstruction.cs" />
     <Compile Include="TreeReconstruction\VirtualNodeReconstruction.cs" />
+    <Compile Include="TreesData.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

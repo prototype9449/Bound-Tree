@@ -83,11 +83,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DoubleNodeParser.cs" />
     <Compile Include="SimpleDoubleNode.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SimpleDoubleNodeParser.cs" />
-    <Compile Include="SingleTreeParser.cs" />
     <Compile Include="ValidationController.cs" />
   </ItemGroup>
   <ItemGroup>

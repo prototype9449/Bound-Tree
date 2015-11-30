@@ -6,7 +6,7 @@ using System.Linq;
 using BoundTree.Logic;
 using BoundTree.Logic.Nodes;
 
-namespace Build.TestFramework
+namespace BoundTree.Helpers
 {
     public class SingleTreeParser
     {

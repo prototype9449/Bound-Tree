@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.IO;
 using System.Linq;
+using BoundTree.Helpers;
 using BoundTree.Logic;
 
 namespace Build.TestFramework
@@ -33,7 +34,7 @@ namespace Build.TestFramework
                 if (lines[i] == "")
                 {
                     var resultLines = lines.Take(i + 1).ToList();
-                    return new DoubleNodeParser().GetDoubleNode(resultLines);
+                    return new DoubleNodeParser().GetDoubleNode(resultLines).DoubleNode;
                 }
             }
 

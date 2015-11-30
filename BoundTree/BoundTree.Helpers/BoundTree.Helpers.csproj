@@ -40,7 +40,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DoubleNodeConverter.cs" />
+    <Compile Include="DoubleNodeParser.cs" />
     <Compile Include="SingleTreeConverter.cs" />
+    <Compile Include="SingleTreeParser.cs" />
     <Compile Include="TreeFactory.cs" />
     <Compile Include="TreeLogger.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

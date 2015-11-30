@@ -7,6 +7,7 @@ namespace ConsoleAppForTesting
 {
     internal class Program
     {
+        [STAThreadAttribute]
         private static void Main(string[] args)
         {
 //            var treeFactory = new TreeFactory();

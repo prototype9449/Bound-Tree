@@ -53,17 +53,19 @@ namespace BoundTree.Helpers
         private static string GetStandartFilePath()
         {
             var prefixFileName = DateTime.Now.ToString("yyyy.MM.dd");
-            var fileName = prefixFileName + DefaultFileName;
+            var directoryName = Path.Combine(Directory.GetCurrentDirectory(), "Logs");
+
+            var fileName = Path.Combine(directoryName, prefixFileName + DefaultFileName);
 
             if (File.Exists(fileName))
             {
-                var fileCount = new FileInfo(prefixFileName).Directory.GetFiles().ToList().FindAll(file => file.Name.Contains(prefixFileName)).Count();
-                var newFileName = prefixFileName + " " + fileCount + DefaultFileName;
-                return Path.Combine(Directory.GetCurrentDirectory(), newFileName);
+                var nextFileNumber = new FileInfo(directoryName).Directory.GetFiles().ToList().FindAll(file => file.Name.Contains(prefixFileName)).Count() + 1;
+                var newFileName = prefixFileName + " " + nextFileNumber + DefaultFileName;
+                return Path.Combine(directoryName, newFileName);
             }
-            
 
-            return Path.Combine(Directory.GetCurrentDirectory(), fileName);
+
+            return Path.Combine(directoryName, fileName);
         }
 
         private void AddTreesToLogFile()
