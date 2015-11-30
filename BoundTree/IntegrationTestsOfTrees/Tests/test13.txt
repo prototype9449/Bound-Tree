@@ -1,0 +1,34 @@
+Root (Root)                   
+   Grid3D (A)                 
+      Single (B)              
+         PredefinedList (C)   
+            Answer (D)        
+         PredefinedList (R)   
+            PredefinedList (W)
+               Answer (E)     
+         Answer (U)           
+
+
+Root (Root)             
+   Single (A)           
+      PredefinedList (B)
+         Answer (C)     
+         Answer (D)     
+         Answer (E)     
+
+
+add D C
+add E D
+add U E
+
+
+Root         +            Root
+  A          *          ()    
+    B        *        A       
+      C      *      ()        
+        D    +    C           
+      R      *      ()        
+        W    *    ()          
+          E  +  D             
+      ()     *      B         
+        U    +    E           

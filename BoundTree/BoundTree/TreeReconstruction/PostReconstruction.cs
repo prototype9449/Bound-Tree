@@ -44,16 +44,16 @@ namespace BoundTree.TreeReconstruction
                     continue;
                 }
 
-                var descendants = current.Nodes
+                var descendantPairs = current.Nodes
                     .Select(node => GetRepairedNode(current, node)).ToList();
 
-                if(!descendants.Any()) 
+                if(!descendantPairs.Any()) 
                     continue;
 
-                current.Nodes = descendants.Select(pair => pair.Value).ToList();
+                current.Nodes = descendantPairs.Select(pair => pair.Value).ToList();
                 for (int i = 0; i < current.Nodes.Count; i++)
                 {
-                    var currentDoubleNode = descendants[i].Value;
+                    var currentDoubleNode = descendantPairs[i].Value;
                     
                     if(!currentDoubleNode.Nodes.Any())
                         passedNodes.Add(currentDoubleNode);
@@ -65,7 +65,7 @@ namespace BoundTree.TreeReconstruction
                     }
                 }
 
-                if (descendants.Exists(node => node.Key == true))
+                if (descendantPairs.Exists(node => node.Key == true))
                 {
                     GroupDoubleNodes(current, initialChildIds);
                     stack.Clear();
@@ -78,8 +78,10 @@ namespace BoundTree.TreeReconstruction
         {
             Contract.Requires(parent != null);
             Contract.Requires(child != null);
+            Contract.Requires(!parent.MinorLeaf.IsEmpty());
             Contract.Ensures(Contract.Result<KeyValuePair<bool, DoubleNode<T>>>().Value != null);
             
+
             if(child.IsMinorEmpty()) 
                 return new KeyValuePair<bool, DoubleNode<T>>(false, child);
 
@@ -87,6 +89,7 @@ namespace BoundTree.TreeReconstruction
 
             var singleAscendant = _minorTree.GetParent(child.MinorLeaf.Id);
 
+            //Если он уже родитель, то есть нет промежуточных узлов
             if (singleAscendant.Node.Id == parent.MinorLeaf.Id)
             {
                 return new KeyValuePair<bool, DoubleNode<T>>(isDone, child);
