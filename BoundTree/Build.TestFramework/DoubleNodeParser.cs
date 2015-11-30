@@ -11,7 +11,6 @@ namespace Build.TestFramework
 {
     public class DoubleNodeParser
     {
-        private const int SpaceCount = 2;
         private const string AddLongName = "add";
         private const string RemoveAllLongName = "remove all";
         private const string RemoveLongName = "remove";
@@ -20,23 +19,25 @@ namespace Build.TestFramework
         {
             Contract.Ensures(Contract.Result<DoubleNode<StringId>>() != null);
 
-            var minorTreeIndex = lines.FindIndex(line => line == "") + SpaceCount;
+            var firstSpaceIndex = lines.FindIndex(line => line.Trim() == "");
+            var minorTreeIndex = lines.Skip(firstSpaceIndex).ToList().FindIndex(line => line.Trim() != "") + firstSpaceIndex;
 
             if (minorTreeIndex > lines.Count)
             {
                 throw new FileLoadException("Minor tree not found");
             }
 
-            var connectionIndex = lines.Skip(minorTreeIndex).ToList().FindIndex(line => line == "") + SpaceCount + minorTreeIndex;
+            var secondSpaceIndex = lines.Skip(minorTreeIndex).ToList().FindIndex(line => line.Trim() == "") + minorTreeIndex;
+            var connectionIndex = lines.Skip(secondSpaceIndex).ToList().FindIndex(line => line.Trim() != "") + secondSpaceIndex;
             if (connectionIndex > lines.Count)
             {
                 throw new FileLoadException("Connection separator was not found");
             }
 
-            var mainTreeLines = lines.Take(minorTreeIndex - SpaceCount).ToList();
+            var mainTreeLines = lines.Take(firstSpaceIndex).ToList();
             var minorTreeLines = lines
                 .Skip(minorTreeIndex)
-                .Take(connectionIndex - minorTreeIndex - SpaceCount).ToList();
+                .Take(secondSpaceIndex - minorTreeIndex).ToList();
 
             var connectionCommands = lines.Skip(connectionIndex).Where(line => line != "").ToList();
 

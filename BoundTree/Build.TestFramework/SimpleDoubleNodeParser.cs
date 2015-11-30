@@ -105,7 +105,7 @@ namespace Build.TestFramework
 
             var indention = lines.Any(line => line.Contains(TabIndention)) ? TabIndention : SpaceIndention;
 
-            var rootNodes = lines.First().Split(new[] { SpaceIndention }, StringSplitOptions.RemoveEmptyEntries);
+            var rootNodes = lines.First().Split(new[] { SpaceIndention, TabIndention }, StringSplitOptions.RemoveEmptyEntries);
 
             if (rootNodes[0] != "Root" || rootNodes[2] != "Root")
             {
