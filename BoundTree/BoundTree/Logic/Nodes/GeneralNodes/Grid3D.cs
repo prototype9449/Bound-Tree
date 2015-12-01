@@ -8,7 +8,7 @@ namespace BoundTree.Logic.Nodes.GeneralNodes
     {
         private readonly List<Type> _validTypes = new List<Type>(new []
         {
-            typeof (Grid), typeof(PredefinedList),typeof(MultiGrid),typeof(Multi),typeof(OpenTextInfo),typeof(Answer), typeof(Single)
+            typeof (Grid), typeof(MultiGrid),typeof(Multi),typeof(OpenTextInfo), typeof(Single)
         });
 
         internal override List<Type> ValidTypes { get { return _validTypes; } }

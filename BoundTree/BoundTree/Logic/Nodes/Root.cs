@@ -10,7 +10,7 @@ namespace BoundTree.Logic.Nodes
     {
         private readonly List<Type> _validTypes = new List<Type>(new[]
         {
-             typeof (Grid3D), typeof (Grid), typeof(PredefinedList),typeof(MultiGrid),typeof(Multi),typeof(OpenTextInfo),typeof(Answer), typeof(Single)
+             typeof (Grid3D), typeof (Grid), typeof(MultiGrid),typeof(Multi),typeof(OpenTextInfo), typeof(Single)
         });
 
         internal override List<Type> ValidTypes { get { return _validTypes; } }

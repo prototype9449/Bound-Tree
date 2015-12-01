@@ -18,7 +18,7 @@ namespace ConsoleAppForTesting
 //            new ConsoleConnectionController(bindController).Start();
 
             new ConsoleController().Run();
-
+            
             //Console.WriteLine(new ValidationController().IsValid(@"C:\Bound-Tree\BoundTree\ConsoleAppForTesting\bin\Debug\test.txt"));
         }
     }
