@@ -30,5 +30,4 @@ Root         +            Root
       R      *      ()        
         W    *    ()          
           E  +  D             
-      ()     *      B         
-        U    +    E           
+      U      +      E

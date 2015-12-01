@@ -97,7 +97,9 @@ namespace BoundTree.TreeReconstruction
 
             var doubleAscendant = child;
 
-            while (parent.MinorLeaf.CanContain(singleAscendant.Node))
+            var canAscendantConatin = CanParentContainAscendant(parent, doubleAscendant, singleAscendant);
+
+            while (parent.MinorLeaf.CanContain(singleAscendant.Node) && canAscendantConatin)
             {
                 doubleAscendant = new DoubleNode<T>(new Node<T>(), singleAscendant.Node)
                 {
@@ -105,9 +107,29 @@ namespace BoundTree.TreeReconstruction
                 };
                 isDone = true;
                 singleAscendant = _minorTree.GetParent(doubleAscendant.MinorLeaf.Id);
+                canAscendantConatin = CanParentContainAscendant(parent, doubleAscendant, singleAscendant);
             }
 
             return new KeyValuePair<bool, DoubleNode<T>>(isDone, doubleAscendant);
+        }
+
+        private bool CanParentContainAscendant(DoubleNode<T> parent, DoubleNode<T> child, SingleNode<T> intermediate)
+        {
+            var minorEmptyNodes = parent.Nodes
+                .Where(doubleNode => doubleNode.IsMinorEmpty())
+                .Where(doubleNode => doubleNode.MinorLeaf.Id != child.MinorLeaf.Id)
+                .ToList();
+
+            var childs = new List<DoubleNode<T>>();
+            minorEmptyNodes.ForEach(doubleNode => childs.AddRange(doubleNode.ToList()));
+            childs.RemoveAll(doubleNode => doubleNode.IsMinorEmpty());
+
+            var minorOrignalChilds = new List<SingleNode<T>>();
+            intermediate.Nodes.ForEach(node => minorOrignalChilds.AddRange(node.ToList()));
+
+            var isThereInside = childs.Exists(doubleNode => minorOrignalChilds.Exists(node => doubleNode.MinorLeaf.Id == node.Node.Id));
+
+            return !isThereInside;
         }
 
 

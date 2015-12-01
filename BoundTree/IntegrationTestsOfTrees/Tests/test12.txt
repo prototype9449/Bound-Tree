@@ -20,21 +20,18 @@ Root (Root)
             Answer (W)        
 
 
-add B R
+add R R
+add U Y
+remove U
 add U W
 
 
-
-
-Root             +                Root
-  A                             ()    
-  ()             *              A     
-    ()           *            B       
-      ()         *          D         
-        B        +        R           
-          C             ()            
-            E         ()              
-              R     ()                
-  W              *              ()    
-    T            *            D       
-      U          +          W         
+Root       +          Root
+  A                 ()    
+  B        *        ()    
+    C      *      ()      
+      E    *    ()        
+        R  +  R           
+  W        *        ()    
+    T      *      ()      
+      U    +    W

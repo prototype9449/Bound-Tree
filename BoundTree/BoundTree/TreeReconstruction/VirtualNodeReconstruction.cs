@@ -52,7 +52,11 @@ namespace BoundTree.TreeReconstruction
 
             Node<T> commonParent = GetMostCommonParent(doubleNode.Nodes);
 
-            if (commonParent.IsEmpty()) return;
+            if (commonParent.IsEmpty())
+            {
+                CleanIdenticalNodes(doubleNode);
+                return;
+            }
 
             while (commonParent.LogicLevel > doubleNode.LogicLevel)
             {
@@ -88,6 +92,22 @@ namespace BoundTree.TreeReconstruction
             Contract.Requires(doubleNode != null);
             Contract.Requires(comparedNode != null);
 
+            CleanIdenticalNodes(doubleNode);
+
+            var tooHighLogicNodes = doubleNode.ToList().FindAll(item => item.LogicLevel < comparedNode.LogicLevel);
+            tooHighLogicNodes.ForEach(item => item.MinorLeaf = new Node<T>());
+
+//            var tooHighDeepNodes = descendants
+//                .FindAll(item => item.LogicLevel == comparedNode.LogicLevel)
+//                .FindAll(item => item.Deep > comparedNode.Depth);
+//
+//            tooHighDeepNodes.ForEach(item => item.MinorLeaf = new Node<T>());
+        }
+
+        private void CleanIdenticalNodes(DoubleNode<T> doubleNode)
+        {
+            Contract.Requires(doubleNode != null);
+
             var descendants = doubleNode.ToList();
             foreach (var descendant in descendants)
             {
@@ -98,15 +118,6 @@ namespace BoundTree.TreeReconstruction
                     identicalNodes.ForEach(item => item.MinorLeaf = new Node<T>());
                 }
             }
-
-            var tooHighLogicNodes = descendants.FindAll(item => item.LogicLevel < comparedNode.LogicLevel);
-            tooHighLogicNodes.ForEach(item => item.MinorLeaf = new Node<T>());
-
-//            var tooHighDeepNodes = descendants
-//                .FindAll(item => item.LogicLevel == comparedNode.LogicLevel)
-//                .FindAll(item => item.Deep > comparedNode.Depth);
-//
-//            tooHighDeepNodes.ForEach(item => item.MinorLeaf = new Node<T>());
         }
 
         private Node<T> GetMostCommonParent(Node<T> node)

@@ -56,6 +56,26 @@ namespace BoundTree.Logic
             return null;
         }
 
+
+        public List<SingleNode<T>> ToList()
+        {
+            var nodes = new List<SingleNode<T>>();
+            RecursiveFillNodes(this, nodes);
+            return nodes;
+        }
+
+        private void RecursiveFillNodes(SingleNode<T> root, List<SingleNode<T>> nodes)
+        {
+            nodes.Add(root);
+
+            if (root.Nodes.Count == 0) return;
+
+            foreach (var node in root.Nodes)
+            {
+                RecursiveFillNodes(node, nodes);
+            }
+        }
+
         public void RecalculateDeep()
         {
             SetDeep(-1);
