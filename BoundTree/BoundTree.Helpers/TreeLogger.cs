@@ -52,18 +52,10 @@ namespace BoundTree.Helpers
 
         private static string GetStandartFilePath()
         {
-            var prefixFileName = DateTime.Now.ToString("yyyy.MM.dd");
+            var prefixFileName = DateTime.Now.ToString("yyyy.mm.dd H_mm_ss");
             var directoryName = Path.Combine(Directory.GetCurrentDirectory(), "Logs");
 
             var fileName = Path.Combine(directoryName, prefixFileName + DefaultFileName);
-
-            if (File.Exists(fileName))
-            {
-                var nextFileNumber = new FileInfo(directoryName).Directory.GetFiles().ToList().FindAll(file => file.Name.Contains(prefixFileName)).Count() + 1;
-                var newFileName = prefixFileName + " " + nextFileNumber + DefaultFileName;
-                return Path.Combine(directoryName, newFileName);
-            }
-
 
             return Path.Combine(directoryName, fileName);
         }
