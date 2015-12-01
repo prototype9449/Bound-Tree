@@ -1,0 +1,25 @@
+Root (Root)        
+   Grid3D (A)      
+      Grid (B)     
+         Single (D)
+      Grid (C)     
+         Single (R)
+
+
+Root (Root)     
+   Grid (A)     
+      Single (C)
+   Grid (B)     
+      Single (D)
+
+
+add D C
+add R D
+
+
+Root     +        Root
+  A      *      ()    
+    B    *    A       
+      D  +  C         
+    C    *    B       
+      R  +  D 
