@@ -12,6 +12,7 @@ namespace BoundTree.Helpers
         {
             Contract.Requires(mainSingleTree != null);
             Contract.Requires(minorSingleTree != null);
+
             const int spaceBetweenTrees = 10;
             const char signBetweenTrees = ' ';
 
@@ -42,6 +43,7 @@ namespace BoundTree.Helpers
         {
             Contract.Requires(singleTree != null);
             Contract.Ensures(Contract.Result<List<string>>() != null);
+
             const int indent = 3;
             const char signBetweenTrees = ' ';
 

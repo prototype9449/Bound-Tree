@@ -19,14 +19,14 @@ namespace BoundTree.Helpers
     {
         public SingleTree<StringId> GetTree()
         {
-            var nodeInfoFabrica = new NodeInfoFactory();
-            var singleNodeFabrica = new SingleNodeFactory();
+            var nodeInfoFactory = new NodeInfoFactory();
+            var singleNodeFactory = new SingleNodeFactory();
 
-            var tree = singleNodeFabrica.GetNode("A", nodeInfoFabrica.Root, new[]
+            var tree = singleNodeFactory.GetNode("A", nodeInfoFactory.Root, new[]
             {
-                singleNodeFabrica.GetNode("B", nodeInfoFabrica.Single, new[]
+                singleNodeFactory.GetNode("B", nodeInfoFactory.Single, new[]
                 {
-                    singleNodeFabrica.GetNode("C", nodeInfoFabrica.Answer)
+                    singleNodeFactory.GetNode("C", nodeInfoFactory.Answer)
                 })
             });
 
@@ -38,20 +38,20 @@ namespace BoundTree.Helpers
     {
         public SingleTree<StringId> GetTree()
         {
-            var nodeInfoFabrica = new NodeInfoFactory();
-            var singleNodeFabrica = new SingleNodeFactory();
+            var nodeInfoFactory = new NodeInfoFactory();
+            var singleNodeFactory = new SingleNodeFactory();
 
-            var tree = singleNodeFabrica.GetNode("A", nodeInfoFabrica.Root, new[]
+            var tree = singleNodeFactory.GetNode("A", nodeInfoFactory.Root, new[]
             {
-                singleNodeFabrica.GetNode("B", nodeInfoFabrica.Grid3D, new[]
+                singleNodeFactory.GetNode("B", nodeInfoFactory.Grid3D, new[]
                 {
-                    singleNodeFabrica.GetNode("C", nodeInfoFabrica.Grid, new[]
+                    singleNodeFactory.GetNode("C", nodeInfoFactory.Grid, new[]
                     {
-                        singleNodeFabrica.GetNode("D", nodeInfoFabrica.Single, new[]
+                        singleNodeFactory.GetNode("D", nodeInfoFactory.Single, new[]
                         {
-                            singleNodeFabrica.GetNode("E", nodeInfoFabrica.PredefinedList, new[]
+                            singleNodeFactory.GetNode("E", nodeInfoFactory.PredefinedList, new[]
                             {
-                                singleNodeFabrica.GetNode("F", nodeInfoFabrica.Answer)
+                                singleNodeFactory.GetNode("F", nodeInfoFactory.Answer)
                             })
                         })
                     })
@@ -66,24 +66,24 @@ namespace BoundTree.Helpers
     {
         public SingleTree<StringId> GetTree()
         {
-            var nodeInfoFabrica = new NodeInfoFactory();
-            var singleNodeFabrica = new SingleNodeFactory();
+            var nodeInfoFactory = new NodeInfoFactory();
+            var singleNodeFactory = new SingleNodeFactory();
 
-            var tree = singleNodeFabrica.GetNode("A", nodeInfoFabrica.Root, new[]
+            var tree = singleNodeFactory.GetNode("A", nodeInfoFactory.Root, new[]
             {
-                singleNodeFabrica.GetNode("B", nodeInfoFabrica.Single),
-                singleNodeFabrica.GetNode("C", nodeInfoFabrica.Grid, new[]
+                singleNodeFactory.GetNode("B", nodeInfoFactory.Single),
+                singleNodeFactory.GetNode("C", nodeInfoFactory.Grid, new[]
                 {
-                    singleNodeFabrica.GetNode("D", nodeInfoFabrica.OpenText),
-                    singleNodeFabrica.GetNode("E", nodeInfoFabrica.Single)
+                    singleNodeFactory.GetNode("D", nodeInfoFactory.OpenText),
+                    singleNodeFactory.GetNode("E", nodeInfoFactory.Single)
                 }),
-                singleNodeFabrica.GetNode("F", nodeInfoFabrica.Grid, new[]
+                singleNodeFactory.GetNode("F", nodeInfoFactory.Grid, new[]
                 {
-                    singleNodeFabrica.GetNode("G", nodeInfoFabrica.Single),
-                    singleNodeFabrica.GetNode("H", nodeInfoFabrica.Grid, new[]
+                    singleNodeFactory.GetNode("G", nodeInfoFactory.Single),
+                    singleNodeFactory.GetNode("H", nodeInfoFactory.Grid, new[]
                     {
-                        singleNodeFabrica.GetNode("T", nodeInfoFabrica.Single),
-                        singleNodeFabrica.GetNode("R", nodeInfoFabrica.Single)
+                        singleNodeFactory.GetNode("T", nodeInfoFactory.Single),
+                        singleNodeFactory.GetNode("R", nodeInfoFactory.Single)
                     })
                 })
             });
@@ -96,22 +96,22 @@ namespace BoundTree.Helpers
     {
         public SingleTree<StringId> GetTree()
         {
-            var nodeInfoFabrica = new NodeInfoFactory();
-            var singleNodeFabrica = new SingleNodeFactory();
+            var nodeInfoFactory = new NodeInfoFactory();
+            var singleNodeFactory = new SingleNodeFactory();
 
-            var tree = singleNodeFabrica.GetNode("A", nodeInfoFabrica.Root, new[]
+            var tree = singleNodeFactory.GetNode("A", nodeInfoFactory.Root, new[]
             {
-                singleNodeFabrica.GetNode("B", nodeInfoFabrica.Grid, new[]
+                singleNodeFactory.GetNode("B", nodeInfoFactory.Grid, new[]
                 {
-                    singleNodeFabrica.GetNode("C", nodeInfoFabrica.Single),
-                    singleNodeFabrica.GetNode("D", nodeInfoFabrica.Single, new[]
+                    singleNodeFactory.GetNode("C", nodeInfoFactory.Single),
+                    singleNodeFactory.GetNode("D", nodeInfoFactory.Single, new[]
                     {
-                        singleNodeFabrica.GetNode("E", nodeInfoFabrica.PredefinedList),
-                        singleNodeFabrica.GetNode("G", nodeInfoFabrica.Answer),
-                        singleNodeFabrica.GetNode("K", nodeInfoFabrica.PredefinedList, new[]
+                        singleNodeFactory.GetNode("E", nodeInfoFactory.PredefinedList),
+                        singleNodeFactory.GetNode("G", nodeInfoFactory.Answer),
+                        singleNodeFactory.GetNode("K", nodeInfoFactory.PredefinedList, new[]
                         {
-                            singleNodeFabrica.GetNode("F", nodeInfoFabrica.PredefinedList),
-                            singleNodeFabrica.GetNode("H", nodeInfoFabrica.Answer)
+                            singleNodeFactory.GetNode("F", nodeInfoFactory.PredefinedList),
+                            singleNodeFactory.GetNode("H", nodeInfoFactory.Answer)
                         })
                     })
                 })
@@ -125,25 +125,25 @@ namespace BoundTree.Helpers
     {
         public SingleTree<StringId> GetTree()
         {
-            var nodeInfoFabrica = new NodeInfoFactory();
-            var singleNodeFabrica = new SingleNodeFactory();
+            var nodeInfoFactory = new NodeInfoFactory();
+            var singleNodeFactory = new SingleNodeFactory();
 
-            var tree = singleNodeFabrica.GetNode("A", nodeInfoFabrica.Root, new[]
+            var tree = singleNodeFactory.GetNode("A", nodeInfoFactory.Root, new[]
             {
-                singleNodeFabrica.GetNode("B", nodeInfoFabrica.Grid3D, new[]
+                singleNodeFactory.GetNode("B", nodeInfoFactory.Grid3D, new[]
                 {
-                    singleNodeFabrica.GetNode("C", nodeInfoFabrica.Grid, new[]
+                    singleNodeFactory.GetNode("C", nodeInfoFactory.Grid, new[]
                     {
-                        singleNodeFabrica.GetNode("D", nodeInfoFabrica.Single, new[]
+                        singleNodeFactory.GetNode("D", nodeInfoFactory.Single, new[]
                         {
-                            singleNodeFabrica.GetNode("E", nodeInfoFabrica.PredefinedList, new[]
+                            singleNodeFactory.GetNode("E", nodeInfoFactory.PredefinedList, new[]
                             {
-                                singleNodeFabrica.GetNode("G", nodeInfoFabrica.Answer)
+                                singleNodeFactory.GetNode("G", nodeInfoFactory.Answer)
                             })
                         }),
-                        singleNodeFabrica.GetNode("H", nodeInfoFabrica.Single, new[]
+                        singleNodeFactory.GetNode("H", nodeInfoFactory.Single, new[]
                         {
-                            singleNodeFabrica.GetNode("K", nodeInfoFabrica.Answer)
+                            singleNodeFactory.GetNode("K", nodeInfoFactory.Answer)
                         })
                     })
                 })
@@ -157,16 +157,16 @@ namespace BoundTree.Helpers
     {
         public SingleTree<StringId> GetTree()
         {
-            var nodeInfoFabrica = new NodeInfoFactory();
-            var singleNodeFabrica = new SingleNodeFactory();
+            var nodeInfoFactory = new NodeInfoFactory();
+            var singleNodeFactory = new SingleNodeFactory();
 
-            var tree = singleNodeFabrica.GetNode("A", nodeInfoFabrica.Root, new[]
+            var tree = singleNodeFactory.GetNode("A", nodeInfoFactory.Root, new[]
             {
-                singleNodeFabrica.GetNode("B", nodeInfoFabrica.Single, new[]
+                singleNodeFactory.GetNode("B", nodeInfoFactory.Single, new[]
                 {
-                    singleNodeFabrica.GetNode("C", nodeInfoFabrica.Answer),
-                    singleNodeFabrica.GetNode("D", nodeInfoFabrica.Answer),
-                    singleNodeFabrica.GetNode("E", nodeInfoFabrica.Answer)
+                    singleNodeFactory.GetNode("C", nodeInfoFactory.Answer),
+                    singleNodeFactory.GetNode("D", nodeInfoFactory.Answer),
+                    singleNodeFactory.GetNode("E", nodeInfoFactory.Answer)
                 })
             });
 
@@ -178,24 +178,24 @@ namespace BoundTree.Helpers
     {
         public SingleTree<StringId> GetTree()
         {
-            var nodeInfoFabrica = new NodeInfoFactory();
-            var singleNodeFabrica = new SingleNodeFactory();
+            var nodeInfoFactory = new NodeInfoFactory();
+            var singleNodeFactory = new SingleNodeFactory();
 
-            var tree = singleNodeFabrica.GetNode("A", nodeInfoFabrica.Root, new[]
+            var tree = singleNodeFactory.GetNode("A", nodeInfoFactory.Root, new[]
             {
-                singleNodeFabrica.GetNode("C", nodeInfoFabrica.Single, new[]
+                singleNodeFactory.GetNode("C", nodeInfoFactory.Single, new[]
                 {
-                    singleNodeFabrica.GetNode("B", nodeInfoFabrica.Answer),
-                    singleNodeFabrica.GetNode("D", nodeInfoFabrica.PredefinedList, new[]
+                    singleNodeFactory.GetNode("B", nodeInfoFactory.Answer),
+                    singleNodeFactory.GetNode("D", nodeInfoFactory.PredefinedList, new[]
                     {
-                        singleNodeFabrica.GetNode("E", nodeInfoFabrica.Answer)
+                        singleNodeFactory.GetNode("E", nodeInfoFactory.Answer)
                     }),
-                    singleNodeFabrica.GetNode("G", nodeInfoFabrica.PredefinedList, new[]
+                    singleNodeFactory.GetNode("G", nodeInfoFactory.PredefinedList, new[]
                     {
-                        singleNodeFabrica.GetNode("F", nodeInfoFabrica.Answer),
-                        singleNodeFabrica.GetNode("K", nodeInfoFabrica.PredefinedList, new[]
+                        singleNodeFactory.GetNode("F", nodeInfoFactory.Answer),
+                        singleNodeFactory.GetNode("K", nodeInfoFactory.PredefinedList, new[]
                         {
-                            singleNodeFabrica.GetNode("H", nodeInfoFabrica.Answer)
+                            singleNodeFactory.GetNode("H", nodeInfoFactory.Answer)
                         })
                     })
                 })
@@ -209,17 +209,17 @@ namespace BoundTree.Helpers
     {
         public SingleTree<StringId> GetTree()
         {
-            var nodeInfoFabrica = new NodeInfoFactory();
-            var singleNodeFabrica = new SingleNodeFactory();
+            var nodeInfoFactory = new NodeInfoFactory();
+            var singleNodeFactory = new SingleNodeFactory();
 
-            var tree = singleNodeFabrica.GetNode("A", nodeInfoFabrica.Root, new[]
+            var tree = singleNodeFactory.GetNode("A", nodeInfoFactory.Root, new[]
             {
-                singleNodeFabrica.GetNode("B", nodeInfoFabrica.Single, new[]
+                singleNodeFactory.GetNode("B", nodeInfoFactory.Single, new[]
                 {
-                    singleNodeFabrica.GetNode("C", nodeInfoFabrica.PredefinedList, new[]
+                    singleNodeFactory.GetNode("C", nodeInfoFactory.PredefinedList, new[]
                     {
-                        singleNodeFabrica.GetNode("D", nodeInfoFabrica.PredefinedList),
-                        singleNodeFabrica.GetNode("E", nodeInfoFabrica.PredefinedList)
+                        singleNodeFactory.GetNode("D", nodeInfoFactory.PredefinedList),
+                        singleNodeFactory.GetNode("E", nodeInfoFactory.PredefinedList)
                     })
                 })
             });
@@ -232,17 +232,17 @@ namespace BoundTree.Helpers
     {
         public SingleTree<StringId> GetTree()
         {
-            var nodeInfoFabrica = new NodeInfoFactory();
-            var singleNodeFabrica = new SingleNodeFactory();
+            var nodeInfoFactory = new NodeInfoFactory();
+            var singleNodeFactory = new SingleNodeFactory();
 
-            var tree = singleNodeFabrica.GetNode("A", nodeInfoFabrica.Root, new[]
+            var tree = singleNodeFactory.GetNode("A", nodeInfoFactory.Root, new[]
             {
-                singleNodeFabrica.GetNode("B", nodeInfoFabrica.Single, new[]
+                singleNodeFactory.GetNode("B", nodeInfoFactory.Single, new[]
                 {
-                    singleNodeFabrica.GetNode("C", nodeInfoFabrica.PredefinedList, new[]
+                    singleNodeFactory.GetNode("C", nodeInfoFactory.PredefinedList, new[]
                     {
-                        singleNodeFabrica.GetNode("D", nodeInfoFabrica.PredefinedList),
-                        singleNodeFabrica.GetNode("E", nodeInfoFabrica.PredefinedList)
+                        singleNodeFactory.GetNode("D", nodeInfoFactory.PredefinedList),
+                        singleNodeFactory.GetNode("E", nodeInfoFactory.PredefinedList)
                     })
                 })
             });
@@ -255,28 +255,28 @@ namespace BoundTree.Helpers
     {
         public SingleTree<StringId> GetTree()
         {
-            var nodeInfoFabrica = new NodeInfoFactory();
-            var singleNodeFabrica = new SingleNodeFactory();
+            var nodeInfoFactory = new NodeInfoFactory();
+            var singleNodeFactory = new SingleNodeFactory();
 
-            var tree = singleNodeFabrica.GetNode("A", nodeInfoFabrica.Root, new[]
+            var tree = singleNodeFactory.GetNode("A", nodeInfoFactory.Root, new[]
             {
-                singleNodeFabrica.GetNode("B", nodeInfoFabrica.Grid3D, new[]
+                singleNodeFactory.GetNode("B", nodeInfoFactory.Grid3D, new[]
                 {
-                    singleNodeFabrica.GetNode("C", nodeInfoFabrica.Single, new[]
+                    singleNodeFactory.GetNode("C", nodeInfoFactory.Single, new[]
                     {
-                        singleNodeFabrica.GetNode("D", nodeInfoFabrica.Answer),
+                        singleNodeFactory.GetNode("D", nodeInfoFactory.Answer),
                     })
                 }),
-                singleNodeFabrica.GetNode("E", nodeInfoFabrica.Grid3D, new[]
+                singleNodeFactory.GetNode("E", nodeInfoFactory.Grid3D, new[]
                 {
-                    singleNodeFabrica.GetNode("F", nodeInfoFabrica.Single, new[]
+                    singleNodeFactory.GetNode("F", nodeInfoFactory.Single, new[]
                     {
-                        singleNodeFabrica.GetNode("G", nodeInfoFabrica.Answer),
+                        singleNodeFactory.GetNode("G", nodeInfoFactory.Answer),
                     })
                 }),
-                singleNodeFabrica.GetNode("R", nodeInfoFabrica.Grid3D, new[]
+                singleNodeFactory.GetNode("R", nodeInfoFactory.Grid3D, new[]
                 {
-                    singleNodeFabrica.GetNode("T", nodeInfoFabrica.Single)
+                    singleNodeFactory.GetNode("T", nodeInfoFactory.Single)
                 })
             });
 
@@ -288,28 +288,28 @@ namespace BoundTree.Helpers
     {
         public SingleTree<StringId> GetTree()
         {
-            var nodeInfoFabrica = new NodeInfoFactory();
-            var singleNodeFabrica = new SingleNodeFactory();
+            var nodeInfoFactory = new NodeInfoFactory();
+            var singleNodeFactory = new SingleNodeFactory();
 
-            var tree = singleNodeFabrica.GetNode("A", nodeInfoFabrica.Root, new[]
+            var tree = singleNodeFactory.GetNode("A", nodeInfoFactory.Root, new[]
             {
-                singleNodeFabrica.GetNode("B", nodeInfoFabrica.Grid, new[]
+                singleNodeFactory.GetNode("B", nodeInfoFactory.Grid, new[]
                 {
-                    singleNodeFabrica.GetNode("C", nodeInfoFabrica.Single, new[]
+                    singleNodeFactory.GetNode("C", nodeInfoFactory.Single, new[]
                     {
-                        singleNodeFabrica.GetNode("D", nodeInfoFabrica.Answer),
+                        singleNodeFactory.GetNode("D", nodeInfoFactory.Answer),
                     })
                 }),
-                singleNodeFabrica.GetNode("E", nodeInfoFabrica.Grid, new[]
+                singleNodeFactory.GetNode("E", nodeInfoFactory.Grid, new[]
                 {
-                    singleNodeFabrica.GetNode("F", nodeInfoFabrica.Single, new[]
+                    singleNodeFactory.GetNode("F", nodeInfoFactory.Single, new[]
                     {
-                        singleNodeFabrica.GetNode("G", nodeInfoFabrica.Answer),
+                        singleNodeFactory.GetNode("G", nodeInfoFactory.Answer),
                     })
                 }),
-                singleNodeFabrica.GetNode("R", nodeInfoFabrica.Grid, new[]
+                singleNodeFactory.GetNode("R", nodeInfoFactory.Grid, new[]
                 {
-                    singleNodeFabrica.GetNode("T", nodeInfoFabrica.Single)
+                    singleNodeFactory.GetNode("T", nodeInfoFactory.Single)
                 })
             });
 
@@ -322,17 +322,17 @@ namespace BoundTree.Helpers
     {
         public SingleTree<StringId> GetTree()
         {
-            var nodeInfoFabrica = new NodeInfoFactory();
-            var singleNodeFabrica = new SingleNodeFactory();
+            var nodeInfoFactory = new NodeInfoFactory();
+            var singleNodeFactory = new SingleNodeFactory();
 
-            var tree = singleNodeFabrica.GetNode("A", nodeInfoFabrica.Root, new[]
+            var tree = singleNodeFactory.GetNode("A", nodeInfoFactory.Root, new[]
             {
-                singleNodeFabrica.GetNode("B", nodeInfoFabrica.Grid3D, new[]
+                singleNodeFactory.GetNode("B", nodeInfoFactory.Grid3D, new[]
                 {
-                    singleNodeFabrica.GetNode("C", nodeInfoFabrica.Single),
-                    singleNodeFabrica.GetNode("D", nodeInfoFabrica.Multi)
+                    singleNodeFactory.GetNode("C", nodeInfoFactory.Single),
+                    singleNodeFactory.GetNode("D", nodeInfoFactory.Multi)
                 }),
-                singleNodeFabrica.GetNode("E", nodeInfoFabrica.OpenText)
+                singleNodeFactory.GetNode("E", nodeInfoFactory.OpenText)
             });
 
             return new SingleTree<StringId>(tree);
@@ -343,17 +343,17 @@ namespace BoundTree.Helpers
     {
         public SingleTree<StringId> GetTree()
         {
-            var nodeInfoFabrica = new NodeInfoFactory();
-            var singleNodeFabrica = new SingleNodeFactory();
+            var nodeInfoFactory = new NodeInfoFactory();
+            var singleNodeFactory = new SingleNodeFactory();
 
-            var tree = singleNodeFabrica.GetNode("A", nodeInfoFabrica.Root, new[]
+            var tree = singleNodeFactory.GetNode("A", nodeInfoFactory.Root, new[]
                     {
-                        singleNodeFabrica.GetNode("B", nodeInfoFabrica.Grid3D, new[]
+                        singleNodeFactory.GetNode("B", nodeInfoFactory.Grid3D, new[]
                         {
-                            singleNodeFabrica.GetNode("C", nodeInfoFabrica.Single),
-                            singleNodeFabrica.GetNode("D", nodeInfoFabrica.Multi)
+                            singleNodeFactory.GetNode("C", nodeInfoFactory.Single),
+                            singleNodeFactory.GetNode("D", nodeInfoFactory.Multi)
                         }),
-                        singleNodeFabrica.GetNode("E", nodeInfoFabrica.OpenText)
+                        singleNodeFactory.GetNode("E", nodeInfoFactory.OpenText)
                     });
 
             return new SingleTree<StringId>(tree);

@@ -11,10 +11,12 @@ namespace BoundTree.ConsoleDisplaying
     public class ConsoleConnectionController
     {
         private readonly BindContoller<StringId> _bindController;
-        private DoubleNode<StringId> _preivousDoubleNode;
-        private TreeLogger _treeLogger;
-        private List<string> _messages = new List<string>();
-        private CommandMediator _commandMediator = new CommandMediator();
+        private readonly TreeLogger _treeLogger;
+        private readonly List<string> _messages = new List<string>();
+        private readonly CommandMediator _commandMediator = new CommandMediator();
+        private readonly ConsoleTreeWriter _treeWriter = new ConsoleTreeWriter();
+
+        private DoubleNode<StringId> _previousDoubleNode;
         private DoubleNode<StringId> _currentDoubleNode;
 
         public ConsoleConnectionController(BindContoller<StringId> bindController)
@@ -34,7 +36,7 @@ namespace BoundTree.ConsoleDisplaying
             _commandMediator.Exit += ExitFromBuildingTree;
         }
         
-        private void AddConnection(object sender, EventArgs e)
+        private void AddConnection()
         {
             var ids = GetIds(false);
             if (_bindController.Bind(ids.Key, ids.Value))
@@ -46,7 +48,7 @@ namespace BoundTree.ConsoleDisplaying
             _messages.Add(string.Format("The {0} have not been connected with {1}", ids.Key, ids.Value));
         }
 
-        private void RemoveConnection(object sender, EventArgs e)
+        private void RemoveConnection()
         {
             var ids = GetIds(true);
             if (_bindController.RemoveConnection(ids.Key))
@@ -58,7 +60,7 @@ namespace BoundTree.ConsoleDisplaying
             _messages.Add(string.Format("The {0} was not removed", ids.Key));
         }
 
-        private void RemoveAllConnections(object sender, EventArgs e)
+        private void RemoveAllConnections()
         {
             if (_bindController.RemoveAllConnections())
             {
@@ -69,7 +71,7 @@ namespace BoundTree.ConsoleDisplaying
             _messages.Add("The all connections were not removed");
         }
 
-        private void ExitFromBuildingTree(object sender, EventArgs e)
+        private void ExitFromBuildingTree()
         {
             _treeLogger.AddDoubleTreeToFile(_currentDoubleNode);
         }
@@ -93,7 +95,7 @@ namespace BoundTree.ConsoleDisplaying
             try
             {
                 _currentDoubleNode = new TreeReconstruction<StringId>(_bindController).GetFilledTree();
-                _preivousDoubleNode = _currentDoubleNode;
+                _previousDoubleNode = _currentDoubleNode;
             }
             catch (Exception e)
             {
@@ -103,12 +105,12 @@ namespace BoundTree.ConsoleDisplaying
                 Console.WriteLine();
                 Console.WriteLine("Sorry, there was an error");
                 Console.WriteLine("Press any button to continue");
-                _currentDoubleNode= _preivousDoubleNode;
+                _currentDoubleNode= _previousDoubleNode;
                 Console.ReadKey();
             }
 
-            new ConsoleTreeWriter().WriteToConsole(_bindController.MainSingleTree, _bindController.MinorSingleTree);
-            new ConsoleTreeWriter().WriteToConsole(_currentDoubleNode);
+            Console.WriteLine(_treeWriter.ConvertToString(_bindController.MainSingleTree, _bindController.MinorSingleTree));
+            Console.WriteLine(_treeWriter.ConvertToString(_currentDoubleNode));
 
             Console.WriteLine();
             if (_messages.Any())

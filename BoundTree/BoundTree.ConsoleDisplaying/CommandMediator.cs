@@ -5,10 +5,12 @@ namespace BoundTree.ConsoleDisplaying
 {
     public class CommandMediator
     {
-        public event EventHandler Add;
-        public event EventHandler Remove;
-        public event EventHandler RemoveAll;
-        public event EventHandler Exit;
+        public delegate void CommandHandler();
+
+        public event CommandHandler Add;
+        public event CommandHandler Remove;
+        public event CommandHandler RemoveAll;
+        public event CommandHandler Exit;
 
         public const string AddLongName = "add";
         public const string AddShortName = "a";
@@ -30,52 +32,30 @@ namespace BoundTree.ConsoleDisplaying
             {
                 case AddShortName:
                 case AddLongName:
-                    OnAddCommand();
+                    OnCommand(Add);
                     break;
 
                 case RemoveShortName:
                 case RemoveLongName:
-                    OnRemoveCommand();
+                    OnCommand(Remove);
                     break;
 
                 case RemoveAllShortName:
                 case RemoveAllLongName:
-                    OnRemoveAllCommand();
+                    OnCommand(RemoveAll);
                     break;
 
                 case ExitLongName:
                 case ExitShortName:
-                    OnExit();
+                    OnCommand(Exit);
                     break;
             }
         }
 
-        protected virtual void OnAddCommand()
+        private void OnCommand(CommandHandler handler)
         {
-            var handler = Add;
-            if (handler != null)
-                handler(this, EventArgs.Empty);
-        }
-
-        protected virtual void OnRemoveCommand()
-        {
-            var handler = Remove;
-            if (handler != null)
-                handler(this, EventArgs.Empty);
-        }
-
-        protected virtual void OnRemoveAllCommand()
-        {
-            var handler = RemoveAll;
-            if (handler != null)
-                handler(this, EventArgs.Empty);
-        }
-
-        protected virtual void OnExit()
-        {
-            var handler = Exit;
-            if (handler != null)
-                handler(this, EventArgs.Empty);
+            var localHandler = handler;
+            if (localHandler != null) localHandler();
         }
     }
 }

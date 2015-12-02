@@ -17,8 +17,8 @@ namespace BoundTree.ConsoleDisplaying
 
         private SingleTree<StringId> _mainTree = new SingleTree<StringId>(null);
         private SingleTree<StringId> _minorTree = new SingleTree<StringId>(null);
-        private List<string> _messages = new List<string>();
-        
+        private readonly List<string> _messages = new List<string>();
+        private readonly ConsoleTreeWriter _consoleTreeWriter = new ConsoleTreeWriter();
 
         public void Run()
         {
@@ -31,7 +31,7 @@ namespace BoundTree.ConsoleDisplaying
                 ProcessBuildingTree(_mainTree);
                 ProcessBuildingTree(_minorTree);
             }
-            
+             
             _consoleConnectionController = new ConsoleConnectionController(new BindContoller<StringId>(_mainTree, _minorTree));
             _consoleConnectionController.Start();
         }
@@ -151,7 +151,7 @@ namespace BoundTree.ConsoleDisplaying
         private void DisplayInitialCommand()
         {
             Console.Clear();
-            new ConsoleTreeWriter().WriteToConsole(_mainTree, _minorTree);
+            Console.WriteLine(_consoleTreeWriter.ConvertToString(_mainTree, _minorTree));
             Console.WriteLine();
             if (_messages.Any())
             {

@@ -35,6 +35,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="dotMemory.Unit">
+      <HintPath>..\packages\JetBrains.DotMemoryUnit.2.1.20150828.125449\Lib\dotMemory.Unit.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
   </ItemGroup>
   <Choose>
@@ -58,6 +61,9 @@
       <Project>{add3161b-370d-4e93-831d-d1861dc9f47f}</Project>
       <Name>Build.TestFramework</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
