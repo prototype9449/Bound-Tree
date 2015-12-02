@@ -108,6 +108,7 @@
     <Compile Include="Logic\SingleNodeFactory.cs" />
     <Compile Include="Logic\SingleTree.cs" />
     <Compile Include="Logic\StringId.cs" />
+    <Compile Include="TreeMatcher.cs" />
     <Compile Include="TreeReconstruction\ConnectionKindReconstruction.cs" />
     <Compile Include="TreeReconstruction\ConnectionReconstruction.cs" />
     <Compile Include="TreeReconstruction\PostReconstruction.cs" />

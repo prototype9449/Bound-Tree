@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.IO;
+using System.Linq;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 
@@ -66,6 +67,14 @@ namespace BoundTree.Logic
             }
 
             return null;
+        }
+
+        public List<SingleNode<T>> ToList()
+        {
+            Contract.Requires(Root != null);
+            Contract.Ensures(Contract.Result<List<SingleNode<T>>>().Any());
+
+            return Root.ToList();
         }
 
         public SingleTree<T> Clone()
