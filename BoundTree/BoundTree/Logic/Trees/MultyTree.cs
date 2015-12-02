@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using BoundTree.Logic.TreeNodes;
 
@@ -8,10 +9,8 @@ namespace BoundTree.Logic.Trees
     {
         public MultyTree(SingleNode<T> root)
         {
-            Root = new MultyNode<T>();
+            Root = new MultyNode<T>(root);
         }
-
-        public MultyNode<T> Root { get; private set; }
 
         public MultyTree(MultyNode<T> root)
         {
@@ -19,6 +18,8 @@ namespace BoundTree.Logic.Trees
 
             Root = root;
         }
+
+        public MultyNode<T> Root { get; private set; }
 
         public MultyTree(SingleTree<T> singleTree)
         {
@@ -30,6 +31,13 @@ namespace BoundTree.Logic.Trees
             Contract.Requires(id != null);
 
             return Root.GetById(id);
+        }
+
+        public List<MultyNode<T>> ToList()
+        {
+            Contract.Requires(Root != null);
+
+            return Root.ToList();
         }
     }
 }

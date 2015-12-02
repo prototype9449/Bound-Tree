@@ -9,6 +9,12 @@ namespace BoundTree.Logic.TreeNodes
         public MultyNodeData<T> MultyNodeData { get; set; }
         public List<MultyNode<T>> Childs { get; set; }
 
+        public MultyNode(SingleNode<T> singleNode)
+        {
+            MultyNodeData = new MultyNodeData<T>(singleNode.SingleNodeData.NodeData);
+            Childs = new List<MultyNode<T>>();
+        }
+
         public LogicLevel LogicLevel
         {
             get
@@ -59,6 +65,25 @@ namespace BoundTree.Logic.TreeNodes
             }
 
             return null;
+        }
+
+        public List<MultyNode<T>> ToList()
+        {
+            var nodes = new List<MultyNode<T>>();
+            RecursiveFillNodes(this, nodes);
+            return nodes;
+        }
+
+        private void RecursiveFillNodes(MultyNode<T> root, List<MultyNode<T>> nodes)
+        {
+            nodes.Add(root);
+
+            if (root.Childs.Count == 0) return;
+
+            foreach (var node in root.Childs)
+            {
+                RecursiveFillNodes(node, nodes);
+            }
         }
     }
 }

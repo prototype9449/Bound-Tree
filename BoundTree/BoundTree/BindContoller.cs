@@ -7,11 +7,11 @@ namespace BoundTree
 {
     public class BindContoller<T> where T : class, IEquatable<T>, new()
     {
-        public SingleTree<T> MainSingleTree { get; private set; }
+        public MultyTree<T> MainSingleTree { get; private set; }
         public SingleTree<T> MinorSingleTree { get; private set; }
         public BindingHandler<T> Handler { get; private set; }
 
-        public BindContoller(SingleTree<T> mainSingleTree, SingleTree<T> minorSingleTree)
+        public BindContoller(MultyTree<T> mainSingleTree, SingleTree<T> minorSingleTree)
         {
             Contract.Requires(mainSingleTree != null);
             Contract.Requires(minorSingleTree != null);
@@ -20,7 +20,7 @@ namespace BoundTree
             MinorSingleTree = minorSingleTree;
             Handler = new BindingHandler<T>(mainSingleTree, minorSingleTree);
             
-            Bind(mainSingleTree.Root.SingleNodeData.Id, minorSingleTree.Root.SingleNodeData.Id);
+            Bind(mainSingleTree.Root.Id, minorSingleTree.Root.Id);
         }
 
         public bool RemoveAllConnections()
@@ -39,7 +39,7 @@ namespace BoundTree
             if (mainNode == null || minorNode == null)
                 return false;
 
-            if (mainNode.SingleNodeData.NodeInfo.GetType() == minorNode.SingleNodeData.NodeInfo.GetType())
+            if (mainNode.GetType() == minorNode.GetType())
             {
                 return Handler.HandleBinding(mainNode, minorNode);
             }

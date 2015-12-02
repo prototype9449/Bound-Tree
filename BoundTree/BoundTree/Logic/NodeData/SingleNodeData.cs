@@ -36,10 +36,10 @@ namespace BoundTree.Logic.NodeData
             get { return NodeData.Id; }
         }
 
-        public bool CanContain(NodeData<T> otherNodeData)
+        public bool CanContain(SingleNodeData<T> otherNodeData)
         {
             Contract.Requires(otherNodeData != null);
-            return NodeData.CanContain(otherNodeData);
+            return NodeData.CanContain(otherNodeData.NodeData);
         }
 
         public bool IsEmpty()

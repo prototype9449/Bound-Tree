@@ -12,11 +12,11 @@ namespace BoundTree
     [Serializable]
     public class BindingHandler<T> : IBindingHandler<T> where T : class, IEquatable<T>, new()
     {
-        private readonly SingleTree<T> _mainTree;
+        private readonly MultyTree<T> _mainTree;
         private readonly SingleTree<T> _minorTree;
         private readonly List<KeyValuePair<T, T>> _connections = new List<KeyValuePair<T, T>>();
 
-        public BindingHandler(SingleTree<T> mainTree, SingleTree<T> minorTree)
+        public BindingHandler(MultyTree<T> mainTree, SingleTree<T> minorTree)
         {
             Contract.Requires(mainTree != null);
             Contract.Requires(minorTree != null);
@@ -44,7 +44,7 @@ namespace BoundTree
             get { return _connections.ToList(); }
         }
 
-        public bool HandleBinding(SingleNode<T> mainSingleNode, SingleNode<T> minorSingleNode)
+        public bool HandleBinding(MultyNode<T> mainSingleNode, SingleNode<T> minorSingleNode)
         {
             Contract.Requires(mainSingleNode != null);
             Contract.Requires(minorSingleNode != null); 
@@ -52,10 +52,10 @@ namespace BoundTree
             if (!IsValidConnection(mainSingleNode, minorSingleNode))
                 return false;
 
-            if (_connections.Exists(pair => pair.Key == mainSingleNode.SingleNodeData.Id || pair.Value == minorSingleNode.SingleNodeData.Id))
+            if (_connections.Exists(pair => pair.Key == mainSingleNode.Id || pair.Value == minorSingleNode.Id))
                 return false;
 
-            _connections.Add(new KeyValuePair<T, T>(mainSingleNode.SingleNodeData.Id, minorSingleNode.SingleNodeData.Id));
+            _connections.Add(new KeyValuePair<T, T>(mainSingleNode.Id, minorSingleNode.Id));
             return true;
         }
 
@@ -73,21 +73,21 @@ namespace BoundTree
 
         }
 
-        private bool IsValidConnection(SingleNode<T> first, SingleNode<T> second)
+        private bool IsValidConnection(MultyNode<T> first, SingleNode<T> second)
         {
             Contract.Requires(first != null);
             Contract.Requires(second != null);
 
             foreach (var connection in _connections)
             {
-                if (GetRelationKind(connection.Key, first.SingleNodeData.Id, _mainTree) != GetRelationKind(connection.Value, second.SingleNodeData.Id, _minorTree))
+                if (GetRelationKind(connection.Key, first.Id, _mainTree) != GetRelationKind(connection.Value, second.Id, _minorTree))
                     return false;
             }
 
             return true;
         }
 
-        private RelationKind GetRelationKind(T firstId, T secondId, SingleTree<T> tree)
+        private RelationKind GetRelationKind(T firstId, T secondId, dynamic tree)
         {
             Contract.Requires(firstId != null);
             Contract.Requires(secondId != null);

@@ -158,7 +158,7 @@ namespace BoundTree.ConsoleDisplaying
         {
             Contract.Requires(singleNode != null);
 
-            return singleNode.SingleNodeData.NodeInfo.GetType().Name;
+            return singleNode.GetType().Name;
         }
 
         private void DisplayInitialCommand()

@@ -49,6 +49,11 @@ namespace BoundTree.Logic.TreeNodes
             get { return SingleNodeData.GetType(); }
         }
 
+        public bool CanContain(SingleNode<T> singleNode)
+        {
+            return SingleNodeData.CanContain(singleNode.SingleNodeData);
+        }
+
         public void Add(SingleNode<T> child)
         {
             Contract.Requires(child != null);
