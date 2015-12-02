@@ -20,7 +20,7 @@ namespace BoundTree
             MinorSingleTree = minorSingleTree;
             Handler = new BindingHandler<T>(mainSingleTree, minorSingleTree);
             
-            Bind(mainSingleTree.Root.Node.Id, minorSingleTree.Root.Node.Id);
+            Bind(mainSingleTree.Root.SingleNodeData.Id, minorSingleTree.Root.SingleNodeData.Id);
         }
 
         public bool RemoveAllConnections()
@@ -39,7 +39,7 @@ namespace BoundTree
             if (mainNode == null || minorNode == null)
                 return false;
 
-            if (mainNode.Node.NodeInfo.GetType() == minorNode.Node.NodeInfo.GetType())
+            if (mainNode.SingleNodeData.NodeInfo.GetType() == minorNode.SingleNodeData.NodeInfo.GetType())
             {
                 return Handler.HandleBinding(mainNode, minorNode);
             }

@@ -52,10 +52,10 @@ namespace BoundTree
             if (!IsValidConnection(mainSingleNode, minorSingleNode))
                 return false;
 
-            if (_connections.Exists(pair => pair.Key == mainSingleNode.Node.Id || pair.Value == minorSingleNode.Node.Id))
+            if (_connections.Exists(pair => pair.Key == mainSingleNode.SingleNodeData.Id || pair.Value == minorSingleNode.SingleNodeData.Id))
                 return false;
 
-            _connections.Add(new KeyValuePair<T, T>(mainSingleNode.Node.Id, minorSingleNode.Node.Id));
+            _connections.Add(new KeyValuePair<T, T>(mainSingleNode.SingleNodeData.Id, minorSingleNode.SingleNodeData.Id));
             return true;
         }
 
@@ -80,7 +80,7 @@ namespace BoundTree
 
             foreach (var connection in _connections)
             {
-                if (GetRelationKind(connection.Key, first.Node.Id, _mainTree) != GetRelationKind(connection.Value, second.Node.Id, _minorTree))
+                if (GetRelationKind(connection.Key, first.SingleNodeData.Id, _mainTree) != GetRelationKind(connection.Value, second.SingleNodeData.Id, _minorTree))
                     return false;
             }
 

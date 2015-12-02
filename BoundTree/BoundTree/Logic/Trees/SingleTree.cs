@@ -12,7 +12,7 @@ namespace BoundTree.Logic.Trees
     [Serializable]
     public class SingleTree<T> where T : class, IEquatable<T>, new()
     {
-        public TreeNodes.SingleNode<T> Root { get; private set; }
+        public SingleNode<T> Root { get; private set; }
 
         public SingleTree(SingleNode<T> root)
         {
@@ -41,7 +41,7 @@ namespace BoundTree.Logic.Trees
             while (stack.Count != 0)
             {
                 var current = stack.Pop();
-                if (current.SingleNode.Node.Id.Equals(id))
+                if (current.SingleNode.SingleNodeData.Id.Equals(id))
                 {
                     if (current.ParentId.Equals(new T()))
                         return null;
@@ -51,7 +51,7 @@ namespace BoundTree.Logic.Trees
 
                 foreach (var node in current.SingleNode.Childs)
                 {
-                    stack.Push(new { SingleNode = node, ParentId = current.SingleNode.Node.Id });
+                    stack.Push(new { SingleNode = node, ParentId = current.SingleNode.SingleNodeData.Id });
                 }
             }
 

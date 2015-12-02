@@ -90,8 +90,10 @@
     <Compile Include="Interfaces\IBindingHandler.cs" />
     <Compile Include="Logic\LogicLevel.cs" />
     <Compile Include="Logic\TreeNodes\MultyNode.cs" />
+    <Compile Include="Logic\NodeData\MultyNodeData.cs" />
+    <Compile Include="Logic\NodeData\SingleNodeData.cs" />
     <Compile Include="Logic\Trees\MultyTree.cs" />
-    <Compile Include="Logic\TreeNodes\Node.cs" />
+    <Compile Include="Logic\NodeData\NodeData.cs" />
     <Compile Include="Logic\Nodes\GeneralNodes\Grid3D.cs" />
     <Compile Include="Logic\Nodes\GeneralNodes\Answer.cs" />
     <Compile Include="Logic\Nodes\GeneralNodes\Multi.cs" />

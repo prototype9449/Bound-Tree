@@ -1,41 +1,44 @@
-﻿using System.Collections.Generic;
-using System.Diagnostics.Contracts;
-using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using BoundTree.Logic.NodeData;
 
 namespace BoundTree.Logic.TreeNodes
 {
     public class MultyNode<T> where T : new()
     {
-        public Node<T> MaiNode { get; set; }
-        public List<Node<T>> MinorNodes { get; set; }
+        public MultyNodeData<T> MultyNodeData { get; set; }
         public List<MultyNode<T>> Childs { get; set; }
 
         public LogicLevel LogicLevel
         {
             get
             {
-                Contract.Requires(!MaiNode.IsEmpty() || MinorNodes.Exists(node => !node.IsEmpty()));
-                Contract.Ensures(Contract.Result<LogicLevel>() != null);
-
-                if (MaiNode.IsEmpty())
-                {
-                    return MinorNodes.First(node => !node.IsEmpty()).LogicLevel;
-                }
-
-                return MaiNode.LogicLevel;
+                return MultyNodeData.LogicLevel;
             }
         }
 
-        public int Depth { get; set; }
+        public int Depth
+        {
+            get { return MultyNodeData.Depth; }
+            set { MultyNodeData.Depth = value; }
+        }
 
         public T Id
         {
-            get { return MaiNode.Id; }
+            get { return MultyNodeData.Id; }
         }
 
-        public bool CanContain(SingleNode<T> singleNode)
+        public Type NodeType
         {
-            return MaiNode.NodeInfo.CanContain(singleNode.Node.NodeInfo);
+            get
+            {
+                return MultyNodeData.GetType();
+            }
+        }
+
+        public bool CanContain(MultyNodeData<T> multyNodeData)
+        {
+            return MultyNodeData.CanContain(multyNodeData);
         }
 
         public MultyNode<T> GetById(T id)

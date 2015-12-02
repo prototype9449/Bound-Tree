@@ -12,8 +12,8 @@ namespace BoundTree
         public DoubleNode<T> GetDoubleNode(SingleTree<T> mainSingleTree, SingleTree<T> minorSingleTree)
         {
             var bindController = new BindContoller<T>(mainSingleTree, minorSingleTree);
-            var mainIds = mainSingleTree.ToList().Select(node => node.Node.Id);
-            var minorIds = minorSingleTree.ToList().Select(node => node.Node.Id);
+            var mainIds = mainSingleTree.ToList().Select(node => node.SingleNodeData.Id);
+            var minorIds = minorSingleTree.ToList().Select(node => node.SingleNodeData.Id);
 
             var identicalIds = mainIds.Intersect(minorIds).ToList();
             identicalIds.ForEach(id => bindController.Bind(id,id));

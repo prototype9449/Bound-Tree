@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
+using BoundTree.Logic.NodeData;
 using BoundTree.Logic.Nodes;
 
 namespace BoundTree.Logic.TreeNodes
@@ -8,12 +9,12 @@ namespace BoundTree.Logic.TreeNodes
     [Serializable]
     public class SingleNode<T> where T : new()
     {
-        public Node<T> Node { get; private set; }
+        public SingleNodeData<T> SingleNodeData { get; private set; }
         public List<SingleNode<T>> Childs { get; private set; }
 
         public SingleNode(T id, NodeInfo nodeInfo, IList<SingleNode<T>> nodes)
         {
-            Node = new Node<T>(id, -1, nodeInfo);
+            SingleNodeData = new SingleNodeData<T>(new NodeData<T>(id, -1, nodeInfo));
             Childs = new List<SingleNode<T>>(nodes);
         }
 
@@ -22,16 +23,37 @@ namespace BoundTree.Logic.TreeNodes
         { }
 
         public SingleNode(T id, NodeInfo nodeInfo, int depth)
-            : this(id, nodeInfo, new List<SingleNode<T>>())
         {
-            Node.Depth = depth;
+            SingleNodeData = new SingleNodeData<T>(new NodeData<T>(id, depth, nodeInfo));
+            Childs = new List<SingleNode<T>>();
+        }
+
+        public T Id
+        {
+            get { return SingleNodeData.Id; }
+        }
+
+        public LogicLevel LogicLevel
+        {
+            get { return SingleNodeData.LogicLevel; }
+        }
+
+        public int Depth
+        {
+            get { return SingleNodeData.Depth; }
+            set { SingleNodeData.Depth = value; }
+        }
+
+        public Type NodeType
+        {
+            get { return SingleNodeData.GetType(); }
         }
 
         public void Add(SingleNode<T> child)
         {
             Contract.Requires(child != null);
 
-            child.Node.Depth = this.Node.Depth + 1;
+            child.SingleNodeData.Depth = SingleNodeData.Depth + 1;
             Childs.Add(child);
         }
 
@@ -41,7 +63,7 @@ namespace BoundTree.Logic.TreeNodes
             queue.Enqueue(this);
             while (queue.Count != 0)
             {
-                if (queue.Peek().Node.Id.Equals(id))
+                if (queue.Peek().SingleNodeData.Id.Equals(id))
                 {
                     return queue.Peek();
                 }
@@ -54,7 +76,6 @@ namespace BoundTree.Logic.TreeNodes
 
             return null;
         }
-
 
         public List<SingleNode<T>> ToList()
         {
@@ -82,8 +103,8 @@ namespace BoundTree.Logic.TreeNodes
 
         private void SetDeep(int initialDeep)
         {
-            Node.Depth = initialDeep + 1;
-            Childs.ForEach(node => node.SetDeep(Node.Depth));
+            SingleNodeData.Depth = initialDeep + 1;
+            Childs.ForEach(node => node.SetDeep(SingleNodeData.Depth));
         }
     }
 }

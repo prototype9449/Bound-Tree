@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using BoundTree.Logic;
+using BoundTree.Logic.NodeData;
 using BoundTree.Logic.TreeNodes;
 using BoundTree.Logic.Trees;
 
@@ -92,7 +93,7 @@ namespace BoundTree.TreeReconstruction
             var singleAscendant = _minorTree.GetParent(child.MinorLeaf.Id);
 
             //Если он уже родитель, то есть нет промежуточных узлов
-            if (singleAscendant.Node.Id == parent.MinorLeaf.Id)
+            if (singleAscendant.SingleNodeData.Id == parent.MinorLeaf.Id)
             {
                 return new KeyValuePair<bool, DoubleNode<T>>(isDone, child);
             }
@@ -101,9 +102,9 @@ namespace BoundTree.TreeReconstruction
 
             var canAscendantConatin = CanParentContainAscendant(parent, doubleAscendant, singleAscendant);
 
-            while (parent.MinorLeaf.CanContain(singleAscendant.Node) && canAscendantConatin)
+            while (parent.MinorLeaf.CanContain(singleAscendant.SingleNodeData) && canAscendantConatin)
             {
-                doubleAscendant = new DoubleNode<T>(new Node<T>(), singleAscendant.Node)
+                doubleAscendant = new DoubleNode<T>(new NodeData<T>(), singleAscendant.SingleNodeData)
                 {
                     Nodes = new List<DoubleNode<T>>(new[] { doubleAscendant })
                 };
@@ -129,7 +130,7 @@ namespace BoundTree.TreeReconstruction
             var minorOrignalChilds = new List<SingleNode<T>>();
             intermediate.Childs.ForEach(node => minorOrignalChilds.AddRange(node.ToList()));
 
-            var isThereInside = childs.Exists(doubleNode => minorOrignalChilds.Exists(node => doubleNode.MinorLeaf.Id == node.Node.Id));
+            var isThereInside = childs.Exists(doubleNode => minorOrignalChilds.Exists(node => doubleNode.MinorLeaf.Id == node.SingleNodeData.Id));
 
             return !isThereInside;
         }
@@ -174,7 +175,7 @@ namespace BoundTree.TreeReconstruction
             Contract.Requires(group != null);
             Contract.Ensures(Contract.Result<DoubleNode<T>>() != null);
 
-            var doubleNode = new DoubleNode<T>(new Node<T>(), group.First().MinorLeaf)
+            var doubleNode = new DoubleNode<T>(new NodeData<T>(), group.First().MinorLeaf)
             {
                 Nodes = group.Select(node => node.Nodes.First()).ToList()
             };

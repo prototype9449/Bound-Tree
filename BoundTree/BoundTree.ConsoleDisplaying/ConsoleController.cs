@@ -16,14 +16,14 @@ namespace BoundTree.ConsoleDisplaying
     {
         private ConsoleConnectionController _consoleConnectionController;
 
-        private SingleTree<StringId> _mainTree;
+        private MultyTree<StringId> _mainTree;
         private SingleTree<StringId> _minorTree;
         private readonly List<string> _messages = new List<string>();
         private readonly ConsoleTreeWriter _consoleTreeWriter = new ConsoleTreeWriter();
         private readonly SingleNodeFactory factory = new SingleNodeFactory();
         public ConsoleController()
         {
-            _mainTree = new SingleTree<StringId>(factory.GetNode("Root", new Root()));
+            _mainTree = new MultyTree<StringId>(factory.GetNode("Root", new Root()));
             _minorTree = new SingleTree<StringId>(factory.GetNode("Root", new Root()));
         }
         
@@ -35,8 +35,8 @@ namespace BoundTree.ConsoleDisplaying
             var action = SelectFile(answer);
             if (!action)
             {
-                ProcessBuildingTree(_mainTree);
-                ProcessBuildingTree(_minorTree);
+                ProcessBuildingMainTree();
+                ProcessBuildingMinorTree();
             }
              
             _consoleConnectionController = new ConsoleConnectionController(new BindContoller<StringId>(_mainTree, _minorTree));
@@ -53,13 +53,25 @@ namespace BoundTree.ConsoleDisplaying
                 {
                     var lines = File.ReadAllLines(dialog.FileName).ToList();
                     var treeData = new DoubleNodeParser().GetDoubleNode(lines);
-                    _mainTree = treeData.MainSingleTree;
+                    _mainTree = new MultyTree<StringId>(treeData.MainSingleTree);
                     _minorTree = treeData.MinorSingleTree;
                     return true;
                 }
             }
 
             return false;
+        }
+
+        private void ProcessBuildingMainTree()
+        {
+            var mainSingleTree = new SingleTree<StringId>(factory.GetNode("Root", new Root()));
+            ProcessBuildingTree(mainSingleTree);
+            _mainTree = new MultyTree<StringId>(mainSingleTree);
+        }
+
+        private void ProcessBuildingMinorTree()
+        {
+            ProcessBuildingTree(_minorTree);
         }
 
         private void ProcessBuildingTree(SingleTree<StringId> tree)
@@ -106,7 +118,7 @@ namespace BoundTree.ConsoleDisplaying
 
                 if (!NodeInfoFactory.Contains(secondCommand))
                 {
-                    _messages.Add(String.Format("There is not such type of node like - {0}", secondCommand));
+                    _messages.Add(String.Format("There is not such type of NodeData like - {0}", secondCommand));
                     DisplayInitialCommand();
                     continue;
                 }
@@ -126,10 +138,10 @@ namespace BoundTree.ConsoleDisplaying
                 var parentTypeName = GetNodeClassName(parentNode);
                 var childTypeName = GetNodeClassName(childNode);
 
-                if (parentNode.Node.CanContain(childNode.Node))
+                if (parentNode.SingleNodeData.CanContain(childNode.SingleNodeData))
                 {
-                    _messages.Add(string.Format("The node {0} with type - {1} was added to {2} with type - {3}",
-                        childNode.Node.Id, childTypeName, parentNode.Node.Id, parentTypeName));
+                    _messages.Add(string.Format("The NodeData {0} with type - {1} was added to {2} with type - {3}",
+                        childNode.SingleNodeData.Id, childTypeName, parentNode.SingleNodeData.Id, parentTypeName));
 
                     parentNode.Add(childNode);
                     ids.Add(firstCommand);
@@ -137,7 +149,7 @@ namespace BoundTree.ConsoleDisplaying
                 else
                 {
                     
-                    _messages.Add(string.Format("The node with type {0} can not be added to the {1}",  childTypeName, parentTypeName));
+                    _messages.Add(string.Format("The NodeData with type {0} can not be added to the {1}",  childTypeName, parentTypeName));
                 }
             }
         }
@@ -146,7 +158,7 @@ namespace BoundTree.ConsoleDisplaying
         {
             Contract.Requires(singleNode != null);
 
-            return singleNode.Node.NodeInfo.GetType().Name;
+            return singleNode.SingleNodeData.NodeInfo.GetType().Name;
         }
 
         private void DisplayInitialCommand()

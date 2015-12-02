@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using BoundTree.Logic;
+using BoundTree.Logic.NodeData;
 using BoundTree.Logic.TreeNodes;
 using BoundTree.Logic.Trees;
 
@@ -52,7 +53,7 @@ namespace BoundTree.TreeReconstruction
         {
             Contract.Requires(doubleNode != null);
 
-            Node<T> commonParent = GetMostCommonParent(doubleNode.Nodes);
+            NodeData<T> commonParent = GetMostCommonParent(doubleNode.Nodes);
 
             if (commonParent.IsEmpty())
             {
@@ -89,21 +90,21 @@ namespace BoundTree.TreeReconstruction
             CleanUselessNodes(doubleNode, commonParent);
         }
 
-        private void CleanUselessNodes(DoubleNode<T> doubleNode, Node<T> comparedNode)
+        private void CleanUselessNodes(DoubleNode<T> doubleNode, NodeData<T> comparedNodeData)
         {
             Contract.Requires(doubleNode != null);
-            Contract.Requires(comparedNode != null);
+            Contract.Requires(comparedNodeData != null);
 
             CleanIdenticalNodes(doubleNode);
 
-            var tooHighLogicNodes = doubleNode.ToList().FindAll(item => item.LogicLevel < comparedNode.LogicLevel);
-            tooHighLogicNodes.ForEach(item => item.MinorLeaf = new Node<T>());
+            var tooHighLogicNodes = doubleNode.ToList().FindAll(item => item.LogicLevel < comparedNodeData.LogicLevel);
+            tooHighLogicNodes.ForEach(item => item.MinorLeaf = new NodeData<T>());
 
 //            var tooHighDeepNodes = descendants
-//                .FindAll(item => item.LogicLevel == comparedNode.LogicLevel)
-//                .FindAll(item => item.Deep > comparedNode.Depth);
+//                .FindAll(item => item.LogicLevel == comparedNodeData.LogicLevel)
+//                .FindAll(item => item.Deep > comparedNodeData.Depth);
 //
-//            tooHighDeepNodes.ForEach(item => item.MinorLeaf = new Node<T>());
+//            tooHighDeepNodes.ForEach(item => item.MinorLeaf = new NodeData<T>());
         }
 
         private void CleanIdenticalNodes(DoubleNode<T> doubleNode)
@@ -117,32 +118,32 @@ namespace BoundTree.TreeReconstruction
                 var identicalNodes = descendants.FindAll(item => item.MinorLeaf == descendant.MinorLeaf);
                 if (identicalNodes.Count > 1)
                 {
-                    identicalNodes.ForEach(item => item.MinorLeaf = new Node<T>());
+                    identicalNodes.ForEach(item => item.MinorLeaf = new NodeData<T>());
                 }
             }
         }
 
-        private Node<T> GetMostCommonParent(Node<T> node)
+        private NodeData<T> GetMostCommonParent(NodeData<T> nodeData)
         {
-            Contract.Requires(node != null);
+            Contract.Requires(nodeData != null);
 
-            if (node.LogicLevel == new LogicLevel(0))
-                return node;
+            if (nodeData.LogicLevel == new LogicLevel(0))
+                return nodeData;
 
-            return _minorTree.GetParent(node.Id).Node;
+            return _minorTree.GetParent(nodeData.Id).SingleNodeData;
         }
 
-        private Node<T> GetMostCommonParent(IList<DoubleNode<T>> doubleNodes)
+        private NodeData<T> GetMostCommonParent(IList<DoubleNode<T>> doubleNodes)
         {
             Contract.Requires(doubleNodes != null);
             Contract.Requires(doubleNodes.Any());
-            Contract.Ensures(Contract.Result<Node<T>>() != null);
+            Contract.Ensures(Contract.Result<NodeData<T>>() != null);
 
             var notEmptyNodes = doubleNodes.Where(doubleNode => doubleNode.GetMinorValue() != null).ToList();
 
             if (!notEmptyNodes.Any())
             {
-                return new Node<T>();
+                return new NodeData<T>();
             }
 
             if (notEmptyNodes.Count() == 1)
@@ -152,13 +153,13 @@ namespace BoundTree.TreeReconstruction
                 {
                     return doubleNode.Shadow;
                 }
-                //if node equals to Root
+                //if NodeData equals to Root
                 if (doubleNode.LogicLevel == new LogicLevel(0))
                 {
                     return doubleNode.MinorLeaf;
                 }
 
-                return _minorTree.GetParent(doubleNode.MinorLeaf.Id).Node;
+                return _minorTree.GetParent(doubleNode.MinorLeaf.Id).SingleNodeData;
             }
 
             var routes = GetRoutes(notEmptyNodes);
@@ -179,17 +180,17 @@ namespace BoundTree.TreeReconstruction
             return routes.First()[minLength - 1];
         }
 
-        private List<List<Node<T>>> GetRoutes(List<DoubleNode<T>> notEmptyNodes)
+        private List<List<NodeData<T>>> GetRoutes(List<DoubleNode<T>> notEmptyNodes)
         {
             Contract.Requires(notEmptyNodes != null);
             Contract.Requires(notEmptyNodes.Any());
-            Contract.Ensures(Contract.Result<List<List<Node<T>>>>() != null);
-            Contract.Ensures(Contract.Result<List<List<Node<T>>>>().Any());
+            Contract.Ensures(Contract.Result<List<List<NodeData<T>>>>() != null);
+            Contract.Ensures(Contract.Result<List<List<NodeData<T>>>>().Any());
 
-            var setRouts = new List<List<Node<T>>>();
+            var setRouts = new List<List<NodeData<T>>>();
             foreach (var doubleNode in notEmptyNodes)
             {
-                var route = new List<Node<T>>();
+                var route = new List<NodeData<T>>();
 
                 SingleNode<T> parentNode;
 
@@ -205,8 +206,8 @@ namespace BoundTree.TreeReconstruction
                 
                 while (parentNode != null)
                 {
-                    route.Add(parentNode.Node);
-                    parentNode = _minorTree.GetParent(parentNode.Node.Id);
+                    route.Add(parentNode.SingleNodeData);
+                    parentNode = _minorTree.GetParent(parentNode.SingleNodeData.Id);
                 }
 
                 route.Reverse();

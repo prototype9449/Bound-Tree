@@ -41,14 +41,14 @@ namespace BoundTree.Helpers
             var stack = new Stack<DoubleNode<StringId>>();
             stack.Push(doubleNode);
 
-            var maxDepth = doubleNode.ToList().Max(node => node.Deep);
+            var maxDepth = doubleNode.ToList().Max(node => node.Depth);
 
             while (stack.Any())
             {
                 var topElement = stack.Pop();
                 var space = isLeft
-                    ? new string(' ', topElement.Deep*TabSpace)
-                    : new string(' ', (maxDepth - topElement.Deep)*TabSpace);
+                    ? new string(' ', topElement.Depth*TabSpace)
+                    : new string(' ', (maxDepth - topElement.Depth)*TabSpace);
 
                 var connectionSign = GetConnectionSigh(topElement.ConnectionKind);
 

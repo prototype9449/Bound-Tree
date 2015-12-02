@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using BoundTree.Logic;
+using BoundTree.Logic.NodeData;
 using BoundTree.Logic.Nodes;
 using BoundTree.Logic.TreeNodes;
 using BoundTree.Logic.Trees;
@@ -30,13 +31,13 @@ namespace BoundTree.TreeReconstruction
 
                 if (connections.ContainsKey(mainCurrentId))
                 {
-                    current.doubleNode.MinorLeaf = connections[mainCurrentId].Node;
+                    current.doubleNode.MinorLeaf = connections[mainCurrentId].SingleNodeData;
                     current.doubleNode.ConnectionKind = ConnectionKind.Strict;
                 }
                 else
                 {
                     var depth = current.doubleNode.MainLeaf.Depth;
-                    current.doubleNode.MinorLeaf = new Node<T>(new T(), depth, new Empty());
+                    current.doubleNode.MinorLeaf = new NodeData<T>(new T(), depth, new Empty());
                     current.doubleNode.ConnectionKind = ConnectionKind.None;
                 }
 

@@ -72,7 +72,7 @@ namespace BoundTree.Helpers
 
             for (var i = index; i >= 0; i--)
             {
-                if (singleNodes[index].Node.Depth - singleNodes[i].Node.Depth == 1)
+                if (singleNodes[index].SingleNodeData.Depth - singleNodes[i].SingleNodeData.Depth == 1)
                 {
                     return singleNodes[i];
                 }

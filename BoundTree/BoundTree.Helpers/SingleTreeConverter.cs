@@ -67,8 +67,8 @@ namespace BoundTree.Helpers
                 nodes.Reverse();
                 nodes.ForEach(node => stack.Push(node));
 
-                var line = string.Format("{0}{1} ({2})", new string(signBetweenTrees, topElement.Node.Depth * indent),
-                    topElement.Node.NodeInfo.GetType().Name, topElement.Node.Id);
+                var line = string.Format("{0}{1} ({2})", new string(signBetweenTrees, topElement.SingleNodeData.Depth * indent),
+                    topElement.SingleNodeData.NodeInfo.GetType().Name, topElement.SingleNodeData.Id);
                 lines.Add(line);
             }
 

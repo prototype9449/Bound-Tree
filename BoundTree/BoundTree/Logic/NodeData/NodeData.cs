@@ -3,23 +3,23 @@ using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using BoundTree.Logic.Nodes;
 
-namespace BoundTree.Logic.TreeNodes
+namespace BoundTree.Logic.NodeData
 {
     [Serializable]
-    public class Node<T> : IEquatable<Node<T>> where T : new()
+    public class NodeData<T> : IEquatable<NodeData<T>> where T : new()
     {
         public int Depth { get; internal set; }
-        public NodeInfo NodeInfo { get; protected set; }
-        public T Id { get; protected set; }
+        public NodeInfo NodeInfo { get; private set; }
+        public T Id { get; private set; }
 
-        public Node()
+        public NodeData()
         {
             Id = new T();
             NodeInfo = new Empty();
             Depth = -1;
         }
 
-        public Node(T id, int depth, NodeInfo nodeInfo)
+        public NodeData(T id, int depth, NodeInfo nodeInfo)
         {
             Contract.Requires(depth >= -1);
             Contract.Requires(nodeInfo != null);
@@ -40,11 +40,11 @@ namespace BoundTree.Logic.TreeNodes
             }
         }
 
-        public bool CanContain(Node<T> otherNode)
+        public bool CanContain(NodeData<T> otherNodeData)
         {
-            Contract.Requires(otherNode != null);
+            Contract.Requires(otherNodeData != null);
 
-            return NodeInfo.CanContain(otherNode.NodeInfo);
+            return NodeInfo.CanContain(otherNodeData.NodeInfo);
         }
 
         public bool IsEmpty()
@@ -60,7 +60,7 @@ namespace BoundTree.Logic.TreeNodes
             }
         }
 
-        public static bool operator ==(Node<T> first, Node<T> second)
+        public static bool operator ==(NodeData<T> first, NodeData<T> second)
         {
             var objectFirst = (object)first;
             var objectSecond = (object) second;
@@ -71,14 +71,14 @@ namespace BoundTree.Logic.TreeNodes
             return objectFirst != null && objectSecond != null && first.Equals(second);
         }
 
-        public static bool operator !=(Node<T> first, Node<T> second)
+        public static bool operator !=(NodeData<T> first, NodeData<T> second)
         {
             return !(first == second);
         }
 
         public override bool Equals(object obj)
         {
-            var other = obj as Node<T>;
+            var other = obj as NodeData<T>;
             if (other == null) return false;
             return Equals(other);
         }
@@ -95,7 +95,7 @@ namespace BoundTree.Logic.TreeNodes
         }
 
 
-        public bool Equals(Node<T> other)
+        public bool Equals(NodeData<T> other)
         {
             return Id.Equals(other.Id);
         }
