@@ -7,13 +7,13 @@ namespace BoundTree.Logic
     [Serializable]
     public class SingleNode<T> where T : new()
     {
-        public Node<T> Node { get; protected set; }
-        public List<SingleNode<T>> Nodes { get; internal set; }
+        public Node<T> Node { get; private set; }
+        public List<SingleNode<T>> Childs { get; private set; }
 
         public SingleNode(T id, NodeInfo nodeInfo, IList<SingleNode<T>> nodes)
         {
             Node = new Node<T>(id, -1, nodeInfo);
-            Nodes = new List<SingleNode<T>>(nodes);
+            Childs = new List<SingleNode<T>>(nodes);
         }
 
         public SingleNode(T id, NodeInfo nodeInfo)
@@ -33,7 +33,7 @@ namespace BoundTree.Logic
         public void Add(SingleNode<T> singleNode)
         {
             singleNode.Node.Depth = this.Node.Depth + 1;
-            Nodes.Add(singleNode);
+            Childs.Add(singleNode);
         }
 
         public SingleNode<T> GetById(T id)
@@ -47,7 +47,7 @@ namespace BoundTree.Logic
                     return queue.Peek();
                 }
 
-                foreach (var node in queue.Dequeue().Nodes)
+                foreach (var node in queue.Dequeue().Childs)
                 {
                     queue.Enqueue(node);
                 }
@@ -68,9 +68,9 @@ namespace BoundTree.Logic
         {
             nodes.Add(root);
 
-            if (root.Nodes.Count == 0) return;
+            if (root.Childs.Count == 0) return;
 
-            foreach (var node in root.Nodes)
+            foreach (var node in root.Childs)
             {
                 RecursiveFillNodes(node, nodes);
             }
@@ -84,7 +84,7 @@ namespace BoundTree.Logic
         private void SetDeep(int initialDeep)
         {
             Node.Depth = initialDeep + 1;
-            Nodes.ForEach(node => node.SetDeep(Node.Depth));
+            Childs.ForEach(node => node.SetDeep(Node.Depth));
         }
     }
 }

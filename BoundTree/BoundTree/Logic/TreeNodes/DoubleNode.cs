@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
-using BoundTree.Logic.Nodes;
 
-namespace BoundTree.Logic
+namespace BoundTree.Logic.TreeNodes
 {
     public class DoubleNode<T> where T : class, IEquatable<T>, new()
     {
@@ -15,10 +14,8 @@ namespace BoundTree.Logic
         public List<DoubleNode<T>> Nodes { get; set; }
         public int Deep { get; set; }
 
-        public DoubleNode()
+        private DoubleNode()
         {
-            MainLeaf = new Node<T>(new T(), -1, new Empty());
-            MinorLeaf = new Node<T>(new T(), -1, new Empty());
             Nodes = new List<DoubleNode<T>>();
         }
 
@@ -32,18 +29,11 @@ namespace BoundTree.Logic
             MinorLeaf = minorLeaf;
         }
 
-        public DoubleNode(Node<T> mainLeaf)
-            : this()
-        {
-            Contract.Requires(mainLeaf != null);
-
-            MainLeaf = mainLeaf;
-        }
-
         public DoubleNode(SingleNode<T> singleNode)
-            : this(singleNode.Node)
         {
             Contract.Requires(singleNode != null);
+
+            MainLeaf = singleNode.Node;
         }
 
         public LogicLevel LogicLevel
@@ -83,6 +73,8 @@ namespace BoundTree.Logic
 
         public DoubleNode<T> GetLonelyChild()
         {
+            Contract.Ensures(Contract.Result<DoubleNode<T>>() != null);
+
             if (Nodes.Count() != 1 || Nodes.First().IsMinorEmpty())
             {
                 return null;

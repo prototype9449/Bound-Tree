@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using BoundTree.Logic.Nodes;
 
-namespace BoundTree.Logic
+namespace BoundTree.Logic.TreeNodes
 {
     [Serializable]
     public class Node<T> : IEquatable<Node<T>> where T : new()
