@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using BoundTree.Logic.Nodes;
 
-namespace BoundTree.Logic
+namespace BoundTree.Logic.TreeNodes
 {
     [Serializable]
     public class SingleNode<T> where T : new()
@@ -26,14 +27,12 @@ namespace BoundTree.Logic
             Node.Depth = depth;
         }
 
-        public SingleNode(SingleNode<T> singleNode, NodeInfo nodeInfo)
-            : this(singleNode.Node.Id, nodeInfo)
-        { }
-
-        public void Add(SingleNode<T> singleNode)
+        public void Add(SingleNode<T> child)
         {
-            singleNode.Node.Depth = this.Node.Depth + 1;
-            Childs.Add(singleNode);
+            Contract.Requires(child != null);
+
+            child.Node.Depth = this.Node.Depth + 1;
+            Childs.Add(child);
         }
 
         public SingleNode<T> GetById(T id)

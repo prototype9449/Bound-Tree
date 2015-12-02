@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics.Contracts;
 using BoundTree.Logic;
+using BoundTree.Logic.Trees;
 
 namespace BoundTree
 {

@@ -7,7 +7,8 @@ using System.Windows.Forms;
 using BoundTree.Helpers;
 using BoundTree.Logic;
 using BoundTree.Logic.Nodes;
-using Build.TestFramework;
+using BoundTree.Logic.TreeNodes;
+using BoundTree.Logic.Trees;
 
 namespace BoundTree.ConsoleDisplaying
 {
@@ -15,11 +16,17 @@ namespace BoundTree.ConsoleDisplaying
     {
         private ConsoleConnectionController _consoleConnectionController;
 
-        private SingleTree<StringId> _mainTree = new SingleTree<StringId>(null);
-        private SingleTree<StringId> _minorTree = new SingleTree<StringId>(null);
+        private SingleTree<StringId> _mainTree;
+        private SingleTree<StringId> _minorTree;
         private readonly List<string> _messages = new List<string>();
         private readonly ConsoleTreeWriter _consoleTreeWriter = new ConsoleTreeWriter();
-
+        private readonly SingleNodeFactory factory = new SingleNodeFactory();
+        public ConsoleController()
+        {
+            _mainTree = new SingleTree<StringId>(factory.GetNode("Root", new Root()));
+            _minorTree = new SingleTree<StringId>(factory.GetNode("Root", new Root()));
+        }
+        
         public void Run()
         {
             Console.WriteLine("Do you want to open existed file?");
@@ -58,12 +65,6 @@ namespace BoundTree.ConsoleDisplaying
         private void ProcessBuildingTree(SingleTree<StringId> tree)
         {
             Contract.Requires(tree != null);
-
-            var factory = new SingleNodeFactory();
-
-            SingleNode<StringId> root = factory.GetNode("Root", new Root());
-
-            tree.Root = root;
 
             var ids = new HashSet<string>(new []{"Root"});
 

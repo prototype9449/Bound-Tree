@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Linq;
 using BoundTree.Logic;
+using BoundTree.Logic.TreeNodes;
+using BoundTree.Logic.Trees;
 using BoundTree.TreeReconstruction;
 
 namespace BoundTree

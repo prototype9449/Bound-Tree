@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using BoundTree.Logic;
+using BoundTree.Logic.TreeNodes;
+using BoundTree.Logic.Trees;
 
 namespace BoundTree.Helpers
 {
@@ -61,7 +63,7 @@ namespace BoundTree.Helpers
             {
                 var topElement = stack.Pop();
 
-                var nodes = topElement.Nodes.ToList();
+                var nodes = topElement.Childs.ToList();
                 nodes.Reverse();
                 nodes.ForEach(node => stack.Push(node));
 

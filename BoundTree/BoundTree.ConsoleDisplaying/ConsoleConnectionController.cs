@@ -4,6 +4,7 @@ using System.Diagnostics.Contracts;
 using System.Linq;
 using BoundTree.Helpers;
 using BoundTree.Logic;
+using BoundTree.Logic.TreeNodes;
 using BoundTree.TreeReconstruction;
 
 namespace BoundTree.ConsoleDisplaying

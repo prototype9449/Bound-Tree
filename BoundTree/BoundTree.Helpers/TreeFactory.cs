@@ -1,4 +1,5 @@
 ﻿using BoundTree.Logic;
+using BoundTree.Logic.Trees;
 
 namespace BoundTree.Helpers
 {

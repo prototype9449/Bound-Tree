@@ -4,6 +4,8 @@ using System.Diagnostics.Contracts;
 using System.Linq;
 using BoundTree.Logic;
 using BoundTree.Logic.Nodes;
+using BoundTree.Logic.TreeNodes;
+using BoundTree.Logic.Trees;
 
 namespace BoundTree.TreeReconstruction
 {
@@ -38,7 +40,7 @@ namespace BoundTree.TreeReconstruction
                     current.doubleNode.ConnectionKind = ConnectionKind.None;
                 }
 
-                foreach (var node in current.node.Nodes)
+                foreach (var node in current.node.Childs)
                 {
                     var doubleNode = new DoubleNode<T>(node);
                     queue.Enqueue(new { node, doubleNode });

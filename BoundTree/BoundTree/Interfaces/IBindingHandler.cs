@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using BoundTree.Logic;
+using BoundTree.Logic.TreeNodes;
 
 namespace BoundTree.Interfaces
 {

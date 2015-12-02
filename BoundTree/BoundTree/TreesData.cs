@@ -1,6 +1,8 @@
 ﻿using BoundTree.Logic;
+using BoundTree.Logic.TreeNodes;
+using BoundTree.Logic.Trees;
 
-namespace Build.TestFramework
+namespace BoundTree
 {
     public class TreesData
     {

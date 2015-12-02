@@ -2,6 +2,8 @@
 using System.Text;
 using BoundTree.Helpers;
 using BoundTree.Logic;
+using BoundTree.Logic.TreeNodes;
+using BoundTree.Logic.Trees;
 
 namespace BoundTree.ConsoleDisplaying
 {

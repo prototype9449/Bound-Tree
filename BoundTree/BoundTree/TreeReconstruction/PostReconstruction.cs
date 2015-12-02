@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using BoundTree.Logic;
+using BoundTree.Logic.TreeNodes;
+using BoundTree.Logic.Trees;
 
 namespace BoundTree.TreeReconstruction
 {
@@ -125,7 +127,7 @@ namespace BoundTree.TreeReconstruction
             childs.RemoveAll(doubleNode => doubleNode.IsMinorEmpty());
 
             var minorOrignalChilds = new List<SingleNode<T>>();
-            intermediate.Nodes.ForEach(node => minorOrignalChilds.AddRange(node.ToList()));
+            intermediate.Childs.ForEach(node => minorOrignalChilds.AddRange(node.ToList()));
 
             var isThereInside = childs.Exists(doubleNode => minorOrignalChilds.Exists(node => doubleNode.MinorLeaf.Id == node.Node.Id));
 

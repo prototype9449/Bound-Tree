@@ -5,30 +5,19 @@ using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
+using BoundTree.Logic.TreeNodes;
 
-namespace BoundTree.Logic
+namespace BoundTree.Logic.Trees
 {
     [Serializable]
     public class SingleTree<T> where T : class, IEquatable<T>, new()
     {
-        private SingleNode<T> _root;
-
-        public SingleNode<T> Root
-        {
-            get { return _root; }
-            set
-            {
-                _root = value;
-
-                if (value != null)
-                {
-                    _root.RecalculateDeep();
-                }
-            }
-        }
+        public TreeNodes.SingleNode<T> Root { get; private set; }
 
         public SingleTree(SingleNode<T> root)
         {
+            Contract.Requires(root != null);
+
             Root = root;
         }
 
@@ -60,7 +49,7 @@ namespace BoundTree.Logic
                     return GetById(current.ParentId);
                 }
 
-                foreach (var node in current.SingleNode.Nodes)
+                foreach (var node in current.SingleNode.Childs)
                 {
                     stack.Push(new { SingleNode = node, ParentId = current.SingleNode.Node.Id });
                 }

@@ -5,6 +5,8 @@ using System.IO;
 using System.Linq;
 using BoundTree.Logic;
 using BoundTree.Logic.Nodes;
+using BoundTree.Logic.TreeNodes;
+using BoundTree.Logic.Trees;
 
 namespace BoundTree.Helpers
 {

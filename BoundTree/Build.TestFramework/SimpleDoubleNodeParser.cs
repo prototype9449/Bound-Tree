@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using BoundTree.Logic;
+using BoundTree.Logic.TreeNodes;
 
 namespace Build.TestFramework
 {

@@ -7,12 +7,12 @@ namespace BoundTree.Logic.TreeNodes
 {
     public class DoubleNode<T> where T : class, IEquatable<T>, new()
     {
-        public Node<T> MainLeaf { get; set; }
+        public Node<T> MainLeaf { get; private set; }
         public Node<T> MinorLeaf { get; set; }
         internal Node<T> Shadow { get; set; }
         public ConnectionKind ConnectionKind { get; set; }
         public List<DoubleNode<T>> Nodes { get; set; }
-        public int Deep { get; set; }
+        public int Deep { get; private set; }
 
         private DoubleNode()
         {
@@ -29,7 +29,7 @@ namespace BoundTree.Logic.TreeNodes
             MinorLeaf = minorLeaf;
         }
 
-        public DoubleNode(SingleNode<T> singleNode)
+        public DoubleNode(SingleNode<T> singleNode) : this()
         {
             Contract.Requires(singleNode != null);
 
@@ -73,8 +73,6 @@ namespace BoundTree.Logic.TreeNodes
 
         public DoubleNode<T> GetLonelyChild()
         {
-            Contract.Ensures(Contract.Result<DoubleNode<T>>() != null);
-
             if (Nodes.Count() != 1 || Nodes.First().IsMinorEmpty())
             {
                 return null;

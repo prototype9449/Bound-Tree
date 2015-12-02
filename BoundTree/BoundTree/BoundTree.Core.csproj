@@ -86,10 +86,12 @@
     <Compile Include="BindContoller.cs" />
     <Compile Include="BindingHandler.cs" />
     <Compile Include="Logic\ConnectionKind.cs" />
-    <Compile Include="Logic\DoubleNode.cs" />
+    <Compile Include="Logic\TreeNodes\DoubleNode.cs" />
     <Compile Include="Interfaces\IBindingHandler.cs" />
     <Compile Include="Logic\LogicLevel.cs" />
-    <Compile Include="Logic\Node.cs" />
+    <Compile Include="Logic\TreeNodes\MultyNode.cs" />
+    <Compile Include="Logic\Trees\MultyTree.cs" />
+    <Compile Include="Logic\TreeNodes\Node.cs" />
     <Compile Include="Logic\Nodes\GeneralNodes\Grid3D.cs" />
     <Compile Include="Logic\Nodes\GeneralNodes\Answer.cs" />
     <Compile Include="Logic\Nodes\GeneralNodes\Multi.cs" />
@@ -103,10 +105,10 @@
     <Compile Include="Logic\Nodes\Root.cs" />
     <Compile Include="Logic\Nodes\GeneralNodes\Single.cs" />
     <Compile Include="Logic\Relation.cs" />
-    <Compile Include="Logic\SingleNode.cs" />
+    <Compile Include="Logic\TreeNodes\SingleNode.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Logic\SingleNodeFactory.cs" />
-    <Compile Include="Logic\SingleTree.cs" />
+    <Compile Include="Logic\Trees\SingleTree.cs" />
     <Compile Include="Logic\StringId.cs" />
     <Compile Include="TreeMatcher.cs" />
     <Compile Include="TreeReconstruction\ConnectionKindReconstruction.cs" />
