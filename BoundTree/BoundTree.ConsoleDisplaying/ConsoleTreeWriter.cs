@@ -26,5 +26,13 @@ namespace BoundTree.ConsoleDisplaying
             lines.ForEach(line => stringBuilder.AppendLine(line));
             return stringBuilder.ToString();
         }
+
+        public string ConvertToString(MultiTree<StringId> mainTree, SingleTree<StringId> minorTree)
+        {
+            var lines = _singleTreeConverter.ConvertTrees(mainTree, minorTree);
+            var stringBuilder = new StringBuilder();
+            lines.ForEach(line => stringBuilder.AppendLine(line));
+            return stringBuilder.ToString();
+        }
     }
 }

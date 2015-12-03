@@ -16,8 +16,9 @@ namespace BoundTree.ConsoleDisplaying
         private readonly TreeLogger _treeLogger;
         private readonly List<string> _messages = new List<string>();
         private readonly CommandMediator _commandMediator = new CommandMediator();
-        private readonly ConsoleTreeWriter _treeWriter = new ConsoleTreeWriter();
+        private readonly ConsoleTreeWriter _consoleTreeWriter = new ConsoleTreeWriter();
         private readonly SingleTree<StringId> _mainSingleTree;
+
         private DoubleNode<StringId> _previousDoubleNode;
         private DoubleNode<StringId> _currentDoubleNode;
 
@@ -27,7 +28,7 @@ namespace BoundTree.ConsoleDisplaying
 
             _mainSingleTree = mainSingleTree;
             _bindController = bindController;
-            _treeLogger = new TreeLogger(bindController.MainSingleTree, bindController.MinorSingleTree);
+            _treeLogger = new TreeLogger(bindController.MainMultiTree, bindController.MinorSingleTree);
             Subscribe();
         }
 
@@ -112,8 +113,8 @@ namespace BoundTree.ConsoleDisplaying
                 Console.ReadKey();
             }
 
-            Console.WriteLine(_treeWriter.ConvertToString(_mainSingleTree, _bindController.MinorSingleTree));
-            Console.WriteLine(_treeWriter.ConvertToString(_currentDoubleNode));
+            Console.WriteLine(_consoleTreeWriter.ConvertToString(_bindController.MainMultiTree, _bindController.MinorSingleTree));
+            Console.WriteLine(_consoleTreeWriter.ConvertToString(_currentDoubleNode));
 
             Console.WriteLine();
             if (_messages.Any())

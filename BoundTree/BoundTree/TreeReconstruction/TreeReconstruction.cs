@@ -21,7 +21,7 @@ namespace BoundTree.TreeReconstruction
             Contract.Requires(bindContoller != null);
 
             _minorTree = bindContoller.MinorSingleTree;
-            _mainTree = bindContoller.MainSingleTree;
+            _mainTree = bindContoller.MainMultiTree;
             _bindingHandler = bindContoller.Handler;
         }
 

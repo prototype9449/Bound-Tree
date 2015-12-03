@@ -6,7 +6,7 @@ namespace BoundTree
 {
     public class BindContoller<T> where T : class, IEquatable<T>, new()
     {
-        public MultiTree<T> MainSingleTree { get; private set; }
+        public MultiTree<T> MainMultiTree { get; private set; }
         public SingleTree<T> MinorSingleTree { get; private set; }
         public BindingHandler<T> Handler { get; private set; }
 
@@ -15,7 +15,7 @@ namespace BoundTree
             Contract.Requires(mainSingleTree != null);
             Contract.Requires(minorSingleTree != null);
 
-            MainSingleTree = mainSingleTree;
+            MainMultiTree = mainSingleTree;
             MinorSingleTree = minorSingleTree;
             Handler = new BindingHandler<T>(mainSingleTree, minorSingleTree);
             
@@ -32,7 +32,7 @@ namespace BoundTree
             Contract.Requires(mainId != null);
             Contract.Requires(minorId != null);
 
-            var mainNode = MainSingleTree.GetById(mainId);
+            var mainNode = MainMultiTree.GetById(mainId);
             var minorNode = MinorSingleTree.GetById(minorId);
 
             if (mainNode == null || minorNode == null)

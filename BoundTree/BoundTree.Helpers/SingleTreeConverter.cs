@@ -12,17 +12,32 @@ namespace BoundTree.Helpers
     public class SingleTreeConverter<T> where T : class, IEquatable<T>, new()
     {
         private const char SignBetweenTrees = ' ';
+        private const int SpaceBetweenTrees = 10;
+
+        public List<string> ConvertTrees(MultiTree<T> mainSingleTree, SingleTree<T> minorSingleTree)
+        {
+            Contract.Requires(mainSingleTree != null);
+            Contract.Requires(minorSingleTree != null);
+
+            var firstTreeLines = ConvertMultiTree(mainSingleTree);
+            var secondTreeLines = ConvertSingleTree(minorSingleTree);
+
+            return ConcatenateAsTreeLines(firstTreeLines, secondTreeLines);
+        }
 
         public List<string> ConvertTrees(SingleTree<T> mainSingleTree, SingleTree<T> minorSingleTree)
         {
             Contract.Requires(mainSingleTree != null);
             Contract.Requires(minorSingleTree != null);
 
-            const int spaceBetweenTrees = 10;
-
             var firstTreeLines = ConvertSingleTree(mainSingleTree);
             var secondTreeLines = ConvertSingleTree(minorSingleTree);
 
+            return ConcatenateAsTreeLines(firstTreeLines, secondTreeLines);
+        }
+
+        private static List<string> ConcatenateAsTreeLines(List<string> firstTreeLines, List<string> secondTreeLines)
+        {
             var lines = new List<string>();
 
             var maxlength = Math.Max(firstTreeLines.Count(), secondTreeLines.Count());
@@ -37,7 +52,7 @@ namespace BoundTree.Helpers
                     ? secondTreeLines[i]
                     : "";
 
-                lines.Add(firstPart + new String(SignBetweenTrees, spaceBetweenTrees) + secondPart);
+                lines.Add(firstPart + new String(SignBetweenTrees, SpaceBetweenTrees) + secondPart);
                 lines.Add(Environment.NewLine);
             }
             return lines;
