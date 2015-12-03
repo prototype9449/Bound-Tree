@@ -13,7 +13,7 @@ namespace BoundTree.Logic.TreeNodes
         internal SingleNodeData<T> Shadow { get; set; }
 
         public ConnectionKind ConnectionKind { get; set; }
-        public List<DoubleNode<T>> Nodes { get; set; }
+        public List<DoubleNode<T>> Nodes { get; internal set; }
         public int Depth { get; private set; }
 
         private DoubleNode()
@@ -50,6 +50,22 @@ namespace BoundTree.Logic.TreeNodes
 
                 return MinorLeaf.LogicLevel;
             }
+        }
+
+        public MultiNode<T> ToMultiNode()
+        {
+            Contract.Requires(MainLeaf != null);
+            Contract.Requires(MinorLeaf != null);
+
+            var minorDataNodes = new List<ConnectionNodeData<T>>();
+            minorDataNodes.AddRange(MainLeaf.MinorDataNodes);
+            minorDataNodes.Add(new ConnectionNodeData<T>(ConnectionKind, MinorLeaf.NodeData));
+            var multiNodeData = new MultiNodeData<T>(MainLeaf.NodeData, minorDataNodes);
+
+            var multiNode = new MultiNode<T>(multiNodeData, new List<MultiNode<T>>());
+            Nodes.ForEach(doubleNode => multiNode.Add(doubleNode.ToMultiNode()));
+
+            return multiNode;
         }
 
         public bool IsMinorEmpty()

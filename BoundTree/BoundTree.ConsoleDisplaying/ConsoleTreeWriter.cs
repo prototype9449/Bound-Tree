@@ -9,7 +9,7 @@ namespace BoundTree.ConsoleDisplaying
 {
     public class ConsoleTreeWriter
     {
-        private readonly SingleTreeConverter<StringId> _singleTreeConverter = new SingleTreeConverter<StringId>();
+        private readonly TreeConverter<StringId> _singleTreeConverter = new TreeConverter<StringId>();
 
         public string ConvertToString(DoubleNode<StringId> tree)
         {

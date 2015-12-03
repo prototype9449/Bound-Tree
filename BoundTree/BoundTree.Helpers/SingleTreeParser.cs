@@ -4,6 +4,7 @@ using System.Diagnostics.Contracts;
 using System.IO;
 using System.Linq;
 using BoundTree.Logic;
+using BoundTree.Logic.NodeData;
 using BoundTree.Logic.Nodes;
 using BoundTree.Logic.TreeNodes;
 using BoundTree.Logic.Trees;
@@ -71,7 +72,7 @@ namespace BoundTree.Helpers
 
             foreach (var line in lines.Skip(1))
             {
-                var splittedLine = line.Split(new[] { SpaceSeparator, TabSeparator,')', '(' }, StringSplitOptions.RemoveEmptyEntries);
+                var splittedLine = line.Split(new[] { SpaceSeparator, TabSeparator, ')', '(' }, StringSplitOptions.RemoveEmptyEntries);
                 if (!NodeInfoFactory.Contains(splittedLine[0]))
                 {
                     throw new FileLoadException();
@@ -105,7 +106,7 @@ namespace BoundTree.Helpers
 
             for (int i = maxDepth; i > 1; i--)
             {
-                if (nodes.All(node => node.Depth%i == 0))
+                if (nodes.All(node => node.Depth % i == 0))
                 {
                     greatestCommonDivisor = i;
                     break;

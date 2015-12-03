@@ -8,7 +8,7 @@ namespace BoundTree.Logic.NodeData
     [Serializable]
     public class MultiNodeData<T> : IEquatable<MultiNodeData<T>> where T : new()
     {
-        private NodeData<T> NodeData { get; set; }
+        public NodeData<T> NodeData { get; set; }
         public List<ConnectionNodeData<T>> MinorDataNodes { get; set; }
 
         public MultiNodeData()

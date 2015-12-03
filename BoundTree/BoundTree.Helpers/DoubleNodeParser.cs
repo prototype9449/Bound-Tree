@@ -13,7 +13,7 @@ namespace BoundTree.Helpers
         private const string AddLongName = "add";
         private const string RemoveAllLongName = "remove all";
         private const string RemoveLongName = "remove";
-
+        SingleTreeParser _singleTreeConverter = new SingleTreeParser();
         public TreesData GetDoubleNode(List<string> lines)
         {
             Contract.Ensures(Contract.Result<TreesData>() != null);
@@ -39,11 +39,9 @@ namespace BoundTree.Helpers
                 .Take(secondSpaceIndex - minorTreeIndex).ToList();
 
             var connectionCommands = lines.Skip(connectionIndex).Where(line => line != "").ToList();
-
-            var singleTreeConverter = new SingleTreeParser();
-
-            var mainTree = singleTreeConverter.GetMultiTree(mainTreeLines);
-            var minorTree = singleTreeConverter.GetSingleTree(minorTreeLines);
+            
+            var mainTree = _singleTreeConverter.GetMultiTree(mainTreeLines);
+            var minorTree = _singleTreeConverter.GetSingleTree(minorTreeLines);
 
             var bindController = new BindContoller<StringId>(mainTree, minorTree);
             AddConnections(bindController, connectionCommands);

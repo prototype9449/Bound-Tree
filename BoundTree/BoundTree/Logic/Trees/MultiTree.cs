@@ -30,6 +30,7 @@ namespace BoundTree.Logic.Trees
             Contract.Requires(multiTree.Root != null);
 
             Root = multiTree.Root;
+            Root.RecalculateDeep();
         }
 
         public MultiTree(MultiNode<T> root)
@@ -37,6 +38,7 @@ namespace BoundTree.Logic.Trees
             Contract.Requires(root != null);
 
             Root = root;
+            Root.RecalculateDeep();
         }
 
         public MultiNode<T> Root { get; private set; }

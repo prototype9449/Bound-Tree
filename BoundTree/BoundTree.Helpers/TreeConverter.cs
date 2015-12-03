@@ -9,7 +9,7 @@ using BoundTree.Logic.Trees;
 
 namespace BoundTree.Helpers
 {
-    public class SingleTreeConverter<T> where T : class, IEquatable<T>, new()
+    public class TreeConverter<T> where T : class, IEquatable<T>, new()
     {
         private const char SignBetweenTrees = ' ';
         private const int SpaceBetweenTrees = 10;
@@ -24,6 +24,37 @@ namespace BoundTree.Helpers
 
             return ConcatenateAsTreeLines(firstTreeLines, secondTreeLines);
         }
+        
+        public List<string> ConvertMultiTree(MultiTree<T> multiTree)
+        {
+            Contract.Requires(multiTree != null);
+            Contract.Requires(multiTree.Root != null);
+
+            const int indent = 4;
+
+            var lines = new List<string>();
+
+            var stack = new Stack<MultiNode<T>>(new[] { multiTree.Root });
+
+            while (stack.Any())
+            {
+                var topElement = stack.Pop();
+
+                var nodes = topElement.Childs.ToList();
+                nodes.Reverse();
+                nodes.ForEach(node => stack.Push(node));
+
+                var fullIdChain = new StringBuilder(topElement.Id + " :");
+                topElement.MultiNodeData.MinorDataNodes.ForEach(nodeData => fullIdChain.AppendFormat("|{0}|", nodeData.NodeData.Id));
+                
+                var line = string.Format("{0}{1} ({2})", new string(SignBetweenTrees, topElement.Depth * indent),
+                    topElement.NodeType.Name, fullIdChain);
+                lines.Add(line);
+            }
+
+            var maxLength = lines.Max(line => line.Length);
+            return lines.Select(line => line += new string(SignBetweenTrees, maxLength - line.Length)).ToList();
+        } 
 
         public List<string> ConvertTrees(SingleTree<T> mainSingleTree, SingleTree<T> minorSingleTree)
         {
@@ -56,38 +87,6 @@ namespace BoundTree.Helpers
                 lines.Add(Environment.NewLine);
             }
             return lines;
-        }
-
-        public List<string> ConvertMultiTree(MultiTree<T> multiTree)
-        {
-            Contract.Requires(multiTree != null);
-            Contract.Requires(multiTree.Root != null);
-
-            const int indent = 4;
-
-            var lines = new List<string>();
-
-            var stack = new Stack<MultiNode<T>>(new[] { multiTree.Root });
-
-            while (stack.Any())
-            {
-                var topElement = stack.Pop();
-
-                var nodes = topElement.Childs.ToList();
-                nodes.Reverse();
-                nodes.ForEach(node => stack.Push(node));
-
-                var fullIdChain = new StringBuilder(topElement.Id + " :");
-                 topElement.MultiNodeData.MinorDataNodes.ForEach(id => fullIdChain.AppendFormat("|{0}|", id));
-                
-
-                var line = string.Format("{0}{1} ({2})", new string(SignBetweenTrees, topElement.Depth * indent),
-                    topElement.NodeType.Name, fullIdChain);
-                lines.Add(line);
-            }
-
-            var maxLength = lines.Max(line => line.Length);
-            return lines.Select(line => line += new string(SignBetweenTrees, maxLength - line.Length)).ToList();
         }
 
         public List<string> ConvertSingleTree(SingleTree<T> singleTree)

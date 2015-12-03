@@ -42,7 +42,7 @@ namespace BoundTree.ConsoleDisplaying
                 ProcessBuildingMinorTree();
             }
              
-            _consoleConnectionController = new ConsoleConnectionController(new BindContoller<StringId>(_mainMultiTree, _minorTree), _mainSingleTree);
+            _consoleConnectionController = new ConsoleConnectionController(new BindContoller<StringId>(_mainMultiTree, _minorTree));
             _consoleConnectionController.Start();
         }
 

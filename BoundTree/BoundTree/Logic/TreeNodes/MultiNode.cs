@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using BoundTree.Logic.NodeData;
 
 namespace BoundTree.Logic.TreeNodes
@@ -7,8 +8,14 @@ namespace BoundTree.Logic.TreeNodes
     [Serializable]
     public class MultiNode<T> : INode<T> where T : new()
     {
-        public MultiNodeData<T> MultiNodeData { get; set; }
-        public List<MultiNode<T>> Childs { get; set; }
+        public MultiNodeData<T> MultiNodeData { get; private set; }
+        public List<MultiNode<T>> Childs { get; private set; }
+
+        public MultiNode(MultiNodeData<T> multiNodeData, List<MultiNode<T>> childs)
+        {
+            MultiNodeData = multiNodeData;
+            Childs = childs;
+        }
 
         public MultiNode(SingleNode<T> singleNode)
         {
@@ -41,9 +48,12 @@ namespace BoundTree.Logic.TreeNodes
             get { return MultiNodeData.Id; }
         }
 
-        public bool CanContain(MultiNodeData<T> multiNodeData)
+        public void Add(MultiNode<T> child)
         {
-            return multiNodeData.CanContain(multiNodeData);
+            Contract.Requires(child != null);
+            Contract.Ensures(Childs.Count - Contract.OldValue(Childs.Count) == 1);
+
+            Childs.Add(child);
         }
 
         public MultiNode<T> GetById(T id)

@@ -64,7 +64,7 @@ namespace BoundTree.Helpers
 
         private void AddTreesToLogFile()
         {
-            var singleTreeConverter = new SingleTreeConverter<StringId>();
+            var singleTreeConverter = new TreeConverter<StringId>();
             var mainTreeLines = singleTreeConverter.ConvertMultiTree(_mainTree);
             var minorTreeLines = singleTreeConverter.ConvertSingleTree(_minorTree);
 
