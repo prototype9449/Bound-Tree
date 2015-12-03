@@ -1,17 +1,16 @@
 ﻿using System;
 using System.Diagnostics.Contracts;
-using BoundTree.Logic;
 using BoundTree.Logic.Trees;
 
 namespace BoundTree
 {
     public class BindContoller<T> where T : class, IEquatable<T>, new()
     {
-        public MultyTree<T> MainSingleTree { get; private set; }
+        public MultiTree<T> MainSingleTree { get; private set; }
         public SingleTree<T> MinorSingleTree { get; private set; }
         public BindingHandler<T> Handler { get; private set; }
 
-        public BindContoller(MultyTree<T> mainSingleTree, SingleTree<T> minorSingleTree)
+        public BindContoller(MultiTree<T> mainSingleTree, SingleTree<T> minorSingleTree)
         {
             Contract.Requires(mainSingleTree != null);
             Contract.Requires(minorSingleTree != null);

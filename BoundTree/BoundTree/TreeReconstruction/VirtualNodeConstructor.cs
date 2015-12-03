@@ -9,11 +9,11 @@ using BoundTree.Logic.Trees;
 
 namespace BoundTree.TreeReconstruction
 {
-    public class VirtualNodeReconstruction<T> where T : class, IEquatable<T>, new()
+    public class VirtualNodeConstruction<T> where T : class, IEquatable<T>, new()
     {
         private readonly SingleTree<T> _minorTree;
 
-        public VirtualNodeReconstruction(SingleTree<T> minorTree)
+        public VirtualNodeConstruction(SingleTree<T> minorTree)
         {
             Contract.Requires(minorTree != null);
 
@@ -53,7 +53,7 @@ namespace BoundTree.TreeReconstruction
         {
             Contract.Requires(doubleNode != null);
 
-            NodeData<T> commonParent = GetMostCommonParent(doubleNode.Nodes);
+            SingleNodeData<T> commonParent = GetMostCommonParent(doubleNode.Nodes);
 
             if (commonParent.IsEmpty())
             {
@@ -90,7 +90,7 @@ namespace BoundTree.TreeReconstruction
             CleanUselessNodes(doubleNode, commonParent);
         }
 
-        private void CleanUselessNodes(DoubleNode<T> doubleNode, NodeData<T> comparedNodeData)
+        private void CleanUselessNodes(DoubleNode<T> doubleNode, SingleNodeData<T> comparedNodeData)
         {
             Contract.Requires(doubleNode != null);
             Contract.Requires(comparedNodeData != null);
@@ -98,7 +98,7 @@ namespace BoundTree.TreeReconstruction
             CleanIdenticalNodes(doubleNode);
 
             var tooHighLogicNodes = doubleNode.ToList().FindAll(item => item.LogicLevel < comparedNodeData.LogicLevel);
-            tooHighLogicNodes.ForEach(item => item.MinorLeaf = new NodeData<T>());
+            tooHighLogicNodes.ForEach(item => item.MinorLeaf = new SingleNodeData<T>());
 
 //            var tooHighDeepNodes = descendants
 //                .FindAll(item => item.LogicLevel == comparedNodeData.LogicLevel)
@@ -118,12 +118,12 @@ namespace BoundTree.TreeReconstruction
                 var identicalNodes = descendants.FindAll(item => item.MinorLeaf == descendant.MinorLeaf);
                 if (identicalNodes.Count > 1)
                 {
-                    identicalNodes.ForEach(item => item.MinorLeaf = new NodeData<T>());
+                    identicalNodes.ForEach(item => item.MinorLeaf = new SingleNodeData<T>());
                 }
             }
         }
 
-        private NodeData<T> GetMostCommonParent(NodeData<T> nodeData)
+        private SingleNodeData<T> GetMostCommonParent(SingleNodeData<T> nodeData)
         {
             Contract.Requires(nodeData != null);
 
@@ -133,7 +133,7 @@ namespace BoundTree.TreeReconstruction
             return _minorTree.GetParent(nodeData.Id).SingleNodeData;
         }
 
-        private NodeData<T> GetMostCommonParent(IList<DoubleNode<T>> doubleNodes)
+        private SingleNodeData<T> GetMostCommonParent(IList<DoubleNode<T>> doubleNodes)
         {
             Contract.Requires(doubleNodes != null);
             Contract.Requires(doubleNodes.Any());
@@ -143,7 +143,7 @@ namespace BoundTree.TreeReconstruction
 
             if (!notEmptyNodes.Any())
             {
-                return new NodeData<T>();
+                return new SingleNodeData<T>();
             }
 
             if (notEmptyNodes.Count() == 1)
@@ -180,17 +180,17 @@ namespace BoundTree.TreeReconstruction
             return routes.First()[minLength - 1];
         }
 
-        private List<List<NodeData<T>>> GetRoutes(List<DoubleNode<T>> notEmptyNodes)
+        private List<List<SingleNodeData<T>>> GetRoutes(List<DoubleNode<T>> notEmptyNodes)
         {
             Contract.Requires(notEmptyNodes != null);
             Contract.Requires(notEmptyNodes.Any());
             Contract.Ensures(Contract.Result<List<List<NodeData<T>>>>() != null);
             Contract.Ensures(Contract.Result<List<List<NodeData<T>>>>().Any());
 
-            var setRouts = new List<List<NodeData<T>>>();
+            var setRouts = new List<List<SingleNodeData<T>>>();
             foreach (var doubleNode in notEmptyNodes)
             {
-                var route = new List<NodeData<T>>();
+                var route = new List<SingleNodeData<T>>();
 
                 SingleNode<T> parentNode;
 

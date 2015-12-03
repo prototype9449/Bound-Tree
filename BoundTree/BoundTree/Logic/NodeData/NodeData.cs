@@ -9,7 +9,7 @@ namespace BoundTree.Logic.NodeData
     public class NodeData<T> : IEquatable<NodeData<T>> where T : new()
     {
         public int Depth { get; internal set; }
-        public NodeInfo NodeInfo { get; private set; }
+        private NodeInfo NodeInfo { get; set; }
         public T Id { get; private set; }
 
         public NodeData()

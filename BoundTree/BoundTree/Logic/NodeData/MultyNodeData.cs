@@ -5,24 +5,30 @@ using System.Linq;
 
 namespace BoundTree.Logic.NodeData
 {
-    public class MultyNodeData<T> : IEquatable<MultyNodeData<T>> where T : new()
+    public class MultiNodeData<T> : IEquatable<MultiNodeData<T>> where T : new()
     {
-        public NodeData<T> NodeData { get; set; }
-        public List<NodeData<T>> MinorDataNodes { get; set; }
+        private NodeData<T> NodeData { get; set; }
+        private List<NodeData<T>> MinorDataNodes { get; set; }
 
-        public MultyNodeData(NodeData<T> nodeData)
+        public MultiNodeData()
+        {
+            NodeData = new NodeData<T>();
+            MinorDataNodes = new List<NodeData<T>>();
+        }
+
+        public MultiNodeData(NodeData<T> nodeData)
         {
             NodeData = nodeData;
             MinorDataNodes = new List<NodeData<T>>();
         }
 
-        public MultyNodeData(NodeData<T> nodeData, List<NodeData<T>> minorDataNodes)
+        public MultiNodeData(NodeData<T> nodeData, List<NodeData<T>> minorDataNodes)
             : this(nodeData)
         {
             MinorDataNodes = minorDataNodes;
         }
 
-        public bool CanContain(MultyNodeData<T> otherMultiNodeData)
+        public bool CanContain(MultiNodeData<T> otherMultiNodeData)
         {
             Contract.Requires(NodeData != null);
             return NodeData.CanContain(NodeData);
@@ -65,7 +71,7 @@ namespace BoundTree.Logic.NodeData
             get { return NodeData.GetType(); }
         }
 
-        public static bool operator ==(MultyNodeData<T> first, MultyNodeData<T> second)
+        public static bool operator ==(MultiNodeData<T> first, MultiNodeData<T> second)
         {
             var objectFirst = (object)first;
             var objectSecond = (object)second;
@@ -76,19 +82,19 @@ namespace BoundTree.Logic.NodeData
             return objectFirst != null && objectSecond != null && first.Equals(second);
         }
 
-        public static bool operator !=(MultyNodeData<T> first, MultyNodeData<T> second)
+        public static bool operator !=(MultiNodeData<T> first, MultiNodeData<T> second)
         {
             return !(first == second);
         }
 
-        public bool Equals(MultyNodeData<T> other)
+        public bool Equals(MultiNodeData<T> other)
         {
             return NodeData.Equals(other.NodeData);
         }
 
         public override bool Equals(object obj)
         {
-            var other = obj as MultyNodeData<T>;
+            var other = obj as MultiNodeData<T>;
             if (other == null) return false;
             return Equals(other);
         }

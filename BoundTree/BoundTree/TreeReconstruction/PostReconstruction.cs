@@ -104,7 +104,7 @@ namespace BoundTree.TreeReconstruction
 
             while (parent.MinorLeaf.CanContain(singleAscendant.SingleNodeData) && canAscendantConatin)
             {
-                doubleAscendant = new DoubleNode<T>(new NodeData<T>(), singleAscendant.SingleNodeData)
+                doubleAscendant = new DoubleNode<T>(new MultiNodeData<T>(), singleAscendant.SingleNodeData)
                 {
                     Nodes = new List<DoubleNode<T>>(new[] { doubleAscendant })
                 };
@@ -175,7 +175,7 @@ namespace BoundTree.TreeReconstruction
             Contract.Requires(group != null);
             Contract.Ensures(Contract.Result<DoubleNode<T>>() != null);
 
-            var doubleNode = new DoubleNode<T>(new NodeData<T>(), group.First().MinorLeaf)
+            var doubleNode = new DoubleNode<T>(new MultiNodeData<T>(), group.First().MinorLeaf)
             {
                 Nodes = group.Select(node => node.Nodes.First()).ToList()
             };

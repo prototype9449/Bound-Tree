@@ -6,7 +6,7 @@ using BoundTree.Logic.TreeNodes;
 
 namespace BoundTree.TreeReconstruction
 {
-    public class ConnectionKindReconstruction<T> where T : class, IEquatable<T>, new()
+    public class ConnectionKindConstructor<T> where T : class, IEquatable<T>, new()
     {
         public void Reconstruct(DoubleNode<T> doubleNode)
         {

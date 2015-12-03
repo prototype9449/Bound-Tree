@@ -9,9 +9,12 @@ namespace BoundTree.TreeReconstruction
 {
     public class TreeReconstruction<T> where T : class, IEquatable<T>, new()
     {
-        private readonly SingleTree<T> _mainTree;
+        private readonly MultiTree<T> _mainTree;
         private readonly SingleTree<T> _minorTree;
         public readonly BindingHandler<T> _bindingHandler;
+
+        private readonly ConnectionContructor<T> _connectionConstructor = new ConnectionContructor<T>();
+        private ConnectionKindConstructor<T> _connectionKindConstructor = new ConnectionKindConstructor<T>();
 
         public TreeReconstruction(BindContoller<T> bindContoller)
         {
@@ -30,11 +33,12 @@ namespace BoundTree.TreeReconstruction
             var connections = _bindingHandler.Connections
                 .ToDictionary(pair => pair.Key, pair => _minorTree.GetById(pair.Value));
 
-            var doubleNode = new ConnectionReconstruction<T>().GetDoubleNodeWithConnections(clonedMainTree, connections);
+            var doubleNode = _connectionConstructor.GetDoubleNodeWithConnections(clonedMainTree, connections);
             new VirtualNodeReconstruction<T>(_minorTree).Reconstruct(doubleNode);
             new PostReconstruction<T>(_minorTree).Reconstruct(doubleNode);
-            new ConnectionKindReconstruction<T>().Reconstruct(doubleNode);
+            _connectionKindConstructor.Reconstruct(doubleNode);
             doubleNode.RecalculateDeep();
+
             return doubleNode;
         }
     }

@@ -7,6 +7,11 @@ namespace BoundTree.Logic.NodeData
     {
         public NodeData<T> NodeData { get; set; }
 
+        public SingleNodeData()
+        {
+            NodeData = new NodeData<T>();
+        }
+
         public SingleNodeData(NodeData<T> nodeData)
         {
             NodeData = nodeData;
