@@ -9,6 +9,8 @@ namespace BoundTree.ConsoleDisplaying
 {
     public class ConsoleTreeWriter
     {
+        private readonly SingleTreeConverter<StringId> _singleTreeConverter = new SingleTreeConverter<StringId>();
+
         public string ConvertToString(DoubleNode<StringId> tree)
         {
             var lines = new DoubleNodeConverter().ConvertDoubleNode(tree);
@@ -17,9 +19,9 @@ namespace BoundTree.ConsoleDisplaying
             return stringBuilder.ToString();
         }
 
-        public string ConvertToString(SingleTree<StringId> mainTree, SingleTree<StringId> minorTree)
+        public string ConvertToString(MultiTree<StringId> mainTree, SingleTree<StringId> minorTree)
         {
-            var lines = new SingleTreeConverter<StringId>().ConvertTrees(mainTree, minorTree);
+            var lines = _singleTreeConverter.ConvertTrees(mainTree, minorTree);
             var stringBuilder = new StringBuilder();
             lines.ForEach(line => stringBuilder.AppendLine(line));
             return stringBuilder.ToString();

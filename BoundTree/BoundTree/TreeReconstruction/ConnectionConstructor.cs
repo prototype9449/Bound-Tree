@@ -10,7 +10,7 @@ using BoundTree.Logic.Trees;
 
 namespace BoundTree.TreeReconstruction
 {
-    public class ConnectionReconstruction<T> where T : class, IEquatable<T>, new()
+    public class ConnectionContructor<T> where T : class, IEquatable<T>, new()
     {
         public DoubleNode<T> GetDoubleNodeWithConnections(MultiTree<T> mainTree, Dictionary<T, SingleNode<T>> connections)
         {

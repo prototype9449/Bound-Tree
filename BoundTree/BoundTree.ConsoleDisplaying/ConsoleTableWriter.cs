@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using BoundTree.Logic;
 using BoundTree.Logic.TreeNodes;
 
 namespace BoundTree.ConsoleDisplaying
@@ -69,7 +68,7 @@ namespace BoundTree.ConsoleDisplaying
         private string GetNodeName(Pair<T> pair, bool isLeft) 
         {
             return isLeft 
-                ? pair.DoubleNode.MainLeaf.NodeInfo.GetType().Name + " " + pair.DoubleNode.MainLeaf.Id 
+                ? pair.DoubleNode.MainLeaf.GetType().Name + " " + pair.DoubleNode.MainLeaf.Id 
                 : pair.DoubleNode.MinorLeaf.Id + " " + pair.DoubleNode.MinorLeaf.NodeInfo.GetType().Name;
         }
 

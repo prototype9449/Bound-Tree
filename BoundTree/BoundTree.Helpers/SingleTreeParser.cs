@@ -15,6 +15,16 @@ namespace BoundTree.Helpers
         private const char SpaceSeparator = ' ';
         private const char TabSeparator = '\t';
 
+
+        public MultiTree<StringId> GetMultiTree(List<string> lines)
+        {
+            Contract.Requires(lines != null);
+            Contract.Requires(lines.Any());
+            Contract.Ensures(Contract.Result<MultiTree<StringId>>() != null);
+
+
+        }
+
         public SingleTree<StringId> GetSingleTree(List<string> lines)
         {
             Contract.Requires(lines != null);
@@ -24,7 +34,7 @@ namespace BoundTree.Helpers
             var indention = lines.Any(line => line.Contains(TabSeparator)) ? TabSeparator : SpaceSeparator;
 
             NodeInfo root = new Root();
-            var nodes = GetList(new { NodeType = root, id = new StringId("Root"), Depth = 0 });
+            var nodes = GetList(new { NodeType = root, Id = new StringId("Root"), Depth = 0 });
 
             foreach (var line in lines.Skip(1))
             {
@@ -37,7 +47,7 @@ namespace BoundTree.Helpers
                 var nodeInfo = NodeInfoFactory.GetNodeInfo(splittedLine[0]);
                 var id = new StringId(splittedLine[1]);
                 var depth = line.TakeWhile(symbol => symbol == indention).Count();
-                nodes.Add(new { NodeType = nodeInfo, id = id, Depth = depth });
+                nodes.Add(new { NodeType = nodeInfo, Id = id, Depth = depth });
             }
 
             var maxDepth = nodes.Max(node => node.Depth);
@@ -52,7 +62,7 @@ namespace BoundTree.Helpers
                 }
             }
 
-            var derivedNodes = nodes.Select(node => new SingleNode<StringId>(node.id, node.NodeType, node.Depth / greatestCommonDivisor)).ToList();
+            var derivedNodes = nodes.Select(node => new SingleNode<StringId>(node.Id, node.NodeType, node.Depth / greatestCommonDivisor)).ToList();
 
             var singleTree = new SingleTree<StringId>(derivedNodes.First());
 
@@ -65,14 +75,14 @@ namespace BoundTree.Helpers
             return singleTree;
         }
 
-        private SingleNode<StringId> GetNearestParent(int index, List<SingleNode<StringId>> singleNodes)
+        private SingleNode<StringId> GetNearestParent(int index, List<INode<StringId>> singleNodes)
         {
             Contract.Requires(singleNodes != null);
             Contract.Ensures(Contract.Result<SingleNode<StringId>>() != null);
 
             for (var i = index; i >= 0; i--)
             {
-                if (singleNodes[index].SingleNodeData.Depth - singleNodes[i].SingleNodeData.Depth == 1)
+                if (singleNodes[index].Depth - singleNodes[i].Depth == 1)
                 {
                     return singleNodes[i];
                 }

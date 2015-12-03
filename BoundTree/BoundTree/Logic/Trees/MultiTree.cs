@@ -12,7 +12,22 @@ namespace BoundTree.Logic.Trees
     {
         public MultiTree(SingleNode<T> root)
         {
-            Root = new MultiNode<T>(root);
+            Contract.Requires(root != null);
+
+            Root = new MultiNode<T>(root.SingleNodeData);
+        }
+
+        public MultiTree(SingleTree<T> singleTree) : this(singleTree.Root)
+        {
+            Contract.Requires(singleTree != null);
+        }
+
+        public MultiTree(MultiTree<T> multiTree)
+        {
+            Contract.Requires(multiTree != null);
+            Contract.Requires(multiTree.Root != null);
+
+            Root = multiTree.Root;
         }
 
         public MultiTree(MultiNode<T> root)
@@ -23,11 +38,6 @@ namespace BoundTree.Logic.Trees
         }
 
         public MultiNode<T> Root { get; private set; }
-
-        public MultiTree(SingleTree<T> singleTree)
-        {
-            
-        }
 
         public MultiNode<T> GetById(T id)
         {

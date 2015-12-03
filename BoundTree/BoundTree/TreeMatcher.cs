@@ -8,7 +8,7 @@ namespace BoundTree
 {
     public class TreeMatcher<T> where T : class, IEquatable<T>, new()
     {
-        public DoubleNode<T> GetDoubleNode(MultyTree<T> mainSingleTree, SingleTree<T> minorSingleTree)
+        public DoubleNode<T> GetDoubleNode(MultiTree<T> mainSingleTree, SingleTree<T> minorSingleTree)
         {
             var bindController = new BindContoller<T>(mainSingleTree, minorSingleTree);
             var mainIds = mainSingleTree.ToList().Select(node => node.Id);

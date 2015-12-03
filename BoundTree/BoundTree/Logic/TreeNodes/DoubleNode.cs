@@ -8,7 +8,7 @@ namespace BoundTree.Logic.TreeNodes
 {
     public class DoubleNode<T> where T : class, IEquatable<T>, new()
     {
-        public MultyNodeData<T> MainLeaf { get; private set; }
+        public MultiNodeData<T> MainLeaf { get; private set; }
         public SingleNodeData<T> MinorLeaf { get; set; }
         internal SingleNodeData<T> Shadow { get; set; }
 
@@ -21,7 +21,7 @@ namespace BoundTree.Logic.TreeNodes
             Nodes = new List<DoubleNode<T>>();
         }
 
-        public DoubleNode(MultyNodeData<T> mainLeaf, SingleNodeData<T> minorLeaf)
+        public DoubleNode(MultiNodeData<T> mainLeaf, SingleNodeData<T> minorLeaf)
             : this()
         {
             Contract.Requires(mainLeaf != null);
@@ -31,12 +31,12 @@ namespace BoundTree.Logic.TreeNodes
             MinorLeaf = minorLeaf;
         }
 
-        public DoubleNode(MultyNode<T> multyNode)
+        public DoubleNode(MultiNode<T> MultiNode)
             : this()
         {
-            Contract.Requires(multyNode != null);
+            Contract.Requires(MultiNode != null);
 
-            MainLeaf = multyNode.MultyNodeData;
+            MainLeaf = MultiNode.MultiNodeData;
         }
 
         public LogicLevel LogicLevel

@@ -34,7 +34,7 @@ namespace BoundTree.TreeReconstruction
                 .ToDictionary(pair => pair.Key, pair => _minorTree.GetById(pair.Value));
 
             var doubleNode = _connectionConstructor.GetDoubleNodeWithConnections(clonedMainTree, connections);
-            new VirtualNodeReconstruction<T>(_minorTree).Reconstruct(doubleNode);
+            new VirtualNodeConstruction<T>(_minorTree).Reconstruct(doubleNode);
             new PostReconstruction<T>(_minorTree).Reconstruct(doubleNode);
             _connectionKindConstructor.Reconstruct(doubleNode);
             doubleNode.RecalculateDeep();

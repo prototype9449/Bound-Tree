@@ -89,10 +89,10 @@
     <Compile Include="Logic\TreeNodes\DoubleNode.cs" />
     <Compile Include="Interfaces\IBindingHandler.cs" />
     <Compile Include="Logic\LogicLevel.cs" />
-    <Compile Include="Logic\TreeNodes\MultyNode.cs" />
+    <Compile Include="Logic\TreeNodes\MultiNode.cs" />
     <Compile Include="Logic\NodeData\MultyNodeData.cs" />
     <Compile Include="Logic\NodeData\SingleNodeData.cs" />
-    <Compile Include="Logic\Trees\MultyTree.cs" />
+    <Compile Include="Logic\Trees\MultiTree.cs" />
     <Compile Include="Logic\NodeData\NodeData.cs" />
     <Compile Include="Logic\Nodes\GeneralNodes\Grid3D.cs" />
     <Compile Include="Logic\Nodes\GeneralNodes\Answer.cs" />
@@ -113,11 +113,11 @@
     <Compile Include="Logic\Trees\SingleTree.cs" />
     <Compile Include="Logic\StringId.cs" />
     <Compile Include="TreeMatcher.cs" />
-    <Compile Include="TreeReconstruction\ConnectionKindReconstruction.cs" />
-    <Compile Include="TreeReconstruction\ConnectionReconstruction.cs" />
+    <Compile Include="TreeReconstruction\ConnectionKindContructor.cs" />
+    <Compile Include="TreeReconstruction\ConnectionConstructor.cs" />
     <Compile Include="TreeReconstruction\PostReconstruction.cs" />
     <Compile Include="TreeReconstruction\TreeReconstruction.cs" />
-    <Compile Include="TreeReconstruction\VirtualNodeReconstruction.cs" />
+    <Compile Include="TreeReconstruction\VirtualNodeConstructor.cs" />
     <Compile Include="TreesData.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

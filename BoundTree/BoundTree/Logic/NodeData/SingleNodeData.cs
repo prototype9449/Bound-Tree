@@ -41,6 +41,11 @@ namespace BoundTree.Logic.NodeData
             get { return NodeData.Id; }
         }
 
+        public Type NodeType
+        {
+            get { return NodeData.NodeType; }
+        }
+
         public bool CanContain(SingleNodeData<T> otherNodeData)
         {
             Contract.Requires(otherNodeData != null);
@@ -50,11 +55,6 @@ namespace BoundTree.Logic.NodeData
         public bool IsEmpty()
         {
             return NodeData.IsEmpty();
-        }
-
-        public Type NodeType
-        {
-            get { return NodeData.GetType(); }
         }
 
         public static bool operator ==(SingleNodeData<T> first, SingleNodeData<T> second)

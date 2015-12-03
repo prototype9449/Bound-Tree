@@ -4,52 +4,49 @@ using BoundTree.Logic.NodeData;
 
 namespace BoundTree.Logic.TreeNodes
 {
-    public class MultyNode<T> where T : new()
+    public class MultiNode<T> : INode<T> where T : new()
     {
-        public MultyNodeData<T> MultyNodeData { get; set; }
-        public List<MultyNode<T>> Childs { get; set; }
+        public MultiNodeData<T> MultiNodeData { get; set; }
+        public List<MultiNode<T>> Childs { get; set; }
 
-        public MultyNode(SingleNode<T> singleNode)
+        public MultiNode(SingleNodeData<T> singleNode)
         {
-            MultyNodeData = new MultyNodeData<T>(singleNode.SingleNodeData.NodeData);
-            Childs = new List<MultyNode<T>>();
+            MultiNodeData = new MultiNodeData<T>(singleNode.NodeData);
+            Childs = new List<MultiNode<T>>();
         }
 
         public LogicLevel LogicLevel
         {
             get
             {
-                return MultyNodeData.LogicLevel;
+                return MultiNodeData.LogicLevel;
             }
         }
 
         public int Depth
         {
-            get { return MultyNodeData.Depth; }
-            set { MultyNodeData.Depth = value; }
-        }
-
-        public T Id
-        {
-            get { return MultyNodeData.Id; }
+            get { return MultiNodeData.Depth; }
+            set { MultiNodeData.Depth = value; }
         }
 
         public Type NodeType
         {
-            get
-            {
-                return MultyNodeData.GetType();
-            }
+            get { return MultiNodeData.NodeType; }
         }
 
-        public bool CanContain(MultyNodeData<T> multyNodeData)
+        public T Id
         {
-            return MultyNodeData.CanContain(multyNodeData);
+            get { return MultiNodeData.Id; }
         }
 
-        public MultyNode<T> GetById(T id)
+        public bool CanContain(MultiNodeData<T> multiNodeData)
         {
-            var queue = new Queue<MultyNode<T>>();
+            return multiNodeData.CanContain(multiNodeData);
+        }
+
+        public MultiNode<T> GetById(T id)
+        {
+            var queue = new Queue<MultiNode<T>>();
             queue.Enqueue(this);
             while (queue.Count != 0)
             {
@@ -67,14 +64,14 @@ namespace BoundTree.Logic.TreeNodes
             return null;
         }
 
-        public List<MultyNode<T>> ToList()
+        public List<MultiNode<T>> ToList()
         {
-            var nodes = new List<MultyNode<T>>();
+            var nodes = new List<MultiNode<T>>();
             RecursiveFillNodes(this, nodes);
             return nodes;
         }
 
-        private void RecursiveFillNodes(MultyNode<T> root, List<MultyNode<T>> nodes)
+        private void RecursiveFillNodes(MultiNode<T> root, List<MultiNode<T>> nodes)
         {
             nodes.Add(root);
 

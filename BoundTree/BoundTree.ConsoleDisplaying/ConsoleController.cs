@@ -16,14 +16,14 @@ namespace BoundTree.ConsoleDisplaying
     {
         private ConsoleConnectionController _consoleConnectionController;
 
-        private MultyTree<StringId> _mainTree;
+        private MultiTree<StringId> _mainTree;
         private SingleTree<StringId> _minorTree;
         private readonly List<string> _messages = new List<string>();
         private readonly ConsoleTreeWriter _consoleTreeWriter = new ConsoleTreeWriter();
         private readonly SingleNodeFactory factory = new SingleNodeFactory();
         public ConsoleController()
         {
-            _mainTree = new MultyTree<StringId>(factory.GetNode("Root", new Root()));
+            _mainTree = new MultiTree<StringId>(factory.GetNode("Root", new Root()));
             _minorTree = new SingleTree<StringId>(factory.GetNode("Root", new Root()));
         }
         
@@ -53,7 +53,7 @@ namespace BoundTree.ConsoleDisplaying
                 {
                     var lines = File.ReadAllLines(dialog.FileName).ToList();
                     var treeData = new DoubleNodeParser().GetDoubleNode(lines);
-                    _mainTree = new MultyTree<StringId>(treeData.MainSingleTree);
+                    _mainTree = new MultiTree<StringId>(treeData.MainSingleTree);
                     _minorTree = treeData.MinorSingleTree;
                     return true;
                 }
@@ -66,7 +66,7 @@ namespace BoundTree.ConsoleDisplaying
         {
             var mainSingleTree = new SingleTree<StringId>(factory.GetNode("Root", new Root()));
             ProcessBuildingTree(mainSingleTree);
-            _mainTree = new MultyTree<StringId>(mainSingleTree);
+            _mainTree = new MultiTree<StringId>(mainSingleTree);
         }
 
         private void ProcessBuildingMinorTree()

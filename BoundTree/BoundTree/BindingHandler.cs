@@ -12,11 +12,11 @@ namespace BoundTree
     [Serializable]
     public class BindingHandler<T> : IBindingHandler<T> where T : class, IEquatable<T>, new()
     {
-        private readonly MultyTree<T> _mainTree;
+        private readonly MultiTree<T> _mainTree;
         private readonly SingleTree<T> _minorTree;
         private readonly List<KeyValuePair<T, T>> _connections = new List<KeyValuePair<T, T>>();
 
-        public BindingHandler(MultyTree<T> mainTree, SingleTree<T> minorTree)
+        public BindingHandler(MultiTree<T> mainTree, SingleTree<T> minorTree)
         {
             Contract.Requires(mainTree != null);
             Contract.Requires(minorTree != null);
@@ -44,7 +44,7 @@ namespace BoundTree
             get { return _connections.ToList(); }
         }
 
-        public bool HandleBinding(MultyNode<T> mainSingleNode, SingleNode<T> minorSingleNode)
+        public bool HandleBinding(MultiNode<T> mainSingleNode, SingleNode<T> minorSingleNode)
         {
             Contract.Requires(mainSingleNode != null);
             Contract.Requires(minorSingleNode != null); 
@@ -73,7 +73,7 @@ namespace BoundTree
 
         }
 
-        private bool IsValidConnection(MultyNode<T> first, SingleNode<T> second)
+        private bool IsValidConnection(MultiNode<T> first, SingleNode<T> second)
         {
             Contract.Requires(first != null);
             Contract.Requires(second != null);

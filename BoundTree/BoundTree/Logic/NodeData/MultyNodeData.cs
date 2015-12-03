@@ -2,27 +2,28 @@
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
+using BoundTree.Logic.Nodes;
 
 namespace BoundTree.Logic.NodeData
 {
     public class MultiNodeData<T> : IEquatable<MultiNodeData<T>> where T : new()
     {
         private NodeData<T> NodeData { get; set; }
-        private List<NodeData<T>> MinorDataNodes { get; set; }
+        public List<ConnectionNodeData<T>> MinorDataNodes { get; set; }
 
         public MultiNodeData()
         {
             NodeData = new NodeData<T>();
-            MinorDataNodes = new List<NodeData<T>>();
+            MinorDataNodes = new List<ConnectionNodeData<T>>();
         }
 
         public MultiNodeData(NodeData<T> nodeData)
         {
             NodeData = nodeData;
-            MinorDataNodes = new List<NodeData<T>>();
+            MinorDataNodes = new List<ConnectionNodeData<T>>();
         }
 
-        public MultiNodeData(NodeData<T> nodeData, List<NodeData<T>> minorDataNodes)
+        public MultiNodeData(NodeData<T> nodeData, List<ConnectionNodeData<T>> minorDataNodes)
             : this(nodeData)
         {
             MinorDataNodes = minorDataNodes;
@@ -39,16 +40,21 @@ namespace BoundTree.Logic.NodeData
             return NodeData.IsEmpty();
         }
 
+        public Type NodeType
+        {
+            get { return NodeData.NodeType; }
+        }
+
         public LogicLevel LogicLevel
         {
             get
             {
-                Contract.Requires(!NodeData.IsEmpty() || MinorDataNodes.Exists(node => !node.IsEmpty()));
+                Contract.Requires(!NodeData.IsEmpty() || MinorDataNodes.Exists(node => !node.NodeData.IsEmpty()));
                 Contract.Ensures(Contract.Result<LogicLevel>() != null);
 
                 if (NodeData.IsEmpty())
                 {
-                    return MinorDataNodes.First(node => !node.IsEmpty()).LogicLevel;
+                    return MinorDataNodes.First(node => !node.NodeData.IsEmpty()).NodeData.LogicLevel;
                 }
 
                 return NodeData.LogicLevel;
@@ -65,12 +71,7 @@ namespace BoundTree.Logic.NodeData
             get { return NodeData.Depth; }
             set { NodeData.Depth = value; }
         }
-
-        public Type NodeType
-        {
-            get { return NodeData.GetType(); }
-        }
-
+        
         public static bool operator ==(MultiNodeData<T> first, MultiNodeData<T> second)
         {
             var objectFirst = (object)first;

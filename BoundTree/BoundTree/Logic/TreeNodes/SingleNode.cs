@@ -7,7 +7,7 @@ using BoundTree.Logic.Nodes;
 namespace BoundTree.Logic.TreeNodes
 {
     [Serializable]
-    public class SingleNode<T> where T : new()
+    public class SingleNode<T> : INode<T> where T : new()
     {
         public SingleNodeData<T> SingleNodeData { get; private set; }
         public List<SingleNode<T>> Childs { get; private set; }
@@ -46,7 +46,7 @@ namespace BoundTree.Logic.TreeNodes
 
         public Type NodeType
         {
-            get { return SingleNodeData.GetType(); }
+            get { return SingleNodeData.NodeType; }
         }
 
         public bool CanContain(SingleNode<T> singleNode)

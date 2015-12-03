@@ -8,7 +8,7 @@ namespace BoundTree.Interfaces
     [ContractClass(typeof(BindingHandlerContract<>))]
     public interface IBindingHandler<T> where T : new()
     {
-        bool HandleBinding(MultyNode<T> mainSingleNode, SingleNode<T> minorSingleNode);
+        bool HandleBinding(MultiNode<T> mainSingleNode, SingleNode<T> minorSingleNode);
         bool RemoveConnection(T mainId);
         List<KeyValuePair<T, T>> Connections { get; }
     }
@@ -16,7 +16,7 @@ namespace BoundTree.Interfaces
     [ContractClassFor(typeof(IBindingHandler<>))]
     public abstract class BindingHandlerContract<T> : IBindingHandler<T> where T : new()
     {
-        public bool HandleBinding(MultyNode<T> mainSingleNode, SingleNode<T> minorSingleNode)
+        public bool HandleBinding(MultiNode<T> mainSingleNode, SingleNode<T> minorSingleNode)
         {
             Contract.Requires(mainSingleNode != null);
             Contract.Requires(minorSingleNode != null);

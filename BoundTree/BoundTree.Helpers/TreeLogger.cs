@@ -11,13 +11,13 @@ namespace BoundTree.Helpers
 {
     public class TreeLogger
     {
-        private readonly SingleTree<StringId> _mainTree;
+        private readonly MultiTree<StringId> _mainTree;
         private readonly SingleTree<StringId> _minorTree;
         private readonly string _pathToFile;
 
         private const string DefaultFileName = " log.txt";
 
-        public TreeLogger(SingleTree<StringId> mainTree, SingleTree<StringId> minorTree)
+        public TreeLogger(MultiTree<StringId> mainTree, SingleTree<StringId> minorTree)
         {
             Contract.Requires(mainTree != null);
             Contract.Requires(minorTree != null);
@@ -28,7 +28,7 @@ namespace BoundTree.Helpers
             AddTreesToLogFile();
         }
 
-        public TreeLogger(SingleTree<StringId> mainTree, SingleTree<StringId> minorTree, string pathToFile)
+        public TreeLogger(MultiTree<StringId> mainTree, SingleTree<StringId> minorTree, string pathToFile)
             : this(mainTree, minorTree)
         {
             Contract.Requires(!string.IsNullOrEmpty(pathToFile));
@@ -65,8 +65,8 @@ namespace BoundTree.Helpers
         private void AddTreesToLogFile()
         {
             var singleTreeConverter = new SingleTreeConverter<StringId>();
-            var mainTreeLines = singleTreeConverter.ConvertTree(_mainTree);
-            var minorTreeLines = singleTreeConverter.ConvertTree(_minorTree);
+            var mainTreeLines = singleTreeConverter.ConvertMultiTree(_mainTree);
+            var minorTreeLines = singleTreeConverter.ConvertSingleTree(_minorTree);
 
             var result = new List<string>();
             result.AddRange(mainTreeLines);
