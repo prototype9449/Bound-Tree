@@ -91,7 +91,6 @@ namespace BoundTree
         {
             Contract.Requires(firstId != null);
             Contract.Requires(secondId != null);
-            Contract.Requires(tree != null);
 
             var descendantOfFirst = tree.GetById(firstId).GetById(secondId);
             if (descendantOfFirst != null)

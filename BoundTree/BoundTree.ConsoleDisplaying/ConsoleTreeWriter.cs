@@ -19,7 +19,7 @@ namespace BoundTree.ConsoleDisplaying
             return stringBuilder.ToString();
         }
 
-        public string ConvertToString(MultiTree<StringId> mainTree, SingleTree<StringId> minorTree)
+        public string ConvertToString(SingleTree<StringId> mainTree, SingleTree<StringId> minorTree)
         {
             var lines = _singleTreeConverter.ConvertTrees(mainTree, minorTree);
             var stringBuilder = new StringBuilder();

@@ -80,7 +80,7 @@ namespace BoundTree.Logic.TreeNodes
             {
                 return null;
             }
-
+            var s = "";
             return Nodes.First();
         }
 

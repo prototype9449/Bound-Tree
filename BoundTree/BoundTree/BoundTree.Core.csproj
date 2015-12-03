@@ -86,6 +86,8 @@
     <Compile Include="BindContoller.cs" />
     <Compile Include="BindingHandler.cs" />
     <Compile Include="Logic\ConnectionKind.cs" />
+    <Compile Include="Logic\NodeData\ConnectionNodeData.cs" />
+    <Compile Include="Logic\TreeNodes\INode.cs" />
     <Compile Include="Logic\TreeNodes\DoubleNode.cs" />
     <Compile Include="Interfaces\IBindingHandler.cs" />
     <Compile Include="Logic\LogicLevel.cs" />

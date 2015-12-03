@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
-using BoundTree.Logic.Nodes;
 
 namespace BoundTree.Logic.NodeData
 {
+    [Serializable]
     public class MultiNodeData<T> : IEquatable<MultiNodeData<T>> where T : new()
     {
         private NodeData<T> NodeData { get; set; }
@@ -16,6 +16,9 @@ namespace BoundTree.Logic.NodeData
             NodeData = new NodeData<T>();
             MinorDataNodes = new List<ConnectionNodeData<T>>();
         }
+
+        public MultiNodeData(SingleNodeData<T> singleNodeData) : this(singleNodeData.NodeData)
+        { }
 
         public MultiNodeData(NodeData<T> nodeData)
         {

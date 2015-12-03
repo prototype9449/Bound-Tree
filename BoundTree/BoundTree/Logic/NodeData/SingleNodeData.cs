@@ -3,6 +3,7 @@ using System.Diagnostics.Contracts;
 
 namespace BoundTree.Logic.NodeData
 {
+    [Serializable]
     public class SingleNodeData<T> : IEquatable<SingleNodeData<T>> where T : new()
     {
         public NodeData<T> NodeData { get; set; }

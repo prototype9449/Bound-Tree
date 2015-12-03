@@ -137,7 +137,7 @@ namespace BoundTree.TreeReconstruction
         {
             Contract.Requires(doubleNodes != null);
             Contract.Requires(doubleNodes.Any());
-            Contract.Ensures(Contract.Result<NodeData<T>>() != null);
+            Contract.Ensures(Contract.Result<SingleNodeData<T>>() != null);
 
             var notEmptyNodes = doubleNodes.Where(doubleNode => doubleNode.GetMinorValue() != null).ToList();
 
@@ -184,8 +184,8 @@ namespace BoundTree.TreeReconstruction
         {
             Contract.Requires(notEmptyNodes != null);
             Contract.Requires(notEmptyNodes.Any());
-            Contract.Ensures(Contract.Result<List<List<NodeData<T>>>>() != null);
-            Contract.Ensures(Contract.Result<List<List<NodeData<T>>>>().Any());
+            Contract.Ensures(Contract.Result<List<List<SingleNodeData<T>>>>() != null);
+            Contract.Ensures(Contract.Result<List<List<SingleNodeData<T>>>>().Any());
 
             var setRouts = new List<List<SingleNodeData<T>>>();
             foreach (var doubleNode in notEmptyNodes)

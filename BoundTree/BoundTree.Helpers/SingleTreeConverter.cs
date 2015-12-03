@@ -13,14 +13,14 @@ namespace BoundTree.Helpers
     {
         private const char SignBetweenTrees = ' ';
 
-        public List<string> ConvertTrees(MultiTree<T> mainSingleTree, SingleTree<T> minorSingleTree)
+        public List<string> ConvertTrees(SingleTree<T> mainSingleTree, SingleTree<T> minorSingleTree)
         {
             Contract.Requires(mainSingleTree != null);
             Contract.Requires(minorSingleTree != null);
 
             const int spaceBetweenTrees = 10;
 
-            var firstTreeLines = ConvertMultiTree(mainSingleTree);
+            var firstTreeLines = ConvertSingleTree(mainSingleTree);
             var secondTreeLines = ConvertSingleTree(minorSingleTree);
 
             var lines = new List<string>();
@@ -67,7 +67,7 @@ namespace BoundTree.Helpers
                 
 
                 var line = string.Format("{0}{1} ({2})", new string(SignBetweenTrees, topElement.Depth * indent),
-                    topElement.GetType().Name, fullIdChain);
+                    topElement.NodeType.Name, fullIdChain);
                 lines.Add(line);
             }
 
@@ -95,7 +95,7 @@ namespace BoundTree.Helpers
                 nodes.ForEach(node => stack.Push(node));
 
                 var line = string.Format("{0}{1} ({2})", new string(SignBetweenTrees, topElement.Depth * indent),
-                    topElement.GetType().Name, topElement.Id);
+                    topElement.NodeType.Name, topElement.Id);
                 lines.Add(line);
             }
 

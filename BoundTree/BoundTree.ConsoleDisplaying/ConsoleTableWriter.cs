@@ -69,7 +69,7 @@ namespace BoundTree.ConsoleDisplaying
         {
             return isLeft 
                 ? pair.DoubleNode.MainLeaf.GetType().Name + " " + pair.DoubleNode.MainLeaf.Id 
-                : pair.DoubleNode.MinorLeaf.Id + " " + pair.DoubleNode.MinorLeaf.NodeInfo.GetType().Name;
+                : pair.DoubleNode.MinorLeaf.Id + " " + pair.DoubleNode.MinorLeaf.GetType().Name;
         }
 
         private int GetMaxLength(Table<T> table, bool isLeft) 

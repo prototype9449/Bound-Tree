@@ -16,14 +16,17 @@ namespace BoundTree.ConsoleDisplaying
     {
         private ConsoleConnectionController _consoleConnectionController;
 
-        private MultiTree<StringId> _mainTree;
+        private SingleTree<StringId> _mainSingleTree;
+        private MultiTree<StringId> _mainMultiTree;
         private SingleTree<StringId> _minorTree;
+
         private readonly List<string> _messages = new List<string>();
         private readonly ConsoleTreeWriter _consoleTreeWriter = new ConsoleTreeWriter();
         private readonly SingleNodeFactory factory = new SingleNodeFactory();
+
         public ConsoleController()
         {
-            _mainTree = new MultiTree<StringId>(factory.GetNode("Root", new Root()));
+            _mainSingleTree = new SingleTree<StringId>(factory.GetNode("Root", new Root()));
             _minorTree = new SingleTree<StringId>(factory.GetNode("Root", new Root()));
         }
         
@@ -39,7 +42,7 @@ namespace BoundTree.ConsoleDisplaying
                 ProcessBuildingMinorTree();
             }
              
-            _consoleConnectionController = new ConsoleConnectionController(new BindContoller<StringId>(_mainTree, _minorTree));
+            _consoleConnectionController = new ConsoleConnectionController(new BindContoller<StringId>(_mainMultiTree, _minorTree), _mainSingleTree);
             _consoleConnectionController.Start();
         }
 
@@ -53,7 +56,7 @@ namespace BoundTree.ConsoleDisplaying
                 {
                     var lines = File.ReadAllLines(dialog.FileName).ToList();
                     var treeData = new DoubleNodeParser().GetDoubleNode(lines);
-                    _mainTree = new MultiTree<StringId>(treeData.MainSingleTree);
+                    _mainMultiTree = new MultiTree<StringId>(treeData.MainSingleTree);
                     _minorTree = treeData.MinorSingleTree;
                     return true;
                 }
@@ -64,9 +67,9 @@ namespace BoundTree.ConsoleDisplaying
 
         private void ProcessBuildingMainTree()
         {
-            var mainSingleTree = new SingleTree<StringId>(factory.GetNode("Root", new Root()));
-            ProcessBuildingTree(mainSingleTree);
-            _mainTree = new MultiTree<StringId>(mainSingleTree);
+            _mainSingleTree = new SingleTree<StringId>(factory.GetNode("Root", new Root()));
+            ProcessBuildingTree(_mainSingleTree);
+            _mainMultiTree = new MultiTree<StringId>(_mainSingleTree);
         }
 
         private void ProcessBuildingMinorTree()
@@ -140,7 +143,7 @@ namespace BoundTree.ConsoleDisplaying
 
                 if (parentNode.SingleNodeData.CanContain(childNode.SingleNodeData))
                 {
-                    _messages.Add(string.Format("The NodeData {0} with type - {1} was added to {2} with type - {3}",
+                    _messages.Add(string.Format("The Node {0} with type - {1} was added to {2} with type - {3}",
                         childNode.SingleNodeData.Id, childTypeName, parentNode.SingleNodeData.Id, parentTypeName));
 
                     parentNode.Add(childNode);
@@ -158,13 +161,13 @@ namespace BoundTree.ConsoleDisplaying
         {
             Contract.Requires(singleNode != null);
 
-            return singleNode.GetType().Name;
+            return singleNode.NodeType.Name;
         }
 
         private void DisplayInitialCommand()
         {
             Console.Clear();
-            Console.WriteLine(_consoleTreeWriter.ConvertToString(_mainTree, _minorTree));
+            Console.WriteLine(_consoleTreeWriter.ConvertToString(_mainSingleTree, _minorTree));
             Console.WriteLine();
             if (_messages.Any())
             {

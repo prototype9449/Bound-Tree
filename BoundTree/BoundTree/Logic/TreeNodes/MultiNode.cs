@@ -4,15 +4,17 @@ using BoundTree.Logic.NodeData;
 
 namespace BoundTree.Logic.TreeNodes
 {
+    [Serializable]
     public class MultiNode<T> : INode<T> where T : new()
     {
         public MultiNodeData<T> MultiNodeData { get; set; }
         public List<MultiNode<T>> Childs { get; set; }
 
-        public MultiNode(SingleNodeData<T> singleNode)
+        public MultiNode(SingleNode<T> singleNode)
         {
-            MultiNodeData = new MultiNodeData<T>(singleNode.NodeData);
+            MultiNodeData = new MultiNodeData<T>(singleNode.SingleNodeData);
             Childs = new List<MultiNode<T>>();
+            singleNode.Childs.ForEach(node => Childs.Add(new MultiNode<T>(node)));
         }
 
         public LogicLevel LogicLevel
@@ -81,6 +83,17 @@ namespace BoundTree.Logic.TreeNodes
             {
                 RecursiveFillNodes(node, nodes);
             }
+        }
+
+        public void RecalculateDeep()
+        {
+            SetDeep(-1);
+        }
+
+        private void SetDeep(int initialDeep)
+        {
+            MultiNodeData.Depth = initialDeep + 1;
+            Childs.ForEach(node => node.SetDeep(MultiNodeData.Depth));
         }
     }
 }

@@ -19,6 +19,7 @@ namespace BoundTree.Logic.Trees
             Contract.Requires(root != null);
 
             Root = root;
+            Root.RecalculateDeep();
         }
 
         public SingleNode<T> GetById(T id)

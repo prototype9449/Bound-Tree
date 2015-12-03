@@ -8,13 +8,15 @@ using BoundTree.Logic.TreeNodes;
 
 namespace BoundTree.Logic.Trees
 {
+    [Serializable]
     public class MultiTree<T> where T : class, IEquatable<T>, new()
     {
         public MultiTree(SingleNode<T> root)
         {
             Contract.Requires(root != null);
 
-            Root = new MultiNode<T>(root.SingleNodeData);
+            Root = new MultiNode<T>(root);
+            Root.RecalculateDeep();
         }
 
         public MultiTree(SingleTree<T> singleTree) : this(singleTree.Root)

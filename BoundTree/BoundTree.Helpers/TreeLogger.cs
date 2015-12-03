@@ -54,7 +54,7 @@ namespace BoundTree.Helpers
 
         private static string GetStandartFilePath()
         {
-            var prefixFileName = DateTime.Now.ToString("yyyy.mm.dd H_mm_ss");
+            var prefixFileName = DateTime.Now.ToString("yyyy.MM.dd H_mm_ss");
             var directoryName = Path.Combine(Directory.GetCurrentDirectory(), "Logs");
 
             var fileName = Path.Combine(directoryName, prefixFileName + DefaultFileName);

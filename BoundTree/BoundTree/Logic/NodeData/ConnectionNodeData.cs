@@ -1,5 +1,8 @@
-﻿namespace BoundTree.Logic.NodeData
+﻿using System;
+
+namespace BoundTree.Logic.NodeData
 {
+    [Serializable]
     public class ConnectionNodeData<T> where T : new()
     {
         public ConnectionNodeData(ConnectionKind connectionKind, NodeData<T> nodeData)

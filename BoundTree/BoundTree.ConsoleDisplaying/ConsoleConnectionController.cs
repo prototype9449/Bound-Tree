@@ -5,6 +5,7 @@ using System.Linq;
 using BoundTree.Helpers;
 using BoundTree.Logic;
 using BoundTree.Logic.TreeNodes;
+using BoundTree.Logic.Trees;
 using BoundTree.TreeReconstruction;
 
 namespace BoundTree.ConsoleDisplaying
@@ -16,14 +17,15 @@ namespace BoundTree.ConsoleDisplaying
         private readonly List<string> _messages = new List<string>();
         private readonly CommandMediator _commandMediator = new CommandMediator();
         private readonly ConsoleTreeWriter _treeWriter = new ConsoleTreeWriter();
-
+        private readonly SingleTree<StringId> _mainSingleTree;
         private DoubleNode<StringId> _previousDoubleNode;
         private DoubleNode<StringId> _currentDoubleNode;
 
-        public ConsoleConnectionController(BindContoller<StringId> bindController)
+        public ConsoleConnectionController(BindContoller<StringId> bindController, SingleTree<StringId> mainSingleTree)
         {
             Contract.Requires(bindController !=null);
 
+            _mainSingleTree = mainSingleTree;
             _bindController = bindController;
             _treeLogger = new TreeLogger(bindController.MainSingleTree, bindController.MinorSingleTree);
             Subscribe();
@@ -106,11 +108,11 @@ namespace BoundTree.ConsoleDisplaying
                 Console.WriteLine();
                 Console.WriteLine("Sorry, there was an error");
                 Console.WriteLine("Press any button to continue");
-                _currentDoubleNode= _previousDoubleNode;
+                _currentDoubleNode = _previousDoubleNode;
                 Console.ReadKey();
             }
 
-            Console.WriteLine(_treeWriter.ConvertToString(_bindController.MainSingleTree, _bindController.MinorSingleTree));
+            Console.WriteLine(_treeWriter.ConvertToString(_mainSingleTree, _bindController.MinorSingleTree));
             Console.WriteLine(_treeWriter.ConvertToString(_currentDoubleNode));
 
             Console.WriteLine();

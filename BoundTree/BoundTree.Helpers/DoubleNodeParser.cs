@@ -42,7 +42,7 @@ namespace BoundTree.Helpers
 
             var singleTreeConverter = new SingleTreeParser();
 
-            var mainTree = singleTreeConverter.GetSingleTree(mainTreeLines);
+            var mainTree = singleTreeConverter.GetMultiTree(mainTreeLines);
             var minorTree = singleTreeConverter.GetSingleTree(minorTreeLines);
 
             var bindController = new BindContoller<StringId>(mainTree, minorTree);
