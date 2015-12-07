@@ -12,22 +12,26 @@ namespace BoundTree.ConsoleDisplaying
 {
     public class ConsoleConnectionController
     {
-        private readonly BindContoller<StringId> _bindController;
+        private BindContoller<StringId> _bindController;
+        private DoubleNode<StringId> _currentDoubleNode;
+
         private readonly TreeLogger _treeLogger;
         private readonly List<string> _messages = new List<string>();
         private readonly CommandMediator _commandMediator = new CommandMediator();
         private readonly ConsoleTreeWriter _consoleTreeWriter = new ConsoleTreeWriter();
+        private readonly TreeConverter<StringId> _treeConverter = new TreeConverter<StringId>();
 
-        private DoubleNode<StringId> _previousDoubleNode;
-        private DoubleNode<StringId> _currentDoubleNode;
-
-        public ConsoleConnectionController(BindContoller<StringId> bindController)
+        public ConsoleConnectionController()
         {
-            Contract.Requires(bindController !=null);
-
-            _bindController = bindController;
-            _treeLogger = new TreeLogger(bindController.MainMultiTree, bindController.MinorSingleTree);
+            _treeLogger = TreeLogger.GetTreeLogger();
             Subscribe();
+        }
+
+        public MultiTree<StringId> GetConnectedMultiTree()
+        {
+            Contract.Requires(_bindController.MainMultiTree != null);
+
+            return new MultiTree<StringId>(_currentDoubleNode.ToMultiNode());
         }
 
         private void Subscribe()
@@ -37,7 +41,7 @@ namespace BoundTree.ConsoleDisplaying
             _commandMediator.Add += AddConnection;
             _commandMediator.Exit += ExitFromBuildingTree;
         }
-        
+
         private void AddConnection()
         {
             var ids = GetIds(false);
@@ -75,18 +79,23 @@ namespace BoundTree.ConsoleDisplaying
 
         private void ExitFromBuildingTree()
         {
-            _treeLogger.AddDoubleTreeToFile(_currentDoubleNode);
+            _treeLogger.AddMultiTreeInFile(_bindController.MainMultiTree);
         }
 
-        public void Start()
+        public void Start(BindContoller<StringId> bindContoller)
         {
+            Contract.Requires(bindContoller != null);
+
+            _bindController = bindContoller;
+            _treeLogger.AddSinlgeTreeInFile(bindContoller.MinorSingleTree);
+
             while (true)
             {
                 DisplayTree();
                 Console.WriteLine("Type 'a' to add, 'r' to remove, 'ra' to remove all connection, 'e' to exit");
                 var action = Console.ReadLine();
                 _commandMediator.ProcessCommand(action);
-                if(action == CommandMediator.ExitLongName || action == CommandMediator.ExitShortName)
+                if (action == CommandMediator.ExitLongName || action == CommandMediator.ExitShortName)
                     break;
             }
         }
@@ -94,26 +103,13 @@ namespace BoundTree.ConsoleDisplaying
         private void DisplayTree()
         {
             Console.Clear();
-            try
-            {
-                _currentDoubleNode = new TreeReconstruction<StringId>(_bindController).GetFilledTree();
-                _previousDoubleNode = _currentDoubleNode;
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message);
-                Console.WriteLine();
-                Console.WriteLine(e.StackTrace);
-                Console.WriteLine();
-                Console.WriteLine("Sorry, there was an error");
-                Console.WriteLine("Press any button to continue");
-                _currentDoubleNode = _previousDoubleNode;
-                Console.ReadKey();
-            }
+
+            _currentDoubleNode = new TreeReconstruction<StringId>(_bindController).GetFilledTree();
 
             Console.WriteLine(_consoleTreeWriter.ConvertToString(_bindController.MainMultiTree, _bindController.MinorSingleTree));
             Console.WriteLine(_consoleTreeWriter.ConvertToString(_currentDoubleNode));
-            new TreeConverter<StringId>().ConvertMultiTree(new MultiTree<StringId>(_currentDoubleNode.ToMultiNode())).ForEach(Console.WriteLine);
+
+            _treeConverter.ConvertMultiTree(new MultiTree<StringId>(_currentDoubleNode.ToMultiNode())).ForEach(Console.WriteLine);
 
             Console.WriteLine();
             if (_messages.Any())

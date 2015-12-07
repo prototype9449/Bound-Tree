@@ -4,7 +4,6 @@ using System.Diagnostics.Contracts;
 using System.IO;
 using System.Linq;
 using BoundTree.Logic;
-using BoundTree.Logic.NodeData;
 using BoundTree.Logic.Nodes;
 using BoundTree.Logic.TreeNodes;
 using BoundTree.Logic.Trees;
@@ -118,7 +117,7 @@ namespace BoundTree.Helpers
         private U GetNearestParent<U>(int index, List<U> singleNodes) where U : INode<StringId>
         {
             Contract.Requires(singleNodes != null);
-            Contract.Ensures(Contract.Result<SingleNode<StringId>>() != null);
+            Contract.Ensures(Contract.Result<U>() != null);
 
             for (var i = index; i >= 0; i--)
             {

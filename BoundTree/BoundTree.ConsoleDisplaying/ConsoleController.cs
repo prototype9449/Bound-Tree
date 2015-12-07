@@ -14,12 +14,10 @@ namespace BoundTree.ConsoleDisplaying
 {
     public class ConsoleController
     {
-        private ConsoleConnectionController _consoleConnectionController;
-
         private SingleTree<StringId> _mainSingleTree;
         private MultiTree<StringId> _mainMultiTree;
         private SingleTree<StringId> _minorTree;
-
+        private readonly ConsoleConnectionController _consoleConnectionController = new ConsoleConnectionController();
         private readonly List<string> _messages = new List<string>();
         private readonly ConsoleTreeWriter _consoleTreeWriter = new ConsoleTreeWriter();
         private readonly SingleNodeFactory factory = new SingleNodeFactory();
@@ -29,7 +27,7 @@ namespace BoundTree.ConsoleDisplaying
             _mainSingleTree = new SingleTree<StringId>(factory.GetNode("Root", new Root()));
             _minorTree = new SingleTree<StringId>(factory.GetNode("Root", new Root()));
         }
-        
+
         public void Run()
         {
             Console.WriteLine("Do you want to open existed file?");
@@ -39,12 +37,28 @@ namespace BoundTree.ConsoleDisplaying
             if (!action)
             {
                 ProcessBuildingMainTree();
-                ProcessBuildingMinorTree();
             }
-             
-            _consoleConnectionController = new ConsoleConnectionController(new BindContoller<StringId>(_mainMultiTree, _minorTree));
-            _consoleConnectionController.Start();
+
+            do
+            {
+                ProcessBuildingMinorTree();
+                
+                _consoleConnectionController.Start(new BindContoller<StringId>(_mainMultiTree, _minorTree));
+
+                _mainMultiTree = _consoleConnectionController.GetConnectedMultiTree();
+                _minorTree = new SingleTree<StringId>(factory.GetNode("Root", new Root()));
+
+                Console.Clear();
+                Console.WriteLine("Do you want to type another tree? \n type 'yes' to add tree or something else to finish with building trees");
+                if (Console.ReadLine() != "yes")
+                {
+                    return;
+                }
+
+            } while (true);
         }
+
+       
 
         private bool SelectFile(string answer)
         {
@@ -81,7 +95,7 @@ namespace BoundTree.ConsoleDisplaying
         {
             Contract.Requires(tree != null);
 
-            var ids = new HashSet<string>(new []{"Root"});
+            var ids = new HashSet<string>(new[] { "Root" });
 
             while (true)
             {
@@ -97,7 +111,7 @@ namespace BoundTree.ConsoleDisplaying
                 }
 
                 var firstCommand = commands[0];
-                
+
                 if (commands.Length == 1)
                 {
                     if (firstCommand == "end")
@@ -151,8 +165,8 @@ namespace BoundTree.ConsoleDisplaying
                 }
                 else
                 {
-                    
-                    _messages.Add(string.Format("The NodeData with type {0} can not be added to the {1}",  childTypeName, parentTypeName));
+
+                    _messages.Add(string.Format("The NodeData with type {0} can not be added to the {1}", childTypeName, parentTypeName));
                 }
             }
         }
@@ -167,7 +181,14 @@ namespace BoundTree.ConsoleDisplaying
         private void DisplayInitialCommand()
         {
             Console.Clear();
-            Console.WriteLine(_consoleTreeWriter.ConvertToString(_mainSingleTree, _minorTree));
+            if (!ReferenceEquals(_mainMultiTree, null))
+            {
+                Console.WriteLine(_consoleTreeWriter.ConvertToString(_mainMultiTree, _minorTree));
+            }
+            else
+            {
+                Console.WriteLine(_consoleTreeWriter.ConvertToString(_mainSingleTree, _minorTree));
+            }
             Console.WriteLine();
             if (_messages.Any())
             {

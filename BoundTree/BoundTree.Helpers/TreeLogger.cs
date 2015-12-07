@@ -1,39 +1,27 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.IO;
-using System.Linq;
 using BoundTree.Logic;
-using BoundTree.Logic.TreeNodes;
 using BoundTree.Logic.Trees;
 
 namespace BoundTree.Helpers
 {
     public class TreeLogger
     {
-        private readonly MultiTree<StringId> _mainTree;
-        private readonly SingleTree<StringId> _minorTree;
-        private readonly string _pathToFile;
+        private static TreeLogger _instance = new TreeLogger();
 
+        private readonly TreeConverter<StringId> _treeConverter = new TreeConverter<StringId>();
+        private readonly string _pathToFile;
         private const string DefaultFileName = " log.txt";
 
-        public TreeLogger(MultiTree<StringId> mainTree, SingleTree<StringId> minorTree)
+        private TreeLogger()
         {
-            Contract.Requires(mainTree != null);
-            Contract.Requires(minorTree != null);
-
-            _mainTree = mainTree;
-            _minorTree = minorTree;
             _pathToFile = GetStandartFilePath();
-            AddTreesToLogFile();
         }
 
-        public TreeLogger(MultiTree<StringId> mainTree, SingleTree<StringId> minorTree, string pathToFile)
-            : this(mainTree, minorTree)
+        public static TreeLogger GetTreeLogger()
         {
-            Contract.Requires(!string.IsNullOrEmpty(pathToFile));
-
-            _pathToFile = pathToFile;
+            return _instance;
         }
 
         public void ProcessCommand(string command)
@@ -41,15 +29,6 @@ namespace BoundTree.Helpers
             Contract.Requires(!string.IsNullOrEmpty(command));
 
             File.AppendAllLines(_pathToFile, new[] { command });
-        }
-
-        public void AddDoubleTreeToFile(DoubleNode<StringId> currentDoubleNode)
-        {
-            Contract.Requires(currentDoubleNode != null);
-
-            var lines = new DoubleNodeConverter().ConvertDoubleNode(currentDoubleNode);
-            lines.Insert(0, Environment.NewLine);
-            File.AppendAllLines(_pathToFile, lines);
         }
 
         private static string GetStandartFilePath()
@@ -62,21 +41,21 @@ namespace BoundTree.Helpers
             return Path.Combine(directoryName, fileName);
         }
 
-        private void AddTreesToLogFile()
+        public void AddSinlgeTreeInFile(SingleTree<StringId> singleTree)
         {
-            var singleTreeConverter = new TreeConverter<StringId>();
-            var mainTreeLines = singleTreeConverter.ConvertMultiTree(_mainTree);
-            var minorTreeLines = singleTreeConverter.ConvertSingleTree(_minorTree);
+            var lines = _treeConverter.ConvertSingleTree(singleTree);
+            lines.Insert(0, Environment.NewLine);
+            lines.Add(Environment.NewLine);
+            File.AppendAllLines(_pathToFile, lines);
+        }
 
-            var result = new List<string>();
-            result.AddRange(mainTreeLines);
-            result.Add(Environment.NewLine);
-            result.AddRange(minorTreeLines);
-            result.Add(Environment.NewLine);
-
-
-            File.Create(_pathToFile).Close();
-            File.AppendAllLines(_pathToFile, result);
+        public void AddMultiTreeInFile(MultiTree<StringId> multiTree)
+        {
+            var lines = _treeConverter.ConvertMultiTree(multiTree);
+            lines.Insert(0, Environment.NewLine);
+            lines.Add(Environment.NewLine);
+            File.AppendAllLines(_pathToFile, lines);
         }
     }
+
 }

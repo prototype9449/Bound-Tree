@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 namespace BoundTree.Logic.Nodes
 {
+    [Serializable]
     public class Empty : NodeInfo
     {
         public Empty()

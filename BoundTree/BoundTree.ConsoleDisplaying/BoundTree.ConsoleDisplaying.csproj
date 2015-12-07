@@ -43,7 +43,6 @@
     <Compile Include="CommandMediator.cs" />
     <Compile Include="ConsoleConnectionController.cs" />
     <Compile Include="ConsoleController.cs" />
-    <Compile Include="ConsoleTableWriter.cs" />
     <Compile Include="ConsoleTreeWriter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
