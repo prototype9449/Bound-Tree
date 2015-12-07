@@ -13,7 +13,8 @@ namespace BoundTree.Helpers
         private const string AddLongName = "add";
         private const string RemoveAllLongName = "remove all";
         private const string RemoveLongName = "remove";
-        SingleTreeParser _singleTreeConverter = new SingleTreeParser();
+        private SingleTreeParser _singleTreeConverter = new SingleTreeParser();
+
         public TreesData GetDoubleNode(List<string> lines)
         {
             Contract.Ensures(Contract.Result<TreesData>() != null);

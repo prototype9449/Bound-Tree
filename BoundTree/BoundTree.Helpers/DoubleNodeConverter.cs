@@ -9,7 +9,7 @@ namespace BoundTree.Helpers
 {
     public class DoubleNodeConverter
     {
-        private const int TabSpace = 2;
+        private const int Indent = 2;
         private const string StrictConnectionSign = "+";
         private const string RelativeConnectionSign = "*";
         private const string NoneConnectionSign = " ";
@@ -47,8 +47,8 @@ namespace BoundTree.Helpers
             {
                 var topElement = stack.Pop();
                 var space = isLeft
-                    ? new string(' ', topElement.Depth*TabSpace)
-                    : new string(' ', (maxDepth - topElement.Depth)*TabSpace);
+                    ? new string(' ', topElement.Depth*Indent)
+                    : new string(' ', (maxDepth - topElement.Depth)*Indent);
 
                 var connectionSign = GetConnectionSigh(topElement.ConnectionKind);
 
@@ -61,8 +61,8 @@ namespace BoundTree.Helpers
                     : topElement.MinorLeaf.Id.ToString();
 
                 var line = isLeft
-                    ? space + mainId + new string(' ', TabSpace)
-                    : connectionSign + new string(' ', TabSpace) + space + minorId;
+                    ? space + mainId + new string(' ', Indent)
+                    : connectionSign + new string(' ', Indent) + space + minorId;
 
                 nodeLines.Add(line);
 

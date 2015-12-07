@@ -44,8 +44,8 @@ namespace BoundTree.Helpers
                 nodes.Reverse();
                 nodes.ForEach(node => stack.Push(node));
 
-                var fullIdChain = new StringBuilder(topElement.Id + " :");
-                topElement.MultiNodeData.MinorDataNodes.ForEach(nodeData => fullIdChain.AppendFormat("|{0}|", nodeData.NodeData.Id));
+                var fullIdChain = new StringBuilder(topElement.Id.ToString());
+                topElement.MultiNodeData.MinorDataNodes.ForEach(nodeData => fullIdChain.AppendFormat("|{0}", nodeData.NodeData.Id));
                 
                 var line = string.Format("{0}{1} ({2})", new string(SignBetweenTrees, topElement.Depth * indent),
                     topElement.NodeType.Name, fullIdChain);
@@ -67,7 +67,35 @@ namespace BoundTree.Helpers
             return ConcatenateAsTreeLines(firstTreeLines, secondTreeLines);
         }
 
-        private static List<string> ConcatenateAsTreeLines(List<string> firstTreeLines, List<string> secondTreeLines)
+        public List<string> ConvertSingleTree(SingleTree<T> singleTree)
+        {
+            Contract.Requires(singleTree != null);
+            Contract.Ensures(Contract.Result<List<string>>() != null);
+
+            const int indent = 3;
+
+            var lines = new List<string>();
+
+            var stack = new Stack<SingleNode<T>>(new[] { singleTree.Root });
+
+            while (stack.Any())
+            {
+                var topElement = stack.Pop();
+
+                var nodes = topElement.Childs.ToList();
+                nodes.Reverse();
+                nodes.ForEach(node => stack.Push(node));
+
+                var line = string.Format("{0}{1} ({2})", new string(SignBetweenTrees, topElement.Depth * indent),
+                    topElement.NodeType.Name, topElement.Id);
+                lines.Add(line);
+            }
+
+            var maxLength = lines.Max(line => line.Length);
+            return lines.Select(line => line += new string(SignBetweenTrees, maxLength - line.Length)).ToList();
+        }
+
+        private List<string> ConcatenateAsTreeLines(List<string> firstTreeLines, List<string> secondTreeLines)
         {
             var lines = new List<string>();
 
@@ -89,32 +117,6 @@ namespace BoundTree.Helpers
             return lines;
         }
 
-        public List<string> ConvertSingleTree(SingleTree<T> singleTree)
-        {
-            Contract.Requires(singleTree != null);
-            Contract.Ensures(Contract.Result<List<string>>() != null);
-
-            const int indent = 3;
-            
-            var lines = new List<string>();
-
-            var stack = new Stack<SingleNode<T>>(new[] { singleTree.Root });
-
-            while (stack.Any())
-            {
-                var topElement = stack.Pop();
-
-                var nodes = topElement.Childs.ToList();
-                nodes.Reverse();
-                nodes.ForEach(node => stack.Push(node));
-
-                var line = string.Format("{0}{1} ({2})", new string(SignBetweenTrees, topElement.Depth * indent),
-                    topElement.NodeType.Name, topElement.Id);
-                lines.Add(line);
-            }
-
-            var maxLength = lines.Max(line => line.Length);
-            return lines.Select(line => line += new string(SignBetweenTrees, maxLength - line.Length)).ToList();
-        }
+        
     }
 }

@@ -32,12 +32,6 @@ namespace BoundTree.Logic.NodeData
             MinorDataNodes = minorDataNodes;
         }
 
-        public bool CanContain(MultiNodeData<T> otherMultiNodeData)
-        {
-            Contract.Requires(NodeData != null);
-            return NodeData.CanContain(NodeData);
-        }
-
         public bool IsEmpty()
         {
             return NodeData.IsEmpty();

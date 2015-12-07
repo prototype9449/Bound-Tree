@@ -150,7 +150,7 @@ namespace BoundTree.TreeReconstruction
                 if (initialChildIds.Contains(current.MinorLeaf.Id)) 
                     continue;
 
-                var groupedNodes = doubleNode.Nodes
+                var groupedNodes = current.Nodes
                     .Where(node => !node.IsMinorEmpty())
                     .GroupBy(node => node.MinorLeaf.Id)
                     .Where(group => group.Count() > 1);
@@ -160,13 +160,13 @@ namespace BoundTree.TreeReconstruction
 
                 var repairedNodes = groupedNodes.Select(GetRepairedNode).ToList();
 
-                doubleNode.Nodes.RemoveAll(repairedNode
+                current.Nodes.RemoveAll(repairedNode
                     => repairedNodes.Exists(node => node.MinorLeaf.Id == repairedNode.MinorLeaf.Id));
 
-                repairedNodes.ForEach(doubleNode.Nodes.Add);
+                repairedNodes.ForEach(current.Nodes.Add);
 
                 queue.Clear();
-                queue.Enqueue(doubleNode);
+                current.Nodes.ForEach(queue.Enqueue);
             }
         }
 
