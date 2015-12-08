@@ -21,7 +21,7 @@ namespace BoundTree.Helpers
         {
             Contract.Requires(lines != null);
             Contract.Requires(lines.Any());
-            Contract.Ensures(Contract.Result<TreesData>() != null);
+            Contract.Ensures(Contract.Result<MultiTree<StringId>>() != null);
 
             var allBlocks = GetAllBlocks(lines);
             if (!allBlocks.Any())
@@ -48,7 +48,6 @@ namespace BoundTree.Helpers
         private List<List<string>> GetAllBlocks(List<string> lines)
         {
             List<List<string>> allBlocks = new List<List<string>>();
-
 
             var currentBlock = new List<string>();
             foreach (var line in lines)

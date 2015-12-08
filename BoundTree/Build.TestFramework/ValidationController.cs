@@ -27,7 +27,7 @@ namespace Build.TestFramework
         {
             Contract.Requires(!String.IsNullOrEmpty(pathToFile));
             Contract.Requires<FileNotFoundException>(File.Exists(pathToFile));
-            Contract.Ensures(Contract.Result<DoubleNode<StringId>>() != null);
+            Contract.Ensures(Contract.Result<MultiTree<StringId>>() != null);
 
             var lines = File.ReadAllLines(pathToFile).ToList();
 

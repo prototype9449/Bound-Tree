@@ -84,7 +84,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DoubleNodeConverter.cs" />
-    <Compile Include="DoubleNodeParser.cs" />
+    <Compile Include="MultiTreeParser.cs" />
     <Compile Include="TreeConverter.cs" />
     <Compile Include="SingleTreeParser.cs" />
     <Compile Include="TreeFactory.cs" />

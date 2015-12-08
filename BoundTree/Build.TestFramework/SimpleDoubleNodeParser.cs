@@ -102,12 +102,12 @@ namespace Build.TestFramework
 
         private List<SimpleMultiNode> GetSimpleMultiNodes(List<string> lines)
         {
-            //Contract.Requires(lines != null);
-            //Contract.Requires(lines.Any());
-            //Contract.Ensures(Contract.Result<List<SimpleMultiNode>>() != null);
-            //Contract.Ensures(Contract.Result<List<SimpleMultiNode>>().Any());
+            Contract.Requires(lines != null);
+            Contract.Requires(lines.Any());
+            Contract.Ensures(Contract.Result<List<SimpleMultiNode>>() != null);
+            Contract.Ensures(Contract.Result<List<SimpleMultiNode>>().Any());
 
-            //var indention = lines.Any(line => line.Contains(TabIndention)) ? TabIndention : SpaceIndention;
+            var indention = lines.Any(line => line.Contains(TabIndention)) ? TabIndention : SpaceIndention;
 
             //var rootNodes = lines.First().Split(new[] { SpaceIndention, TabIndention }, StringSplitOptions.RemoveEmptyEntries);
 
