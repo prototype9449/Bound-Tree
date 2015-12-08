@@ -83,9 +83,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="SimpleDoubleNode.cs" />
+    <Compile Include="SimpleMultiNode.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SimpleDoubleNodeParser.cs" />
+    <Compile Include="SimpleNodeData.cs" />
     <Compile Include="ValidationController.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using BoundTree.Logic;
 
 namespace Build.TestFramework
 {
@@ -50,12 +49,13 @@ namespace Build.TestFramework
 
         public bool Equals(SimpleMultiNode other)
         {
-            var result = MainLeafId == other.MainLeafId
-                         && MinorLeafIds.SequenceEqual(other.MinorLeafIds)
-                         && Depth == other.Depth
-                         && ConnectionKind == other.ConnectionKind;
-            var otherResult = Nodes.SequenceEqual(other.Nodes);
-            return result && otherResult;
+            var areFieldsIdentical = 
+                MainLeafId == other.MainLeafId
+                && MinorNodesData.SequenceEqual(other.MinorNodesData)
+                && Depth == other.Depth;
+
+            var areNodesIdentical = Nodes.SequenceEqual(other.Nodes);
+            return areFieldsIdentical && areNodesIdentical;
         }
     }
 }

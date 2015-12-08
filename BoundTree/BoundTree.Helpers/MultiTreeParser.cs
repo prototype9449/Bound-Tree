@@ -19,40 +19,53 @@ namespace BoundTree.Helpers
 
         public MultiTree<StringId> GetMultiTree(List<string> lines)
         {
+            Contract.Requires(lines != null);
+            Contract.Requires(lines.Any());
             Contract.Ensures(Contract.Result<TreesData>() != null);
 
-            var firstSpaceIndex = lines.FindIndex(line => line.Trim() == "");
-            var minorTreeIndex = lines.Skip(firstSpaceIndex).ToList().FindIndex(line => line.Trim() != "") + firstSpaceIndex;
-
-            if (minorTreeIndex > lines.Count)
+            var allBlocks = GetAllBlocks(lines);
+            if (!allBlocks.Any())
             {
-                throw new FileLoadException("Minor tree not found");
+                throw new FileLoadException("Count of blocks is 0");
             }
 
-            var secondSpaceIndex = lines.Skip(minorTreeIndex).ToList().FindIndex(line => line.Trim() == "") + minorTreeIndex;
-            var connectionIndex = lines.Skip(secondSpaceIndex).ToList().FindIndex(line => line.Trim() != "") + secondSpaceIndex;
-            if (connectionIndex > lines.Count)
+            allBlocks.Remove(allBlocks.Last());
+
+            var mainTree = new MultiTree<StringId>(_singleTreeParser.GetSingleTree(allBlocks[0]));
+           
+
+            for (int i = 3; i < allBlocks.Count; i+=2)
             {
-                throw new FileLoadException("Connection separator was not found");
+                var minorTree = _singleTreeParser.GetSingleTree(allBlocks[i]);
+                var bindController = new BindContoller<StringId>(mainTree, minorTree);
+                AddConnections(bindController, allBlocks[i+1]);
+                mainTree = new MultiTree<StringId>(new TreeReconstruction<StringId>(bindController).GetFilledTree().ToMultiNode());
             }
 
-            var mainTreeLines = lines.Take(firstSpaceIndex).ToList();
-            var minorTreeLines = lines
-                .Skip(minorTreeIndex)
-                .Take(secondSpaceIndex - minorTreeIndex).ToList();
+            return mainTree;
+        }
 
-            var connectionCommands = lines.Skip(connectionIndex).Where(line => line != "").ToList();
-            
-            var mainTree = _singleTreeParser.GetMultiTree(mainTreeLines);
-            var minorTree = _singleTreeParser.GetSingleTree(minorTreeLines);
+        private List<List<string>> GetAllBlocks(List<string> lines)
+        {
+            List<List<string>> allBlocks = new List<List<string>>();
 
-            var bindController = new BindContoller<StringId>(mainTree, minorTree);
-            AddConnections(bindController, connectionCommands);
-            var doubleNode = new TreeReconstruction<StringId>(bindController).GetFilledTree();
 
-            //return new TreesData(doubleNode, mainTree, minorTree);
+            var currentBlock = new List<string>();
+            foreach (var line in lines)
+            {
+                if (string.IsNullOrEmpty(line) && currentBlock.Any())
+                {
+                    allBlocks.Add(currentBlock);
+                    currentBlock.Clear();
+                }
 
-            throw new NotImplementedException();
+                if (!string.IsNullOrEmpty(line))
+                {
+                    currentBlock.Add(line);
+                }
+            }
+
+            return allBlocks;
         }
 
         private void AddConnections(BindContoller<StringId> bindContoller, List<string> commands)

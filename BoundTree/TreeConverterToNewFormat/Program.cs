@@ -16,7 +16,7 @@ namespace TreeConverterToNewFormat
             foreach (var fileName in files)
             {
                 var lines = File.ReadAllLines(fileName).ToList();
-                var doubleNode = new DoubleNodeParser().GetDoubleNode(lines).DoubleNode;
+                var doubleNode = new MultiTreeParser().GetMultiTree(lines).DoubleNode;
                 var outputLines = new DoubleNodeConverter().ConvertDoubleNode(doubleNode);
                 File.Delete(fileName);
                 File.Create(fileName).Dispose();
