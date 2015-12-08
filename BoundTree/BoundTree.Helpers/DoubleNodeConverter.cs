@@ -10,9 +10,6 @@ namespace BoundTree.Helpers
     public class DoubleNodeConverter
     {
         private const int Indent = 2;
-        private const string StrictConnectionSign = "+";
-        private const string RelativeConnectionSign = "*";
-        private const string NoneConnectionSign = " ";
 
         public List<string> ConvertDoubleNode(DoubleNode<StringId> doubleNode)
         {
@@ -49,7 +46,7 @@ namespace BoundTree.Helpers
                     ? new string(' ', topElement.Depth*Indent)
                     : new string(' ', (maxDepth - topElement.Depth)*Indent);
 
-                var connectionSign = GetConnectionSigh(topElement.ConnectionKind);
+                var connectionSign = ConnectionSignHelper.GetConnectionSigh(topElement.ConnectionKind);
 
                 var mainId = topElement.MainLeaf.Id.ToString() == ""
                     ? "()"
@@ -75,16 +72,6 @@ namespace BoundTree.Helpers
             nodeLines = nodeLines.Select(line => line += new String(' ', maxLength - line.Length)).ToList();
 
             return nodeLines;
-        }
-
-        private string GetConnectionSigh(ConnectionKind connectionKind)
-        {
-            Contract.Ensures(!String.IsNullOrEmpty(Contract.Result<string>()));
-
-            if (connectionKind == ConnectionKind.None)
-                return NoneConnectionSign;
-
-            return connectionKind == ConnectionKind.Strict ? StrictConnectionSign : RelativeConnectionSign;
         }
     }
 }

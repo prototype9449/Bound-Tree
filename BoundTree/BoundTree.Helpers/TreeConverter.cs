@@ -14,9 +14,6 @@ namespace BoundTree.Helpers
     {
         private const char SignBetweenTrees = ' ';
         private const int SpaceBetweenTrees = 10;
-        private const string StrictConnectionSign = "+";
-        private const string RelativeConnectionSign = "*";
-        private const string NoneConnectionSign = " ";
 
         public List<string> ConvertAsSingleTrees(MultiTree<T> mainSingleTree, SingleTree<T> minorSingleTree)
         {
@@ -48,7 +45,7 @@ namespace BoundTree.Helpers
                 nodes.Reverse();
                 nodes.ForEach(node => stack.Push(node));
 
-                var line = string.Format("{0} {1} [{2}]", new string(SignBetweenTrees, topElement.Depth * indent), topElement.NodeType.Name, topElement.Id);
+                var line = string.Format("{0} {1} ({2})", new string(SignBetweenTrees, topElement.Depth * indent), topElement.NodeType.Name, topElement.Id);
                 lines.Add(line);
             }
 
@@ -78,7 +75,7 @@ namespace BoundTree.Helpers
                 var minorNodes = new List<string>();
                 foreach (var multiNode in multiNodes)
                 {
-                    var connectionSign = GetConnectionSigh(multiNode.MultiNodeData.MinorDataNodes[i].ConnectionKind);
+                    var connectionSign = ConnectionSignHelper.GetConnectionSigh(multiNode.MultiNodeData.MinorDataNodes[i].ConnectionKind);
                     var id = multiNode.MultiNodeData.MinorDataNodes[i].NodeData.Id;
                     minorNodes.Add(connectionSign + " " + id);
                 }
@@ -158,16 +155,6 @@ namespace BoundTree.Helpers
                 lines.Add(Environment.NewLine);
             }
             return lines;
-        }
-
-        private string GetConnectionSigh(ConnectionKind connectionKind)
-        {
-            Contract.Ensures(!String.IsNullOrEmpty(Contract.Result<string>()));
-
-            if (connectionKind == ConnectionKind.None)
-                return NoneConnectionSign;
-
-            return connectionKind == ConnectionKind.Strict ? StrictConnectionSign : RelativeConnectionSign;
         }
     }
 }

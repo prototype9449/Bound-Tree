@@ -14,8 +14,6 @@ namespace Build.TestFramework
     {
         private const char TabIndention = '\t';
         private const char SpaceIndention = ' ';
-        private const string SignStrictConnection = "+";
-        private const string SignRelativeConnection = "*";
         private const string EmptyNodeName = "()";
         private const string EmptyLine = "";
 
@@ -149,19 +147,6 @@ namespace Build.TestFramework
             //return nodes;
 
             throw new NotImplementedException();
-        }
-
-        private ConnectionKind GetConnectionKind(string sign)
-        {
-            switch (sign)
-            {
-                case SignStrictConnection:
-                    return ConnectionKind.Strict;
-                case SignRelativeConnection:
-                    return ConnectionKind.Relative;
-            }
-
-            return ConnectionKind.None;
         }
 
         private SimpleMultiNode GetNearestParent(int index, List<SimpleMultiNode> simpleDoubleNodes)
