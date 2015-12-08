@@ -39,7 +39,6 @@ namespace BoundTree.ConsoleDisplaying
             _commandMediator.Remove += RemoveConnection;
             _commandMediator.RemoveAll += RemoveAllConnections;
             _commandMediator.Add += AddConnection;
-            _commandMediator.Exit += ExitFromBuildingTree;
         }
 
         private void AddConnection()
@@ -77,17 +76,11 @@ namespace BoundTree.ConsoleDisplaying
             _messages.Add("The all connections were not removed");
         }
 
-        private void ExitFromBuildingTree()
-        {
-            _treeLogger.AddMultiTreeInFile(_bindController.MainMultiTree);
-        }
-
         public void Start(BindContoller<StringId> bindContoller)
         {
             Contract.Requires(bindContoller != null);
 
             _bindController = bindContoller;
-            _treeLogger.AddSinlgeTreeInFile(bindContoller.MinorSingleTree);
 
             while (true)
             {
