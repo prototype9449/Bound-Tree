@@ -102,7 +102,7 @@ namespace BoundTree.ConsoleDisplaying
             Console.WriteLine(_consoleTreeWriter.ConvertToString(_bindController.MainMultiTree, _bindController.MinorSingleTree));
             Console.WriteLine(_consoleTreeWriter.ConvertToString(_currentDoubleNode));
 
-            _treeConverter.ConvertMultiTree(new MultiTree<StringId>(_currentDoubleNode.ToMultiNode())).ForEach(Console.WriteLine);
+            _treeConverter.ConvertMultiTreeAsMulti(new MultiTree<StringId>(_currentDoubleNode.ToMultiNode())).ForEach(Console.WriteLine);
 
             Console.WriteLine();
             if (_messages.Any())

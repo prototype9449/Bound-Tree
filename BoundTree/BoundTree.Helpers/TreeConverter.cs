@@ -19,13 +19,40 @@ namespace BoundTree.Helpers
             Contract.Requires(mainSingleTree != null);
             Contract.Requires(minorSingleTree != null);
 
-            var firstTreeLines = ConvertMultiTree(mainSingleTree);
+            var firstTreeLines = ConvertMultiTreeAsSingle(mainSingleTree);
             var secondTreeLines = ConvertSingleTree(minorSingleTree);
 
             return ConcatenateAsTreeLines(firstTreeLines, secondTreeLines);
         }
-        
-        public List<string> ConvertMultiTree(MultiTree<T> multiTree)
+
+        public List<string> ConvertMultiTreeAsSingle(MultiTree<T> multiTree)
+        {
+            Contract.Requires(multiTree != null);
+            Contract.Requires(multiTree.Root != null);
+
+            Func<MultiNode<T>, string> getName = multiNode => string.Format("{0} ({1})", multiNode.NodeType.Name, multiNode.Id);
+
+            return ConvertMultiTree(multiTree, getName);
+        }
+
+        public List<string> ConvertMultiTreeAsMulti(MultiTree<T> multiTree)
+        {
+            Contract.Requires(multiTree != null);
+            Contract.Requires(multiTree.Root != null);
+
+            Func<MultiNode<T>, string> getName = multiNode =>
+            {
+                var fullIdChain = new StringBuilder(multiNode.Id.ToString());
+                multiNode.MultiNodeData.MinorDataNodes.ForEach(
+                    nodeData => fullIdChain.AppendFormat("|{0}", nodeData.NodeData.Id));
+
+                return string.Format("{0} ({1})", multiNode.NodeType.Name, fullIdChain);
+            };
+
+            return ConvertMultiTree(multiTree, getName);
+        }
+
+        private List<string> ConvertMultiTree(MultiTree<T> multiTree, Func<MultiNode<T>, string> getName)
         {
             Contract.Requires(multiTree != null);
             Contract.Requires(multiTree.Root != null);
@@ -44,17 +71,13 @@ namespace BoundTree.Helpers
                 nodes.Reverse();
                 nodes.ForEach(node => stack.Push(node));
 
-                var fullIdChain = new StringBuilder(topElement.Id.ToString());
-                topElement.MultiNodeData.MinorDataNodes.ForEach(nodeData => fullIdChain.AppendFormat("|{0}", nodeData.NodeData.Id));
-                
-                var line = string.Format("{0}{1} ({2})", new string(SignBetweenTrees, topElement.Depth * indent),
-                    topElement.NodeType.Name, fullIdChain);
+                var line = string.Format("{0}{1}", new string(SignBetweenTrees, topElement.Depth * indent), getName(topElement));
                 lines.Add(line);
             }
 
             var maxLength = lines.Max(line => line.Length);
             return lines.Select(line => line += new string(SignBetweenTrees, maxLength - line.Length)).ToList();
-        } 
+        }
 
         public List<string> ConvertTrees(SingleTree<T> mainSingleTree, SingleTree<T> minorSingleTree)
         {
@@ -117,6 +140,6 @@ namespace BoundTree.Helpers
             return lines;
         }
 
-        
+
     }
 }

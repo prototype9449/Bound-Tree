@@ -51,7 +51,7 @@ namespace BoundTree.Helpers
 
         public void AddMultiTreeInFile(MultiTree<StringId> multiTree)
         {
-            var lines = _treeConverter.ConvertMultiTree(multiTree);
+            var lines = _treeConverter.ConvertMultiTreeAsMulti(multiTree);
             lines.Insert(0, Environment.NewLine);
             lines.Add(Environment.NewLine);
             File.AppendAllLines(_pathToFile, lines);
