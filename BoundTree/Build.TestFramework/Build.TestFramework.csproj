@@ -85,7 +85,7 @@
   <ItemGroup>
     <Compile Include="SimpleMultiNode.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SimpleDoubleNodeParser.cs" />
+    <Compile Include="SimpleMultiNodeParser.cs" />
     <Compile Include="SimpleNodeData.cs" />
     <Compile Include="ValidationController.cs" />
   </ItemGroup>

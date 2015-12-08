@@ -37,6 +37,7 @@ namespace BoundTree.Logic.TreeNodes
             Contract.Requires(MultiNode != null);
 
             MainLeaf = MultiNode.MultiNodeData;
+            MinorLeaf = new SingleNodeData<T>();
         }
 
         public LogicLevel LogicLevel

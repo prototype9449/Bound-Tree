@@ -10,7 +10,7 @@ using BoundTree.Logic.Trees;
 
 namespace Build.TestFramework
 {
-    public class SimpleDoubleNodeParser
+    public class SimpleMultiNodeParser
     {
         private const char TabIndention = '\t';
         private const char SpaceIndention = ' ';
@@ -46,8 +46,8 @@ namespace Build.TestFramework
             Contract.Requires(multiNode != null);
             Contract.Ensures(Contract.Result<SimpleMultiNode>() != null);
 
-            var mainLeafId = multiNode.Id.ToString();
-            var minorLeafIds = multiNode.MultiNodeData.MinorDataNodes.Select(node => new SimpleNodeData(node.ConnectionKind, node.NodeData.Id.ToString())).ToList();
+            var mainLeafId = multiNode.ToString();
+            var minorLeafIds = multiNode.MultiNodeData.MinorDataNodes.Select(node => new SimpleNodeData(node.ConnectionKind, node.NodeData.ToString())).ToList();
 
             return new SimpleMultiNode(mainLeafId, 0, minorLeafIds);
         }

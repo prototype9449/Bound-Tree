@@ -94,6 +94,10 @@ namespace BoundTree.Logic.NodeData
             }
         }
 
+        public override string ToString()
+        {
+            return IsEmpty() ? string.Format("({0})", Id) : Id.ToString();
+        }
 
         public bool Equals(NodeData<T> other)
         {

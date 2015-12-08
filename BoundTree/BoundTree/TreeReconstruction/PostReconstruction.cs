@@ -104,7 +104,7 @@ namespace BoundTree.TreeReconstruction
 
             while (parent.MinorLeaf.CanContain(singleAscendant.SingleNodeData) && canAscendantConatin)
             {
-                doubleAscendant = new DoubleNode<T>(new MultiNodeData<T>(), singleAscendant.SingleNodeData)
+                doubleAscendant = new DoubleNode<T>(new MultiNodeData<T>(parent.MainLeaf.Width), singleAscendant.SingleNodeData)
                 {
                     Nodes = new List<DoubleNode<T>>(new[] { doubleAscendant })
                 };
@@ -158,7 +158,7 @@ namespace BoundTree.TreeReconstruction
                 if (!groupedNodes.Any()) 
                     continue;
 
-                var repairedNodes = groupedNodes.Select(GetRepairedNode).ToList();
+                var repairedNodes = groupedNodes.Select(group => GetRepairedNode(group, doubleNode.MainLeaf.Width)).ToList();
 
                 current.Nodes.RemoveAll(repairedNode
                     => repairedNodes.Exists(node => node.MinorLeaf.Id == repairedNode.MinorLeaf.Id));
@@ -170,12 +170,12 @@ namespace BoundTree.TreeReconstruction
             }
         }
 
-        private DoubleNode<T> GetRepairedNode(IGrouping<T, DoubleNode<T>> group)
+        private DoubleNode<T> GetRepairedNode(IGrouping<T, DoubleNode<T>> group, int width)
         {
             Contract.Requires(group != null);
             Contract.Ensures(Contract.Result<DoubleNode<T>>() != null);
 
-            var doubleNode = new DoubleNode<T>(new MultiNodeData<T>(), group.First().MinorLeaf)
+            var doubleNode = new DoubleNode<T>(new MultiNodeData<T>(width), group.First().MinorLeaf)
             {
                 Nodes = group.Select(node => node.Nodes.First()).ToList()
             };

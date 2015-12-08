@@ -11,10 +11,18 @@ namespace BoundTree.Logic.NodeData
         public NodeData<T> NodeData { get; set; }
         public List<ConnectionNodeData<T>> MinorDataNodes { get; set; }
 
-        public MultiNodeData()
+        private MultiNodeData()
         {
             NodeData = new NodeData<T>();
             MinorDataNodes = new List<ConnectionNodeData<T>>();
+        }
+
+        public MultiNodeData(int width) : this()
+        {
+            for (int i = 0; i < width; i++)
+            {
+                MinorDataNodes.Add(new ConnectionNodeData<T>(ConnectionKind.None, new NodeData<T>()));
+            }
         }
 
         public MultiNodeData(SingleNodeData<T> singleNodeData) : this(singleNodeData.NodeData)
@@ -32,11 +40,13 @@ namespace BoundTree.Logic.NodeData
             MinorDataNodes = minorDataNodes;
         }
 
+        public int Width { get { return MinorDataNodes.Count; } }
+
         public bool IsEmpty()
         {
             return NodeData.IsEmpty();
         }
-
+        
         public Type NodeType
         {
             get { return NodeData.NodeType; }
@@ -46,12 +56,12 @@ namespace BoundTree.Logic.NodeData
         {
             get
             {
-                Contract.Requires(!NodeData.IsEmpty() || MinorDataNodes.Exists(node => !node.NodeData.IsEmpty()));
                 Contract.Ensures(Contract.Result<LogicLevel>() != null);
 
                 if (NodeData.IsEmpty())
                 {
-                    return MinorDataNodes.First(node => !node.NodeData.IsEmpty()).NodeData.LogicLevel;
+                    var connectionDataNode = MinorDataNodes.FirstOrDefault(node => !node.NodeData.IsEmpty());
+                    return connectionDataNode == null ? new LogicLevel() : connectionDataNode.NodeData.LogicLevel;
                 }
 
                 return NodeData.LogicLevel;

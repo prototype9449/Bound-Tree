@@ -17,8 +17,8 @@ namespace Build.TestFramework
             Contract.Requires(!string.IsNullOrEmpty(pathToFile));
             Contract.Requires<FileNotFoundException>(File.Exists(pathToFile));
 
-            var actual = new SimpleDoubleNodeParser().ParseToSimpleMultiTree(GetDoubleNodeFromFile(pathToFile));
-            var expected = new SimpleDoubleNodeParser().ParseLines(GetExpectedDoubleNodeLines(pathToFile));
+            var actual = new SimpleMultiNodeParser().ParseToSimpleMultiTree(GetDoubleNodeFromFile(pathToFile));
+            var expected = new SimpleMultiNodeParser().ParseLines(GetExpectedDoubleNodeLines(pathToFile));
 
             return actual.Equals(expected);
         }
