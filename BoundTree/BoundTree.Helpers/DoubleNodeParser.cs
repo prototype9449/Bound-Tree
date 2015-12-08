@@ -4,18 +4,20 @@ using System.Diagnostics.Contracts;
 using System.IO;
 using System.Linq;
 using BoundTree.Logic;
+using BoundTree.Logic.Trees;
 using BoundTree.TreeReconstruction;
 
 namespace BoundTree.Helpers
 {
-    public class DoubleNodeParser
+    public class MultiTreeParser
     {
         private const string AddLongName = "add";
         private const string RemoveAllLongName = "remove all";
         private const string RemoveLongName = "remove";
+
         private readonly SingleTreeParser _singleTreeParser = new SingleTreeParser();
 
-        public TreesData GetDoubleNode(List<string> lines)
+        public MultiTree<StringId> GetMultiTree(List<string> lines)
         {
             Contract.Ensures(Contract.Result<TreesData>() != null);
 
@@ -48,7 +50,9 @@ namespace BoundTree.Helpers
             AddConnections(bindController, connectionCommands);
             var doubleNode = new TreeReconstruction<StringId>(bindController).GetFilledTree();
 
-            return new TreesData(doubleNode, mainTree, minorTree);
+            //return new TreesData(doubleNode, mainTree, minorTree);
+
+            throw new NotImplementedException();
         }
 
         private void AddConnections(BindContoller<StringId> bindContoller, List<string> commands)

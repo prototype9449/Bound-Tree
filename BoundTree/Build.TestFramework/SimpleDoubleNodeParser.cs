@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using BoundTree.Logic;
 using BoundTree.Logic.TreeNodes;
+using BoundTree.Logic.Trees;
 
 namespace Build.TestFramework
 {
@@ -18,14 +19,14 @@ namespace Build.TestFramework
         private const string EmptyNodeName = "()";
         private const string EmptyLine = "";
 
-        public SimpleDoubleNode ParseDoubleNode(DoubleNode<StringId> doubleNode)
+        public SimpleMultiNode ParseToSimpleMultiTree(MultiTree<StringId> multiTree)
         {
-            Contract.Requires(doubleNode != null);
-            Contract.Ensures(Contract.Result<SimpleDoubleNode>() != null);
+            Contract.Requires(multiTree != null);
+            Contract.Ensures(Contract.Result<SimpleMultiNode>() != null);
 
-            var result = GetSimpleDoubleNode(doubleNode);
+            var result = GetSimpleDoubleNode(multiTree.Root);
 
-            var root = new { doubleNode = doubleNode, simpleDoubleNode = result };
+            var root = new { doubleNode = multiTree, simpleDoubleNode = result };
             var queue = GetQueue(root);
 
             while (queue.Any())
@@ -42,22 +43,22 @@ namespace Build.TestFramework
             return result;
         }
 
-        private SimpleDoubleNode GetSimpleDoubleNode(DoubleNode<StringId> doubleNode)
+        private SimpleMultiNode GetSimpleDoubleNode(MultiNode<StringId> multiNode)
         {
-            Contract.Requires(doubleNode != null);
-            Contract.Ensures(Contract.Result<SimpleDoubleNode>() != null);
+            Contract.Requires(multiNode != null);
+            Contract.Ensures(Contract.Result<SimpleMultiNode>() != null);
 
-            var mainLeafId = doubleNode.MainLeaf.Id.ToString();
-            var minorLeafId = doubleNode.MinorLeaf.Id.ToString();
+            var mainLeafId = multiNode.Id.ToString();
+            var minorLeafIds = multiNode.MultiNodeData.MinorDataNodes.Select(node => new SimpleNodeData(node.ConnectionKind, node.NodeData.Id.ToString()));
 
-            return new SimpleDoubleNode(mainLeafId, minorLeafId, doubleNode.ConnectionKind, 0);
+            return new SimpleMultiNode(mainLeafId, minorLeafIds, multiNode., 0);
         }
 
-        public SimpleDoubleNode ParseLines(List<string> lines)
+        public SimpleMultiNode ParseLines(List<string> lines)
         {
             Contract.Requires(lines != null);
             Contract.Requires(lines.Any());
-            Contract.Ensures(Contract.Result<SimpleDoubleNode>() != null);
+            Contract.Ensures(Contract.Result<SimpleMultiNode>() != null);
 
             var nodes = GetSimpleDoubleNodes(lines);
 
@@ -97,12 +98,12 @@ namespace Build.TestFramework
             return result;
         }
 
-        private List<SimpleDoubleNode> GetSimpleDoubleNodes(List<string> lines)
+        private List<SimpleMultiNode> GetSimpleDoubleNodes(List<string> lines)
         {
             Contract.Requires(lines != null);
             Contract.Requires(lines.Any());
-            Contract.Ensures(Contract.Result<List<SimpleDoubleNode>>() != null);
-            Contract.Ensures(Contract.Result<List<SimpleDoubleNode>>().Any());
+            Contract.Ensures(Contract.Result<List<SimpleMultiNode>>() != null);
+            Contract.Ensures(Contract.Result<List<SimpleMultiNode>>().Any());
 
             var indention = lines.Any(line => line.Contains(TabIndention)) ? TabIndention : SpaceIndention;
 
@@ -113,9 +114,9 @@ namespace Build.TestFramework
                 throw new FileLoadException();
             }
 
-            var root = new SimpleDoubleNode(rootNodes[0], rootNodes[2], ConnectionKind.Strict, 0);
+            var root = new SimpleMultiNode(rootNodes[0], rootNodes[2], ConnectionKind.Strict, 0);
 
-            var nodes = new List<SimpleDoubleNode> { root };
+            var nodes = new List<SimpleMultiNode> { root };
 
             foreach (var line in lines.Skip(1))
             {
@@ -130,7 +131,7 @@ namespace Build.TestFramework
                 {
                     var mainLeafId = splittedLine[0];
                     var minorLeafId = splittedLine[1];
-                    nodes.Add(new SimpleDoubleNode(mainLeafId, minorLeafId, ConnectionKind.None, depth));
+                    nodes.Add(new SimpleMultiNode(mainLeafId, minorLeafId, ConnectionKind.None, depth));
                 }
                 else
                 {
@@ -139,7 +140,7 @@ namespace Build.TestFramework
                     var minorLeafId = splittedLine[2];
                     var connectionKind = GetConnectionKind(connectionSign);
 
-                    nodes.Add(new SimpleDoubleNode(mainLeafId, minorLeafId, connectionKind, depth));
+                    nodes.Add(new SimpleMultiNode(mainLeafId, minorLeafId, connectionKind, depth));
                 }
             }
 
@@ -159,11 +160,11 @@ namespace Build.TestFramework
             return ConnectionKind.None;
         }
 
-        private SimpleDoubleNode GetNearestParent(int index, List<SimpleDoubleNode> simpleDoubleNodes)
+        private SimpleMultiNode GetNearestParent(int index, List<SimpleMultiNode> simpleDoubleNodes)
         {
             Contract.Requires(simpleDoubleNodes != null);
             Contract.Requires(simpleDoubleNodes.Any());
-            Contract.Ensures(Contract.Result<SimpleDoubleNode>() != null);
+            Contract.Ensures(Contract.Result<SimpleMultiNode>() != null);
 
             for (var i = index; i >= 0; i--)
             {

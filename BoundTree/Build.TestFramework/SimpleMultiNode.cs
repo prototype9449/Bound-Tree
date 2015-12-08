@@ -5,25 +5,23 @@ using BoundTree.Logic;
 
 namespace Build.TestFramework
 {
-    public class SimpleDoubleNode : IEquatable<SimpleDoubleNode>
+    public class SimpleMultiNode : IEquatable<SimpleMultiNode>
     {
-        public SimpleDoubleNode(string mainLeafId, string minorLeafId, ConnectionKind connectionKind, int depth)
+        public SimpleMultiNode(string mainLeafId, int depth, List<SimpleNodeData> minorNodesData)
         {
             MainLeafId = mainLeafId;
-            MinorLeafId = minorLeafId;
-            ConnectionKind = connectionKind;
+            MinorNodesData = minorNodesData;
             Depth = depth;
 
-            Nodes = new List<SimpleDoubleNode>();
+            Nodes = new List<SimpleMultiNode>();
         }
 
         public string MainLeafId { get; set; }
-        public string MinorLeafId { get; set; }
+        public List<SimpleNodeData> MinorNodesData { get; set; }
         public int Depth { get; set; }
-        public ConnectionKind ConnectionKind { get; set; }
-        public List<SimpleDoubleNode> Nodes { get; set; }
+        public List<SimpleMultiNode> Nodes { get; set; }
 
-        public void Add(SimpleDoubleNode simpleDoubleNode)
+        public void Add(SimpleMultiNode simpleDoubleNode)
         {
             simpleDoubleNode.Depth = Depth + 1;
             Nodes.Add(simpleDoubleNode);
@@ -31,7 +29,7 @@ namespace Build.TestFramework
 
         public override bool Equals(object obj)
         {
-            var instance = obj as SimpleDoubleNode;
+            var instance = obj as SimpleMultiNode;
             if (obj == null)
                 return false;
 
@@ -43,18 +41,17 @@ namespace Build.TestFramework
             unchecked
             {
                 var hashCode = (MainLeafId != null ? MainLeafId.GetHashCode() : 0);
-                hashCode = (hashCode*397) ^ (MinorLeafId != null ? MinorLeafId.GetHashCode() : 0);
+                hashCode = (hashCode * 397) ^ (MinorNodesData != null ? MinorNodesData.GetHashCode() : 0);
                 hashCode = (hashCode*397) ^ Depth;
-                hashCode = (hashCode*397) ^ (int) ConnectionKind;
                 hashCode = (hashCode*397) ^ (Nodes != null ? Nodes.GetHashCode() : 0);
                 return hashCode;
             }
         }
 
-        public bool Equals(SimpleDoubleNode other)
+        public bool Equals(SimpleMultiNode other)
         {
             var result = MainLeafId == other.MainLeafId
-                         && MinorLeafId == other.MinorLeafId
+                         && MinorLeafIds.SequenceEqual(other.MinorLeafIds)
                          && Depth == other.Depth
                          && ConnectionKind == other.ConnectionKind;
             var otherResult = Nodes.SequenceEqual(other.Nodes);

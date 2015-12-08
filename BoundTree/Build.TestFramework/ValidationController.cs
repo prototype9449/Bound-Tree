@@ -6,6 +6,7 @@ using System.Linq;
 using BoundTree.Helpers;
 using BoundTree.Logic;
 using BoundTree.Logic.TreeNodes;
+using BoundTree.Logic.Trees;
 
 namespace Build.TestFramework
 {
@@ -16,13 +17,13 @@ namespace Build.TestFramework
             Contract.Requires(!string.IsNullOrEmpty(pathToFile));
             Contract.Requires<FileNotFoundException>(File.Exists(pathToFile));
 
-            var actual = new SimpleDoubleNodeParser().ParseDoubleNode(GetDoubleNodeFromFile(pathToFile));
+            var actual = new SimpleDoubleNodeParser().ParseToSimpleMultiTree(GetDoubleNodeFromFile(pathToFile));
             var expected = new SimpleDoubleNodeParser().ParseLines(GetExpectedDoubleNodeLines(pathToFile));
 
             return actual.Equals(expected);
         }
 
-        private DoubleNode<StringId> GetDoubleNodeFromFile(string pathToFile)
+        private MultiTree<StringId> GetDoubleNodeFromFile(string pathToFile)
         {
             Contract.Requires(!String.IsNullOrEmpty(pathToFile));
             Contract.Requires<FileNotFoundException>(File.Exists(pathToFile));
@@ -35,7 +36,7 @@ namespace Build.TestFramework
                 if (lines[i] == "")
                 {
                     var resultLines = lines.Take(i + 1).ToList();
-                    return new DoubleNodeParser().GetDoubleNode(resultLines).DoubleNode;
+                    return new MultiTreeParser().GetMultiTree(resultLines);
                 }
             }
 

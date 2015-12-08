@@ -17,12 +17,13 @@ namespace BoundTree.ConsoleDisplaying
         private SingleTree<StringId> _mainSingleTree;
         private MultiTree<StringId> _mainMultiTree;
         private SingleTree<StringId> _minorSingleTree;
+
         private readonly ConsoleConnectionController _consoleConnectionController = new ConsoleConnectionController();
         private readonly List<string> _messages = new List<string>();
         private readonly ConsoleTreeWriter _consoleTreeWriter = new ConsoleTreeWriter();
         private readonly SingleNodeFactory _factory = new SingleNodeFactory();
         private readonly TreeLogger _treeLogger = TreeLogger.GetTreeLogger();
-
+        private readonly MultiTreeParser _multiTreeParser = new MultiTreeParser();
 
         public ConsoleController()
         {
@@ -72,9 +73,7 @@ namespace BoundTree.ConsoleDisplaying
                 if (result == DialogResult.OK)
                 {
                     var lines = File.ReadAllLines(dialog.FileName).ToList();
-                    var treeData = new DoubleNodeParser().GetDoubleNode(lines);
-                    _mainMultiTree = new MultiTree<StringId>(treeData.MainSingleTree);
-                    _minorSingleTree = treeData.MinorSingleTree;
+                    _mainMultiTree = _multiTreeParser.GetMultiTree(lines);
                     return true;
                 }
             }
