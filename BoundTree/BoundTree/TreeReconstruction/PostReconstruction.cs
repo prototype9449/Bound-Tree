@@ -146,26 +146,26 @@ namespace BoundTree.TreeReconstruction
             while (queue.Any())
             {
                 var current = queue.Dequeue();
-                if (initialChildIds.Contains(current.MinorLeaf.Id)) 
+                if (initialChildIds.Contains(current.MinorLeaf.Id))
                     continue;
 
-                var groupedNodes = doubleNode.Nodes
+                var groupedNodes = current.Nodes
                     .Where(node => !node.IsMinorEmpty())
                     .GroupBy(node => node.MinorLeaf.Id)
                     .Where(group => group.Count() > 1);
 
-                if (!groupedNodes.Any()) 
+                if (!groupedNodes.Any())
                     continue;
 
                 var repairedNodes = groupedNodes.Select(GetRepairedNode).ToList();
 
-                doubleNode.Nodes.RemoveAll(repairedNode
+                current.Nodes.RemoveAll(repairedNode
                     => repairedNodes.Exists(node => node.MinorLeaf.Id == repairedNode.MinorLeaf.Id));
 
-                repairedNodes.ForEach(doubleNode.Nodes.Add);
+                repairedNodes.ForEach(current.Nodes.Add);
 
                 queue.Clear();
-                queue.Enqueue(doubleNode);
+                current.Nodes.ForEach(queue.Enqueue);
             }
         }
 
