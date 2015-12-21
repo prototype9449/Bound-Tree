@@ -12,18 +12,21 @@ namespace Build.TestFramework
 {
     public class ValidationController
     {
+        private readonly SimpleMultiNodeParser _multiNodeParser = new SimpleMultiNodeParser();
+        private readonly MultiTreeParser _multiTreeParser = new MultiTreeParser();
+
         public bool IsValid(string pathToFile)
         {
             Contract.Requires(!string.IsNullOrEmpty(pathToFile));
             Contract.Requires<FileNotFoundException>(File.Exists(pathToFile));
 
-            var actual = new SimpleMultiNodeParser().ParseToSimpleMultiTree(GetDoubleNodeFromFile(pathToFile));
-            var expected = new SimpleMultiNodeParser().ParseLines(GetExpectedDoubleNodeLines(pathToFile));
+            var actual = _multiNodeParser.ParseToSimpleMultiNode(GetActualMultiTreeFromFile(pathToFile));
+            var expected = _multiNodeParser.ParseToSimpleMultiNode(GetExpectedMultiTreeLines(pathToFile));
 
             return actual.Equals(expected);
         }
 
-        private MultiTree<StringId> GetDoubleNodeFromFile(string pathToFile)
+        private MultiTree<StringId> GetActualMultiTreeFromFile(string pathToFile)
         {
             Contract.Requires(!String.IsNullOrEmpty(pathToFile));
             Contract.Requires<FileNotFoundException>(File.Exists(pathToFile));
@@ -36,29 +39,20 @@ namespace Build.TestFramework
                 if (lines[i] == "")
                 {
                     var resultLines = lines.Take(i + 1).ToList();
-                    return new MultiTreeParser().GetMultiTree(resultLines);
+                    return _multiTreeParser.GetMultiTree(resultLines);
                 }
             }
 
             throw new FileLoadException();
         }
 
-        private List<string> GetExpectedDoubleNodeLines(string pathToFile)
+        private List<string> GetExpectedMultiTreeLines(string pathToFile)
         {
             Contract.Requires(!String.IsNullOrEmpty(pathToFile));
             Contract.Requires<FileNotFoundException>(File.Exists(pathToFile));
             Contract.Ensures(Contract.Result<List<string>>() != null);
 
-            var lines = File.ReadAllLines(pathToFile).ToList();
-            for (int i = lines.Count - 1; i >= 0; i--)
-            {
-                if (lines[i] == "")
-                {
-                    return lines.Skip(i).SkipWhile(line => line == "").ToList();
-                }
-            }
-
-            throw new FileLoadException();
+            return File.ReadAllLines(pathToFile).ToList();
         }
     }
 }

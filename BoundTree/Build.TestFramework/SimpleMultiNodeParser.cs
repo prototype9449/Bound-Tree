@@ -17,7 +17,7 @@ namespace Build.TestFramework
         private const string EmptyNodeName = "()";
         private const string EmptyLine = "";
 
-        public SimpleMultiNode ParseToSimpleMultiTree(MultiTree<StringId> multiTree)
+        public SimpleMultiNode ParseToSimpleMultiNode(MultiTree<StringId> multiTree)
         {
             Contract.Requires(multiTree != null);
             Contract.Ensures(Contract.Result<SimpleMultiNode>() != null);
@@ -46,13 +46,13 @@ namespace Build.TestFramework
             Contract.Requires(multiNode != null);
             Contract.Ensures(Contract.Result<SimpleMultiNode>() != null);
 
-            var mainLeafId = multiNode.ToString();
+            var mainLeafId = multiNode.Id.ToString();
             var minorLeafIds = multiNode.MultiNodeData.MinorDataNodes.Select(node => new SimpleNodeData(node.ConnectionKind, node.NodeData.ToString())).ToList();
 
             return new SimpleMultiNode(mainLeafId, 0, minorLeafIds);
         }
 
-        public SimpleMultiNode ParseLines(List<string> lines)
+        public SimpleMultiNode ParseToSimpleMultiNode(List<string> lines)
         {
 //            Contract.Requires(lines != null);
 //            Contract.Requires(lines.Any());

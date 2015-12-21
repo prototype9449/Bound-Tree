@@ -34,7 +34,7 @@ namespace BoundTree.Helpers
             var mainTree = new MultiTree<StringId>(_singleTreeParser.GetSingleTree(allBlocks[0]));
            
 
-            for (int i = 3; i < allBlocks.Count; i+=2)
+            for (int i = 1; i < allBlocks.Count; i+=2)
             {
                 var minorTree = _singleTreeParser.GetSingleTree(allBlocks[i]);
                 var bindController = new BindContoller<StringId>(mainTree, minorTree);
