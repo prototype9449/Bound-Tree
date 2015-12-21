@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using BoundTree.Logic;
+using BoundTree.Logic.NodeData;
 using BoundTree.Logic.TreeNodes;
 using BoundTree.Logic.Trees;
 
@@ -29,8 +30,11 @@ namespace BoundTree.TreeReconstruction
             new PostTreeConstructor<T>(minorTree).Reconstruct(doubleNode);
             ReconstructConnections(doubleNode);
             doubleNode.RecalculateDeep();
-            ReconstructIds(mainTree.ToList(),mainIdGenerator);
-            ReconstructIds(minorTree.ToList(), minorIdGenerator);
+
+            var mainNodes = doubleNode.ToList().Select(node => node.MainLeaf.NodeData);
+            var minorNodes = doubleNode.ToList().Select(node => node.MinorLeaf.NodeData);
+            ReconstructIds(mainNodes, mainIdGenerator);
+            ReconstructIds(minorNodes, minorIdGenerator);
             return doubleNode;
         }
 
@@ -47,7 +51,7 @@ namespace BoundTree.TreeReconstruction
             }
         }
 
-        public void ReconstructIds(IEnumerable<INode<T>> nodes, IIdGenerator<T> idGenerator)
+        public void ReconstructIds(IEnumerable<NodeData<T>> nodes, IIdGenerator<T> idGenerator)
         {
             nodes.Where(node => node.IsEmpty()).ForEach(node => node.Id = idGenerator.GetNewId());
         }
