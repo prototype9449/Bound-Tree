@@ -20,6 +20,7 @@ namespace BoundTree.ConsoleDisplaying
         private readonly CommandMediator _commandMediator = new CommandMediator();
         private readonly ConsoleTreeWriter _consoleTreeWriter = new ConsoleTreeWriter();
         private readonly TreeConverter<StringId> _treeConverter = new TreeConverter<StringId>();
+        private readonly TreeConstructor<StringId> _treeConstructor = new TreeConstructor<StringId>();
 
         public ConsoleConnectionController()
         {
@@ -97,7 +98,9 @@ namespace BoundTree.ConsoleDisplaying
         {
             Console.Clear();
 
-            _currentDoubleNode = new TreeReconstruction<StringId>(_bindController).GetFilledTree();
+            var mainIdGenerator = new IdGenerator(_bindController.MainMultiTree.ToList());
+            var minorIdGenerator = new IdGenerator(_bindController.MinorSingleTree.ToList());
+            _currentDoubleNode = _treeConstructor.GetFilledTree(_bindController, mainIdGenerator, minorIdGenerator);
 
             Console.WriteLine(_consoleTreeWriter.ConvertToString(_bindController.MainMultiTree, _bindController.MinorSingleTree));
             Console.WriteLine(_consoleTreeWriter.ConvertToString(_currentDoubleNode));

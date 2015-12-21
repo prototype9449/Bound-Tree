@@ -71,6 +71,7 @@ namespace BoundTree.Logic.NodeData
         public T Id
         {
             get { return NodeData.Id; }
+            set { NodeData.Id = value; }
         }
 
         public int Depth

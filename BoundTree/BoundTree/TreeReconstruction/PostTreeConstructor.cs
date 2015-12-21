@@ -9,11 +9,11 @@ using BoundTree.Logic.Trees;
 
 namespace BoundTree.TreeReconstruction
 {
-    public class PostReconstruction<T> where T : class, IEquatable<T>, new()
+    public class PostTreeConstructor<T> where T : class, IEquatable<T>, new()
     {
         private readonly SingleTree<T> _minorTree;
 
-        public PostReconstruction(SingleTree<T> minorTree)
+        public PostTreeConstructor(SingleTree<T> minorTree)
         {
             Contract.Requires(minorTree != null);
 

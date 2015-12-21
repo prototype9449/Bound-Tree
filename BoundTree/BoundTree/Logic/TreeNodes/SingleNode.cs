@@ -31,6 +31,7 @@ namespace BoundTree.Logic.TreeNodes
         public T Id
         {
             get { return SingleNodeData.Id; }
+            set { SingleNodeData.Id = value; }
         }
 
         public LogicLevel LogicLevel
@@ -47,6 +48,11 @@ namespace BoundTree.Logic.TreeNodes
         public Type NodeType
         {
             get { return SingleNodeData.NodeType; }
+        }
+
+        public bool IsEmpty()
+        {
+            return SingleNodeData.IsEmpty();
         }
 
         public bool CanContain(SingleNode<T> singleNode)

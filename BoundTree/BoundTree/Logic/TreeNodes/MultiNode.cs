@@ -26,10 +26,7 @@ namespace BoundTree.Logic.TreeNodes
 
         public LogicLevel LogicLevel
         {
-            get
-            {
-                return MultiNodeData.LogicLevel;
-            }
+            get { return MultiNodeData.LogicLevel; }
         }
 
         public int Depth
@@ -43,9 +40,15 @@ namespace BoundTree.Logic.TreeNodes
             get { return MultiNodeData.NodeType; }
         }
 
+        public bool IsEmpty()
+        {
+            return MultiNodeData.IsEmpty();
+        }
+
         public T Id
         {
             get { return MultiNodeData.Id; }
+            set { MultiNodeData.Id = value; }
         }
 
         public void Add(MultiNode<T> child)

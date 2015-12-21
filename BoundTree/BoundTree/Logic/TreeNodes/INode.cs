@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace BoundTree.Logic.TreeNodes
 {
@@ -6,7 +7,8 @@ namespace BoundTree.Logic.TreeNodes
     {
         LogicLevel LogicLevel { get; }
         int Depth { get; set; }
-        T Id { get; }
+        T Id { get; set; }
         Type NodeType { get; }
+        bool IsEmpty();
     }
 }

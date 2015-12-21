@@ -22,7 +22,7 @@ namespace Build.TestFramework
             Contract.Requires(multiTree != null);
             Contract.Ensures(Contract.Result<SimpleMultiNode>() != null);
 
-            var result = GetSimpleDoubleNode(multiTree.Root);
+            var result = ParseToSimpleMultiNode(multiTree.Root);
 
             var root = new { multiNode = multiTree.Root, simpleDoubleNode = result };
             var queue = GetQueue(root);
@@ -32,7 +32,7 @@ namespace Build.TestFramework
                 var current = queue.Dequeue();
                 foreach (var multiNode in current.multiNode.Childs)
                 {
-                    var simpleDoubleNode = GetSimpleDoubleNode(multiNode);
+                    var simpleDoubleNode = ParseToSimpleMultiNode(multiNode);
                     queue.Enqueue(new { multiNode, simpleDoubleNode });
                     current.simpleDoubleNode.Add(simpleDoubleNode);
                 }
@@ -41,7 +41,7 @@ namespace Build.TestFramework
             return result;
         }
 
-        private SimpleMultiNode GetSimpleDoubleNode(MultiNode<StringId> multiNode)
+        private SimpleMultiNode ParseToSimpleMultiNode(MultiNode<StringId> multiNode)
         {
             Contract.Requires(multiNode != null);
             Contract.Ensures(Contract.Result<SimpleMultiNode>() != null);

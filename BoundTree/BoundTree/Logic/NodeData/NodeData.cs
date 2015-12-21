@@ -10,7 +10,7 @@ namespace BoundTree.Logic.NodeData
     {
         public int Depth { get; internal set; }
         private NodeInfo NodeInfo { get; set; }
-        public T Id { get; private set; }
+        public T Id { get; internal set; }
 
         public NodeData()
         {

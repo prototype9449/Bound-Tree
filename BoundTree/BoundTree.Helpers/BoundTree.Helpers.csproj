@@ -88,7 +88,6 @@
     <Compile Include="MultiTreeParser.cs" />
     <Compile Include="TreeConverter.cs" />
     <Compile Include="SingleTreeParser.cs" />
-    <Compile Include="TreeFactory.cs" />
     <Compile Include="TreeLogger.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

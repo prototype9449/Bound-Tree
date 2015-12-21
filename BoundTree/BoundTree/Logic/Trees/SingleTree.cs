@@ -12,8 +12,6 @@ namespace BoundTree.Logic.Trees
     [Serializable]
     public class SingleTree<T> where T : class, IEquatable<T>, new()
     {
-        public SingleNode<T> Root { get; private set; }
-
         public SingleTree(SingleNode<T> root)
         {
             Contract.Requires(root != null);
@@ -21,6 +19,8 @@ namespace BoundTree.Logic.Trees
             Root = root;
             Root.RecalculateDeep();
         }
+
+        public SingleNode<T> Root { get; private set; }
 
         public SingleNode<T> GetById(T id)
         {

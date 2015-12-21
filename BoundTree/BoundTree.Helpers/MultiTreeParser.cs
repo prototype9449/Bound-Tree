@@ -16,7 +16,7 @@ namespace BoundTree.Helpers
         private const string RemoveLongName = "remove";
 
         private readonly SingleTreeParser _singleTreeParser = new SingleTreeParser();
-
+        private readonly TreeConstructor<StringId> _treeConstructor = new TreeConstructor<StringId>();
         public MultiTree<StringId> GetMultiTree(List<string> lines)
         {
             Contract.Requires(lines != null);
@@ -39,7 +39,11 @@ namespace BoundTree.Helpers
                 var minorTree = _singleTreeParser.GetSingleTree(allBlocks[i]);
                 var bindController = new BindContoller<StringId>(mainTree, minorTree);
                 AddConnections(bindController, allBlocks[i+1]);
-                mainTree = new MultiTree<StringId>(new TreeReconstruction<StringId>(bindController).GetFilledTree().ToMultiNode());
+
+                var mainIdGenerator = new IdGenerator(mainTree.ToList());
+                var minorIdGenerator = new IdGenerator(minorTree.ToList());
+                var multiNode = _treeConstructor.GetFilledTree(bindController, mainIdGenerator, minorIdGenerator).ToMultiNode();
+                mainTree = new MultiTree<StringId>(multiNode);
             }
 
             return mainTree;

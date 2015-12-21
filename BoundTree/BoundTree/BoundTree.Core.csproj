@@ -85,7 +85,9 @@
   <ItemGroup>
     <Compile Include="BindContoller.cs" />
     <Compile Include="BindingHandler.cs" />
+    <Compile Include="Extensions.cs" />
     <Compile Include="Logic\ConnectionKind.cs" />
+    <Compile Include="Logic\IdGenerator.cs" />
     <Compile Include="Logic\NodeData\ConnectionNodeData.cs" />
     <Compile Include="Logic\TreeNodes\INode.cs" />
     <Compile Include="Logic\TreeNodes\DoubleNode.cs" />
@@ -115,12 +117,11 @@
     <Compile Include="Logic\Trees\SingleTree.cs" />
     <Compile Include="Logic\StringId.cs" />
     <Compile Include="TreeMatcher.cs" />
-    <Compile Include="TreeReconstruction\ConnectionKindContructor.cs" />
     <Compile Include="TreeReconstruction\ConnectionConstructor.cs" />
-    <Compile Include="TreeReconstruction\PostReconstruction.cs" />
-    <Compile Include="TreeReconstruction\TreeReconstruction.cs" />
+    <Compile Include="Logic\IIdGenerator.cs" />
+    <Compile Include="TreeReconstruction\PostTreeConstructor.cs" />
+    <Compile Include="TreeReconstruction\TreeConstructor.cs" />
     <Compile Include="TreeReconstruction\VirtualNodeConstructor.cs" />
-    <Compile Include="TreesData.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
