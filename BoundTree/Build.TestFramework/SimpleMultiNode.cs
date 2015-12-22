@@ -7,6 +7,7 @@ namespace Build.TestFramework
     public class SimpleMultiNode : IEquatable<SimpleMultiNode>
     {
         private readonly bool _isEmpty;
+        private const string EmptyLine = "";
 
         public SimpleMultiNode(string mainLeafId, int depth, bool isEmpty, List<SimpleNodeData> minorNodesData)
         {
@@ -19,14 +20,8 @@ namespace Build.TestFramework
         }
 
         public SimpleMultiNode(string mainLeafId, int depth, List<SimpleNodeData> minorNodesData)
-        {
-            _isEmpty = mainLeafId == "";
-            MainLeafId = mainLeafId;
-            MinorNodesData = minorNodesData;
-            Depth = depth;
-
-            Nodes = new List<SimpleMultiNode>();
-        }
+            : this(mainLeafId, depth, mainLeafId == EmptyLine, minorNodesData)
+        { }
 
         public string MainLeafId { get; set; }
         public List<SimpleNodeData> MinorNodesData { get; set; }
@@ -78,10 +73,8 @@ namespace Build.TestFramework
             {
                 return areFieldsIdenticalWithoutId && areNodesIdentical;
             }
-            else
-            {
-                return areFieldsIdenticalWithoutId && areNodesIdentical && MainLeafId == other.MainLeafId;
-            }
+
+            return areFieldsIdenticalWithoutId && areNodesIdentical && MainLeafId == other.MainLeafId;
         }
     }
 }

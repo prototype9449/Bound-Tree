@@ -15,8 +15,8 @@ namespace Build.TestFramework
     {
         private const char TabIndention = '\t';
         private const char SpaceIndention = ' ';
-        private const string EmptyNodeName = "()";
         private const string EmptyLine = "";
+        private const string EmptyNode = "Empty";
 
         public SimpleMultiNode ParseToSimpleMultiNode(MultiTree<StringId> multiTree)
         {
@@ -171,18 +171,18 @@ namespace Build.TestFramework
         private Cortege<string, int> GetNodeData(string line, char indention)
         {
             var depth = line.TakeWhile(symbol => symbol == indention).Count();
-            var typeAndid = line.Split(new[] { '(', ')', ' ' }, StringSplitOptions.RemoveEmptyEntries);
+            var typeAndid = line.Split(new[] { '(', ')', SpaceIndention }, StringSplitOptions.RemoveEmptyEntries);
 
             if (typeAndid.Length == 2)
             {
-                if (typeAndid[0] == "Empty")
+                if (typeAndid[0] == EmptyNode)
                 {
-                    return new Cortege<string, int>("", depth);
+                    return new Cortege<string, int>(EmptyLine, depth);
                 }
                 return new Cortege<string, int>(typeAndid[1], depth);
             }
 
-            var id = typeAndid.LastOrDefault() ?? "";
+            var id = typeAndid.LastOrDefault() ?? EmptyLine;
             return new Cortege<string, int>(id, depth);
         }
 

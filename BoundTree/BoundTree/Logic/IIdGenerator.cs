@@ -1,4 +1,4 @@
-namespace BoundTree.TreeReconstruction
+namespace BoundTree.Logic
 {
     public interface IIdGenerator<T>
     {
