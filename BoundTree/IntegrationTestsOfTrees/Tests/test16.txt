@@ -1,0 +1,22 @@
+
+
+Root (Root)     
+   Single (A)   
+      Answer (B)
+
+
+
+
+Root (Root)        
+   Grid (A)        
+      Single (B)   
+         Answer (C)
+
+
+add B C
+
+
+Root (Root)            + Root
+    Empty (0)          * A   
+        Single (A)     * B   
+            Answer (B) + C

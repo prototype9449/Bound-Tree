@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using BoundTree.Logic;
-using BoundTree.Logic.NodeData;
 
 namespace Build.TestFramework
 {

@@ -5,7 +5,6 @@ using System.IO;
 using System.Linq;
 using BoundTree.Helpers;
 using BoundTree.Logic;
-using BoundTree.Logic.TreeNodes;
 using BoundTree.Logic.Trees;
 
 namespace Build.TestFramework

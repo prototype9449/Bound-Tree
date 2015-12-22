@@ -3,10 +3,8 @@ using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.IO;
 using System.Linq;
-using System.Text.RegularExpressions;
 using BoundTree.Helpers;
 using BoundTree.Logic;
-using BoundTree.Logic.NodeData;
 using BoundTree.Logic.Nodes;
 using BoundTree.Logic.TreeNodes;
 using BoundTree.Logic.Trees;
@@ -117,8 +115,8 @@ namespace Build.TestFramework
                 ConnectionSignHelper.StrictConnectionSign
             };
 
-            var mainNodePart = string.Join("",line.TakeWhile(symbol => !stopSymbols.Contains(symbol)));
-            var minorNodesPart = string.Join("",line.SkipWhile(symbol => !stopSymbols.Contains(symbol)));
+            var mainNodePart = string.Join("", line.TakeWhile(symbol => !stopSymbols.Contains(symbol)));
+            var minorNodesPart = string.Join("", line.SkipWhile(symbol => !stopSymbols.Contains(symbol)));
 
             return new Cortege<string, string>(mainNodePart, minorNodesPart);
         }
@@ -175,8 +173,16 @@ namespace Build.TestFramework
             var depth = line.TakeWhile(symbol => symbol == indention).Count();
             var typeAndid = line.Split(new[] { '(', ')', ' ' }, StringSplitOptions.RemoveEmptyEntries);
 
-            var id = typeAndid.FirstOrDefault() ?? "";
+            if (typeAndid.Length == 2)
+            {
+                if (typeAndid[0] == "Empty")
+                {
+                    return new Cortege<string, int>("", depth);
+                }
+                return new Cortege<string, int>(typeAndid[1], depth);
+            }
 
+            var id = typeAndid.LastOrDefault() ?? "";
             return new Cortege<string, int>(id, depth);
         }
 
