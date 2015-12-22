@@ -13,5 +13,10 @@ namespace BoundTree.Logic.NodeData
 
         public NodeData<T> NodeData { get; set; }
         public ConnectionKind ConnectionKind { get; private set; }
+
+        public bool IsEmpty()
+        {
+            return NodeData.IsEmpty();
+        }
     }
 }

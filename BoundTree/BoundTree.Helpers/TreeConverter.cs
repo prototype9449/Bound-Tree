@@ -77,7 +77,8 @@ namespace BoundTree.Helpers
                 {
                     var connectionSign = ConnectionSignHelper.GetConnectionSigh(multiNode.MultiNodeData.MinorDataNodes[i].ConnectionKind);
                     var id = multiNode.MultiNodeData.MinorDataNodes[i].NodeData.Id;
-                    minorNodes.Add(connectionSign + " " + id);
+                    string stringId = multiNode.MultiNodeData.MinorDataNodes[i].IsEmpty()  ? "(" + id + ")" : id.ToString();
+                    minorNodes.Add(connectionSign + " " + stringId);
                 }
                 allMinorNodes.Add(minorNodes);
             }

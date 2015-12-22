@@ -43,17 +43,17 @@ namespace BoundTree.Helpers
             {
                 var topElement = stack.Pop();
                 var space = isLeft
-                    ? new string(' ', topElement.Depth*Indent)
-                    : new string(' ', (maxDepth - topElement.Depth)*Indent);
+                    ? new string(' ', topElement.Depth * Indent)
+                    : new string(' ', (maxDepth - topElement.Depth) * Indent);
 
                 var connectionSign = ConnectionSignHelper.GetConnectionSigh(topElement.ConnectionKind);
 
-                var mainId = topElement.MainLeaf.Id.ToString() == ""
-                    ? "()"
+                var mainId = topElement.MainLeaf.IsEmpty()
+                    ? "(" + topElement.MainLeaf.Id + ")"
                     : topElement.MainLeaf.Id.ToString();
 
-                var minorId = topElement.MinorLeaf.Id.ToString() == ""
-                    ? "()"
+                var minorId = topElement.MinorLeaf.IsEmpty()
+                    ? "(" + topElement.MinorLeaf.Id + ")"
                     : topElement.MinorLeaf.Id.ToString();
 
                 var line = isLeft
