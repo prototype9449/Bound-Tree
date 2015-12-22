@@ -40,9 +40,8 @@ namespace BoundTree.Helpers
                 var bindController = new BindContoller<StringId>(mainTree, minorTree);
                 AddConnections(bindController, allBlocks[i+1]);
 
-                var mainIdGenerator = new IdGenerator(mainTree.ToList());
-                var minorIdGenerator = new IdGenerator(minorTree.ToList());
-                var multiNode = _treeConstructor.GetFilledTree(bindController, mainIdGenerator, minorIdGenerator).ToMultiNode();
+                var idGenerator = new IdGenerator(mainTree.ToList());
+                var multiNode = _treeConstructor.GetFilledTree(bindController, idGenerator).ToMultiNode();
                 mainTree = new MultiTree<StringId>(multiNode);
             }
 

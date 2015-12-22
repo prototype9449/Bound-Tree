@@ -98,9 +98,8 @@ namespace BoundTree.ConsoleDisplaying
         {
             Console.Clear();
 
-            var mainIdGenerator = new IdGenerator(_bindController.MainMultiTree.ToList());
-            var minorIdGenerator = new IdGenerator(_bindController.MinorSingleTree.ToList());
-            _currentDoubleNode = _treeConstructor.GetFilledTree(_bindController, mainIdGenerator, minorIdGenerator);
+            var idGenerator = new IdGenerator(_bindController.MainMultiTree.ToList());
+            _currentDoubleNode = _treeConstructor.GetFilledTree(_bindController, idGenerator);
 
             Console.WriteLine(_consoleTreeWriter.ConvertToString(_bindController.MainMultiTree, _bindController.MinorSingleTree));
             Console.WriteLine(_consoleTreeWriter.ConvertToString(_currentDoubleNode));

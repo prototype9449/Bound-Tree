@@ -5,7 +5,6 @@ using System.Linq;
 using BoundTree.Logic;
 using BoundTree.Logic.NodeData;
 using BoundTree.Logic.TreeNodes;
-using BoundTree.Logic.Trees;
 
 namespace BoundTree.TreeReconstruction
 {
@@ -13,7 +12,7 @@ namespace BoundTree.TreeReconstruction
     {
         private readonly ConnectionContructor<T> _connectionConstructor = new ConnectionContructor<T>();
 
-        public DoubleNode<T> GetFilledTree(BindContoller<T> bindContoller, IIdGenerator<T> mainIdGenerator, IIdGenerator<T> minorIdGenerator)
+        public DoubleNode<T> GetFilledTree(BindContoller<T> bindContoller, IIdGenerator<T> mainIdGenerator)
         {
             Contract.Requires(bindContoller != null);
             Contract.Ensures(Contract.Result<DoubleNode<T>>() != null);
@@ -31,14 +30,11 @@ namespace BoundTree.TreeReconstruction
             ReconstructConnections(doubleNode);
             doubleNode.RecalculateDeep();
 
-            var mainNodes = doubleNode.ToList().Select(node => node.MainLeaf.NodeData);
-            var minorNodes = doubleNode.ToList().Select(node => node.MinorLeaf.NodeData);
-            ReconstructIds(mainNodes, mainIdGenerator);
-            ReconstructIds(minorNodes, minorIdGenerator);
+            ReconstructIds(doubleNode, mainIdGenerator);
             return doubleNode;
         }
 
-        public void ReconstructConnections(DoubleNode<T> doubleNode)
+        private void ReconstructConnections(DoubleNode<T> doubleNode)
         {
             Contract.Requires(doubleNode != null);
 
@@ -51,10 +47,21 @@ namespace BoundTree.TreeReconstruction
             }
         }
 
-        public void ReconstructIds(IEnumerable<NodeData<T>> nodes, IIdGenerator<T> idGenerator)
+        private void ReconstructIds(DoubleNode<T> doubleNode, IIdGenerator<T> idGenerator)
         {
-            nodes.Where(node => node.IsEmpty()).ForEach(node => node.Id = idGenerator.GetNewId());
+            Contract.Requires(idGenerator != null);
+            var doubleNodes = doubleNode.ToList();
+
+            var allIds = new List<NodeData<T>>();
+
+            foreach (var node in doubleNodes)
+            {
+                allIds.Add(node.MainLeaf.NodeData);   
+                allIds.Add(node.MinorLeaf.NodeData);   
+                node.MainLeaf.MinorDataNodes.ForEach(connectionData => allIds.Add(connectionData.NodeData));   
+            }
+
+            allIds.Where(node => node.IsEmpty()).ForEach(node => node.Id = idGenerator.GetNewId());
         }
     }
-
 }
