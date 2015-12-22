@@ -27,7 +27,7 @@ add U W
 
 
 Root       +          Root
-  A                 ()    
+  A        -         ()    
   B        *        ()    
     C      *      ()      
       E    *    ()        

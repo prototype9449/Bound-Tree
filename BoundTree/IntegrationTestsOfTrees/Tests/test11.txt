@@ -25,7 +25,7 @@ add R E
 Root       +          Root
   A        *        A     
     B      +      B       
-    D             ()      
+    D      -       ()      
     ()     *      C       
       C    +    D         
       ()   *    T         

@@ -19,7 +19,7 @@ add D B
 
 
 Root   +      Root
-  A         ()    
-  B         ()    
+  A    -     ()    
+  B    -     ()    
   C    *    ()    
     D  +  B       

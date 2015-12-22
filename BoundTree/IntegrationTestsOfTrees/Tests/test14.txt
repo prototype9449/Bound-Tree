@@ -33,6 +33,6 @@ Root         +            Root
         E    +    C           
     C        *        A       
       T      *      ()        
-        W         ()          
+        W    -     ()          
         I    *    W           
           Q  +  U 

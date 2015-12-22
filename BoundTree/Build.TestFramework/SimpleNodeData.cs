@@ -11,7 +11,6 @@ namespace Build.TestFramework
         public SimpleNodeData(ConnectionKind connectionKind, string id, bool isEmpty)
         {
             _isEmpty = isEmpty;
-            Contract.Requires(!string.IsNullOrEmpty(id));
 
             ConnectionKind = connectionKind;
             Id = id;
@@ -27,7 +26,10 @@ namespace Build.TestFramework
 
         public bool Equals(SimpleNodeData other)
         {
-            return Id == other.Id && ConnectionKind == other.ConnectionKind;
+            if(_isEmpty == other._isEmpty && _isEmpty == true)
+                return ConnectionKind == other.ConnectionKind;
+
+            return Id == other.Id && ConnectionKind == other.ConnectionKind && _isEmpty == other._isEmpty;
         }
 
         public override bool Equals(object obj)

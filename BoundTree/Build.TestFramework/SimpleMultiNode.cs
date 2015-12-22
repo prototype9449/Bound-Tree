@@ -20,12 +20,12 @@ namespace Build.TestFramework
             Nodes = new List<SimpleMultiNode>();
         }
 
-        public SimpleMultiNode(NodeData<StringId> nodeData, List<SimpleNodeData> minorNodesData)
+        public SimpleMultiNode(string mainLeafId, int depth, List<SimpleNodeData> minorNodesData)
         {
-            _isEmpty = nodeData.IsEmpty();
-            MainLeafId = nodeData.Id.ToString();
+            _isEmpty = mainLeafId == "";
+            MainLeafId = mainLeafId;
             MinorNodesData = minorNodesData;
-            Depth = nodeData.Depth;
+            Depth = depth;
 
             Nodes = new List<SimpleMultiNode>();
         }
@@ -69,13 +69,21 @@ namespace Build.TestFramework
 
         public bool Equals(SimpleMultiNode other)
         {
-            var areFieldsIdentical = 
-                MainLeafId == other.MainLeafId
-                && MinorNodesData.SequenceEqual(other.MinorNodesData)
+            var areFieldsIdenticalWithoutId = 
+                MinorNodesData.SequenceEqual(other.MinorNodesData)
                 && Depth == other.Depth;
 
             var areNodesIdentical = Nodes.SequenceEqual(other.Nodes);
-            return areFieldsIdentical && areNodesIdentical;
+            var areBothAreEmpty = _isEmpty == other._isEmpty && _isEmpty;
+
+            if (areBothAreEmpty)
+            {
+                return areFieldsIdenticalWithoutId && areNodesIdentical;
+            }
+            else
+            {
+                return areFieldsIdenticalWithoutId && areNodesIdentical && MainLeafId == other.MainLeafId;
+            }
         }
     }
 }

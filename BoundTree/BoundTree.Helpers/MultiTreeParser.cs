@@ -29,8 +29,6 @@ namespace BoundTree.Helpers
                 throw new FileLoadException("Count of blocks is 0");
             }
 
-            allBlocks.Remove(allBlocks.Last());
-
             var mainTree = new MultiTree<StringId>(_singleTreeParser.GetSingleTree(allBlocks[0]));
            
 
@@ -57,7 +55,7 @@ namespace BoundTree.Helpers
             {
                 if (string.IsNullOrEmpty(line) && currentBlock.Any())
                 {
-                    allBlocks.Add(currentBlock);
+                    allBlocks.Add(currentBlock.ToList());
                     currentBlock.Clear();
                 }
 

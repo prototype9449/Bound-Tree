@@ -7,6 +7,7 @@ using System.Text.RegularExpressions;
 using BoundTree.Helpers;
 using BoundTree.Logic;
 using BoundTree.Logic.NodeData;
+using BoundTree.Logic.Nodes;
 using BoundTree.Logic.TreeNodes;
 using BoundTree.Logic.Trees;
 
@@ -63,7 +64,6 @@ namespace Build.TestFramework
             var multiNodes = GetSimpleMultiNodes(lines);
             var result = multiNodes.First();
 
-
             var maxDepth = multiNodes.Max(node => node.Depth);
             int greatestCommonDivisor = 1;
 
@@ -99,18 +99,28 @@ namespace Build.TestFramework
 
             foreach (var line in lines)
             {
-                var lineParts =
-                    line.Split(new[]
-                    {
-                        ConnectionSignHelper.NoneConnectionSign, ConnectionSignHelper.RelativeConnectionSign,
-                        ConnectionSignHelper.StrictConnectionSign
-                    });
-                var mainNodeData = GetNodeData(lineParts[0], indention);
-                var simpleDataNodes = GetSimpleDataNodes(lineParts[1]);
-                simpleMultiNodes.Add(new SimpleMultiNode(mainNodeData, simpleDataNodes));
+                var lineParts = GetMainNodeAndMinorNodes(line);
+                var idAndDepth = GetNodeData(lineParts.First, indention);
+                var simpleDataNodes = GetSimpleDataNodes(lineParts.Second);
+                simpleMultiNodes.Add(new SimpleMultiNode(idAndDepth.First, idAndDepth.Second, simpleDataNodes));
             }
 
             return simpleMultiNodes;
+        }
+
+        private Cortege<string, string> GetMainNodeAndMinorNodes(string line)
+        {
+            var stopSymbols = new HashSet<char>()
+            {
+                ConnectionSignHelper.NoneConnectionSign,
+                ConnectionSignHelper.RelativeConnectionSign,
+                ConnectionSignHelper.StrictConnectionSign
+            };
+
+            var mainNodePart = string.Join("",line.TakeWhile(symbol => !stopSymbols.Contains(symbol)));
+            var minorNodesPart = string.Join("",line.SkipWhile(symbol => !stopSymbols.Contains(symbol)));
+
+            return new Cortege<string, string>(mainNodePart, minorNodesPart);
         }
 
         private List<ConnectionKind> GetAllConnectionKinds(string line)
@@ -160,15 +170,14 @@ namespace Build.TestFramework
             return simpleDataNodes;
         }
 
-        private NodeData<StringId> GetNodeData(string line, char indention)
+        private Cortege<string, int> GetNodeData(string line, char indention)
         {
             var depth = line.TakeWhile(symbol => symbol == indention).Count();
             var typeAndid = line.Split(new[] { '(', ')', ' ' }, StringSplitOptions.RemoveEmptyEntries);
 
-            var nodeType = NodeInfoFactory.GetNodeInfo(typeAndid[0]);
-            var id = new StringId(typeAndid[1]);
+            var id = typeAndid.FirstOrDefault() ?? "";
 
-            return new NodeData<StringId>(id, depth, nodeType);
+            return new Cortege<string, int>(id, depth);
         }
 
         private SimpleMultiNode GetNearestParent(int index, List<SimpleMultiNode> simpleDoubleNodes)
