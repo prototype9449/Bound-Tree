@@ -1,16 +1,31 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using BoundTree.Logic;
+using BoundTree.Logic.NodeData;
 
 namespace Build.TestFramework
 {
     public class SimpleMultiNode : IEquatable<SimpleMultiNode>
     {
-        public SimpleMultiNode(string mainLeafId, int depth, List<SimpleNodeData> minorNodesData)
+        private readonly bool _isEmpty;
+
+        public SimpleMultiNode(string mainLeafId, int depth, bool isEmpty, List<SimpleNodeData> minorNodesData)
         {
+            _isEmpty = isEmpty;
             MainLeafId = mainLeafId;
             MinorNodesData = minorNodesData;
             Depth = depth;
+
+            Nodes = new List<SimpleMultiNode>();
+        }
+
+        public SimpleMultiNode(NodeData<StringId> nodeData, List<SimpleNodeData> minorNodesData)
+        {
+            _isEmpty = nodeData.IsEmpty();
+            MainLeafId = nodeData.Id.ToString();
+            MinorNodesData = minorNodesData;
+            Depth = nodeData.Depth;
 
             Nodes = new List<SimpleMultiNode>();
         }
@@ -24,6 +39,11 @@ namespace Build.TestFramework
         {
             simpleDoubleNode.Depth = Depth + 1;
             Nodes.Add(simpleDoubleNode);
+        }
+
+        public bool IsEmpty()
+        {
+            return _isEmpty;
         }
 
         public override bool Equals(object obj)

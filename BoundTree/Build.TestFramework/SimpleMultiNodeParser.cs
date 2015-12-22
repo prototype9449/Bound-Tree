@@ -4,7 +4,9 @@ using System.Diagnostics.Contracts;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
+using BoundTree.Helpers;
 using BoundTree.Logic;
+using BoundTree.Logic.NodeData;
 using BoundTree.Logic.TreeNodes;
 using BoundTree.Logic.Trees;
 
@@ -47,55 +49,41 @@ namespace Build.TestFramework
             Contract.Ensures(Contract.Result<SimpleMultiNode>() != null);
 
             var mainLeafId = multiNode.Id.ToString();
-            var minorLeafIds = multiNode.MultiNodeData.MinorDataNodes.Select(node => new SimpleNodeData(node.ConnectionKind, node.NodeData.ToString())).ToList();
+            var minorLeafIds = multiNode.MultiNodeData.MinorDataNodes.Select(node => new SimpleNodeData(node.ConnectionKind, node.NodeData.ToString(), node.IsEmpty())).ToList();
 
-            return new SimpleMultiNode(mainLeafId, 0, minorLeafIds);
+            return new SimpleMultiNode(mainLeafId, 0, multiNode.IsEmpty(), minorLeafIds);
         }
 
         public SimpleMultiNode ParseToSimpleMultiNode(List<string> lines)
         {
-//            Contract.Requires(lines != null);
-//            Contract.Requires(lines.Any());
-//            Contract.Ensures(Contract.Result<SimpleMultiNode>() != null);
-//
-//            var nodes = GetSimpleMultiNodes(lines);
-//
-//            foreach (var simpleDoubleNode in nodes)
-//            {
-//                if (simpleDoubleNode.MinorLeafId == EmptyNodeName)
-//                {
-//                    simpleDoubleNode.MinorLeafId = EmptyLine;
-//                }
-//                if (simpleDoubleNode.MainLeafId == EmptyNodeName)
-//                {
-//                    simpleDoubleNode.MainLeafId = EmptyLine;
-//                }
-//            }
-//
-//            var maxDepth = nodes.Max(node => node.Depth);
-//            int greatestCommonDivisor = 1;
-//
-//            for (int i = maxDepth; i > 1; i--)
-//            {
-//                if (nodes.All(node => node.Depth % i == 0))
-//                {
-//                    greatestCommonDivisor = i;
-//                    break;
-//                }
-//            }
-//            nodes.ForEach(node => node.Depth /= greatestCommonDivisor);
-//
-//            var result = nodes.First();
-//
-//            for (var i = 1; i < nodes.Count(); i++)
-//            {
-//                var nearestParent = GetNearestParent(i, nodes);
-//                nearestParent.Add(nodes[i]);
-//            }
-//
-//            return result;
+            Contract.Requires(lines != null);
+            Contract.Requires(lines.Any());
+            Contract.Ensures(Contract.Result<SimpleMultiNode>() != null);
 
-            throw new NotImplementedException();
+            var multiNodes = GetSimpleMultiNodes(lines);
+            var result = multiNodes.First();
+
+
+            var maxDepth = multiNodes.Max(node => node.Depth);
+            int greatestCommonDivisor = 1;
+
+            for (int i = maxDepth; i > 1; i--)
+            {
+                if (multiNodes.All(node => node.Depth % i == 0))
+                {
+                    greatestCommonDivisor = i;
+                    break;
+                }
+            }
+            multiNodes.ForEach(node => node.Depth /= greatestCommonDivisor);
+
+            for (var i = 1; i < multiNodes.Count(); i++)
+            {
+                var nearestParent = GetNearestParent(i, multiNodes);
+                nearestParent.Add(multiNodes[i]);
+            }
+
+            return result;
         }
 
         private List<SimpleMultiNode> GetSimpleMultiNodes(List<string> lines)
@@ -105,48 +93,82 @@ namespace Build.TestFramework
             Contract.Ensures(Contract.Result<List<SimpleMultiNode>>() != null);
             Contract.Ensures(Contract.Result<List<SimpleMultiNode>>().Any());
 
+            var simpleMultiNodes = new List<SimpleMultiNode>();
+
             var indention = lines.Any(line => line.Contains(TabIndention)) ? TabIndention : SpaceIndention;
 
-            //var rootNodes = lines.First().Split(new[] { SpaceIndention, TabIndention }, StringSplitOptions.RemoveEmptyEntries);
+            foreach (var line in lines)
+            {
+                var lineParts =
+                    line.Split(new[]
+                    {
+                        ConnectionSignHelper.NoneConnectionSign, ConnectionSignHelper.RelativeConnectionSign,
+                        ConnectionSignHelper.StrictConnectionSign
+                    });
+                var mainNodeData = GetNodeData(lineParts[0], indention);
+                var simpleDataNodes = GetSimpleDataNodes(lineParts[1]);
+                simpleMultiNodes.Add(new SimpleMultiNode(mainNodeData, simpleDataNodes));
+            }
 
-            //if (rootNodes[0] != "Root" || rootNodes[2] != "Root")
-            //{
-            //    throw new FileLoadException();
-            //}
+            return simpleMultiNodes;
+        }
 
-            //var root = new SimpleMultiNode(rootNodes[0], rootNodes[2], ConnectionKind.Strict, 0);
+        private List<ConnectionKind> GetAllConnectionKinds(string line)
+        {
+            var allKinds = new List<ConnectionKind>();
 
-            //var nodes = new List<SimpleMultiNode> { root };
+            for (int i = 0; i < line.Length; i++)
+            {
+                switch (line[i])
+                {
+                    case ConnectionSignHelper.NoneConnectionSign: allKinds.Add(ConnectionKind.None);
+                        break;
+                    case ConnectionSignHelper.RelativeConnectionSign: allKinds.Add(ConnectionKind.Relative);
+                        break;
+                    case ConnectionSignHelper.StrictConnectionSign: allKinds.Add(ConnectionKind.Strict);
+                        break;
+                }
+            }
 
-            //foreach (var line in lines.Skip(1))
-            //{
-            //    var splittedLine = line.Split(new[] { SpaceIndention, TabIndention }, StringSplitOptions.RemoveEmptyEntries);
-            //    if (splittedLine.Length != 2 && splittedLine.Length != 3)
-            //    {
-            //        throw new FileLoadException();
-            //    }
+            return allKinds;
+        }
 
-            //    var depth = line.TakeWhile(symbol => symbol == indention).Count();
-            //    if (splittedLine.Length == 2)
-            //    {
-            //        var mainLeafId = splittedLine[0];
-            //        var minorLeafId = splittedLine[1];
-            //        nodes.Add(new SimpleMultiNode(mainLeafId, minorLeafId, ConnectionKind.None, depth));
-            //    }
-            //    else
-            //    {
-            //        var mainLeafId = splittedLine[0];
-            //        var connectionSign = splittedLine[1];
-            //        var minorLeafId = splittedLine[2];
-            //        var connectionKind = GetConnectionKind(connectionSign);
+        private List<SimpleNodeData> GetSimpleDataNodes(string line)
+        {
+            var simpleDataNodes = new List<SimpleNodeData>();
 
-            //        nodes.Add(new SimpleMultiNode(mainLeafId, minorLeafId, connectionKind, depth));
-            //    }
-            //}
+            var connectionKinds = GetAllConnectionKinds(line);
+            var idNodes = line.Split(new[] {' ', ConnectionSignHelper.NoneConnectionSign, ConnectionSignHelper.RelativeConnectionSign,
+                        ConnectionSignHelper.StrictConnectionSign}, StringSplitOptions.RemoveEmptyEntries);
 
-            //return nodes;
+            if (connectionKinds.Count() != idNodes.Length)
+                throw new FileLoadException("count of nodes are not the same");
 
-            throw new NotImplementedException();
+            for (int i = 0; i < idNodes.Length; i++)
+            {
+                if (idNodes[i].Contains('('))
+                {
+                    var id = idNodes[i].Trim('(', ')');
+                    simpleDataNodes.Add(new SimpleNodeData(connectionKinds[i], id, true));
+                }
+                else
+                {
+                    simpleDataNodes.Add(new SimpleNodeData(connectionKinds[i], idNodes[i], false));
+                }
+            }
+
+            return simpleDataNodes;
+        }
+
+        private NodeData<StringId> GetNodeData(string line, char indention)
+        {
+            var depth = line.TakeWhile(symbol => symbol == indention).Count();
+            var typeAndid = line.Split(new[] { '(', ')', ' ' }, StringSplitOptions.RemoveEmptyEntries);
+
+            var nodeType = NodeInfoFactory.GetNodeInfo(typeAndid[0]);
+            var id = new StringId(typeAndid[1]);
+
+            return new NodeData<StringId>(id, depth, nodeType);
         }
 
         private SimpleMultiNode GetNearestParent(int index, List<SimpleMultiNode> simpleDoubleNodes)

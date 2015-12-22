@@ -6,8 +6,11 @@ namespace Build.TestFramework
 {
     public class SimpleNodeData : IEquatable<SimpleNodeData>
     {
-        public SimpleNodeData(ConnectionKind connectionKind, string id)
+        private readonly bool _isEmpty;
+
+        public SimpleNodeData(ConnectionKind connectionKind, string id, bool isEmpty)
         {
+            _isEmpty = isEmpty;
             Contract.Requires(!string.IsNullOrEmpty(id));
 
             ConnectionKind = connectionKind;
@@ -16,6 +19,11 @@ namespace Build.TestFramework
 
         public string Id { get; set; }
         public ConnectionKind ConnectionKind { get; set; }
+
+        public bool IsEmpty()
+        {
+            return _isEmpty;
+        }
 
         public bool Equals(SimpleNodeData other)
         {

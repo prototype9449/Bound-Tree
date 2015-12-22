@@ -6,18 +6,20 @@ namespace BoundTree.Helpers
 {
     public static class ConnectionSignHelper
     {
-        public const string StrictConnectionSign = "+";
-        public const string RelativeConnectionSign = "*";
-        public const string NoneConnectionSign = "-";
+        public const char StrictConnectionSign = '+';
+        public const char RelativeConnectionSign = '*';
+        public const char NoneConnectionSign = '-';
 
         public static string GetConnectionSigh(ConnectionKind connectionKind)
         {
             Contract.Ensures(!String.IsNullOrEmpty(Contract.Result<string>()));
 
             if (connectionKind == ConnectionKind.None)
-                return NoneConnectionSign;
+                return NoneConnectionSign.ToString();
 
-            return connectionKind == ConnectionKind.Strict ? StrictConnectionSign : RelativeConnectionSign;
+            return connectionKind == ConnectionKind.Strict 
+                ? StrictConnectionSign.ToString() 
+                : RelativeConnectionSign.ToString();
         }
     }
 }
