@@ -1,18 +1,18 @@
 ﻿using System;
 using System.IO;
 using Build.TestFramework;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace IntegrationTestsOfTrees
 {
-    [TestClass]
+    [TestFixture]
     public class IntegrationTests
     {
         private string _pathToTestFolder;
         private ValidationController _validator = new ValidationController();
         public IntegrationTests()
         {
-            _pathToTestFolder = Path.Combine(new DirectoryInfo(Directory.GetCurrentDirectory()).Parent.Parent.FullName,"Tests");
+            _pathToTestFolder = Path.Combine("C:\\Bound-Tree\\BoundTree\\IntegrationTestsOfTrees","Tests");
         }
 
         private string GetFullPath(string fileName)
@@ -20,106 +20,26 @@ namespace IntegrationTestsOfTrees
             return Path.Combine(_pathToTestFolder, fileName);
         }
 
-        [TestMethod]
-        public void TestTxt1()
+        [TestCase("test1.txt")]
+        [TestCase("test2.txt")]
+        [TestCase("test3.txt")]
+        [TestCase("test4.txt")]
+        [TestCase("test5.txt")]
+        [TestCase("test6.txt")]
+        [TestCase("test7.txt")]
+        [TestCase("test8.txt")]
+        [TestCase("test9.txt")]
+        [TestCase("test10.txt")]
+        [TestCase("test11.txt")]
+        [TestCase("test12.txt")]
+        [TestCase("test13.txt")]
+        [TestCase("test14.txt")]
+        [TestCase("test15.txt")]
+        [TestCase("test16.txt")]
+        [TestCase("test17.txt")]
+        public void TestTxt1(string path)
         {
-            Assert.IsTrue(_validator.IsValid(GetFullPath("test1.txt")));
-        }
-
-        [TestMethod]
-        public void TestTxt2()
-        {
-            Assert.IsTrue(_validator.IsValid(GetFullPath("test2.txt")));
-        }
-
-        [TestMethod]
-        public void TestTxt3()
-        {
-            Assert.IsTrue(_validator.IsValid(GetFullPath("test3.txt")));
-        }
-
-        [TestMethod]
-        public void TestTxt4()
-        {
-            Assert.IsTrue(_validator.IsValid(GetFullPath("test4.txt")));
-        }
-
-        [TestMethod]
-        public void TestTxt5()
-        {
-            Assert.IsTrue(_validator.IsValid(GetFullPath("test5.txt")));
-        }
-
-        [TestMethod]
-        public void TestTxt6()
-        {
-            Assert.IsTrue(_validator.IsValid(GetFullPath("test6.txt")));
-        }
-
-        [TestMethod]
-        public void TestTxt7()
-        {
-            Assert.IsTrue(_validator.IsValid(GetFullPath("test7.txt")));
-        }
-
-        [TestMethod]
-        public void TestTxt8()
-        {
-            Assert.IsTrue(_validator.IsValid(GetFullPath("test8.txt")));
-        }
-
-        [TestMethod]
-        public void TestTxt9()
-        {
-            Assert.IsTrue(_validator.IsValid(GetFullPath("test9.txt")));
-        }
-
-        [TestMethod]
-        public void TestTxt10()
-        {
-            Assert.IsTrue(_validator.IsValid(GetFullPath("test10.txt")));
-        }
-
-        [TestMethod]
-        public void TestTxt11()
-        {
-            Assert.IsTrue(_validator.IsValid(GetFullPath("test11.txt")));
-        }
-
-        [TestMethod]
-        public void TestTxt12()
-        {
-            Assert.IsTrue(_validator.IsValid(GetFullPath("test12.txt")));
-        }
-
-        [TestMethod]
-        public void TestTxt13()
-        {
-            Assert.IsTrue(_validator.IsValid(GetFullPath("test13.txt")));
-        }
-
-        [TestMethod]
-        public void TestTxt14()
-        {
-            Assert.IsTrue(_validator.IsValid(GetFullPath("test14.txt")));
-        }
-
-        [TestMethod]
-        public void TestTxt15()
-        {
-            Assert.IsTrue(_validator.IsValid(GetFullPath("test15.txt")));
-        }
-
-        [TestMethod]
-        public void TestTxt16()
-        {
-            Assert.IsTrue(_validator.IsValid(GetFullPath("test16.txt")));
-        }
-
-        [TestMethod]
-        public void TestTxt17()
-        {
-            Assert.IsTrue(_validator.IsValid(GetFullPath("test17.txt")));
+            Assert.IsTrue(_validator.IsValid(GetFullPath(path)));
         }
     }
 }
