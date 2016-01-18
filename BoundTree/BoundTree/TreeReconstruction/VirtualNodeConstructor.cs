@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
+using BoundTree.Interfaces;
 using BoundTree.Logic;
 using BoundTree.Logic.NodeData;
 using BoundTree.Logic.TreeNodes;
@@ -9,7 +10,7 @@ using BoundTree.Logic.Trees;
 
 namespace BoundTree.TreeReconstruction
 {
-    public class VirtualNodeConstruction<T> where T : class, IEquatable<T>, new()
+    public class VirtualNodeConstruction<T> where T : class, IID<T>, IEquatable<T>, new()
     {
         private readonly SingleTree<T> _minorTree;
 

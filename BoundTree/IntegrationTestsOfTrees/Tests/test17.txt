@@ -1,38 +1,34 @@
+Root (Root)     
+   Single (A)   
+      Answer (B)
+
+
 
 
 Root (Root)                
    Single (A)              
-      Answer (B)           
+      PredefinedList (B)   
          PredefinedList (C)
+            Answer (D)     
 
 
+add B D
 
 
-Root (Root)                   
-   Single (A)                 
-      Answer (B)              
-         PredefinedList (D)   
-            PredefinedList (C)
-            PredefinedList (H)
+Root (Root)           
+   Grid3D (A)         
+      Grid (B)        
+         Single (C)   
+            Answer (D)
 
 
-add C H
-add B B
+add B D
 
 
-Root (Root)                   
-   Grid (A)                   
-      Single (B)              
-         Answer (C)           
-            PredefinedList (D)
-
-
-add C D
-
-
-Root (Root)                            + Root + Root
-    Empty (1)                          - (3)  * A   
-        Single (A)                     * A    * B   
-            Answer (B)                 + B    * (0)   
-                Empty (2)              * D    * (4)   
-                    PredefinedList (C) + H    + D
+Root (Root)                        + Root + Root
+    Empty (2)                      - (3)  * A   
+        Empty (4)                  - (5)  * B   
+            Single (A)             * A    * C   
+                Empty (0)          * B    * (6) 
+                    Empty (1)      * C    * (7) 
+                        Answer (B) + D    + D

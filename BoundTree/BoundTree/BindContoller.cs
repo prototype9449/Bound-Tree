@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Diagnostics.Contracts;
+using BoundTree.Interfaces;
 using BoundTree.Logic.Trees;
 
 namespace BoundTree
 {
-    public class BindContoller<T> where T : class, IEquatable<T>, new()
+    public class BindContoller<T> where T : class, IID<T>, IEquatable<T>, new()
     {
         public MultiTree<T> MainMultiTree { get; private set; }
         public SingleTree<T> MinorSingleTree { get; private set; }

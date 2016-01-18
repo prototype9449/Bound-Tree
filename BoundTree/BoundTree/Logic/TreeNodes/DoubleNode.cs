@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
+using BoundTree.Interfaces;
 using BoundTree.Logic.NodeData;
 
 namespace BoundTree.Logic.TreeNodes
 {
-    public class DoubleNode<T> where T : class, IEquatable<T>, new()
+    public class DoubleNode<T> where T : class, IEquatable<T>, IID<T>, new()
     {
         public MultiNodeData<T> MainLeaf { get; private set; }
         public SingleNodeData<T> MinorLeaf { get; set; }

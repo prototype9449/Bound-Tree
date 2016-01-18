@@ -4,13 +4,14 @@ using System.Diagnostics.Contracts;
 using System.IO;
 using System.Linq;
 using System.Text;
+using BoundTree.Interfaces;
 using BoundTree.Logic;
 using BoundTree.Logic.TreeNodes;
 using BoundTree.Logic.Trees;
 
 namespace BoundTree.Helpers
 {
-    public class TreeConverter<T> where T : class, IEquatable<T>, new()
+    public class TreeConverter<T> where T : class, IID<T>,IEquatable<T>, new()
     {
         private const char SignBetweenTrees = ' ';
         private const int SpaceBetweenTrees = 10;

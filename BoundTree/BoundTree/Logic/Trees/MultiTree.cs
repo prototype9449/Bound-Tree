@@ -4,12 +4,13 @@ using System.Diagnostics.Contracts;
 using System.IO;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
+using BoundTree.Interfaces;
 using BoundTree.Logic.TreeNodes;
 
 namespace BoundTree.Logic.Trees
 {
     [Serializable]
-    public class MultiTree<T> where T : class, IEquatable<T>, new()
+    public class MultiTree<T> where T : class, IID<T>, IEquatable<T>, new()
     {
         public MultiTree(SingleNode<T> root)
         {

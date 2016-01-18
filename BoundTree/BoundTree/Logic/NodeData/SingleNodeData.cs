@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Diagnostics.Contracts;
+using BoundTree.Interfaces;
 
 namespace BoundTree.Logic.NodeData
 {
     [Serializable]
-    public class SingleNodeData<T> : IEquatable<SingleNodeData<T>> where T : new()
+    public class SingleNodeData<T> : IEquatable<SingleNodeData<T>> where T : IID<T>, new()
     {
         public NodeData<T> NodeData { get; set; }
 

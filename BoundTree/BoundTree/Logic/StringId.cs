@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Diagnostics.Contracts;
+using BoundTree.Interfaces;
 
 namespace BoundTree.Logic
 {
     [Serializable]
-    public class StringId : IEquatable<StringId>
+    public class StringId : IEquatable<StringId>, IID<StringId>
     {
         private readonly string _id;
 
@@ -42,6 +43,11 @@ namespace BoundTree.Logic
         public override string ToString()
         {
             return _id;
+        }
+
+        public bool IsEmpty()
+        {
+            return _id == "";
         }
     }
 }

@@ -10,7 +10,7 @@ using BoundTree.Logic.Trees;
 namespace BoundTree
 {
     [Serializable]
-    public class BindingHandler<T> : IBindingHandler<T> where T : class, IEquatable<T>, new()
+    public class BindingHandler<T> : IBindingHandler<T> where T : class, IID<T>, IEquatable<T>, new()
     {
         private readonly MultiTree<T> _mainTree;
         private readonly SingleTree<T> _minorTree;

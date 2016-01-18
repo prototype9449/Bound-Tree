@@ -6,7 +6,7 @@ using BoundTree.Logic.TreeNodes;
 namespace BoundTree.Interfaces
 {
     [ContractClass(typeof(BindingHandlerContract<>))]
-    public interface IBindingHandler<T> where T : new()
+    public interface IBindingHandler<T> where T : IID<T>, new()
     {
         bool HandleBinding(MultiNode<T> mainSingleNode, SingleNode<T> minorSingleNode);
         bool RemoveConnection(T mainId);
@@ -14,7 +14,7 @@ namespace BoundTree.Interfaces
     }
 
     [ContractClassFor(typeof(IBindingHandler<>))]
-    public abstract class BindingHandlerContract<T> : IBindingHandler<T> where T : new()
+    public abstract class BindingHandlerContract<T> : IBindingHandler<T> where T : IID<T>,  new()
     {
         public bool HandleBinding(MultiNode<T> mainSingleNode, SingleNode<T> minorSingleNode)
         {

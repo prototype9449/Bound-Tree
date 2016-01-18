@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
+using BoundTree.Interfaces;
 using BoundTree.Logic.Nodes;
 
 namespace BoundTree.Logic.NodeData
 {
     [Serializable]
-    public class NodeData<T> : IEquatable<NodeData<T>> where T : new()
+    public class NodeData<T> : IEquatable<NodeData<T>> where T : IID<T>, new()
     {
         public int Depth { get; internal set; }
         private NodeInfo NodeInfo { get; set; }

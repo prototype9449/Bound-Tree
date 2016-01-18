@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
+using BoundTree.Interfaces;
 using BoundTree.Logic.NodeData;
 
 namespace BoundTree.Logic.TreeNodes
 {
     [Serializable]
-    public class MultiNode<T> : INode<T> where T : new()
+    public class MultiNode<T> : INode<T> where T : IID<T>,new()
     {
         public MultiNodeData<T> MultiNodeData { get; private set; }
         public List<MultiNode<T>> Childs { get; private set; }

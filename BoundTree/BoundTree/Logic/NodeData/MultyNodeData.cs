@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
+using BoundTree.Interfaces;
 
 namespace BoundTree.Logic.NodeData
 {
     [Serializable]
-    public class MultiNodeData<T> : IEquatable<MultiNodeData<T>> where T : new()
+    public class MultiNodeData<T> : IEquatable<MultiNodeData<T>> where T : IID<T>,new()
     {
         public NodeData<T> NodeData { get; set; }
         public List<ConnectionNodeData<T>> MinorDataNodes { get; set; }

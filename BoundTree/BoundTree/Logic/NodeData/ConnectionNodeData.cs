@@ -1,9 +1,10 @@
 ﻿using System;
+using BoundTree.Interfaces;
 
 namespace BoundTree.Logic.NodeData
 {
     [Serializable]
-    public class ConnectionNodeData<T> where T : new()
+    public class ConnectionNodeData<T> where T : IID<T>,new()
     {
         public ConnectionNodeData(ConnectionKind connectionKind, NodeData<T> nodeData)
         {

@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
+using BoundTree.Interfaces;
 using BoundTree.Logic;
 using BoundTree.Logic.NodeData;
 using BoundTree.Logic.TreeNodes;
 
 namespace BoundTree.TreeReconstruction
 {
-    public class TreeConstructor<T> where T : class, IEquatable<T>, new()
+    public class TreeConstructor<T> where T : class, IID<T>, IEquatable<T>, new()
     {
         private readonly ConnectionContructor<T> _connectionConstructor = new ConnectionContructor<T>();
 
@@ -61,7 +62,8 @@ namespace BoundTree.TreeReconstruction
                 node.MainLeaf.MinorDataNodes.ForEach(connectionData => allIds.Add(connectionData.NodeData));   
             }
 
-            allIds.Where(node => node.IsEmpty()).ForEach(node => node.Id = idGenerator.GetNewId());
+            var emptyNodes = allIds.Where(node => node.IsEmpty() && node.Id.IsEmpty());
+            emptyNodes.ForEach(node => node.Id = idGenerator.GetNewId());
         }
     }
 }
