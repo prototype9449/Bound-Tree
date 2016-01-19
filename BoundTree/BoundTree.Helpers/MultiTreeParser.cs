@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.IO;
 using System.Linq;
+using BoundTree.Helpers.Actions;
 using BoundTree.Logic;
 using BoundTree.Logic.Trees;
 using BoundTree.TreeReconstruction;
+using Build.TestFramework;
 
 namespace BoundTree.Helpers
 {
@@ -17,6 +19,7 @@ namespace BoundTree.Helpers
 
         private readonly SingleTreeParser _singleTreeParser = new SingleTreeParser();
         private readonly TreeConstructor<StringId> _treeConstructor = new TreeConstructor<StringId>();
+
         public MultiTree<StringId> GetMultiTree(List<string> lines)
         {
             Contract.Requires(lines != null);
@@ -29,25 +32,74 @@ namespace BoundTree.Helpers
                 throw new FileLoadException("Count of blocks is 0");
             }
 
-            var mainTree = new MultiTree<StringId>(_singleTreeParser.GetSingleTree(allBlocks[0]));
-           
+            return GetMultiTree(allBlocks).First;
+        }
 
-            for (int i = 1; i < allBlocks.Count; i+=2)
+        private Cortege<MultiTree<StringId>, LogHistory> GetMultiTree(List<List<string>> blocks)
+        {
+            Contract.Requires(blocks != null);
+            Contract.Requires(blocks.Any());
+            Contract.Requires(blocks.Count % 2 == 1);
+
+            var logHistory = new LogHistory();
+
+            var singleTree = _singleTreeParser.GetSingleTree(blocks[0]);
+            logHistory.Add(new SingleTreeResult(singleTree));
+            var mainTree = new MultiTree<StringId>(singleTree);
+
+            for (int i = 1; i < blocks.Count; i += 2)
             {
-                var minorTree = _singleTreeParser.GetSingleTree(allBlocks[i]);
+                var minorTree = _singleTreeParser.GetSingleTree(blocks[i]);
+                var connectionBlock = blocks[i + 1];
+
+                logHistory.Add(new SingleTreeResult(minorTree));
+                logHistory.Add(new CommandsResult(connectionBlock));
+
                 var bindController = new BindContoller<StringId>(mainTree, minorTree);
-                AddConnections(bindController, allBlocks[i+1]);
+                AddConnections(bindController, connectionBlock);
 
                 var idGenerator = new IdGenerator(mainTree.ToList());
                 var multiNode = _treeConstructor.GetFilledTree(bindController, idGenerator).ToMultiNode();
                 mainTree = new MultiTree<StringId>(multiNode);
             }
 
-            return mainTree;
+            return new Cortege<MultiTree<StringId>, LogHistory>(mainTree, logHistory);
+        }
+
+        public Cortege<BindContoller<StringId>, LogHistory> GetBindContollerAndLogHistory(List<string> lines)
+        {
+            Contract.Requires(lines != null);
+            Contract.Requires(lines.Any());
+
+            var allBlocks = GetAllBlocks(lines);
+            if (allBlocks.Count < 3)
+            {
+                throw new FileLoadException("Count of blocks is less then 3");
+            }
+
+            var allBlocksForMultiTree = allBlocks.Take(allBlocks.Count - 2).ToList();
+            var linesForSingleTree = allBlocks[allBlocks.Count - 2];
+            var commandLines = allBlocks.Last();
+
+            var multiTreeAndLogHistory = GetMultiTree(allBlocksForMultiTree);
+            var singleTree = _singleTreeParser.GetSingleTree(linesForSingleTree);
+
+            var multiTree = multiTreeAndLogHistory.First;
+            var logHistory = multiTreeAndLogHistory.Second;
+            logHistory.Add(new SingleTreeResult(singleTree));
+            logHistory.Add(new CommandsResult(commandLines));
+
+            var bindController = new BindContoller<StringId>(multiTree, singleTree);
+            AddConnections(bindController, commandLines);
+
+            return new Cortege<BindContoller<StringId>, LogHistory>(bindController, logHistory);
         }
 
         private List<List<string>> GetAllBlocks(List<string> lines)
         {
+            Contract.Requires(lines != null);
+            Contract.Requires(lines.Any());
+
             List<List<string>> allBlocks = new List<List<string>>();
 
             var currentBlock = new List<string>();

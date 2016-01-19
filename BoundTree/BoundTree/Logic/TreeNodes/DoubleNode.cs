@@ -32,12 +32,12 @@ namespace BoundTree.Logic.TreeNodes
             MinorLeaf = minorLeaf;
         }
 
-        public DoubleNode(MultiNode<T> MultiNode)
+        public DoubleNode(MultiNode<T> multiNode)
             : this()
         {
-            Contract.Requires(MultiNode != null);
+            Contract.Requires(multiNode != null);
 
-            MainLeaf = MultiNode.MultiNodeData;
+            MainLeaf = multiNode.MultiNodeData;
             MinorLeaf = new SingleNodeData<T>();
         }
 
@@ -98,7 +98,6 @@ namespace BoundTree.Logic.TreeNodes
             {
                 return null;
             }
-            var s = "";
             return Nodes.First();
         }
 

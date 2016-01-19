@@ -6,7 +6,7 @@ namespace BoundTree.Logic.Nodes
     [Serializable]
     public abstract class NodeInfo 
     {
-        internal abstract List<Type> ValidTypes { get; }
+        protected abstract List<Type> ValidTypes { get; }
 
         public LogicLevel LogicLevel { get; internal set; }
 

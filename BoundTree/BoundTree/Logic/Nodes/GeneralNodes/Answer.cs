@@ -11,7 +11,7 @@ namespace BoundTree.Logic.Nodes.GeneralNodes
             typeof(PredefinedList)
         });
 
-        internal override List<Type> ValidTypes { get { return _validTypes; } }
+        protected override List<Type> ValidTypes { get { return _validTypes; } }
 
         public Answer()
         {

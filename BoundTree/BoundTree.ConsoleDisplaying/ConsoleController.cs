@@ -24,6 +24,7 @@ namespace BoundTree.ConsoleDisplaying
         private readonly SingleNodeFactory _factory = new SingleNodeFactory();
         private readonly TreeLogger _treeLogger = TreeLogger.GetTreeLogger();
         private readonly MultiTreeParser _multiTreeParser = new MultiTreeParser();
+        private readonly SingleTreeParser _singleTreeParser = new SingleTreeParser();
 
         public ConsoleController()
         {
@@ -35,62 +36,83 @@ namespace BoundTree.ConsoleDisplaying
         {
             Console.WriteLine("Do you want to open existed file?");
             Console.WriteLine("Type 'y' if you want to open file");
-            var answer = Console.ReadLine();
-            var action = SelectFile(answer);
-            if (!action)
+            if (Console.ReadLine() == "y")
+            {
+                ProcessBuildingTreeFromFile();
+            }
+            else
             {
                 ProcessBuildingMainTree();
             }
-            _treeLogger.AddSinlgeTreeInFile(_mainSingleTree);
+        }
+
+        private void ProcessBuildingTreeFromConsole(BindContoller<StringId> bindController = null)
+        {
+            BindContoller<StringId> newBindController = bindController;
+
             do
             {
-                ProcessBuildingMinorTree();
-                _treeLogger.AddSinlgeTreeInFile(_minorSingleTree);
-                _consoleConnectionController.Start(new BindContoller<StringId>(_mainMultiTree, _minorSingleTree));
+                if (newBindController == null)
+                {
+                    ProcessBuildingMinorTree();
+
+                    _consoleConnectionController.Start(new BindContoller<StringId>(_mainMultiTree, _minorSingleTree));
+                }
+                else
+                {
+                    _consoleConnectionController.Start(newBindController);
+                }
 
                 _mainMultiTree = _consoleConnectionController.GetConnectedMultiTree();
-                _minorSingleTree = new SingleTree<StringId>(_factory.GetNode("Root", new Root()));
 
                 Console.Clear();
-                Console.WriteLine("Do you want to type another tree? \n type 'yes' to add tree or something else to finish with building trees");
+                Console.WriteLine("Do you want to type another tree?");
+                Console.WriteLine("type 'yes' to add tree or something else to finish with building trees");
                 if (Console.ReadLine() != "yes")
                 {
                     break;
                 }
+                newBindController = null;
 
             } while (true);
             _treeLogger.AddMultiTreeInFile(_mainMultiTree);
         }
 
-       
-
-        private bool SelectFile(string answer)
+        private void ProcessBuildingTreeFromFile()
         {
-            if (answer == "y")
+            var dialog = new OpenFileDialog();
+            if (dialog.ShowDialog() == DialogResult.OK)
             {
-                var dialog = new OpenFileDialog();
-                var result = dialog.ShowDialog();
-                if (result == DialogResult.OK)
-                {
-                    var lines = File.ReadAllLines(dialog.FileName).ToList();
-                    _mainMultiTree = _multiTreeParser.GetMultiTree(lines);
-                    return true;
-                }
+                var lines = File.ReadAllLines(dialog.FileName).ToList();
+                lines.Reverse();
+                var restOfLinesCount = lines.SkipWhile(line => line != "");
+                var resultLines = restOfLinesCount.Reverse().ToList();
+
+                var bindControllerAndLogHistory = _multiTreeParser.GetBindContollerAndLogHistory(resultLines);
+                _treeLogger.AddLogHistory(bindControllerAndLogHistory.Second);
+
+                ProcessBuildingTreeFromConsole(bindControllerAndLogHistory.First);
+
+                return;
             }
 
-            return false;
+            throw new InvalidOperationException("DialogResult is not OK");
         }
 
         private void ProcessBuildingMainTree()
         {
             _mainSingleTree = new SingleTree<StringId>(_factory.GetNode("Root", new Root()));
             ProcessBuildingTree(_mainSingleTree);
+            _treeLogger.AddSinlgeTreeInFile(_mainSingleTree);
             _mainMultiTree = new MultiTree<StringId>(_mainSingleTree);
+            ProcessBuildingTreeFromConsole();
         }
 
         private void ProcessBuildingMinorTree()
         {
+            _minorSingleTree = new SingleTree<StringId>(_factory.GetNode("Root", new Root()));
             ProcessBuildingTree(_minorSingleTree);
+            _treeLogger.AddSinlgeTreeInFile(_minorSingleTree);
         }
 
         private void ProcessBuildingTree(SingleTree<StringId> tree)

@@ -11,7 +11,7 @@ namespace BoundTree.Logic.Nodes.GeneralNodes
             typeof(PredefinedList),typeof(OpenTextInfo),typeof(Answer), typeof(Single)
         });
 
-        internal override List<Type> ValidTypes { get { return _validTypes; } }
+        protected override List<Type> ValidTypes { get { return _validTypes; } }
 
         public Multi()
         {

@@ -83,8 +83,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Actions\CommandsResult.cs" />
+    <Compile Include="Actions\ILogResult.cs" />
+    <Compile Include="Actions\SingleTreeResult.cs" />
     <Compile Include="ConnectionSignHelper.cs" />
     <Compile Include="DoubleNodeConverter.cs" />
+    <Compile Include="LogHistory.cs" />
     <Compile Include="MultiTreeParser.cs" />
     <Compile Include="TreeConverter.cs" />
     <Compile Include="SingleTreeParser.cs" />

@@ -17,6 +17,11 @@ namespace BoundTree.Logic
             _level = level;
         }
 
+        public static LogicLevel ZeroLevel
+        {
+            get { return new LogicLevel(0);}
+        }
+
         public static bool operator ==(LogicLevel firstLevel, LogicLevel secondLevel)
         {
             var first = firstLevel as object;

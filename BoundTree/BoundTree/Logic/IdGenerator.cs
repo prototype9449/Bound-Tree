@@ -6,7 +6,7 @@ namespace BoundTree.Logic
 {
     public class IdGenerator: IIdGenerator<StringId>
     {
-        private HashSet<string> _ids = new HashSet<string>();
+        private readonly HashSet<string> _ids = new HashSet<string>();
 
         public IdGenerator(IEnumerable<INode<StringId>> nodes)
         {

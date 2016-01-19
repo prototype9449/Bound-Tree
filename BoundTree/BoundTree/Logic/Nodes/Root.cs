@@ -13,7 +13,7 @@ namespace BoundTree.Logic.Nodes
              typeof (Grid3D), typeof (Grid), typeof(MultiGrid),typeof(Multi),typeof(OpenTextInfo), typeof(Single)
         });
 
-        internal override List<Type> ValidTypes { get { return _validTypes; } }
+        protected override List<Type> ValidTypes { get { return _validTypes; } }
 
 
         public Root()

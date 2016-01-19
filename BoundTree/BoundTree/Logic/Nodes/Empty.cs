@@ -11,7 +11,7 @@ namespace BoundTree.Logic.Nodes
             LogicLevel = new LogicLevel();
         }
 
-        internal override List<Type> ValidTypes
+        protected override List<Type> ValidTypes
         {
             get { return null; }
         }

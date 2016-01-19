@@ -30,17 +30,7 @@ namespace BoundTree.Helpers
 
             File.AppendAllLines(_pathToFile, new[] { command });
         }
-
-        private static string GetStandartFilePath()
-        {
-            var prefixFileName = DateTime.Now.ToString("yyyy.MM.dd H_mm_ss");
-            var directoryName = Path.Combine(Directory.GetCurrentDirectory(), "Logs");
-
-            var fileName = Path.Combine(directoryName, prefixFileName + DefaultFileName);
-
-            return Path.Combine(directoryName, fileName);
-        }
-
+        
         public void AddSinlgeTreeInFile(SingleTree<StringId> singleTree)
         {
             var lines = _treeConverter.ConvertSingleTree(singleTree);
@@ -55,6 +45,21 @@ namespace BoundTree.Helpers
             lines.Insert(0, Environment.NewLine);
             lines.Add(Environment.NewLine);
             File.AppendAllLines(_pathToFile, lines);
+        }
+
+        public void AddLogHistory(LogHistory logHistory)
+        {
+            File.AppendAllLines(_pathToFile, logHistory.ToList());
+        }
+
+        private static string GetStandartFilePath()
+        {
+            var prefixFileName = DateTime.Now.ToString("yyyy.MM.dd H_mm_ss");
+            var directoryName = Path.Combine(Directory.GetCurrentDirectory(), "Logs");
+
+            var fileName = Path.Combine(directoryName, prefixFileName + DefaultFileName);
+
+            return Path.Combine(directoryName, fileName);
         }
     }
 

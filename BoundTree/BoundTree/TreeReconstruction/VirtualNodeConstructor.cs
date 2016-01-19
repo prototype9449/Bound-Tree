@@ -155,7 +155,7 @@ namespace BoundTree.TreeReconstruction
                     return doubleNode.Shadow;
                 }
                 //if NodeData equals to Root
-                if (doubleNode.LogicLevel == new LogicLevel(0))
+                if (doubleNode.LogicLevel == LogicLevel.ZeroLevel)
                 {
                     return doubleNode.MinorLeaf;
                 }

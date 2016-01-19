@@ -51,8 +51,8 @@ namespace BoundTree.TreeReconstruction
         private void ReconstructIds(DoubleNode<T> doubleNode, IIdGenerator<T> idGenerator)
         {
             Contract.Requires(idGenerator != null);
-            var doubleNodes = doubleNode.ToList();
 
+            var doubleNodes = doubleNode.ToList();
             var allIds = new List<NodeData<T>>();
 
             foreach (var node in doubleNodes)

@@ -12,7 +12,7 @@ namespace BoundTree.Logic.NodeData
             NodeData = nodeData;
         }
 
-        public NodeData<T> NodeData { get; set; }
+        public NodeData<T> NodeData { get; private set; }
         public ConnectionKind ConnectionKind { get; private set; }
 
         public bool IsEmpty()

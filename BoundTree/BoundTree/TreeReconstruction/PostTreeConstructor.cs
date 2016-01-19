@@ -36,10 +36,7 @@ namespace BoundTree.TreeReconstruction
                 if(current.IsMinorEmpty() || passedNodes.Exists(node => node.MinorLeaf == current.MinorLeaf)) 
                     continue;
 
-                var initialChildIds = current.Nodes
-                    .Select(node => node.MinorLeaf.Id).ToList();
-
-                if (current.Nodes.All(node => node.IsMinorEmpty())) 
+                if (current.Nodes.All(node => node.IsMinorEmpty()))
                     continue;
 
                 if (passedNodes.Contains(current))
@@ -47,6 +44,9 @@ namespace BoundTree.TreeReconstruction
                     current.Nodes.ForEach(node => passedNodes.Add(node));
                     continue;
                 }
+
+                var initialChildIds = current.Nodes
+                    .Select(node => node.MinorLeaf.Id).ToList();
 
                 var descendantPairs = current.Nodes
                     .Select(node => GetRepairedNode(current, node)).ToList();

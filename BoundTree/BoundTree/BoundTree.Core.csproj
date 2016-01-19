@@ -85,6 +85,7 @@
   <ItemGroup>
     <Compile Include="BindContoller.cs" />
     <Compile Include="BindingHandler.cs" />
+    <Compile Include="Cortege.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="Interfaces\IID.cs" />
     <Compile Include="Logic\ConnectionKind.cs" />
