@@ -39,7 +39,7 @@ namespace BoundTree
             if (mainNode == null || minorNode == null)
                 return false;
 
-            if (mainNode.NodeType == minorNode.NodeType)
+            if (mainNode.LogicLevel == minorNode.LogicLevel)
             {
                 return Handler.HandleBinding(mainNode, minorNode);
             }

@@ -67,7 +67,7 @@ namespace BoundTree.TreeReconstruction
                 commonParent = GetMostCommonParent(commonParent);
             }
 
-            if (commonParent.LogicLevel == doubleNode.LogicLevel && commonParent.NodeType == doubleNode.MainLeaf.NodeType)
+            if (commonParent.LogicLevel == doubleNode.LogicLevel)
             {
                 doubleNode.MinorLeaf = commonParent;
                 CleanUselessNodes(doubleNode, commonParent);
@@ -78,17 +78,7 @@ namespace BoundTree.TreeReconstruction
             {
                 CleanUselessNodes(doubleNode, commonParent);
                 doubleNode.Shadow = commonParent;
-                return;
             }
-
-            while (commonParent.LogicLevel >= doubleNode.LogicLevel)
-            {
-                commonParent = GetMostCommonParent(commonParent);
-            }
-
-            doubleNode.Shadow = commonParent;
-
-            CleanUselessNodes(doubleNode, commonParent);
         }
 
         private void CleanUselessNodes(DoubleNode<T> doubleNode, SingleNodeData<T> comparedNodeData)
