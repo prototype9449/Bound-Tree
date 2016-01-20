@@ -84,8 +84,9 @@ namespace BoundTree.ConsoleDisplaying
         public void Start(BindContoller<StringId> bindContoller)
         {
             Contract.Requires(bindContoller != null);
-            _bindController = bindContoller;
 
+            _bindController = bindContoller;
+            
             while (true)
             {
                 DisplayTree();

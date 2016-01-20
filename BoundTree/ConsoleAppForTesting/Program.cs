@@ -13,14 +13,14 @@ namespace ConsoleAppForTesting
         [STAThreadAttribute]
         private static void Main(string[] args)
         {   
-            var buildingTreeLogicLevelProvider = new BuildingTreeLogicLevelProvider();
+            var buildingTreeLogicLevelProvider = new ConstructionTreeLogicLevelProvider();
             var nodeInfoFactory = new NodeInfoFactory(buildingTreeLogicLevelProvider);
             var connectionContructor = new ConnectionContructor<StringId>(nodeInfoFactory);
             var treeContructor = new TreeConstructor<StringId>(nodeInfoFactory, connectionContructor);
             var сonsoleConnectionController = new ConsoleConnectionController(treeContructor, nodeInfoFactory);
             var singleTreeParser = new SingleTreeParser(nodeInfoFactory);
             var multiTreeParser = new MultiTreeParser(treeContructor, singleTreeParser, nodeInfoFactory);
-            new ConsoleController(сonsoleConnectionController,multiTreeParser, singleTreeParser).Run();
+            new ConsoleController(сonsoleConnectionController,multiTreeParser).Run();
         }
     }
 }

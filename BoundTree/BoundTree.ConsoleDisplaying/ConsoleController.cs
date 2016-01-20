@@ -27,7 +27,7 @@ namespace BoundTree.ConsoleDisplaying
         private readonly MultiTreeParser _multiTreeParser;
         private readonly NodeInfoFactory _nodeInfoFactory;
 
-        public ConsoleController(ConsoleConnectionController consoleConnectionController, MultiTreeParser multiTreeParser, SingleTreeParser singleTreeParser)
+        public ConsoleController(ConsoleConnectionController consoleConnectionController, MultiTreeParser multiTreeParser)
         {
             _consoleConnectionController = consoleConnectionController;
             _multiTreeParser = multiTreeParser;
@@ -161,7 +161,7 @@ namespace BoundTree.ConsoleDisplaying
 
                 var secondCommand = commands[1];
 
-                if (_nodeInfoFactory.Contains(secondCommand))
+                if (!_nodeInfoFactory.Contains(secondCommand))
                 {
                     _messages.Add(String.Format("There is not such type of NodeData like - {0}", secondCommand));
                     DisplayInitialCommand();

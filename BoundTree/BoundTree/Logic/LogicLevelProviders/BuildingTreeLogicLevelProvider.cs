@@ -16,6 +16,13 @@ namespace BoundTree.Logic.LogicLevelProviders
             _validTypes = new Dictionary<Type, List<Type>>
             {
                 {
+                    typeof (Root),
+                    new List<Type>
+                    {
+                        typeof (Grid), typeof (Grid3D), typeof (Multi), typeof (OpenText), typeof (Single), typeof(MultiGrid)
+                    }
+                },
+                {
                     typeof (Grid3D),
                     new List<Type>
                     {
