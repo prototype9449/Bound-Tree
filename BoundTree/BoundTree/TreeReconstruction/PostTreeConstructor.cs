@@ -99,7 +99,7 @@ namespace BoundTree.TreeReconstruction
 
             var result = majorChild;
 
-            var canMajorParentContain = CanParentContainAscendant(majorParent, intermediateParent);
+            var canMajorParentContain = CanMajorParentContainIntermediateParent(majorParent, intermediateParent);
 
             while (majorParent.MinorLeaf.CanContain(intermediateParent.SingleNodeData) && canMajorParentContain)
             {
@@ -109,17 +109,21 @@ namespace BoundTree.TreeReconstruction
                 };
                 isDone = true;
                 intermediateParent = _minorTree.GetParent(result.MinorLeaf.Id);
-                canMajorParentContain = CanParentContainAscendant(majorParent, intermediateParent);
+                canMajorParentContain = CanMajorParentContainIntermediateParent(majorParent, intermediateParent);
             }
 
             return new Cortege<bool, DoubleNode<T>>(isDone, result);
         }
 
-        private bool CanParentContainAscendant(DoubleNode<T> parent, SingleNode<T> intermediate)
+        /// <summary>
+        /// Может ли parent из двойного дерева содержать в себе intermediate из minor дерева
+        /// </summary>
+        /// <param name="parent"></param>
+        /// <param name="intermediate"></param>
+        /// <returns></returns>
+        private bool CanMajorParentContainIntermediateParent(DoubleNode<T> parent, SingleNode<T> intermediate)
         {
-            var minorEmptyNodes = parent.Childs
-                .Where(doubleNode => doubleNode.IsMinorEmpty())
-                .ToList();
+            var minorEmptyNodes = parent.Childs.Where(doubleNode => doubleNode.IsMinorEmpty()).ToList();
 
             var childsOfEmptyNodes = new List<DoubleNode<T>>();
             minorEmptyNodes.ForEach(emptyDoubleNode => childsOfEmptyNodes.AddRange(emptyDoubleNode.ToList()));
