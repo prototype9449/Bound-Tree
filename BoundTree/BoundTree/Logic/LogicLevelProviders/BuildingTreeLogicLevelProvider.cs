@@ -6,6 +6,7 @@ using Single = BoundTree.Logic.Nodes.GeneralNodes.Single;
 
 namespace BoundTree.Logic.LogicLevelProviders
 {
+    [Serializable]
     public class BuildingTreeLogicLevelProvider : ILogicLevelProvider
     {
         private readonly Dictionary<Type, List<Type>> _validTypes;

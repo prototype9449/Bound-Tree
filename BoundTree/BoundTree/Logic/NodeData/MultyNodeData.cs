@@ -7,39 +7,38 @@ using BoundTree.Interfaces;
 namespace BoundTree.Logic.NodeData
 {
     [Serializable]
-    public class MultiNodeData<T> : IEquatable<MultiNodeData<T>> where T : IID<T>,new()
+    public class MultiNodeData<T> : IEquatable<MultiNodeData<T>> where T : IID<T>, new()
     {
-        private NodeInfoFactory _nodeInfoFactory;
         public NodeData<T> NodeData { get; private set; }
         public List<ConnectionNodeData<T>> MinorDataNodes { get; private set; }
 
         private MultiNodeData(NodeInfoFactory nodeInfoFactory)
         {
-            _nodeInfoFactory = nodeInfoFactory;
-            NodeData = new NodeData<T>(_nodeInfoFactory);
+            NodeData = new NodeData<T>(nodeInfoFactory);
             MinorDataNodes = new List<ConnectionNodeData<T>>();
         }
 
-        public MultiNodeData(int width, NodeInfoFactory nodeInfoFactory) : this(nodeInfoFactory)
+        public MultiNodeData(int width, NodeInfoFactory nodeInfoFactory)
+            : this(nodeInfoFactory)
         {
             for (int i = 0; i < width; i++)
             {
-                MinorDataNodes.Add(new ConnectionNodeData<T>(ConnectionKind.None, new NodeData<T>(_nodeInfoFactory)));
+                MinorDataNodes.Add(new ConnectionNodeData<T>(ConnectionKind.None, new NodeData<T>(nodeInfoFactory)));
             }
         }
 
-        public MultiNodeData(SingleNodeData<T> singleNodeData, NodeInfoFactory nodeInfoFactory) : this(singleNodeData.NodeData, nodeInfoFactory)
+        public MultiNodeData(SingleNodeData<T> singleNodeData)
+            : this(singleNodeData.NodeData)
         { }
 
-        public MultiNodeData(NodeData<T> nodeData, NodeInfoFactory nodeInfoFactory)
+        public MultiNodeData(NodeData<T> nodeData)
         {
             NodeData = nodeData;
-            _nodeInfoFactory = nodeInfoFactory;
             MinorDataNodes = new List<ConnectionNodeData<T>>();
         }
 
-        public MultiNodeData(NodeData<T> nodeData, List<ConnectionNodeData<T>> minorDataNodes, NodeInfoFactory nodeInfoFactory)
-            : this(nodeData, nodeInfoFactory)
+        public MultiNodeData(NodeData<T> nodeData, List<ConnectionNodeData<T>> minorDataNodes)
+            : this(nodeData)
         {
             MinorDataNodes = minorDataNodes;
         }
@@ -50,7 +49,7 @@ namespace BoundTree.Logic.NodeData
         {
             return NodeData.IsEmpty();
         }
-        
+
         public Type NodeType
         {
             get { return NodeData.NodeType; }
@@ -83,7 +82,7 @@ namespace BoundTree.Logic.NodeData
             get { return NodeData.Depth; }
             set { NodeData.Depth = value; }
         }
-        
+
         public static bool operator ==(MultiNodeData<T> first, MultiNodeData<T> second)
         {
             var objectFirst = (object)first;

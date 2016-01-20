@@ -64,9 +64,9 @@ namespace BoundTree.Logic.TreeNodes
             var minorDataNodes = new List<ConnectionNodeData<T>>();
             minorDataNodes.AddRange(MainLeaf.MinorDataNodes);
             minorDataNodes.Add(new ConnectionNodeData<T>(ConnectionKind, MinorLeaf.NodeData));
-            var multiNodeData = new MultiNodeData<T>(MainLeaf.NodeData, minorDataNodes, _nodeInfoFactory);
+            var multiNodeData = new MultiNodeData<T>(MainLeaf.NodeData, minorDataNodes);
 
-            var multiNode = new MultiNode<T>(multiNodeData, new List<MultiNode<T>>(), _nodeInfoFactory);
+            var multiNode = new MultiNode<T>(multiNodeData, new List<MultiNode<T>>());
             Childs.ForEach(doubleNode => multiNode.Add(doubleNode.ToMultiNode()));
 
             return multiNode;

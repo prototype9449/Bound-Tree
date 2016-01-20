@@ -4,6 +4,7 @@ using System.Diagnostics.Contracts;
 using System.Linq;
 using BoundTree.Interfaces;
 using BoundTree.Logic;
+using BoundTree.Logic.LogicLevelProviders;
 using BoundTree.Logic.NodeData;
 using BoundTree.Logic.TreeNodes;
 
@@ -25,6 +26,8 @@ namespace BoundTree.TreeReconstruction
             Contract.Requires(bindContoller != null);
             Contract.Ensures(Contract.Result<DoubleNode<T>>() != null);
 
+            _nodeInfoFactory.SetLogicLevelProvider(new ConstructionTreeLogicLevelProvider());
+
             var mainTree = bindContoller.MainMultiTree;
             var minorTree = bindContoller.MinorSingleTree;
 
@@ -39,6 +42,8 @@ namespace BoundTree.TreeReconstruction
             doubleNode.RecalculateDeep();
 
             ReconstructIds(doubleNode, mainIdGenerator);
+
+            _nodeInfoFactory.SetLogicLevelProvider(new BuildingTreeLogicLevelProvider());
             return doubleNode;
         }
 

@@ -6,6 +6,7 @@ using Single = BoundTree.Logic.Nodes.GeneralNodes.Single;
 
 namespace BoundTree.Logic.LogicLevelProviders
 {
+    [Serializable]
     public class ConstructionTreeLogicLevelProvider : ILogicLevelProvider
     {
         private Dictionary<Type, LogicLevel> _logicLevels;
@@ -21,8 +22,8 @@ namespace BoundTree.Logic.LogicLevelProviders
                 {typeof(Multi), new LogicLevel(4)},
                 {typeof(Single), new LogicLevel(5)},
                 {typeof(OpenText), new LogicLevel(5)},
-                {typeof(Answer), new LogicLevel(6)},
-                {typeof(PredefinedList), new LogicLevel(7)},
+                {typeof(PredefinedList), new LogicLevel(6)},
+                {typeof(Answer), new LogicLevel(7)}
             };
         }
 

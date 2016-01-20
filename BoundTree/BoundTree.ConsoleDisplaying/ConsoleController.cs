@@ -25,14 +25,12 @@ namespace BoundTree.ConsoleDisplaying
         private readonly SingleNodeFactory _factory = new SingleNodeFactory();
         private readonly TreeLogger _treeLogger = TreeLogger.GetTreeLogger();
         private readonly MultiTreeParser _multiTreeParser;
-        private readonly SingleTreeParser _singleTreeParser;
         private readonly NodeInfoFactory _nodeInfoFactory;
 
         public ConsoleController(ConsoleConnectionController consoleConnectionController, MultiTreeParser multiTreeParser, SingleTreeParser singleTreeParser)
         {
             _consoleConnectionController = consoleConnectionController;
             _multiTreeParser = multiTreeParser;
-            _singleTreeParser = singleTreeParser;
             _nodeInfoFactory= new NodeInfoFactory(new BuildingTreeLogicLevelProvider());
             _mainSingleTree = new SingleTree<StringId>(_factory.GetNode("Root", _nodeInfoFactory.Root));
             _minorSingleTree = new SingleTree<StringId>(_factory.GetNode("Root", _nodeInfoFactory.Root));

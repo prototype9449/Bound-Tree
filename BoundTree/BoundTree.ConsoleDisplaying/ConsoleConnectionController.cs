@@ -4,6 +4,7 @@ using System.Diagnostics.Contracts;
 using System.Linq;
 using BoundTree.Helpers;
 using BoundTree.Logic;
+using BoundTree.Logic.LogicLevelProviders;
 using BoundTree.Logic.TreeNodes;
 using BoundTree.Logic.Trees;
 using BoundTree.TreeReconstruction;
@@ -35,7 +36,7 @@ namespace BoundTree.ConsoleDisplaying
         {
             Contract.Requires(_bindController.MainMultiTree != null);
 
-            return new MultiTree<StringId>(_currentDoubleNode.ToMultiNode(), _nodeInfoFactory);
+            return new MultiTree<StringId>(_currentDoubleNode.ToMultiNode());
         }
 
         private void Subscribe()
@@ -83,7 +84,6 @@ namespace BoundTree.ConsoleDisplaying
         public void Start(BindContoller<StringId> bindContoller)
         {
             Contract.Requires(bindContoller != null);
-
             _bindController = bindContoller;
 
             while (true)
@@ -107,7 +107,7 @@ namespace BoundTree.ConsoleDisplaying
             Console.WriteLine(_consoleTreeWriter.ConvertToString(_bindController.MainMultiTree, _bindController.MinorSingleTree));
             Console.WriteLine(_consoleTreeWriter.ConvertToString(_currentDoubleNode));
 
-            _treeConverter.ConvertMultiTreeAsMulti(new MultiTree<StringId>(_currentDoubleNode.ToMultiNode(), _nodeInfoFactory)).ForEach(Console.WriteLine);
+            _treeConverter.ConvertMultiTreeAsMulti(new MultiTree<StringId>(_currentDoubleNode.ToMultiNode())).ForEach(Console.WriteLine);
 
             Console.WriteLine();
             if (_messages.Any())

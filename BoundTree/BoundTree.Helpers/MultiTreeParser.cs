@@ -68,7 +68,7 @@ namespace BoundTree.Helpers
 
                 var idGenerator = new IdGenerator(mainTree.ToList());
                 var multiNode = _treeConstructor.GetFilledTree(bindController, idGenerator).ToMultiNode();
-                mainTree = new MultiTree<StringId>(multiNode, _nodeInfoFactory);
+                mainTree = new MultiTree<StringId>(multiNode);
             }
 
             return new Cortege<MultiTree<StringId>, LogHistory>(mainTree, logHistory);

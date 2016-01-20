@@ -1,7 +1,9 @@
-﻿using System.Diagnostics.Contracts;
+﻿using System;
+using System.Diagnostics.Contracts;
 
 namespace BoundTree.Logic.LogicLevelProviders
 {
+    [Serializable]
     public class LogicLevelFactory
     {
         private ILogicLevelProvider _logicLevelProvider;

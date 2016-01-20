@@ -1,11 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using BoundTree.Logic.LogicLevelProviders;
 using BoundTree.Logic.Nodes;
 using BoundTree.Logic.Nodes.GeneralNodes;
+using Single = BoundTree.Logic.Nodes.GeneralNodes.Single;
 
 namespace BoundTree.Logic
 {
+    [Serializable]
     public class NodeInfoFactory
     {
         private LogicLevelFactory _logicLevelFactory;
