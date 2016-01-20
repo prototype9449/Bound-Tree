@@ -62,7 +62,7 @@ namespace BoundTree.Helpers
 
                 nodeLines.Add(line);
 
-                var nodes = topElement.Nodes.ToList();
+                var nodes = topElement.Childs.ToList();
                 nodes.Reverse();
                 nodes.ForEach(node => stack.Push(node));
             }

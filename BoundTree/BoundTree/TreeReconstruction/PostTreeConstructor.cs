@@ -7,6 +7,7 @@ using BoundTree.Logic;
 using BoundTree.Logic.NodeData;
 using BoundTree.Logic.TreeNodes;
 using BoundTree.Logic.Trees;
+using Build.TestFramework;
 
 namespace BoundTree.TreeReconstruction
 {
@@ -31,45 +32,43 @@ namespace BoundTree.TreeReconstruction
             while (stack.Any())
             {
                 var current = stack.Pop();
-                current.Nodes.ForEach(stack.Push);
+                current.Childs.ForEach(stack.Push);
 
                 if(current.IsMinorEmpty() || passedNodes.Exists(node => node.MinorLeaf == current.MinorLeaf)) 
                     continue;
 
-                if (current.Nodes.All(node => node.IsMinorEmpty()))
+                if (current.Childs.All(node => node.IsMinorEmpty()))
                     continue;
 
                 if (passedNodes.Contains(current))
                 {
-                    current.Nodes.ForEach(node => passedNodes.Add(node));
+                    current.Childs.ForEach(passedNodes.Add);
                     continue;
                 }
 
-                var initialChildIds = current.Nodes
-                    .Select(node => node.MinorLeaf.Id).ToList();
+                var descendantPairs = current.Childs.Select(node => GetRepairedNode(current, node)).ToList();
 
-                var descendantPairs = current.Nodes
-                    .Select(node => GetRepairedNode(current, node)).ToList();
-
-                if(!descendantPairs.Any()) 
+                if (!descendantPairs.Any())
                     continue;
 
-                current.Nodes = descendantPairs.Select(pair => pair.Value).ToList();
-                for (int i = 0; i < current.Nodes.Count; i++)
+                var initialChildIds = current.Childs.Select(node => node.MinorLeaf.Id).ToList();
+
+                current.Childs = descendantPairs.Select(pair => pair.Second).ToList();
+                for (int i = 0; i < current.Childs.Count; i++)
                 {
-                    var currentDoubleNode = descendantPairs[i].Value;
+                    var currentDoubleNode = descendantPairs[i].Second;
                     
-                    if(!currentDoubleNode.Nodes.Any())
+                    if(!currentDoubleNode.Childs.Any())
                         passedNodes.Add(currentDoubleNode);
 
-                    while (currentDoubleNode.Nodes.Count() == 1 && currentDoubleNode.MinorLeaf.Id != initialChildIds[i])
+                    while (currentDoubleNode.Childs.Count() == 1 && currentDoubleNode.MinorLeaf.Id != initialChildIds[i])
                     {
                         passedNodes.Add(currentDoubleNode);
-                        currentDoubleNode = currentDoubleNode.Nodes.First();
+                        currentDoubleNode = currentDoubleNode.Childs.First();
                     }
                 }
 
-                if (descendantPairs.Exists(node => node.Key == true))
+                if (descendantPairs.Exists(node => node.First == true))
                 {
                     GroupDoubleNodes(current, initialChildIds);
                     stack.Clear();
@@ -78,60 +77,58 @@ namespace BoundTree.TreeReconstruction
             }
         }
 
-        private KeyValuePair<bool, DoubleNode<T>> GetRepairedNode(DoubleNode<T> parent, DoubleNode<T> child)
+        private Cortege<bool, DoubleNode<T>> GetRepairedNode(DoubleNode<T> majorParent, DoubleNode<T> majorChild)
         {
-            Contract.Requires(parent != null);
-            Contract.Requires(child != null);
-            Contract.Requires(!parent.MinorLeaf.IsEmpty());
-            Contract.Ensures(Contract.Result<KeyValuePair<bool, DoubleNode<T>>>().Value != null);
+            Contract.Requires(majorParent != null);
+            Contract.Requires(majorChild != null);
+            Contract.Requires(!majorParent.MinorLeaf.IsEmpty());
+            Contract.Ensures(Contract.Result<Cortege<bool, DoubleNode<T>>>().Second != null);
             
-
-            if(child.IsMinorEmpty()) 
-                return new KeyValuePair<bool, DoubleNode<T>>(false, child);
+            if(majorChild.IsMinorEmpty()) 
+                return new Cortege<bool, DoubleNode<T>>(false, majorChild);
 
             var isDone = false;
 
-            var singleAscendant = _minorTree.GetParent(child.MinorLeaf.Id);
+            var intermediateParent = _minorTree.GetParent(majorChild.MinorLeaf.Id);
 
             //Если он уже родитель, то есть нет промежуточных узлов
-            if (singleAscendant.SingleNodeData.Id == parent.MinorLeaf.Id)
+            if (intermediateParent.SingleNodeData.Id == majorParent.MinorLeaf.Id)
             {
-                return new KeyValuePair<bool, DoubleNode<T>>(isDone, child);
+                return new Cortege<bool, DoubleNode<T>>(isDone, majorChild);
             }
 
-            var doubleAscendant = child;
+            var result = majorChild;
 
-            var canAscendantConatin = CanParentContainAscendant(parent, doubleAscendant, singleAscendant);
+            var canMajorParentContain = CanParentContainAscendant(majorParent, intermediateParent);
 
-            while (parent.MinorLeaf.CanContain(singleAscendant.SingleNodeData) && canAscendantConatin)
+            while (majorParent.MinorLeaf.CanContain(intermediateParent.SingleNodeData) && canMajorParentContain)
             {
-                doubleAscendant = new DoubleNode<T>(new MultiNodeData<T>(parent.MainLeaf.Width), singleAscendant.SingleNodeData)
+                result = new DoubleNode<T>(new MultiNodeData<T>(majorParent.MainLeaf.Width), intermediateParent.SingleNodeData)
                 {
-                    Nodes = new List<DoubleNode<T>>(new[] { doubleAscendant })
+                    Childs = new List<DoubleNode<T>>(new[] { result })
                 };
                 isDone = true;
-                singleAscendant = _minorTree.GetParent(doubleAscendant.MinorLeaf.Id);
-                canAscendantConatin = CanParentContainAscendant(parent, doubleAscendant, singleAscendant);
+                intermediateParent = _minorTree.GetParent(result.MinorLeaf.Id);
+                canMajorParentContain = CanParentContainAscendant(majorParent, intermediateParent);
             }
 
-            return new KeyValuePair<bool, DoubleNode<T>>(isDone, doubleAscendant);
+            return new Cortege<bool, DoubleNode<T>>(isDone, result);
         }
 
-        private bool CanParentContainAscendant(DoubleNode<T> parent, DoubleNode<T> child, SingleNode<T> intermediate)
+        private bool CanParentContainAscendant(DoubleNode<T> parent, SingleNode<T> intermediate)
         {
-            var minorEmptyNodes = parent.Nodes
+            var minorEmptyNodes = parent.Childs
                 .Where(doubleNode => doubleNode.IsMinorEmpty())
-                .Where(doubleNode => doubleNode.MinorLeaf.Id != child.MinorLeaf.Id)
                 .ToList();
 
-            var childs = new List<DoubleNode<T>>();
-            minorEmptyNodes.ForEach(doubleNode => childs.AddRange(doubleNode.ToList()));
-            childs.RemoveAll(doubleNode => doubleNode.IsMinorEmpty());
+            var childsOfEmptyNodes = new List<DoubleNode<T>>();
+            minorEmptyNodes.ForEach(emptyDoubleNode => childsOfEmptyNodes.AddRange(emptyDoubleNode.ToList()));
+            childsOfEmptyNodes.RemoveAll(doubleNode => doubleNode.IsMinorEmpty());
 
             var minorOrignalChilds = new List<SingleNode<T>>();
             intermediate.Childs.ForEach(node => minorOrignalChilds.AddRange(node.ToList()));
 
-            var isThereInside = childs.Exists(doubleNode => minorOrignalChilds.Exists(node => doubleNode.MinorLeaf.Id == node.SingleNodeData.Id));
+            var isThereInside = childsOfEmptyNodes.Any(doubleNode => minorOrignalChilds.Any(node => doubleNode.MinorLeaf.Id == node.SingleNodeData.Id));
 
             return !isThereInside;
         }
@@ -141,8 +138,7 @@ namespace BoundTree.TreeReconstruction
         {
             Contract.Requires(doubleNode != null);
             Contract.Requires(initialChildIds != null);
-
-
+            
             var queue = new Queue<DoubleNode<T>>(new[] { doubleNode });
 
             while (queue.Any())
@@ -151,7 +147,7 @@ namespace BoundTree.TreeReconstruction
                 if (initialChildIds.Contains(current.MinorLeaf.Id)) 
                     continue;
 
-                var groupedNodes = current.Nodes
+                var groupedNodes = current.Childs
                     .Where(node => !node.IsMinorEmpty())
                     .GroupBy(node => node.MinorLeaf.Id)
                     .Where(group => group.Count() > 1);
@@ -161,13 +157,13 @@ namespace BoundTree.TreeReconstruction
 
                 var repairedNodes = groupedNodes.Select(group => GetRepairedNode(group, doubleNode.MainLeaf.Width)).ToList();
 
-                current.Nodes.RemoveAll(repairedNode
-                    => repairedNodes.Exists(node => node.MinorLeaf.Id == repairedNode.MinorLeaf.Id));
+                current.Childs.RemoveAll(node
+                    => repairedNodes.Exists(repairedNode => repairedNode.MinorLeaf.Id == node.MinorLeaf.Id));
 
-                repairedNodes.ForEach(current.Nodes.Add);
+                repairedNodes.ForEach(current.Childs.Add);
 
                 queue.Clear();
-                current.Nodes.ForEach(queue.Enqueue);
+                current.Childs.ForEach(queue.Enqueue);
             }
         }
 
@@ -178,7 +174,7 @@ namespace BoundTree.TreeReconstruction
 
             var doubleNode = new DoubleNode<T>(new MultiNodeData<T>(width), group.First().MinorLeaf)
             {
-                Nodes = group.Select(node => node.Nodes.First()).ToList()
+                Childs = group.Select(node => node.Childs.First()).ToList()
             };
 
             return doubleNode;

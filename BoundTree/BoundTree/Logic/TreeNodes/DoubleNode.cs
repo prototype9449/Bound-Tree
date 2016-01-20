@@ -14,12 +14,12 @@ namespace BoundTree.Logic.TreeNodes
         internal SingleNodeData<T> Shadow { get; set; }
 
         public ConnectionKind ConnectionKind { get; set; }
-        public List<DoubleNode<T>> Nodes { get; internal set; }
+        public List<DoubleNode<T>> Childs { get; internal set; }
         public int Depth { get; private set; }
 
         private DoubleNode()
         {
-            Nodes = new List<DoubleNode<T>>();
+            Childs = new List<DoubleNode<T>>();
         }
 
         public DoubleNode(MultiNodeData<T> mainLeaf, SingleNodeData<T> minorLeaf)
@@ -65,7 +65,7 @@ namespace BoundTree.Logic.TreeNodes
             var multiNodeData = new MultiNodeData<T>(MainLeaf.NodeData, minorDataNodes);
 
             var multiNode = new MultiNode<T>(multiNodeData, new List<MultiNode<T>>());
-            Nodes.ForEach(doubleNode => multiNode.Add(doubleNode.ToMultiNode()));
+            Childs.ForEach(doubleNode => multiNode.Add(doubleNode.ToMultiNode()));
 
             return multiNode;
         }
@@ -89,16 +89,16 @@ namespace BoundTree.Logic.TreeNodes
             Contract.Requires(doubleNode != null);
 
             doubleNode.Depth += Depth + 1;
-            Nodes.Add(doubleNode);
+            Childs.Add(doubleNode);
         }
 
         public DoubleNode<T> GetLonelyChild()
         {
-            if (Nodes.Count() != 1 || Nodes.First().IsMinorEmpty())
+            if (Childs.Count() != 1 || Childs.First().IsMinorEmpty())
             {
                 return null;
             }
-            return Nodes.First();
+            return Childs.First();
         }
 
         public List<DoubleNode<T>> ToList()
@@ -112,9 +112,9 @@ namespace BoundTree.Logic.TreeNodes
         {
             nodes.Add(root);
 
-            if (root.Nodes.Count == 0) return;
+            if (root.Childs.Count == 0) return;
 
-            foreach (var node in root.Nodes)
+            foreach (var node in root.Childs)
             {
                 RecursiveFillNodes(node, nodes);
             }
@@ -129,7 +129,7 @@ namespace BoundTree.Logic.TreeNodes
         private void SetDeep(int initialDeep)
         {
             Depth = initialDeep + 1;
-            Nodes.ForEach(node => node.SetDeep(this.Depth));
+            Childs.ForEach(node => node.SetDeep(this.Depth));
         }
     }
 }

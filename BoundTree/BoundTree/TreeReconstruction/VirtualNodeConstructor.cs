@@ -31,16 +31,16 @@ namespace BoundTree.TreeReconstruction
             while (stack.Any())
             {
                 var currentNode = stack.Peek();
-                if (!currentNode.Nodes.Any())
+                if (!currentNode.Childs.Any())
                 {
                     passedNodes.Add(currentNode);
                     stack.Pop();
                     continue;
                 }
 
-                if (!currentNode.Nodes.All(passedNodes.Contains))
+                if (!currentNode.Childs.All(passedNodes.Contains))
                 {
-                    currentNode.Nodes.ForEach(stack.Push);
+                    currentNode.Childs.ForEach(stack.Push);
                     continue;
                 }
 
@@ -54,7 +54,7 @@ namespace BoundTree.TreeReconstruction
         {
             Contract.Requires(doubleNode != null);
 
-            SingleNodeData<T> commonParent = GetMostCommonParent(doubleNode.Nodes);
+            SingleNodeData<T> commonParent = GetMostCommonParent(doubleNode.Childs);
 
             if (commonParent.IsEmpty())
             {
@@ -118,7 +118,7 @@ namespace BoundTree.TreeReconstruction
         {
             Contract.Requires(nodeData != null);
 
-            if (nodeData.LogicLevel == new LogicLevel(0))
+            if (nodeData.LogicLevel == LogicLevel.ZeroLevel)
                 return nodeData;
 
             return _minorTree.GetParent(nodeData.Id).SingleNodeData;
