@@ -11,7 +11,14 @@ namespace BoundTree.TreeReconstruction
 {
     public class TreeConstructor<T> where T : class, IID<T>, IEquatable<T>, new()
     {
-        private readonly ConnectionContructor<T> _connectionConstructor = new ConnectionContructor<T>();
+        private readonly NodeInfoFactory _nodeInfoFactory;
+        private readonly ConnectionContructor<T> _connectionConstructor;
+
+        public TreeConstructor(NodeInfoFactory nodeInfoFactory, ConnectionContructor<T> connectionConstructor)
+        {
+            _nodeInfoFactory = nodeInfoFactory;
+            _connectionConstructor = connectionConstructor;
+        }
 
         public DoubleNode<T> GetFilledTree(BindContoller<T> bindContoller, IIdGenerator<T> mainIdGenerator)
         {
@@ -26,8 +33,8 @@ namespace BoundTree.TreeReconstruction
                 .ToDictionary(pair => pair.Key, pair => minorTree.GetById(pair.Value));
 
             var doubleNode = _connectionConstructor.GetDoubleNodeWithConnections(clonedMainTree, connections);
-            new VirtualNodeConstruction<T>(minorTree).Reconstruct(doubleNode);
-            new PostTreeConstructor<T>(minorTree).Reconstruct(doubleNode);
+            new VirtualNodeConstruction<T>(minorTree, _nodeInfoFactory).Reconstruct(doubleNode);
+            new PostTreeConstructor<T>(minorTree, _nodeInfoFactory).Reconstruct(doubleNode);
             ReconstructConnections(doubleNode);
             doubleNode.RecalculateDeep();
 

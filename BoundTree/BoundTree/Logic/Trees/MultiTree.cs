@@ -12,21 +12,25 @@ namespace BoundTree.Logic.Trees
     [Serializable]
     public class MultiTree<T> where T : class, IID<T>, IEquatable<T>, new()
     {
-        public MultiTree(SingleNode<T> root)
+        private readonly NodeInfoFactory _nodeInfoFactory;
+
+        public MultiTree(SingleNode<T> root, NodeInfoFactory nodeInfoFactory)
         {
+            _nodeInfoFactory = nodeInfoFactory;
             Contract.Requires(root != null);
 
-            Root = new MultiNode<T>(root);
+            Root = new MultiNode<T>(root, _nodeInfoFactory);
             Root.RecalculateDeep();
         }
 
-        public MultiTree(SingleTree<T> singleTree) : this(singleTree.Root)
+        public MultiTree(SingleTree<T> singleTree, NodeInfoFactory nodeInfoFactory) : this(singleTree.Root, nodeInfoFactory)
         {
             Contract.Requires(singleTree != null);
         }
 
-        public MultiTree(MultiTree<T> multiTree)
+        public MultiTree(MultiTree<T> multiTree, NodeInfoFactory nodeInfoFactory)
         {
+            _nodeInfoFactory = nodeInfoFactory;
             Contract.Requires(multiTree != null);
             Contract.Requires(multiTree.Root != null);
 
@@ -34,11 +38,12 @@ namespace BoundTree.Logic.Trees
             Root.RecalculateDeep();
         }
 
-        public MultiTree(MultiNode<T> root)
+        public MultiTree(MultiNode<T> root, NodeInfoFactory nodeInfoFactory)
         {
             Contract.Requires(root != null);
 
             Root = root;
+            _nodeInfoFactory = nodeInfoFactory;
             Root.RecalculateDeep();
         }
 

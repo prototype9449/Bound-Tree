@@ -12,7 +12,12 @@ namespace Build.TestFramework
     public class ValidationController
     {
         private readonly SimpleMultiNodeParser _multiNodeParser = new SimpleMultiNodeParser();
-        private readonly MultiTreeParser _multiTreeParser = new MultiTreeParser();
+        private readonly MultiTreeParser _multiTreeParser;
+
+        public ValidationController(MultiTreeParser multiTreeParser)
+        {
+            _multiTreeParser = multiTreeParser;
+        }
 
         public bool IsValid(string pathToFile)
         {

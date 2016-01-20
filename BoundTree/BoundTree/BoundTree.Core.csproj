@@ -90,6 +90,10 @@
     <Compile Include="Interfaces\IID.cs" />
     <Compile Include="Logic\ConnectionKind.cs" />
     <Compile Include="Logic\IdGenerator.cs" />
+    <Compile Include="Logic\LogicLevelProviders\BuildingTreeLogicLevelProvider.cs" />
+    <Compile Include="Logic\LogicLevelProviders\ConstructionTreeLogicLevelProvider.cs" />
+    <Compile Include="Logic\LogicLevelProviders\ILogicLevelProvider.cs" />
+    <Compile Include="Logic\LogicLevelProviders\LogicLevelFactory.cs" />
     <Compile Include="Logic\NodeData\ConnectionNodeData.cs" />
     <Compile Include="Logic\TreeNodes\INode.cs" />
     <Compile Include="Logic\TreeNodes\DoubleNode.cs" />

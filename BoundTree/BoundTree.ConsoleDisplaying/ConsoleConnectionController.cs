@@ -12,6 +12,7 @@ namespace BoundTree.ConsoleDisplaying
 {
     public class ConsoleConnectionController
     {
+        private readonly NodeInfoFactory _nodeInfoFactory;
         private BindContoller<StringId> _bindController;
         private DoubleNode<StringId> _currentDoubleNode;
 
@@ -20,10 +21,12 @@ namespace BoundTree.ConsoleDisplaying
         private readonly CommandMediator _commandMediator = new CommandMediator();
         private readonly ConsoleTreeWriter _consoleTreeWriter = new ConsoleTreeWriter();
         private readonly TreeConverter<StringId> _treeConverter = new TreeConverter<StringId>();
-        private readonly TreeConstructor<StringId> _treeConstructor = new TreeConstructor<StringId>();
+        private readonly TreeConstructor<StringId> _treeConstructor;
 
-        public ConsoleConnectionController()
+        public ConsoleConnectionController(TreeConstructor<StringId> treeConstructor, NodeInfoFactory nodeInfoFactory)
         {
+            _nodeInfoFactory = nodeInfoFactory;
+            _treeConstructor = treeConstructor;
             _treeLogger = TreeLogger.GetTreeLogger();
             Subscribe();
         }
@@ -32,7 +35,7 @@ namespace BoundTree.ConsoleDisplaying
         {
             Contract.Requires(_bindController.MainMultiTree != null);
 
-            return new MultiTree<StringId>(_currentDoubleNode.ToMultiNode());
+            return new MultiTree<StringId>(_currentDoubleNode.ToMultiNode(), _nodeInfoFactory);
         }
 
         private void Subscribe()
@@ -104,7 +107,7 @@ namespace BoundTree.ConsoleDisplaying
             Console.WriteLine(_consoleTreeWriter.ConvertToString(_bindController.MainMultiTree, _bindController.MinorSingleTree));
             Console.WriteLine(_consoleTreeWriter.ConvertToString(_currentDoubleNode));
 
-            _treeConverter.ConvertMultiTreeAsMulti(new MultiTree<StringId>(_currentDoubleNode.ToMultiNode())).ForEach(Console.WriteLine);
+            _treeConverter.ConvertMultiTreeAsMulti(new MultiTree<StringId>(_currentDoubleNode.ToMultiNode(), _nodeInfoFactory)).ForEach(Console.WriteLine);
 
             Console.WriteLine();
             if (_messages.Any())

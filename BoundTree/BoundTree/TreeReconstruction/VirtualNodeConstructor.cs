@@ -13,12 +13,14 @@ namespace BoundTree.TreeReconstruction
     public class VirtualNodeConstruction<T> where T : class, IID<T>, IEquatable<T>, new()
     {
         private readonly SingleTree<T> _minorTree;
+        private readonly NodeInfoFactory _nodeInfoFactory;
 
-        public VirtualNodeConstruction(SingleTree<T> minorTree)
+        public VirtualNodeConstruction(SingleTree<T> minorTree, NodeInfoFactory nodeInfoFactory)
         {
             Contract.Requires(minorTree != null);
 
             _minorTree = minorTree;
+            _nodeInfoFactory = nodeInfoFactory;
         }
 
         public void Reconstruct(DoubleNode<T> doubleNode)
@@ -89,7 +91,7 @@ namespace BoundTree.TreeReconstruction
             CleanIdenticalNodes(doubleNode);
 
             var tooHighLogicNodes = doubleNode.ToList().FindAll(item => item.LogicLevel < comparedNodeData.LogicLevel);
-            tooHighLogicNodes.ForEach(item => item.MinorLeaf = new SingleNodeData<T>());
+            tooHighLogicNodes.ForEach(item => item.MinorLeaf = new SingleNodeData<T>(_nodeInfoFactory));
 
 //            var tooHighDeepNodes = descendants
 //                .FindAll(item => item.LogicLevel == comparedNodeData.LogicLevel)
@@ -109,7 +111,7 @@ namespace BoundTree.TreeReconstruction
                 var identicalNodes = descendants.FindAll(item => item.MinorLeaf == descendant.MinorLeaf);
                 if (identicalNodes.Count > 1)
                 {
-                    identicalNodes.ForEach(item => item.MinorLeaf = new SingleNodeData<T>());
+                    identicalNodes.ForEach(item => item.MinorLeaf = new SingleNodeData<T>(_nodeInfoFactory));
                 }
             }
         }
@@ -134,7 +136,7 @@ namespace BoundTree.TreeReconstruction
 
             if (!notEmptyNodes.Any())
             {
-                return new SingleNodeData<T>();
+                return new SingleNodeData<T>(_nodeInfoFactory);
             }
 
             if (notEmptyNodes.Count() == 1)

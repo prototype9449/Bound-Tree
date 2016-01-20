@@ -6,6 +6,7 @@ using System.Linq;
 using System.Windows.Forms;
 using BoundTree.Helpers;
 using BoundTree.Logic;
+using BoundTree.Logic.LogicLevelProviders;
 using BoundTree.Logic.Nodes;
 using BoundTree.Logic.TreeNodes;
 using BoundTree.Logic.Trees;
@@ -18,18 +19,23 @@ namespace BoundTree.ConsoleDisplaying
         private MultiTree<StringId> _mainMultiTree;
         private SingleTree<StringId> _minorSingleTree;
 
-        private readonly ConsoleConnectionController _consoleConnectionController = new ConsoleConnectionController();
+        private readonly ConsoleConnectionController _consoleConnectionController;
         private readonly List<string> _messages = new List<string>();
         private readonly ConsoleTreeWriter _consoleTreeWriter = new ConsoleTreeWriter();
         private readonly SingleNodeFactory _factory = new SingleNodeFactory();
         private readonly TreeLogger _treeLogger = TreeLogger.GetTreeLogger();
-        private readonly MultiTreeParser _multiTreeParser = new MultiTreeParser();
-        private readonly SingleTreeParser _singleTreeParser = new SingleTreeParser();
+        private readonly MultiTreeParser _multiTreeParser;
+        private readonly SingleTreeParser _singleTreeParser;
+        private readonly NodeInfoFactory _nodeInfoFactory;
 
-        public ConsoleController()
+        public ConsoleController(ConsoleConnectionController consoleConnectionController, MultiTreeParser multiTreeParser, SingleTreeParser singleTreeParser)
         {
-            _mainSingleTree = new SingleTree<StringId>(_factory.GetNode("Root", new Root()));
-            _minorSingleTree = new SingleTree<StringId>(_factory.GetNode("Root", new Root()));
+            _consoleConnectionController = consoleConnectionController;
+            _multiTreeParser = multiTreeParser;
+            _singleTreeParser = singleTreeParser;
+            _nodeInfoFactory= new NodeInfoFactory(new BuildingTreeLogicLevelProvider());
+            _mainSingleTree = new SingleTree<StringId>(_factory.GetNode("Root", _nodeInfoFactory.Root));
+            _minorSingleTree = new SingleTree<StringId>(_factory.GetNode("Root", _nodeInfoFactory.Root));
         }
 
         public void Run()
@@ -101,16 +107,16 @@ namespace BoundTree.ConsoleDisplaying
 
         private void ProcessBuildingMainTree()
         {
-            _mainSingleTree = new SingleTree<StringId>(_factory.GetNode("Root", new Root()));
+            _mainSingleTree = new SingleTree<StringId>(_factory.GetNode("Root", _nodeInfoFactory.Root));
             ProcessBuildingTree(_mainSingleTree);
             _treeLogger.AddSinlgeTreeInFile(_mainSingleTree);
-            _mainMultiTree = new MultiTree<StringId>(_mainSingleTree);
+            _mainMultiTree = new MultiTree<StringId>(_mainSingleTree, _nodeInfoFactory);
             ProcessBuildingTreeFromConsole();
         }
 
         private void ProcessBuildingMinorTree()
         {
-            _minorSingleTree = new SingleTree<StringId>(_factory.GetNode("Root", new Root()));
+            _minorSingleTree = new SingleTree<StringId>(_factory.GetNode("Root", _nodeInfoFactory.Root));
             ProcessBuildingTree(_minorSingleTree);
             _treeLogger.AddSinlgeTreeInFile(_minorSingleTree);
         }
@@ -157,7 +163,7 @@ namespace BoundTree.ConsoleDisplaying
 
                 var secondCommand = commands[1];
 
-                if (!NodeInfoFactory.Contains(secondCommand))
+                if (_nodeInfoFactory.Contains(secondCommand))
                 {
                     _messages.Add(String.Format("There is not such type of NodeData like - {0}", secondCommand));
                     DisplayInitialCommand();
@@ -174,7 +180,7 @@ namespace BoundTree.ConsoleDisplaying
                 }
 
                 var parentNode = tree.GetById(new StringId(thirdCommand));
-                var childNode = _factory.GetNode(firstCommand, NodeInfoFactory.GetNodeInfo(secondCommand));
+                var childNode = _factory.GetNode(firstCommand, _nodeInfoFactory.GetNodeInfo(secondCommand));
 
                 var parentTypeName = GetNodeClassName(parentNode);
                 var childTypeName = GetNodeClassName(childNode);

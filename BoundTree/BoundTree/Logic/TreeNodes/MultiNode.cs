@@ -9,20 +9,23 @@ namespace BoundTree.Logic.TreeNodes
     [Serializable]
     public class MultiNode<T> : INode<T> where T : IID<T>,new()
     {
+        private readonly NodeInfoFactory _nodeInfoFactory;
         public MultiNodeData<T> MultiNodeData { get; private set; }
         public List<MultiNode<T>> Childs { get; private set; }
 
-        public MultiNode(MultiNodeData<T> multiNodeData, List<MultiNode<T>> childs)
+        public MultiNode(MultiNodeData<T> multiNodeData, List<MultiNode<T>> childs, NodeInfoFactory nodeInfoFactory)
         {
             MultiNodeData = multiNodeData;
             Childs = childs;
+            _nodeInfoFactory = nodeInfoFactory;
         }
 
-        public MultiNode(SingleNode<T> singleNode)
+        public MultiNode(SingleNode<T> singleNode, NodeInfoFactory nodeInfoFactory)
         {
-            MultiNodeData = new MultiNodeData<T>(singleNode.SingleNodeData);
+            _nodeInfoFactory = nodeInfoFactory;
+            MultiNodeData = new MultiNodeData<T>(singleNode.SingleNodeData, _nodeInfoFactory);
             Childs = new List<MultiNode<T>>();
-            singleNode.Childs.ForEach(node => Childs.Add(new MultiNode<T>(node)));
+            singleNode.Childs.ForEach(node => Childs.Add(new MultiNode<T>(node, _nodeInfoFactory)));
         }
 
         public LogicLevel LogicLevel

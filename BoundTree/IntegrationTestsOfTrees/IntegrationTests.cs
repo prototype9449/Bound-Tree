@@ -1,5 +1,9 @@
 ﻿using System;
 using System.IO;
+using BoundTree.Helpers;
+using BoundTree.Logic;
+using BoundTree.Logic.LogicLevelProviders;
+using BoundTree.TreeReconstruction;
 using Build.TestFramework;
 using NUnit.Framework;
 
@@ -9,9 +13,16 @@ namespace IntegrationTestsOfTrees
     public class IntegrationTests
     {
         private string _pathToTestFolder;
-        private ValidationController _validator = new ValidationController();
+        private ValidationController _validator;
         public IntegrationTests()
         {
+            var logicLevelProvider = new BuildingTreeLogicLevelProvider();
+            var nodeInfoFactory = new NodeInfoFactory(logicLevelProvider);
+            var connectionContructor = new ConnectionContructor<StringId>(nodeInfoFactory);
+            var treeContstruector = new TreeConstructor<StringId>(nodeInfoFactory, connectionContructor);
+            var singleTreeParser = new SingleTreeParser(nodeInfoFactory);
+
+            _validator = new ValidationController(new MultiTreeParser(treeContstruector, singleTreeParser, nodeInfoFactory));
             _pathToTestFolder = Path.Combine("C:\\Bound-Tree\\BoundTree\\IntegrationTestsOfTrees","Tests");
         }
 

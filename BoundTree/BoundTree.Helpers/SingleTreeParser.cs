@@ -12,8 +12,14 @@ namespace BoundTree.Helpers
 {
     public class SingleTreeParser
     {
+        private readonly NodeInfoFactory _nodeInfoFactory;
         private const char SpaceSeparator = ' ';
         private const char TabSeparator = '\t';
+
+        public SingleTreeParser(NodeInfoFactory nodeInfoFactory)
+        {
+            _nodeInfoFactory = nodeInfoFactory;
+        }
 
         public SingleTree<StringId> GetSingleTree(List<string> lines)
         {
@@ -23,18 +29,18 @@ namespace BoundTree.Helpers
 
             var indention = lines.Any(line => line.Contains(TabSeparator)) ? TabSeparator : SpaceSeparator;
 
-            NodeInfo root = new Root();
+            NodeInfo root = _nodeInfoFactory.Root;
             var nodes = GetList(new { NodeType = root, Id = new StringId("Root"), Depth = 0 });
 
             foreach (var line in lines.Skip(1))
             {
                 var splittedLine = line.Split(new[] { SpaceSeparator, TabSeparator, ')', '(' }, StringSplitOptions.RemoveEmptyEntries);
-                if (!NodeInfoFactory.Contains(splittedLine[0]))
+                if (!_nodeInfoFactory.Contains(splittedLine[0]))
                 {
                     throw new FileLoadException();
                 }
 
-                var nodeInfo = NodeInfoFactory.GetNodeInfo(splittedLine[0]);
+                var nodeInfo = _nodeInfoFactory.GetNodeInfo(splittedLine[0]);
                 var id = new StringId(splittedLine[1]);
                 var depth = line.TakeWhile(symbol => symbol == indention).Count();
                 nodes.Add(new { NodeType = nodeInfo, Id = id, Depth = depth });

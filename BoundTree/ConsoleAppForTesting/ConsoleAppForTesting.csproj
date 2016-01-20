@@ -97,6 +97,14 @@
       <Project>{f25a28a9-6877-4355-8fe0-158cc36dbb84}</Project>
       <Name>BoundTree.ConsoleDisplaying</Name>
     </ProjectReference>
+    <ProjectReference Include="..\BoundTree.Helpers\BoundTree.Helpers.csproj">
+      <Project>{c41ba8a3-f3dc-47f9-94fe-3788eb4cfae4}</Project>
+      <Name>BoundTree.Helpers</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BoundTree\BoundTree.Core.csproj">
+      <Project>{287781ee-df51-4601-a94c-066163537702}</Project>
+      <Name>BoundTree.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Build.TestFramework\Build.TestFramework.csproj">
       <Project>{add3161b-370d-4e93-831d-d1861dc9f47f}</Project>
       <Name>Build.TestFramework</Name>

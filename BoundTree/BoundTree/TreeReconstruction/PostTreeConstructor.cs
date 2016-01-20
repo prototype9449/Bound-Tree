@@ -14,12 +14,14 @@ namespace BoundTree.TreeReconstruction
     public class PostTreeConstructor<T> where T : class, IID<T>, IEquatable<T>, new()
     {
         private readonly SingleTree<T> _minorTree;
+        private readonly NodeInfoFactory _nodeInfoFactory;
 
-        public PostTreeConstructor(SingleTree<T> minorTree)
+        public PostTreeConstructor(SingleTree<T> minorTree, NodeInfoFactory nodeInfoFactory)
         {
             Contract.Requires(minorTree != null);
 
             _minorTree = minorTree;
+            _nodeInfoFactory = nodeInfoFactory;
         }
 
         public void Reconstruct(DoubleNode<T> doubleNode)
@@ -101,9 +103,9 @@ namespace BoundTree.TreeReconstruction
 
             var canMajorParentContain = CanMajorParentContainIntermediateParent(majorParent, intermediateParent);
 
-            while (majorParent.MinorLeaf.CanContain(intermediateParent.SingleNodeData) && canMajorParentContain)
+            while ((majorParent.MinorLeaf.LogicLevel  < intermediateParent.LogicLevel) && canMajorParentContain)
             {
-                result = new DoubleNode<T>(new MultiNodeData<T>(majorParent.MainLeaf.Width), intermediateParent.SingleNodeData)
+                result = new DoubleNode<T>(new MultiNodeData<T>(majorParent.MainLeaf.Width, _nodeInfoFactory), intermediateParent.SingleNodeData, _nodeInfoFactory)
                 {
                     Childs = new List<DoubleNode<T>>(new[] { result })
                 };
@@ -176,7 +178,7 @@ namespace BoundTree.TreeReconstruction
             Contract.Requires(group != null);
             Contract.Ensures(Contract.Result<DoubleNode<T>>() != null);
 
-            var doubleNode = new DoubleNode<T>(new MultiNodeData<T>(width), group.First().MinorLeaf)
+            var doubleNode = new DoubleNode<T>(new MultiNodeData<T>(width, _nodeInfoFactory), group.First().MinorLeaf, _nodeInfoFactory)
             {
                 Childs = group.Select(node => node.Childs.First()).ToList()
             };

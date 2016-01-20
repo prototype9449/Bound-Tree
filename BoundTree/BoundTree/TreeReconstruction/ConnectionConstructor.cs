@@ -13,6 +13,13 @@ namespace BoundTree.TreeReconstruction
 {
     public class ConnectionContructor<T> where T : class, IID<T>, IEquatable<T>, new()
     {
+        private readonly NodeInfoFactory _nodeInfoFactory;
+
+        public ConnectionContructor(NodeInfoFactory nodeInfoFactory)
+        {
+            _nodeInfoFactory = nodeInfoFactory;
+        }
+
         public DoubleNode<T> GetDoubleNodeWithConnections(MultiTree<T> mainTree, Dictionary<T, SingleNode<T>> connections)
         {
             Contract.Requires(mainTree != null);
@@ -20,7 +27,7 @@ namespace BoundTree.TreeReconstruction
             Contract.Requires(connections.Any());
             Contract.Ensures(Contract.Result<DoubleNode<T>>() != null);
 
-            var resultDoubleNode = new DoubleNode<T>(mainTree.Root);
+            var resultDoubleNode = new DoubleNode<T>(mainTree.Root, _nodeInfoFactory, _nodeInfoFactory);
 
             var root = new { multiNode = mainTree.Root, doubleNode = resultDoubleNode };
             var queue = GetQueue(root);
@@ -38,13 +45,13 @@ namespace BoundTree.TreeReconstruction
                 else
                 {
                     var depth = current.doubleNode.MainLeaf.Depth;
-                    current.doubleNode.MinorLeaf = new SingleNodeData<T>(new NodeData<T>(new T(), depth, new Empty()));
+                    current.doubleNode.MinorLeaf = new SingleNodeData<T>(new NodeData<T>(new T(), depth, _nodeInfoFactory.Empty));
                     current.doubleNode.ConnectionKind = ConnectionKind.None;
                 }
 
                 foreach (var multiNode in current.multiNode.Childs)
                 {
-                    var doubleNode = new DoubleNode<T>(multiNode);
+                    var doubleNode = new DoubleNode<T>(multiNode, _nodeInfoFactory, _nodeInfoFactory);
                     queue.Enqueue(new { multiNode, doubleNode });
                     current.doubleNode.Add(doubleNode);
                 }

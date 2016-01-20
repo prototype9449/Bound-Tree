@@ -9,6 +9,7 @@ namespace BoundTree.Logic.TreeNodes
 {
     public class DoubleNode<T> where T : class, IEquatable<T>, IID<T>, new()
     {
+        private NodeInfoFactory _nodeInfoFactory;
         public MultiNodeData<T> MainLeaf { get; private set; }
         public SingleNodeData<T> MinorLeaf { get; set; }
         internal SingleNodeData<T> Shadow { get; set; }
@@ -17,13 +18,14 @@ namespace BoundTree.Logic.TreeNodes
         public List<DoubleNode<T>> Childs { get; internal set; }
         public int Depth { get; private set; }
 
-        private DoubleNode()
+        private DoubleNode(NodeInfoFactory nodeInfoFactory)
         {
+            _nodeInfoFactory = nodeInfoFactory;
             Childs = new List<DoubleNode<T>>();
         }
 
-        public DoubleNode(MultiNodeData<T> mainLeaf, SingleNodeData<T> minorLeaf)
-            : this()
+        public DoubleNode(MultiNodeData<T> mainLeaf, SingleNodeData<T> minorLeaf, NodeInfoFactory nodeInfoFactory)
+            : this(nodeInfoFactory)
         {
             Contract.Requires(mainLeaf != null);
             Contract.Requires(minorLeaf != null);
@@ -32,13 +34,13 @@ namespace BoundTree.Logic.TreeNodes
             MinorLeaf = minorLeaf;
         }
 
-        public DoubleNode(MultiNode<T> multiNode)
-            : this()
+        public DoubleNode(MultiNode<T> multiNode, NodeInfoFactory nodeInfoFactory, NodeInfoFactory nodeInfoFactory1)
+            : this(nodeInfoFactory1)
         {
             Contract.Requires(multiNode != null);
 
             MainLeaf = multiNode.MultiNodeData;
-            MinorLeaf = new SingleNodeData<T>();
+            MinorLeaf = new SingleNodeData<T>(nodeInfoFactory);
         }
 
         public LogicLevel LogicLevel
@@ -62,9 +64,9 @@ namespace BoundTree.Logic.TreeNodes
             var minorDataNodes = new List<ConnectionNodeData<T>>();
             minorDataNodes.AddRange(MainLeaf.MinorDataNodes);
             minorDataNodes.Add(new ConnectionNodeData<T>(ConnectionKind, MinorLeaf.NodeData));
-            var multiNodeData = new MultiNodeData<T>(MainLeaf.NodeData, minorDataNodes);
+            var multiNodeData = new MultiNodeData<T>(MainLeaf.NodeData, minorDataNodes, _nodeInfoFactory);
 
-            var multiNode = new MultiNode<T>(multiNodeData, new List<MultiNode<T>>());
+            var multiNode = new MultiNode<T>(multiNodeData, new List<MultiNode<T>>(), _nodeInfoFactory);
             Childs.ForEach(doubleNode => multiNode.Add(doubleNode.ToMultiNode()));
 
             return multiNode;

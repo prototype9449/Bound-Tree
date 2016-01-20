@@ -1,24 +1,26 @@
 ﻿using System;
 using BoundTree.ConsoleDisplaying;
-using Build.TestFramework;
+using BoundTree.Helpers;
+using BoundTree.Logic;
+using BoundTree.Logic.LogicLevelProviders;
+using BoundTree.TreeReconstruction;
 
 
 namespace ConsoleAppForTesting
 {
-    internal class Program
+    public static class Program
     {
         [STAThreadAttribute]
         private static void Main(string[] args)
-        {
-//            var treeFactory = new TreeFactory();
-//            var mainTree = treeFactory.GetTree(new Tree12());
-//            var minorTree = treeFactory.GetTree(new Tree13());
-//
-//            var bindController = new BindContoller<StringId>(mainTree, minorTree);
-//            new ConsoleConnectionController(bindController).Start();
-            new ConsoleController().Run();
-            
-            //Console.WriteLine(new ValidationController().IsValid(@"C:\Bound-Tree\BoundTree\ConsoleAppForTesting\bin\Debug\test.txt"));
+        {   
+            var buildingTreeLogicLevelProvider = new BuildingTreeLogicLevelProvider();
+            var nodeInfoFactory = new NodeInfoFactory(buildingTreeLogicLevelProvider);
+            var connectionContructor = new ConnectionContructor<StringId>(nodeInfoFactory);
+            var treeContructor = new TreeConstructor<StringId>(nodeInfoFactory, connectionContructor);
+            var сonsoleConnectionController = new ConsoleConnectionController(treeContructor, nodeInfoFactory);
+            var singleTreeParser = new SingleTreeParser(nodeInfoFactory);
+            var multiTreeParser = new MultiTreeParser(treeContructor, singleTreeParser, nodeInfoFactory);
+            new ConsoleController(сonsoleConnectionController,multiTreeParser, singleTreeParser).Run();
         }
     }
 }

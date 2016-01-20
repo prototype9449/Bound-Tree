@@ -1,14 +1,22 @@
 ﻿using System;
-using System.Collections.Generic;
+using BoundTree.Logic.LogicLevelProviders;
 
 namespace BoundTree.Logic.Nodes
 {
     [Serializable]
-    public abstract class NodeInfo 
+    public abstract class NodeInfo
     {
-        protected abstract List<Type> ValidTypes { get; }
+        private readonly ILogicLevelProvider _logicLevelProvider;
 
-        public LogicLevel LogicLevel { get; internal set; }
+        protected NodeInfo(ILogicLevelProvider logicLevelProvider)
+        {
+            _logicLevelProvider = logicLevelProvider;
+        }
+
+        public LogicLevel LogicLevel
+        {
+            get { return _logicLevelProvider.GetLogicLevel(this); }
+        }
 
         public virtual bool IsEmpty()
         {
@@ -17,7 +25,7 @@ namespace BoundTree.Logic.Nodes
 
         public virtual bool CanContain(NodeInfo nodeInfo)
         {
-            return ValidTypes.Contains(nodeInfo.GetType());
+            return _logicLevelProvider.CanFirtsContainSecond(this, nodeInfo);
         }
     }
 }

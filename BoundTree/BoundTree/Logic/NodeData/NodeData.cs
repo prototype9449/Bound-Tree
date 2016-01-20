@@ -13,10 +13,10 @@ namespace BoundTree.Logic.NodeData
         private NodeInfo NodeInfo { get; set; }
         public T Id { get; internal set; }
 
-        public NodeData()
+        public NodeData(NodeInfoFactory nodeInfoFactory)
         {
             Id = new T();
-            NodeInfo = new Empty();
+            NodeInfo = nodeInfoFactory.Empty;
             Depth = -1;
         }
 

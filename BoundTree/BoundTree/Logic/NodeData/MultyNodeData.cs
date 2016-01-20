@@ -9,34 +9,37 @@ namespace BoundTree.Logic.NodeData
     [Serializable]
     public class MultiNodeData<T> : IEquatable<MultiNodeData<T>> where T : IID<T>,new()
     {
+        private NodeInfoFactory _nodeInfoFactory;
         public NodeData<T> NodeData { get; private set; }
         public List<ConnectionNodeData<T>> MinorDataNodes { get; private set; }
 
-        private MultiNodeData()
+        private MultiNodeData(NodeInfoFactory nodeInfoFactory)
         {
-            NodeData = new NodeData<T>();
+            _nodeInfoFactory = nodeInfoFactory;
+            NodeData = new NodeData<T>(_nodeInfoFactory);
             MinorDataNodes = new List<ConnectionNodeData<T>>();
         }
 
-        public MultiNodeData(int width) : this()
+        public MultiNodeData(int width, NodeInfoFactory nodeInfoFactory) : this(nodeInfoFactory)
         {
             for (int i = 0; i < width; i++)
             {
-                MinorDataNodes.Add(new ConnectionNodeData<T>(ConnectionKind.None, new NodeData<T>()));
+                MinorDataNodes.Add(new ConnectionNodeData<T>(ConnectionKind.None, new NodeData<T>(_nodeInfoFactory)));
             }
         }
 
-        public MultiNodeData(SingleNodeData<T> singleNodeData) : this(singleNodeData.NodeData)
+        public MultiNodeData(SingleNodeData<T> singleNodeData, NodeInfoFactory nodeInfoFactory) : this(singleNodeData.NodeData, nodeInfoFactory)
         { }
 
-        public MultiNodeData(NodeData<T> nodeData)
+        public MultiNodeData(NodeData<T> nodeData, NodeInfoFactory nodeInfoFactory)
         {
             NodeData = nodeData;
+            _nodeInfoFactory = nodeInfoFactory;
             MinorDataNodes = new List<ConnectionNodeData<T>>();
         }
 
-        public MultiNodeData(NodeData<T> nodeData, List<ConnectionNodeData<T>> minorDataNodes)
-            : this(nodeData)
+        public MultiNodeData(NodeData<T> nodeData, List<ConnectionNodeData<T>> minorDataNodes, NodeInfoFactory nodeInfoFactory)
+            : this(nodeData, nodeInfoFactory)
         {
             MinorDataNodes = minorDataNodes;
         }

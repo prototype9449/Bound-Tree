@@ -9,9 +9,9 @@ namespace BoundTree.Logic.NodeData
     {
         public NodeData<T> NodeData { get; private set; }
 
-        public SingleNodeData()
+        public SingleNodeData(NodeInfoFactory nodeInfoFactory)
         {
-            NodeData = new NodeData<T>();
+            NodeData = new NodeData<T>(nodeInfoFactory);
         }
 
         public SingleNodeData(NodeData<T> nodeData)

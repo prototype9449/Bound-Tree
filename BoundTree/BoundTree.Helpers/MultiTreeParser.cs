@@ -17,8 +17,16 @@ namespace BoundTree.Helpers
         private const string RemoveAllLongName = "remove all";
         private const string RemoveLongName = "remove";
 
-        private readonly SingleTreeParser _singleTreeParser = new SingleTreeParser();
-        private readonly TreeConstructor<StringId> _treeConstructor = new TreeConstructor<StringId>();
+        private readonly SingleTreeParser _singleTreeParser;
+        private readonly NodeInfoFactory _nodeInfoFactory;
+        private readonly TreeConstructor<StringId> _treeConstructor;
+
+        public MultiTreeParser(TreeConstructor<StringId> treeConstructor, SingleTreeParser singleTreeParser, NodeInfoFactory nodeInfoFactory)
+        {
+            _treeConstructor = treeConstructor;
+            _singleTreeParser = singleTreeParser;
+            _nodeInfoFactory = nodeInfoFactory;
+        }
 
         public MultiTree<StringId> GetMultiTree(List<string> lines)
         {
@@ -45,7 +53,7 @@ namespace BoundTree.Helpers
 
             var singleTree = _singleTreeParser.GetSingleTree(blocks[0]);
             logHistory.Add(new SingleTreeResult(singleTree));
-            var mainTree = new MultiTree<StringId>(singleTree);
+            var mainTree = new MultiTree<StringId>(singleTree, _nodeInfoFactory);
 
             for (int i = 1; i < blocks.Count; i += 2)
             {
@@ -60,7 +68,7 @@ namespace BoundTree.Helpers
 
                 var idGenerator = new IdGenerator(mainTree.ToList());
                 var multiNode = _treeConstructor.GetFilledTree(bindController, idGenerator).ToMultiNode();
-                mainTree = new MultiTree<StringId>(multiNode);
+                mainTree = new MultiTree<StringId>(multiNode, _nodeInfoFactory);
             }
 
             return new Cortege<MultiTree<StringId>, LogHistory>(mainTree, logHistory);
