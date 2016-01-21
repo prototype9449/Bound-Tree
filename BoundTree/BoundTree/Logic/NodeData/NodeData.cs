@@ -7,7 +7,7 @@ using BoundTree.Logic.Nodes;
 namespace BoundTree.Logic.NodeData
 {
     [Serializable]
-    public class NodeData<T> : IEquatable<NodeData<T>> where T : IID<T>, new()
+    public class NodeData<T> : IEquatable<NodeData<T>> where T : IId<T>, new()
     {
         public int Depth { get; internal set; }
         private NodeInfo NodeInfo { get; set; }

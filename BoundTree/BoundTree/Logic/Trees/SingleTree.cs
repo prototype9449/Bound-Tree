@@ -6,13 +6,12 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using BoundTree.Interfaces;
-using BoundTree.Logic.Nodes;
 using BoundTree.Logic.TreeNodes;
 
 namespace BoundTree.Logic.Trees
 {
     [Serializable]
-    public class SingleTree<T> where T : class, IID<T>, IEquatable<T>, new()
+    public class SingleTree<T> where T : class, IId<T>, IEquatable<T>, new()
     {
         public SingleTree(SingleNode<T> root)
         {

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Linq;
-using BoundTree.Logic.TreeNodes;
-using BoundTree.Logic.Trees;
-using BoundTree.TreeReconstruction;
-
-namespace BoundTree
+﻿namespace BoundTree
 {
     //public class TreeMatcher<T> where T : class, IEquatable<T>, new()
     //{

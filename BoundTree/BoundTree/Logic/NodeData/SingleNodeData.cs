@@ -5,7 +5,7 @@ using BoundTree.Interfaces;
 namespace BoundTree.Logic.NodeData
 {
     [Serializable]
-    public class SingleNodeData<T> : IEquatable<SingleNodeData<T>> where T : IID<T>, new()
+    public class SingleNodeData<T> : IEquatable<SingleNodeData<T>> where T : IId<T>, new()
     {
         public NodeData<T> NodeData { get; private set; }
 

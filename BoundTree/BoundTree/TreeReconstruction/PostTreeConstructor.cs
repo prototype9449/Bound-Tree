@@ -11,7 +11,7 @@ using Build.TestFramework;
 
 namespace BoundTree.TreeReconstruction
 {
-    public class PostTreeConstructor<T> where T : class, IID<T>, IEquatable<T>, new()
+    public class PostTreeConstructor<T> where T : class, IId<T>, IEquatable<T>, new()
     {
         private readonly SingleTree<T> _minorTree;
         private readonly NodeInfoFactory _nodeInfoFactory;
@@ -36,7 +36,7 @@ namespace BoundTree.TreeReconstruction
                 var current = stack.Pop();
                 current.Childs.ForEach(stack.Push);
 
-                if(current.IsMinorEmpty() || passedNodes.Exists(node => node.MinorLeaf == current.MinorLeaf)) 
+                if (current.IsMinorEmpty() || passedNodes.Exists(node => node.MinorLeaf == current.MinorLeaf))
                     continue;
 
                 if (current.Childs.All(node => node.IsMinorEmpty()))
@@ -59,8 +59,8 @@ namespace BoundTree.TreeReconstruction
                 for (int i = 0; i < current.Childs.Count; i++)
                 {
                     var currentDoubleNode = descendantPairs[i].Second;
-                    
-                    if(!currentDoubleNode.Childs.Any())
+
+                    if (!currentDoubleNode.Childs.Any())
                         passedNodes.Add(currentDoubleNode);
 
                     while (currentDoubleNode.Childs.Count() == 1 && currentDoubleNode.MinorLeaf.Id != initialChildIds[i])
@@ -85,8 +85,8 @@ namespace BoundTree.TreeReconstruction
             Contract.Requires(majorChild != null);
             Contract.Requires(!majorParent.MinorLeaf.IsEmpty());
             Contract.Ensures(Contract.Result<Cortege<bool, DoubleNode<T>>>().Second != null);
-            
-            if(majorChild.IsMinorEmpty()) 
+
+            if (majorChild.IsMinorEmpty())
                 return new Cortege<bool, DoubleNode<T>>(false, majorChild);
 
             var isDone = false;
@@ -103,9 +103,9 @@ namespace BoundTree.TreeReconstruction
 
             var canMajorParentContain = CanMajorParentContainIntermediateParent(majorParent, intermediateParent);
 
-            while ((majorParent.MinorLeaf.LogicLevel  < intermediateParent.LogicLevel) && canMajorParentContain)
+            while ((majorParent.MinorLeaf.LogicLevel < intermediateParent.LogicLevel) && canMajorParentContain)
             {
-                result = new DoubleNode<T>(new MultiNodeData<T>(majorParent.MainLeaf.Width, _nodeInfoFactory), intermediateParent.SingleNodeData, _nodeInfoFactory)
+                result = new DoubleNode<T>(new MultiNodeData<T>(majorParent.MainLeaf.Width, _nodeInfoFactory), intermediateParent.SingleNodeData)
                 {
                     Childs = new List<DoubleNode<T>>(new[] { result })
                 };
@@ -144,13 +144,13 @@ namespace BoundTree.TreeReconstruction
         {
             Contract.Requires(doubleNode != null);
             Contract.Requires(initialChildIds != null);
-            
+
             var queue = new Queue<DoubleNode<T>>(new[] { doubleNode });
 
             while (queue.Any())
             {
                 var current = queue.Dequeue();
-                if (initialChildIds.Contains(current.MinorLeaf.Id)) 
+                if (initialChildIds.Contains(current.MinorLeaf.Id))
                     continue;
 
                 var groupedNodes = current.Childs
@@ -158,7 +158,7 @@ namespace BoundTree.TreeReconstruction
                     .GroupBy(node => node.MinorLeaf.Id)
                     .Where(group => group.Count() > 1);
 
-                if (!groupedNodes.Any()) 
+                if (!groupedNodes.Any())
                     continue;
 
                 var repairedNodes = groupedNodes.Select(group => GetRepairedNode(group, doubleNode.MainLeaf.Width)).ToList();
@@ -178,7 +178,7 @@ namespace BoundTree.TreeReconstruction
             Contract.Requires(group != null);
             Contract.Ensures(Contract.Result<DoubleNode<T>>() != null);
 
-            var doubleNode = new DoubleNode<T>(new MultiNodeData<T>(width, _nodeInfoFactory), group.First().MinorLeaf, _nodeInfoFactory)
+            var doubleNode = new DoubleNode<T>(new MultiNodeData<T>(width, _nodeInfoFactory), group.First().MinorLeaf)
             {
                 Childs = group.Select(node => node.Childs.First()).ToList()
             };

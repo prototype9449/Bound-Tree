@@ -7,7 +7,7 @@ using BoundTree.Interfaces;
 namespace BoundTree.Logic.NodeData
 {
     [Serializable]
-    public class MultiNodeData<T> : IEquatable<MultiNodeData<T>> where T : IID<T>, new()
+    public class MultiNodeData<T> : IEquatable<MultiNodeData<T>> where T : IId<T>, new()
     {
         public NodeData<T> NodeData { get; private set; }
         public List<ConnectionNodeData<T>> MinorDataNodes { get; private set; }

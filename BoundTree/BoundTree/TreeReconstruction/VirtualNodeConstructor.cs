@@ -10,7 +10,7 @@ using BoundTree.Logic.Trees;
 
 namespace BoundTree.TreeReconstruction
 {
-    public class VirtualNodeConstruction<T> where T : class, IID<T>, IEquatable<T>, new()
+    public class VirtualNodeConstruction<T> where T : class, IId<T>, IEquatable<T>, new()
     {
         private readonly SingleTree<T> _minorTree;
         private readonly NodeInfoFactory _nodeInfoFactory;
@@ -93,11 +93,11 @@ namespace BoundTree.TreeReconstruction
             var tooHighLogicNodes = doubleNode.ToList().FindAll(item => item.LogicLevel < comparedNodeData.LogicLevel);
             tooHighLogicNodes.ForEach(item => item.MinorLeaf = new SingleNodeData<T>(_nodeInfoFactory));
 
-//            var tooHighDeepNodes = descendants
-//                .FindAll(item => item.LogicLevel == comparedNodeData.LogicLevel)
-//                .FindAll(item => item.Deep > comparedNodeData.Depth);
-//
-//            tooHighDeepNodes.ForEach(item => item.MinorLeaf = new NodeData<T>());
+            //            var tooHighDeepNodes = descendants
+            //                .FindAll(item => item.LogicLevel == comparedNodeData.LogicLevel)
+            //                .FindAll(item => item.Deep > comparedNodeData.Depth);
+            //
+            //            tooHighDeepNodes.ForEach(item => item.MinorLeaf = new NodeData<T>());
         }
 
         private void CleanIdenticalNodes(DoubleNode<T> doubleNode)
@@ -191,12 +191,12 @@ namespace BoundTree.TreeReconstruction
                 if (!doubleNode.IsMinorEmpty())
                 {
                     parentNode = _minorTree.GetParent(doubleNode.MinorLeaf.Id);
-                } 
+                }
                 else
                 {
                     parentNode = _minorTree.GetById(doubleNode.Shadow.Id);
                 }
-                
+
                 while (parentNode != null)
                 {
                     route.Add(parentNode.SingleNodeData);

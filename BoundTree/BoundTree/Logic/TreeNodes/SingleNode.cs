@@ -8,7 +8,7 @@ using BoundTree.Logic.Nodes;
 namespace BoundTree.Logic.TreeNodes
 {
     [Serializable]
-    public class SingleNode<T> : INode<T> where T : IID<T>, new()
+    public class SingleNode<T> : INode<T> where T : IId<T>, new()
     {
         public SingleNodeData<T> SingleNodeData { get; private set; }
         public List<SingleNode<T>> Childs { get; private set; }

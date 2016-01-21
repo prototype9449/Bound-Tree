@@ -1,5 +1,4 @@
-﻿using System;
-using BoundTree.Logic.Nodes;
+﻿using BoundTree.Logic.Nodes;
 
 namespace BoundTree.Logic.LogicLevelProviders
 {

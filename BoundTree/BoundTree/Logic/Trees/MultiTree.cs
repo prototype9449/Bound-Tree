@@ -10,7 +10,7 @@ using BoundTree.Logic.TreeNodes;
 namespace BoundTree.Logic.Trees
 {
     [Serializable]
-    public class MultiTree<T> where T : class, IID<T>, IEquatable<T>, new()
+    public class MultiTree<T> where T : class, IId<T>, IEquatable<T>, new()
     {
         
         public MultiTree(SingleNode<T> root, NodeInfoFactory nodeInfoFactory)

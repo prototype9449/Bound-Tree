@@ -7,7 +7,7 @@ using BoundTree.Logic.NodeData;
 
 namespace BoundTree.Logic.TreeNodes
 {
-    public class DoubleNode<T> where T : class, IEquatable<T>, IID<T>, new()
+    public class DoubleNode<T> where T : class, IEquatable<T>, IId<T>, new()
     {
         private NodeInfoFactory _nodeInfoFactory;
         public MultiNodeData<T> MainLeaf { get; private set; }
@@ -18,14 +18,12 @@ namespace BoundTree.Logic.TreeNodes
         public List<DoubleNode<T>> Childs { get; internal set; }
         public int Depth { get; private set; }
 
-        private DoubleNode(NodeInfoFactory nodeInfoFactory)
+        private DoubleNode()
         {
-            _nodeInfoFactory = nodeInfoFactory;
             Childs = new List<DoubleNode<T>>();
         }
 
-        public DoubleNode(MultiNodeData<T> mainLeaf, SingleNodeData<T> minorLeaf, NodeInfoFactory nodeInfoFactory)
-            : this(nodeInfoFactory)
+        public DoubleNode(MultiNodeData<T> mainLeaf, SingleNodeData<T> minorLeaf): this()
         {
             Contract.Requires(mainLeaf != null);
             Contract.Requires(minorLeaf != null);
@@ -34,8 +32,7 @@ namespace BoundTree.Logic.TreeNodes
             MinorLeaf = minorLeaf;
         }
 
-        public DoubleNode(MultiNode<T> multiNode, NodeInfoFactory nodeInfoFactory, NodeInfoFactory nodeInfoFactory1)
-            : this(nodeInfoFactory1)
+        public DoubleNode(MultiNode<T> multiNode, NodeInfoFactory nodeInfoFactory): this()
         {
             Contract.Requires(multiNode != null);
 

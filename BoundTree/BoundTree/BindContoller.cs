@@ -5,7 +5,7 @@ using BoundTree.Logic.Trees;
 
 namespace BoundTree
 {
-    public class BindContoller<T> where T : class, IID<T>, IEquatable<T>, new()
+    public class BindContoller<T> where T : class, IId<T>, IEquatable<T>, new()
     {
         public MultiTree<T> MainMultiTree { get; private set; }
         public SingleTree<T> MinorSingleTree { get; private set; }

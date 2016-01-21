@@ -5,7 +5,7 @@ using BoundTree.Interfaces;
 namespace BoundTree.Logic
 {
     [Serializable]
-    public class StringId : IEquatable<StringId>, IID<StringId>
+    public class StringId : IEquatable<StringId>, IId<StringId>
     {
         private readonly string _id;
 

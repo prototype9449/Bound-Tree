@@ -7,7 +7,7 @@ using BoundTree.Logic.NodeData;
 namespace BoundTree.Logic.TreeNodes
 {
     [Serializable]
-    public class MultiNode<T> : INode<T> where T : IID<T>,new()
+    public class MultiNode<T> : INode<T> where T : IId<T>,new()
     {
         public MultiNodeData<T> MultiNodeData { get; private set; }
         public List<MultiNode<T>> Childs { get; private set; }

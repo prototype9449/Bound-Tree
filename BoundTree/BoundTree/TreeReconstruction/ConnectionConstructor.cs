@@ -5,13 +5,12 @@ using System.Linq;
 using BoundTree.Interfaces;
 using BoundTree.Logic;
 using BoundTree.Logic.NodeData;
-using BoundTree.Logic.Nodes;
 using BoundTree.Logic.TreeNodes;
 using BoundTree.Logic.Trees;
 
 namespace BoundTree.TreeReconstruction
 {
-    public class ConnectionContructor<T> where T : class, IID<T>, IEquatable<T>, new()
+    public class ConnectionContructor<T> where T : class, IId<T>, IEquatable<T>, new()
     {
         private readonly NodeInfoFactory _nodeInfoFactory;
 
@@ -27,7 +26,7 @@ namespace BoundTree.TreeReconstruction
             Contract.Requires(connections.Any());
             Contract.Ensures(Contract.Result<DoubleNode<T>>() != null);
 
-            var resultDoubleNode = new DoubleNode<T>(mainTree.Root, _nodeInfoFactory, _nodeInfoFactory);
+            var resultDoubleNode = new DoubleNode<T>(mainTree.Root, _nodeInfoFactory);
 
             var root = new { multiNode = mainTree.Root, doubleNode = resultDoubleNode };
             var queue = GetQueue(root);
@@ -51,7 +50,7 @@ namespace BoundTree.TreeReconstruction
 
                 foreach (var multiNode in current.multiNode.Childs)
                 {
-                    var doubleNode = new DoubleNode<T>(multiNode, _nodeInfoFactory, _nodeInfoFactory);
+                    var doubleNode = new DoubleNode<T>(multiNode, _nodeInfoFactory);
                     queue.Enqueue(new { multiNode, doubleNode });
                     current.doubleNode.Add(doubleNode);
                 }

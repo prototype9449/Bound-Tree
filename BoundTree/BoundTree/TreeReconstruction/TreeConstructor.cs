@@ -4,13 +4,12 @@ using System.Diagnostics.Contracts;
 using System.Linq;
 using BoundTree.Interfaces;
 using BoundTree.Logic;
-using BoundTree.Logic.LogicLevelProviders;
 using BoundTree.Logic.NodeData;
 using BoundTree.Logic.TreeNodes;
 
 namespace BoundTree.TreeReconstruction
 {
-    public class TreeConstructor<T> where T : class, IID<T>, IEquatable<T>, new()
+    public class TreeConstructor<T> where T : class, IId<T>, IEquatable<T>, new()
     {
         private readonly NodeInfoFactory _nodeInfoFactory;
         private readonly ConnectionContructor<T> _connectionConstructor;
@@ -66,9 +65,9 @@ namespace BoundTree.TreeReconstruction
 
             foreach (var node in doubleNodes)
             {
-                allIds.Add(node.MainLeaf.NodeData);   
-                allIds.Add(node.MinorLeaf.NodeData);   
-                node.MainLeaf.MinorDataNodes.ForEach(connectionData => allIds.Add(connectionData.NodeData));   
+                allIds.Add(node.MainLeaf.NodeData);
+                allIds.Add(node.MinorLeaf.NodeData);
+                node.MainLeaf.MinorDataNodes.ForEach(connectionData => allIds.Add(connectionData.NodeData));
             }
 
             var emptyNodes = allIds.Where(node => node.IsEmpty() && node.Id.IsEmpty());
