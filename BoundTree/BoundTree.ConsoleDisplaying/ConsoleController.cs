@@ -6,8 +6,6 @@ using System.Linq;
 using System.Windows.Forms;
 using BoundTree.Helpers;
 using BoundTree.Logic;
-using BoundTree.Logic.LogicLevelProviders;
-using BoundTree.Logic.Nodes;
 using BoundTree.Logic.TreeNodes;
 using BoundTree.Logic.Trees;
 
@@ -27,11 +25,12 @@ namespace BoundTree.ConsoleDisplaying
         private readonly MultiTreeParser _multiTreeParser;
         private readonly NodeInfoFactory _nodeInfoFactory;
 
-        public ConsoleController(ConsoleConnectionController consoleConnectionController, MultiTreeParser multiTreeParser)
+        public ConsoleController(ConsoleConnectionController consoleConnectionController, MultiTreeParser multiTreeParser, NodeInfoFactory nodeInfoFactory)
         {
             _consoleConnectionController = consoleConnectionController;
             _multiTreeParser = multiTreeParser;
-            _nodeInfoFactory= new NodeInfoFactory(new BuildingTreeLogicLevelProvider());
+            _nodeInfoFactory = nodeInfoFactory;
+
             _mainSingleTree = new SingleTree<StringId>(_factory.GetNode("Root", _nodeInfoFactory.Root));
             _minorSingleTree = new SingleTree<StringId>(_factory.GetNode("Root", _nodeInfoFactory.Root));
         }

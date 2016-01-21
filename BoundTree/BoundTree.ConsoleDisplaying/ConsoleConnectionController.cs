@@ -32,11 +32,30 @@ namespace BoundTree.ConsoleDisplaying
             Subscribe();
         }
 
+        public void Start(BindContoller<StringId> bindContoller)
+        {
+            Contract.Requires(bindContoller != null);
+            _nodeInfoFactory.SetLogicLevelProvider(new ConstructionTreeLogicLevelProvider());
+            _bindController = bindContoller;
+
+            while (true)
+            {
+                DisplayTree();
+                Console.WriteLine("Type 'a' to add, 'r' to remove, 'ra' to remove all connection, 'e' to exit");
+                var action = Console.ReadLine();
+                _commandMediator.ProcessCommand(action);
+                if (action == CommandMediator.ExitLongName || action == CommandMediator.ExitShortName)
+                    break;
+            }
+        }
+
         public MultiTree<StringId> GetConnectedMultiTree()
         {
             Contract.Requires(_bindController.MainMultiTree != null);
 
-            return new MultiTree<StringId>(_currentDoubleNode.ToMultiNode());
+           var result = new MultiTree<StringId>(_currentDoubleNode.ToMultiNode());
+            _nodeInfoFactory.SetLogicLevelProvider(new BuildingTreeLogicLevelProvider());
+            return result;
         }
 
         private void Subscribe()
@@ -81,22 +100,7 @@ namespace BoundTree.ConsoleDisplaying
             _messages.Add("The all connections were not removed");
         }
 
-        public void Start(BindContoller<StringId> bindContoller)
-        {
-            Contract.Requires(bindContoller != null);
-
-            _bindController = bindContoller;
-            
-            while (true)
-            {
-                DisplayTree();
-                Console.WriteLine("Type 'a' to add, 'r' to remove, 'ra' to remove all connection, 'e' to exit");
-                var action = Console.ReadLine();
-                _commandMediator.ProcessCommand(action);
-                if (action == CommandMediator.ExitLongName || action == CommandMediator.ExitShortName)
-                    break;
-            }
-        }
+        
 
         private void DisplayTree()
         {

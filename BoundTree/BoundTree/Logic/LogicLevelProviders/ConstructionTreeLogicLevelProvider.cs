@@ -9,7 +9,7 @@ namespace BoundTree.Logic.LogicLevelProviders
     [Serializable]
     public class ConstructionTreeLogicLevelProvider : ILogicLevelProvider
     {
-        private Dictionary<Type, LogicLevel> _logicLevels;
+        private readonly Dictionary<Type, LogicLevel> _logicLevels;
 
         public ConstructionTreeLogicLevelProvider()
         {
