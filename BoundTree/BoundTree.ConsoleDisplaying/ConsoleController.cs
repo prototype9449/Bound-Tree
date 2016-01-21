@@ -6,6 +6,7 @@ using System.Linq;
 using System.Windows.Forms;
 using BoundTree.Helpers;
 using BoundTree.Logic;
+using BoundTree.Logic.LogicLevelProviders;
 using BoundTree.Logic.TreeNodes;
 using BoundTree.Logic.Trees;
 
@@ -59,14 +60,17 @@ namespace BoundTree.ConsoleDisplaying
                 {
                     ProcessBuildingMinorTree();
 
+                    _nodeInfoFactory.SetLogicLevelProvider(new ConstructionTreeLogicLevelProvider());
                     _consoleConnectionController.Start(new BindContoller<StringId>(_mainMultiTree, _minorSingleTree));
                 }
                 else
                 {
+                    _nodeInfoFactory.SetLogicLevelProvider(new ConstructionTreeLogicLevelProvider());
                     _consoleConnectionController.Start(newBindController);
                 }
 
                 _mainMultiTree = _consoleConnectionController.GetConnectedMultiTree();
+                _nodeInfoFactory.SetLogicLevelProvider(new BuildingTreeLogicLevelProvider());
 
                 Console.Clear();
                 Console.WriteLine("Do you want to type another tree?");

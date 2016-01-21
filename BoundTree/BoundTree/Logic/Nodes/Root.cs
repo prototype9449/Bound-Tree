@@ -9,6 +9,6 @@ namespace BoundTree.Logic.Nodes
     [Serializable]
     public class Root : NodeInfo
     {
-        public Root(ILogicLevelProvider logicLevelProvider) : base(logicLevelProvider) { }
+        public Root(LogicLevelFactory logicLevelFactory) : base(logicLevelFactory) { }
     }
 }

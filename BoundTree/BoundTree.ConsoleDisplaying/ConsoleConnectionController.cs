@@ -35,9 +35,8 @@ namespace BoundTree.ConsoleDisplaying
         public void Start(BindContoller<StringId> bindContoller)
         {
             Contract.Requires(bindContoller != null);
-            _nodeInfoFactory.SetLogicLevelProvider(new ConstructionTreeLogicLevelProvider());
-            _bindController = bindContoller;
 
+            _bindController = bindContoller;
             while (true)
             {
                 DisplayTree();
@@ -54,7 +53,7 @@ namespace BoundTree.ConsoleDisplaying
             Contract.Requires(_bindController.MainMultiTree != null);
 
            var result = new MultiTree<StringId>(_currentDoubleNode.ToMultiNode());
-            _nodeInfoFactory.SetLogicLevelProvider(new BuildingTreeLogicLevelProvider());
+
             return result;
         }
 

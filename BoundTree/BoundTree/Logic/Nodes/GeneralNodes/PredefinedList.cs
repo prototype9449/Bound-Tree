@@ -7,6 +7,6 @@ namespace BoundTree.Logic.Nodes.GeneralNodes
     [Serializable]
     public class PredefinedList : NodeInfo
     {
-        public PredefinedList(ILogicLevelProvider logicLevelProvider) : base(logicLevelProvider) { }
+        public PredefinedList(LogicLevelFactory logicLevelFactory) : base(logicLevelFactory) { }
     }
 }

@@ -26,8 +26,6 @@ namespace BoundTree.TreeReconstruction
             Contract.Requires(bindContoller != null);
             Contract.Ensures(Contract.Result<DoubleNode<T>>() != null);
 
-            _nodeInfoFactory.SetLogicLevelProvider(new ConstructionTreeLogicLevelProvider());
-
             var mainTree = bindContoller.MainMultiTree;
             var minorTree = bindContoller.MinorSingleTree;
 
@@ -43,7 +41,6 @@ namespace BoundTree.TreeReconstruction
 
             ReconstructIds(doubleNode, mainIdGenerator);
 
-            _nodeInfoFactory.SetLogicLevelProvider(new BuildingTreeLogicLevelProvider());
             return doubleNode;
         }
 

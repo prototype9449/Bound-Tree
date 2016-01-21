@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics.Contracts;
+using BoundTree.Logic.Nodes;
 
 namespace BoundTree.Logic.LogicLevelProviders
 {
@@ -23,6 +24,16 @@ namespace BoundTree.Logic.LogicLevelProviders
         public ILogicLevelProvider LogicLevelProvider
         {
             get { return _logicLevelProvider; }
+        }
+
+        public LogicLevel GetLogicLevel(NodeInfo nodeInfo)
+        {
+            return _logicLevelProvider.GetLogicLevel(nodeInfo);
+        }
+
+        public bool CanFirtsContainSecond(NodeInfo first, NodeInfo second)
+        {
+            return _logicLevelProvider.CanFirtsContainSecond(first, second);
         }
     }
 }

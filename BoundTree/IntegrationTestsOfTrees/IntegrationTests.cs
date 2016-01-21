@@ -16,8 +16,8 @@ namespace IntegrationTestsOfTrees
         private ValidationController _validator;
         public IntegrationTests()
         {
-            var logicLevelProvider = new ConstructionTreeLogicLevelProvider();
-            var nodeInfoFactory = new NodeInfoFactory(logicLevelProvider);
+            var logicLevelFactory = new LogicLevelFactory(new ConstructionTreeLogicLevelProvider());
+            var nodeInfoFactory = new NodeInfoFactory(logicLevelFactory);
             var connectionContructor = new ConnectionContructor<StringId>(nodeInfoFactory);
             var treeContstruector = new TreeConstructor<StringId>(nodeInfoFactory, connectionContructor);
             var singleTreeParser = new SingleTreeParser(nodeInfoFactory);

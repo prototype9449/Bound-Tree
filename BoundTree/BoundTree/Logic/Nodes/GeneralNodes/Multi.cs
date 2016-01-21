@@ -7,6 +7,6 @@ namespace BoundTree.Logic.Nodes.GeneralNodes
     [Serializable]
     public class Multi : NodeInfo
     {
-        public Multi(ILogicLevelProvider logicLevelProvider) : base(logicLevelProvider) { }
+        public Multi(LogicLevelFactory logicLevelFactory) : base(logicLevelFactory) { }
     }
 }

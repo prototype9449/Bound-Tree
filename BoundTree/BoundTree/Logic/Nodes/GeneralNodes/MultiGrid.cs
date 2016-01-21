@@ -7,6 +7,6 @@ namespace BoundTree.Logic.Nodes.GeneralNodes
     [Serializable]
     public class MultiGrid : NodeInfo
     {
-        public MultiGrid(ILogicLevelProvider logicLevelProvider) : base(logicLevelProvider) { }
+        public MultiGrid(LogicLevelFactory logicLevelFactory) : base(logicLevelFactory) { }
     }
 }

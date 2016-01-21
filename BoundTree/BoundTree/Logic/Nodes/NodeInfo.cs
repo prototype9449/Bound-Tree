@@ -6,16 +6,16 @@ namespace BoundTree.Logic.Nodes
     [Serializable]
     public abstract class NodeInfo
     {
-        private readonly ILogicLevelProvider _logicLevelProvider;
+        private readonly LogicLevelFactory _logicLevelFactory;
 
-        protected NodeInfo(ILogicLevelProvider logicLevelProvider)
+        protected NodeInfo(LogicLevelFactory logicLevelFactory)
         {
-            _logicLevelProvider = logicLevelProvider;
+            _logicLevelFactory = logicLevelFactory;
         }
 
         public LogicLevel LogicLevel
         {
-            get { return _logicLevelProvider.GetLogicLevel(this); }
+            get { return _logicLevelFactory.GetLogicLevel(this); }
         }
 
         public virtual bool IsEmpty()
@@ -25,7 +25,7 @@ namespace BoundTree.Logic.Nodes
 
         public virtual bool CanContain(NodeInfo nodeInfo)
         {
-            return _logicLevelProvider.CanFirtsContainSecond(this, nodeInfo);
+            return _logicLevelFactory.CanFirtsContainSecond(this, nodeInfo);
         }
     }
 }

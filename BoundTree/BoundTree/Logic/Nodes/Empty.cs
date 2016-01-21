@@ -12,6 +12,6 @@ namespace BoundTree.Logic.Nodes
             return true;
         }
 
-        public Empty(ILogicLevelProvider logicLevelProvider) : base(logicLevelProvider) { }
+        public Empty(LogicLevelFactory logicLevelFactory) : base(logicLevelFactory) { }
     }
 }

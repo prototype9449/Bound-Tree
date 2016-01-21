@@ -7,6 +7,6 @@ namespace BoundTree.Logic.Nodes.GeneralNodes
     [Serializable]
     public class Grid : NodeInfo
     {
-        public Grid(ILogicLevelProvider logicLevelProvider) : base(logicLevelProvider) { }
+        public Grid(LogicLevelFactory logicLevelFactory) : base(logicLevelFactory) { }
     }
 }

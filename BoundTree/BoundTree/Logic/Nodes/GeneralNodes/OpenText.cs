@@ -7,6 +7,6 @@ namespace BoundTree.Logic.Nodes.GeneralNodes
     [Serializable]
     public class OpenText : NodeInfo
     {
-        public OpenText(ILogicLevelProvider logicLevelProvider) : base(logicLevelProvider) { }
+        public OpenText(LogicLevelFactory logicLevelFactory) : base(logicLevelFactory) { }
     }
 }

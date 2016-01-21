@@ -13,8 +13,8 @@ namespace ConsoleAppForTesting
         [STAThreadAttribute]
         private static void Main(string[] args)
         {
-            var buildingTreeLogicLevelProvider = new ConstructionTreeLogicLevelProvider();
-            var nodeInfoFactory = new NodeInfoFactory(buildingTreeLogicLevelProvider);
+            var logicLevelFactory = new LogicLevelFactory(new BuildingTreeLogicLevelProvider());
+            var nodeInfoFactory = new NodeInfoFactory(logicLevelFactory);
             var connectionContructor = new ConnectionContructor<StringId>(nodeInfoFactory);
             var treeContructor = new TreeConstructor<StringId>(nodeInfoFactory, connectionContructor);
             var сonsoleConnectionController = new ConsoleConnectionController(treeContructor, nodeInfoFactory);
