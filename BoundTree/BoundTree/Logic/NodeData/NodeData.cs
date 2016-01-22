@@ -20,6 +20,8 @@ namespace BoundTree.Logic.NodeData
             Depth = -1;
         }
 
+        public NodeData(T id, NodeInfo nodeInfo) : this(id, -1, nodeInfo) { }
+
         public NodeData(T id, int depth, NodeInfo nodeInfo)
         {
             Contract.Requires(depth >= -1);

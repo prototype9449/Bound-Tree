@@ -12,8 +12,8 @@ namespace IntegrationTestsOfTrees
     [TestFixture]
     public class IntegrationTests
     {
-        private string _pathToTestFolder;
-        private ValidationController _validator;
+        private readonly string _pathToTestFolder;
+        private readonly ValidationController _validator;
         public IntegrationTests()
         {
             var logicLevelFactory = new LogicLevelFactory(new ConstructionTreeLogicLevelProvider());

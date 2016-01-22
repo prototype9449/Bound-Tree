@@ -87,7 +87,7 @@
     <Compile Include="BindingHandler.cs" />
     <Compile Include="Cortege.cs" />
     <Compile Include="Extensions.cs" />
-    <Compile Include="Interfaces\IID.cs" />
+    <Compile Include="Interfaces\IId.cs" />
     <Compile Include="Logic\ConnectionKind.cs" />
     <Compile Include="Logic\IdGenerator.cs" />
     <Compile Include="Logic\LogicLevelProviders\BuildingTreeLogicLevelProvider.cs" />
@@ -119,7 +119,6 @@
     <Compile Include="Logic\Relation.cs" />
     <Compile Include="Logic\TreeNodes\SingleNode.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Logic\SingleNodeFactory.cs" />
     <Compile Include="Logic\Trees\SingleTree.cs" />
     <Compile Include="Logic\StringId.cs" />
     <Compile Include="TreeMatcher.cs" />

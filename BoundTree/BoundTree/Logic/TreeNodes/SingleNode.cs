@@ -15,7 +15,7 @@ namespace BoundTree.Logic.TreeNodes
 
         public SingleNode(T id, NodeInfo nodeInfo, IList<SingleNode<T>> nodes)
         {
-            SingleNodeData = new SingleNodeData<T>(new NodeData<T>(id, -1, nodeInfo));
+            SingleNodeData = new SingleNodeData<T>(new NodeData<T>(id, nodeInfo));
             Childs = new List<SingleNode<T>>(nodes);
         }
 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.IO;
 using System.Linq;
+using BoundTree;
 using BoundTree.Helpers;
 using BoundTree.Logic;
 using BoundTree.Logic.Nodes;

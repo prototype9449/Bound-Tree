@@ -7,7 +7,6 @@ using BoundTree.Logic;
 using BoundTree.Logic.NodeData;
 using BoundTree.Logic.TreeNodes;
 using BoundTree.Logic.Trees;
-using Build.TestFramework;
 
 namespace BoundTree.TreeReconstruction
 {

@@ -1,4 +1,4 @@
-﻿namespace Build.TestFramework
+﻿namespace BoundTree
 {
     public class Cortege<T, U>
     {

@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics.Contracts;
+using BoundTree.Logic;
 using BoundTree.Logic.Nodes;
 using BoundTree.Logic.TreeNodes;
 
-namespace BoundTree.Logic
+namespace BoundTree.ConsoleDisplaying
 {
     public class SingleNodeFactory
     {

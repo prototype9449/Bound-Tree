@@ -8,7 +8,7 @@ namespace BoundTree.Helpers
 {
     public class TreeLogger
     {
-        private static TreeLogger _instance = new TreeLogger();
+        private static readonly TreeLogger _treeLogger = new TreeLogger();
 
         private readonly TreeConverter<StringId> _treeConverter = new TreeConverter<StringId>();
         private readonly string _pathToFile;
@@ -21,7 +21,7 @@ namespace BoundTree.Helpers
 
         public static TreeLogger GetTreeLogger()
         {
-            return _instance;
+            return _treeLogger;
         }
 
         public void ProcessCommand(string command)
@@ -62,5 +62,4 @@ namespace BoundTree.Helpers
             return Path.Combine(directoryName, fileName);
         }
     }
-
 }

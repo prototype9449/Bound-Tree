@@ -9,7 +9,6 @@ namespace BoundTree.Logic.TreeNodes
 {
     public class DoubleNode<T> where T : class, IEquatable<T>, IId<T>, new()
     {
-        private NodeInfoFactory _nodeInfoFactory;
         public MultiNodeData<T> MainLeaf { get; private set; }
         public SingleNodeData<T> MinorLeaf { get; set; }
         internal SingleNodeData<T> Shadow { get; set; }

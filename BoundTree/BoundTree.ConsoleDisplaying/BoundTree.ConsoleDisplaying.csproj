@@ -45,6 +45,7 @@
     <Compile Include="ConsoleController.cs" />
     <Compile Include="ConsoleTreeWriter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SingleNodeFactory.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BoundTree.Helpers\BoundTree.Helpers.csproj">

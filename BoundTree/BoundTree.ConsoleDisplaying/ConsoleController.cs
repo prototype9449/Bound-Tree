@@ -14,15 +14,16 @@ namespace BoundTree.ConsoleDisplaying
 {
     public class ConsoleController
     {
+        private readonly List<string> _messages = new List<string>();
+        private readonly ConsoleTreeWriter _consoleTreeWriter = new ConsoleTreeWriter();
+        private readonly SingleNodeFactory _factory = new SingleNodeFactory();
+        private readonly TreeLogger _treeLogger = TreeLogger.GetTreeLogger();
+
         private SingleTree<StringId> _mainSingleTree;
         private MultiTree<StringId> _mainMultiTree;
         private SingleTree<StringId> _minorSingleTree;
 
         private readonly ConsoleConnectionController _consoleConnectionController;
-        private readonly List<string> _messages = new List<string>();
-        private readonly ConsoleTreeWriter _consoleTreeWriter = new ConsoleTreeWriter();
-        private readonly SingleNodeFactory _factory = new SingleNodeFactory();
-        private readonly TreeLogger _treeLogger = TreeLogger.GetTreeLogger();
         private readonly MultiTreeParser _multiTreeParser;
         private readonly NodeInfoFactory _nodeInfoFactory;
 
@@ -42,11 +43,13 @@ namespace BoundTree.ConsoleDisplaying
             Console.WriteLine("Type 'y' if you want to open file");
             if (Console.ReadLine() == "y")
             {
-                ProcessBuildingTreeFromFile();
+                var bindController = GetBindContollerFromFile();
+                ProcessBuildingTreeFromConsole(bindController);
             }
             else
             {
                 ProcessBuildingMainTree();
+                ProcessBuildingTreeFromConsole();
             }
         }
 
@@ -85,7 +88,7 @@ namespace BoundTree.ConsoleDisplaying
             _treeLogger.AddMultiTreeInFile(_mainMultiTree);
         }
 
-        private void ProcessBuildingTreeFromFile()
+        private BindContoller<StringId> GetBindContollerFromFile()
         {
             var dialog = new OpenFileDialog();
             if (dialog.ShowDialog() == DialogResult.OK)
@@ -97,10 +100,7 @@ namespace BoundTree.ConsoleDisplaying
 
                 var bindControllerAndLogHistory = _multiTreeParser.GetBindContollerAndLogHistory(resultLines);
                 _treeLogger.AddLogHistory(bindControllerAndLogHistory.Second);
-
-                ProcessBuildingTreeFromConsole(bindControllerAndLogHistory.First);
-
-                return;
+                return bindControllerAndLogHistory.First;
             }
 
             throw new InvalidOperationException("DialogResult is not OK");
@@ -112,7 +112,6 @@ namespace BoundTree.ConsoleDisplaying
             ProcessBuildingTree(_mainSingleTree);
             _treeLogger.AddSinlgeTreeInFile(_mainSingleTree);
             _mainMultiTree = new MultiTree<StringId>(_mainSingleTree, _nodeInfoFactory);
-            ProcessBuildingTreeFromConsole();
         }
 
         private void ProcessBuildingMinorTree()
