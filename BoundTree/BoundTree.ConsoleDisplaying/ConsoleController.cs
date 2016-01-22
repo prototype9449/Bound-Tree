@@ -40,9 +40,12 @@ namespace BoundTree.ConsoleDisplaying
         public void Run()
         {
             Console.WriteLine("Do you want to open existed file?");
-            Console.WriteLine("Type 'y' if you want to open file");
+            Console.WriteLine("Type the 'y' if you want to open a file");
+            Console.WriteLine("or anything else if you want to build tree by console");
+
             if (Console.ReadLine() == "y")
             {
+                _nodeInfoFactory.SetLogicLevelProvider(new ConstructionTreeLogicLevelProvider());
                 var bindController = GetBindContollerFromFile();
                 ProcessBuildingTreeFromConsole(bindController);
             }

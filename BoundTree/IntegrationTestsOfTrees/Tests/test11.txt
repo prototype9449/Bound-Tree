@@ -22,10 +22,10 @@ add R E
 
 
 
-Root       +          Root
+Root       +       Root
   A        *        A     
     B      +      B       
-    D      -       ()      
+    D      -      ()      
     ()     *      C       
       C    +    D         
       ()   *    T         
