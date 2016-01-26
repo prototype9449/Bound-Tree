@@ -43,7 +43,6 @@ namespace BoundTree.Helpers
         {
             var lines = _treeConverter.ConvertMultiTreeAsMulti(multiTree);
             lines.Insert(0, Environment.NewLine);
-            lines.Add(Environment.NewLine);
             File.AppendAllLines(_pathToFile, lines);
         }
 

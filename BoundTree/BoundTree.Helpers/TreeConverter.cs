@@ -153,8 +153,12 @@ namespace BoundTree.Helpers
                     ? secondTreeLines[i]
                     : "";
 
+                if (i != 0)
+                {
+                    lines.Add(Environment.NewLine);
+                }
+
                 lines.Add(firstPart + new String(SignBetweenTrees, SpaceBetweenTrees) + secondPart);
-                lines.Add(Environment.NewLine);
             }
             return lines;
         }

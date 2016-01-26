@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using BoundTree.Helpers.Actions;
 
 namespace BoundTree.Helpers
@@ -25,7 +26,11 @@ namespace BoundTree.Helpers
         public List<string> ToList()
         {
             var result = new List<string>();
-            _logs.ForEach(log => result.AddRange(log.GetLines()));
+            foreach (var log in _logs)
+            {
+                result.Add(Environment.NewLine);
+                result.AddRange(log.GetLines());
+            }
 
             return result;
         }

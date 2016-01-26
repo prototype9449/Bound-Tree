@@ -40,7 +40,7 @@ namespace BoundTree.ConsoleDisplaying
             while (true)
             {
                 DisplayTree();
-                Console.WriteLine("Type 'a' to add, 'r' to remove, 'ra' to remove all connection, 'e' to exit");
+                Console.WriteLine("Type 'a' to add, 'r' to remove, 'ra' to remove all connections, 'e' to exit");
                 var action = Console.ReadLine();
                 _commandMediator.ProcessCommand(action);
                 if (action == CommandMediator.ExitLongName || action == CommandMediator.ExitShortName)
@@ -93,10 +93,10 @@ namespace BoundTree.ConsoleDisplaying
             if (_bindController.RemoveAllConnections())
             {
                 _treeLogger.ProcessCommand(CommandMediator.RemoveAllLongName);
-                _messages.Add("The all connections were removed");
+                _messages.Add("All connections were removed");
                 return;
             }
-            _messages.Add("The all connections were not removed");
+            _messages.Add("All connections were not removed");
         }
 
         
