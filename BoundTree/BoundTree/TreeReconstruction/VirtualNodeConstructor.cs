@@ -55,7 +55,7 @@ namespace BoundTree.TreeReconstruction
         private void RepairNode(DoubleNode<T> doubleNode)
         {
             Contract.Requires(doubleNode != null);
-
+            
             SingleNodeData<T> commonParent = GetMostCommonParent(doubleNode.Childs);
 
             if (commonParent.IsEmpty())
@@ -71,6 +71,8 @@ namespace BoundTree.TreeReconstruction
 
             if (commonParent.LogicLevel == doubleNode.LogicLevel)
             {
+                if (!doubleNode.IsMinorEmpty()) return;
+
                 doubleNode.MinorLeaf = commonParent;
                 CleanUselessNodes(doubleNode, commonParent);
                 return;

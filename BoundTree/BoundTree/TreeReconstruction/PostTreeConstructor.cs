@@ -102,7 +102,7 @@ namespace BoundTree.TreeReconstruction
 
             var canMajorParentContain = CanMajorParentContainIntermediateParent(majorParent, intermediateParent);
 
-            while ((majorParent.MinorLeaf.LogicLevel < intermediateParent.LogicLevel) && canMajorParentContain)
+            while (majorParent.MinorLeaf.CanContain(intermediateParent.SingleNodeData) && canMajorParentContain)
             {
                 result = new DoubleNode<T>(new MultiNodeData<T>(majorParent.MainLeaf.Width, _nodeInfoFactory), intermediateParent.SingleNodeData)
                 {
@@ -124,6 +124,9 @@ namespace BoundTree.TreeReconstruction
         /// <returns></returns>
         private bool CanMajorParentContainIntermediateParent(DoubleNode<T> parent, SingleNode<T> intermediate)
         {
+            if (parent.MinorLeaf.Id == intermediate.Id) 
+                return false;
+
             var minorEmptyNodes = parent.Childs.Where(doubleNode => doubleNode.IsMinorEmpty()).ToList();
 
             var childsOfEmptyNodes = new List<DoubleNode<T>>();

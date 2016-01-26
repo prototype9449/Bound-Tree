@@ -37,6 +37,10 @@ namespace BoundTree.Logic.LogicLevelProviders
 
         public bool CanFirtsContainSecond(NodeInfo first, NodeInfo second)
         {
+            var predefinedListLogicLevel = new LogicLevel(6);
+            if (first.LogicLevel == predefinedListLogicLevel && second.LogicLevel == predefinedListLogicLevel)
+                return true;
+
             return GetLogicLevel(first) < GetLogicLevel(second);
         }
     }

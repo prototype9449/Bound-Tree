@@ -48,6 +48,7 @@ namespace IntegrationTestsOfTrees
         [TestCase("test15.txt")]
         [TestCase("test16.txt")]
         [TestCase("test17.txt")]
+        [TestCase("test18.txt")]
         public void TestBuildingTree(string path)
         {
             Assert.IsTrue(_validator.IsValid(GetFullPath(path)));
