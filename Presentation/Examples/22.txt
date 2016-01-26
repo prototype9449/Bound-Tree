@@ -1,0 +1,32 @@
+
+
+Root (Root)     
+   Single (T)   
+      Answer (A)
+      Answer (B)
+      Answer (C)
+
+
+
+
+Root (Root)                
+   Single (T)              
+      Answer (D)           
+      PredefinedList (A)   
+         Answer (C)        
+         PredefinedList (B)
+            Answer (R)     
+
+
+add A D
+add B C
+add C R
+
+
+Root (Root)                + Root
+    Single (T)             * T   
+        Answer (A)         + D   
+        Empty (0)          * A   
+            Answer (B)     + C   
+            Empty (1)      * B   
+                Answer (C) + R   

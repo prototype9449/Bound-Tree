@@ -1,0 +1,32 @@
+
+
+Root (Root)                
+   Grid (A)                
+      Single (B)           
+         PredefinedList (C)
+            Answer (D)     
+         PredefinedList (E)
+            Answer (F)     
+
+
+
+
+Root (Root)                
+   Grid (A)                
+      Single (B)           
+         PredefinedList (C)
+            Answer (D)     
+            Answer (E)     
+
+
+add F E
+add D D
+
+
+Root (Root)                    + Root
+    Grid (A)                   * A   
+        Single (B)             * B   
+            PredefinedList (C) * (0) 
+                Answer (D)     + D   
+            PredefinedList (E) * (1) 
+                Answer (F)     + E   
